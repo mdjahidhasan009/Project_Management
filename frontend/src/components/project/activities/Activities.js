@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import './Activities.css';
-import {prepareActivity} from "../../actions/project-action";
+import {prepareActivity} from "../../../actions/project-action";
 import ActivityRow from "./ActivityRow";
 
 const Activities = ({ activities, prepareActivity }) => {

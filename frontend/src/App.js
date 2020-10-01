@@ -13,7 +13,7 @@ import Project from './components/project/Project';
 import Dashboard from "./components/Dashboard/Dashboard";
 import EditProfile from "./components/EditProfile/EditProfile";
 import ProfileTop from "./components/profile/ProfileTop";
-import Activities from './components/project/Activities';
+import Activities from './components/project/activities/Activities';
 import Discussion from './components/project/Discussion.js';
 import Files from './components/project/Details.js';
 import ToDoLists from './components/project/todos/ToDoLists.js';

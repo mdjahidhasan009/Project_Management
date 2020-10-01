@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="cf56ad10-8b53-4663-8e5e-f466c23daf74" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/backend/models/Project.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/models/Project.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/project.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/project.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/upload.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/upload.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/users.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/actions/project-action.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/actions/project-action.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Dashboard/Dashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Dashboard/Dashboard.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Dashboard/Dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Dashboard/Dashboard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/EditProfile/EditProfile.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/EditProfile/EditProfile.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/EditProfile/EditProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/EditProfile/EditProfile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Member/MemberItem.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Member/MemberItem.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Member/MemberItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Member/MemberItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/MainNavbar.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/MainNavbar.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/MainNavbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/MainNavbar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/profile/ProfileTop.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/profile/ProfileTop.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/profile/ProfileTop.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/profile/ProfileTop.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Activities.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Activities.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/ActivityDetailsRow.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/ActivityDetailsRow.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/ActivityRow.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/ActivityRow.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Bugs.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Bugs.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/CompletedTodoRow.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/CompletedTodoRow.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Discussion.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Discussion.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/DiscussionRow.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/DiscussionRow.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Files.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Files.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/FixedBugRow.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/FixedBugRow.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/IncompleteTodoRow.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/IncompleteTodoRow.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/MemberRow.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/MemberRow.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Milestone.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Milestone.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/NotFixedBugRow.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/NotFixedBugRow.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Overview.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Overview.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Project.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Project.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/ProjectItem.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/projects/ProjectItem.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/ProjectSummaryRow.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/ProjectSummaryRow.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Projects.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/projects/Projects.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Projects.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/projects/Projects.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/ToDoLists.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/ToDoLists.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/projectItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/projects/projectItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/reducers/auth-reducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/reducers/auth-reducer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/reducers/project-reducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/reducers/project-reducer.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/frontend/src/components/EditProfile/EditProfile.js" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="ProjectId" id="1hiMqYKR1YrQNXoikq3Fu4nS8gp" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/frontend/src/components/ChangeImage" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/frontend/src/components/ChangeImage" />
+      <recent name="$PROJECT_DIR$/frontend/src/components/profile" />
+      <recent name="$PROJECT_DIR$/frontend/src/components" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/frontend/src/components/project/bugs" />
+      <recent name="$PROJECT_DIR$/frontend/src/components/project/todos" />
+      <recent name="$PROJECT_DIR$/frontend/src/components/project" />
+      <recent name="$PROJECT_DIR$/frontend/src/components" />
+      <recent name="$PROJECT_DIR$/frontend/src/Member" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cf56ad10-8b53-4663-8e5e-f466c23daf74" name="Default Changelist" comment="" />
+      <created>1600489663207</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1600489663207</updated>
+      <workItem from="1600489666306" duration="3850000" />
+      <workItem from="1600501716984" duration="11192000" />
+      <workItem from="1600575982965" duration="8934000" />
+      <workItem from="1600593685572" duration="17373000" />
+      <workItem from="1600645626014" duration="2375000" />
+      <workItem from="1600649317684" duration="124000" />
+      <workItem from="1600683223088" duration="11177000" />
+      <workItem from="1600747047373" duration="5259000" />
+      <workItem from="1600836007646" duration="1968000" />
+      <workItem from="1600920095201" duration="24399000" />
+      <workItem from="1601006775516" duration="23128000" />
+      <workItem from="1601093970713" duration="9599000" />
+      <workItem from="1601113856638" duration="5528000" />
+      <workItem from="1601181013664" duration="3296000" />
+      <workItem from="1601196977342" duration="7980000" />
+      <workItem from="1601275217088" duration="11632000" />
+      <workItem from="1601295850524" duration="26000" />
+      <workItem from="1601352345155" duration="4641000" />
+      <workItem from="1601439164328" duration="13339000" />
+      <workItem from="1601525429399" duration="1669000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="367" y="185" width="622" height="396" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1601527102276">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="367" y="185" width="622" height="396" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.768@0.0.1366.768" timestamp="1601527102276" />
+    <state x="416" y="132" width="524" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1601441406997">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="416" y="132" width="524" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1366.768@0.0.1366.768" timestamp="1601441406997" />
+    <state x="350" y="66" width="655" height="633" key="RollbackChangesDialog" timestamp="1600511868623">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="350" y="66" width="655" height="633" key="RollbackChangesDialog/0.0.1366.768@0.0.1366.768" timestamp="1600511868623" />
+    <state x="100" y="98" width="1166" height="570" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1601526733541">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="100" y="98" width="1166" height="570" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.0.1366.768@0.0.1366.768" timestamp="1601526733541" />
+    <state x="100" y="98" width="1166" height="570" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1600491459172">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="100" y="98" width="1166" height="570" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1366.768@0.0.1366.768" timestamp="1600491459172" />
+    <state x="298" y="137" width="826" height="522" key="find.popup" timestamp="1601461368170">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="298" y="137" width="826" height="522" key="find.popup/0.0.1366.768@0.0.1366.768" timestamp="1601461368170" />
+  </component>
+</project>

@@ -9,7 +9,7 @@ import { getProjectById, getNotAssignedMember, prepareActivity, prepareWorkDoneP
 import { connect } from "react-redux";
 import Overview from "./Overview";
 import Discussion from "./Discussion";
-import Activities from "./Activities";
+import Activities from "./activities/Activities";
 import Details from "./Details";
 import ToDoLists from "./todos/ToDoLists";
 import Bugs from "./bugs/Bugs";
