@@ -1,0 +1,67 @@
+.member_item .card-title {
+    margin-top: 10px !important;
+}
+
+.card .profile_avatar {
+    height: 200px;
+    width: 200px;
+}
+
+.memberList .col {
+    /*flex: 1;*/
+    /*margin: 10px 10px;*/
+}
+.memberList .card-title, .card-username, .card-role {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.member_item .card {
+    height: 370px;
+}
+
+.member_item .card-role {
+    text-align: center;
+    color: gray;
+    margin-bottom: 10px !important;
+}
+
+.member_item .social-links {
+    display: flex;
+    justify-content: center;
+}
+
+.member_item .social-links .fab {
+    margin-right: 10px;
+}
+
+@media only screen and (max-width: 1120px) and (min-width: 993px){
+    .member_item .profile_avatar {
+        height: 150px;
+        width: 150px;
+    }
+}
+
+@media only screen and (max-width: 1120px) and (min-width: 993px){
+    .member_item .social-links {
+        display: grid;
+        text-align: center;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media only screen and (max-width: 1120px) and (min-width: 993px){
+    .member_item .card-title {
+        line-height: 25px !important;
+    }
+    .member_item .card {
+        height: 390px;
+    }
+}
+
+@media only screen and (max-width: 370px) {
+    .member_item .profile_avatar {
+        height: 150px !important;
+        width: 150px !important;
+    }
+}

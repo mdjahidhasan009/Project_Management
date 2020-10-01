@@ -1,0 +1,52 @@
+.dashboard .row {
+    margin: 20px;
+}
+
+.dashboard .card {
+    border-radius: 25px;
+}
+
+.dashboard .card .card-content {
+    padding: 40px;
+}
+
+.work_summary {
+    padding: 20px;
+}
+
+.work_summary h5 {
+    color: #311b92;
+}
+.project_summary {
+    padding: 3px;
+
+}
+.project_name {
+    background-color: #2020ef;
+    padding: 5px;
+}
+
+
+.dashboard thead th {
+    /*background-color: rgba(0,0,0, 0.5);*/
+    border-radius: 2px;
+    color: white;
+    line-height: 10px;
+}
+.dashboard tbody td {
+    line-height: 15px;
+}
+
+.dashboard .work_summary h5 {
+    text-align: center;
+}
+
+.dashboard th {
+    text-align: center;
+}
+
+@media only screen and (max-width: 350px) {
+    .dashboard .card .card-content {
+        padding: 24px;
+    }
+}

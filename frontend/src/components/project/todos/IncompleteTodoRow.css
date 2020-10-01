@@ -1,0 +1,23 @@
+.incomplete_todo_row {
+    margin-bottom: 5px;
+}
+
+.incomplete_todo {
+    display: inline-block;
+    padding: 15px 0;
+    margin-right: 10px;
+}
+
+#delete, #edit {
+    opacity: 0;
+    margin: 20px 10px;
+    display: inline;
+}
+
+.incomplete_todo_row:hover > #delete {
+    opacity: 1;
+}
+
+.incomplete_todo_row:hover > #edit {
+    opacity: 1;
+}

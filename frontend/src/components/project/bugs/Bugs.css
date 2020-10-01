@@ -1,0 +1,50 @@
+p {
+    padding: 0;
+    margin: 0;
+}
+
+button {
+    padding: 10px;
+}
+
+.avatar {
+    vertical-align: middle;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.main_row {
+    margin: 0 !important;
+}
+
+/*.discussion_row {*/
+/*    !*width: 100%;*!*/
+/*    margin: 10px;*/
+/*    padding-top: 15px;*/
+/*    padding-bottom: 15px;*/
+/*}*/
+/*.discussion_row .col {*/
+/*    display: grid;*/
+/*    padding: 0;*/
+/*}*/
+/*.image {*/
+/*    display: block;*/
+/*}*/
+/*.avatar_image {*/
+/*    width: 60px !important;*/
+/*}*/
+
+/*.discussion {*/
+/*    margin-left: -20px !important;*/
+/*}*/
+/*.comment_count {*/
+/*    margin-left: 20px !important;*/
+/*    align-content: center;*/
+/*}*/
+
+/*p span {*/
+/*    color: #00acc1;*/
+/*}*/

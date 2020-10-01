@@ -1,0 +1,77 @@
+.project h4, h6 {
+    padding-top: 5px;
+    text-align: center;
+}
+
+.project .white {
+    background-color: white;
+}
+
+.project .row {
+    margin: 20px;
+}
+
+.project__showSummary {
+    margin: 0 !important;
+}
+
+.chart {
+    padding-left: 0 !important;
+}
+
+.member_list {
+    margin-left: 10px;
+
+}
+
+.overview_add_new_member {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.overview_button {
+    margin-bottom: 10px;
+}
+
+.overview .project_done {
+    margin-top: 20px;
+}
+
+.add_member_row {
+    margin: 0 0 10px 0 !important;
+    padding: 0 !important;
+}
+
+.add_member_row .col {
+    padding: 0;
+}
+
+@media only screen and (max-width: 1200px) {
+    .chart {
+        width: 100% !important;
+    }
+    .member {
+        margin-top: 20px !important;
+        width: 25% !important;
+        /*margin-right: auto !important;*/
+        /*margin-left: auto !important;*/
+    }
+}
+
+@media only screen and (max-width: 730px) {
+    .member {
+        width: 40% !important;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .member {
+        width: 50% !important;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .member {
+        width: 60% !important;
+    }
+}

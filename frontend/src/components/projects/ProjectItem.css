@@ -1,0 +1,61 @@
+.card-title {
+    font-size: 20px;
+    line-height: 15px;
+}
+
+.card-content {
+    padding: 18px;
+    line-height: 20px;
+}
+.card .card-content .card-title {
+    display: block;
+    line-height: 15px;
+    text-align: center;
+    overflow: hidden;
+    margin: 0;
+    padding: 1px 0;
+}
+
+.project_item .grey-text {
+    text-align: center;
+}
+
+.summary {
+    display: flex;
+}
+.collection {
+    display: flex;
+    margin-bottom: 0;
+}
+.card .card-action {
+    padding: 5px 0;
+}
+.collection {
+    border: none;
+}
+.collection .collection-item  {
+    padding: 0 !important;
+}
+
+.collection .collection-item {
+    border-bottom: none;
+}
+
+.collection .collection-item.avatar {
+    padding: 0;
+    min-height: 50px;
+}
+
+.collection .collection-item.avatar:first-child {
+    padding-left: 0;
+}
+
+#right, #left {
+    padding: 0;
+}
+
+.project_item .card-action .collection {
+    display: flex;
+    justify-content: center;
+    margin-left: -21px;
+}

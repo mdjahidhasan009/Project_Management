@@ -1,0 +1,31 @@
+.discussion_row {
+    /*width: 100%;*/
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin: 0 0 10px 0 !important;
+}
+.discussion_row .col {
+    display: grid;
+    padding: 0;
+}
+.discussion_row img {
+    margin-left: 10px;
+}
+
+@media only screen and (max-width: 640px) {
+    .discussion {
+        padding-left: 10px !important;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    .discussion {
+        padding-left: 20px !important;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    .discussion {
+        padding-left: 30px !important;
+    }
+}

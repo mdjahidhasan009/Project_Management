@@ -1,0 +1,9 @@
+.uploadImage {
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.previewImage {
+    margin-top: 30px;
+}

@@ -1,0 +1,16 @@
+.role {
+    display: inline-block;
+}
+
+.member_list_row .delete_icon {
+    font-size: 18px;
+    opacity: 0;
+}
+
+.member_list_row:hover > .col > .delete_icon {
+    opacity: 1;
+}
+
+.member_list_row {
+    margin: 0 !important;
+}

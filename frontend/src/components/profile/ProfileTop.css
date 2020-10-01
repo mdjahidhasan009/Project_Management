@@ -1,0 +1,101 @@
+/*.profile_avatar {*/
+/*    vertical-align: middle;*/
+/*    width: 300px;*/
+/*    object-fit: cover;*/
+/*    !*Center an image*!*/
+/*    display: block;*/
+/*    margin-left: auto;*/
+/*    margin-right: auto;*/
+/*}*/
+
+/*.profile_top {*/
+/*    vertical-align: middle;*/
+/*    display: block;*/
+/*    margin-left: auto;*/
+/*    margin-right: auto;*/
+.profile_div {
+    grid-area: top;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /*margin-top: 10px;*/
+    background-color: #31cbf1;
+    padding: 20px 0;
+    margin: 10px 50px;
+    color: white;
+}
+
+.profile_div h4,
+.profile_div p {
+    text-align: center;
+
+}
+
+.profile_div p {
+    margin-bottom: 10px;
+}
+
+.profile_avatar {
+    vertical-align: middle;
+    border-radius: 50%;
+    width: 300px;
+    height: 300px;
+}
+
+.profile_div .fab {
+    padding-right: 20px;
+    color: white;
+}
+
+.profile_div .skills {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.profile_div .skill {
+    margin: 0 10px;
+    /*overflow-x: ;*/
+}
+
+.profile-bio,
+.profile-skills {
+    background-color: #b5e4ff;
+    color: #085259;
+}
+
+.profile-bio {
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.profile-skills {
+    padding-top: 0;
+    margin-top: 0;
+}
+
+@media only screen and (max-width: 750px) {
+    .profile_div {
+        margin: 10px 10px;
+    }
+
+    .profile_div .skill {
+        margin: 0 3px;
+    }
+}
+
+@media only screen and (max-width: 550px) {
+    .profile_div .skills {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}
+
+@media only screen and (max-width: 380px) {
+    .profile_div .skills {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
