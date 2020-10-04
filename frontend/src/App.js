@@ -1,10 +1,10 @@
-import React, {Fragment, useEffect} from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 import store from './store';
-import setAuthToken from "./utils/setAuthToken";
 import { loadUser } from "./actions/auth-action";
+import { useHttpClient } from "./hooks/http-hook";
 
 import Navbar from './components/layout/MainNavbar';
 import Auth from './components/auth/auth';
@@ -12,26 +12,15 @@ import Projects from './components/projects/Projects';
 import Project from './components/project/Project';
 import Dashboard from "./components/Dashboard/Dashboard";
 import EditProfile from "./components/EditProfile/EditProfile";
-import ProfileTop from "./components/profile/ProfileTop";
-import Activities from './components/project/activities/Activities';
-import Discussion from './components/project/Discussion.js';
-import Files from './components/project/Details.js';
-import ToDoLists from './components/project/todos/ToDoLists.js';
-import Bugs from './components/project/bugs/Bugs.js';
-import Alert from "./components/layout/Alert";
-import './App.css';
-import MemberList from "./components/Member/MemberList";
-import Profile from "./components/profile/Profile";
+import ProfileTop from "./components/profile/Profile";
+import MemberList from "./components/Member/Members";
 import UploadImage from "./components/ChangeImage/UploadImage";
 
-if(localStorage.token) {
-    setAuthToken(localStorage.token);
-}
-
 const App = () => {
+    const { sendRequest } = useHttpClient();
+
     useEffect(() => {
-        console.log('in app.js')
-        store.dispatch(loadUser());
+        store.dispatch(loadUser(sendRequest));
     }, []);
 
     return (

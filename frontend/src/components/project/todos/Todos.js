@@ -1,19 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState } from 'react';
+import { connect } from "react-redux";
+import { useParams } from "react-router-dom";
 
-import './ToDoLists.css';
-import {connect} from "react-redux";
-import {addTodo, editTodo} from "../../../actions/project-action";
-import {useHttpClient} from "../../../hooks/http-hook";
-import {useParams} from "react-router-dom";
-import {useForm} from "../../../hooks/form-hook";
+import { addTodo, editTodo } from "../../../actions/project-action";
+import { useHttpClient } from "../../../hooks/http-hook";
+import { useForm } from "../../../hooks/form-hook";
+import { VALIDATOR_REQUIRE } from "../../../utils/validators";
 import Input from "../../shared/FormElements/Input";
-import {VALIDATOR_REQUIRE} from "../../../utils/validators";
 import IncompleteTodoRow from "./IncompleteTodoRow";
 import CompletedTodoRow from "./CompletedTodoRow";
 import M from "materialize-css";
 
-const ToDoLists = ({ addTodo, project, editTodo }) => {
-    const { isLoading, error, sendRequest , clearError} = useHttpClient();
+const Todos = ({ addTodo, project, editTodo, isMemberOfThisProject, isCreatedByUser }) => {
+    const { sendRequest } = useHttpClient();
     const projectId = useParams().projectId;
     const [ editTodoText, setEditTodoText ] = useState('');
     const [ todoId, setTodoId ] = useState();
@@ -80,30 +79,35 @@ const ToDoLists = ({ addTodo, project, editTodo }) => {
     }
 
     return (
-        <div className="row">
-            <button data-target="modal2" className="light-blue lighten-1 modal-trigger">
-                <i className="fas fa-plus-circle"></i>      ADD NEW TODO
-            </button>
+        <div className="row todos">
 
-            <div id="modal2" className="modal">
+            {/*Add todo modal trigger button */}
+            {(isMemberOfThisProject || isCreatedByUser) && (
+                <button data-target="add-todo-modal" className="light-blue lighten-1 modal-trigger add-btn">
+                    <i className="fas fa-plus-circle"/>      ADD NEW TODO
+                </button>
+            )}
+
+            {/*Add todo modal structure*/}
+            <div id="add-todo-modal" className="modal">
                 <div className="modal-content">
-                    <h5>Add New Todo</h5>
+                    <h5>Add New Todos</h5>
                     <Input
                         element="input"
                         elementTitle="todoText"
                         type="text"
-                        placeholder="Enter A Todo"
+                        placeholder="Enter A Todos"
                         validators={[VALIDATOR_REQUIRE()]}
                         errorText="Please enter todo text."
                         onInput={inputHandler}
                     />
                 </div>
                 <div className="modal-footer">
-                    <button disabled={!formState.isValid} onClick={addTodoHandler} className="modal-close waves-effect waves-green btn-flat">Add New Todo</button>
+                    <button disabled={!formState.isValid} onClick={addTodoHandler} className="modal-close waves-effect waves-green btn-flat">Add New Todos</button>
                 </div>
             </div>
 
-
+            {/*Edit todo modal structure*/}
             <div id="edit-todo-modal" className="modal">
                 <div className="modal-content">
                     <h5>Edit Bug</h5>
@@ -111,7 +115,7 @@ const ToDoLists = ({ addTodo, project, editTodo }) => {
                         element="input"
                         elementTitle="todoEditText"
                         type="text"
-                        placeholder="Enter A Todo"
+                        placeholder="Enter A Todos"
                         validators={[VALIDATOR_REQUIRE()]}
                         errorText="Please enter todo text."
                         onInput={inputHandler}
@@ -121,22 +125,21 @@ const ToDoLists = ({ addTodo, project, editTodo }) => {
                 </div>
                 <div className="modal-footer">
                     <button onClick={editTodoHandler}
-                            disabled={!formState.isValid}  className="modal-close btn-flat">Edit Todo</button>
+                            disabled={!formState.isValid}  className="modal-close btn-flat">Edit Todos</button>
                 </div>
             </div>
 
-
             <h5>Incomplete ToDo List</h5>
-            <div className="row main_row">
-                {project && project.todos.map(todo => (
+            <div>
+                {project && project.todos && project?.todos.map(todo => (
                     <IncompleteTodoRow key={todo._id} todo={todo} projectId={projectId} handleClickOnEdit={handleClickOnEdit}/>
                     ))
                 }
             </div>
 
             <h5>Completed ToDo List</h5>
-            <div className="row main_row">
-                {project && project.todos.map(todo => (
+            <div>
+                {project && project.todos && project?.todos.map(todo => (
                     <CompletedTodoRow key={todo._id} todo={todo} projectId={projectId}/>
                     ))
                 }
@@ -146,7 +149,10 @@ const ToDoLists = ({ addTodo, project, editTodo }) => {
 }
 
 const mapStateToProps = state => ({
-    project: state.project.project
+    project: state.project.project,
+    isMemberOfThisProject: state.project.isMemberOfThisProject,
+    isCreatedByUser: state.project.isCreatedByUser
+
 });
 
-export default connect(mapStateToProps, { addTodo, editTodo })(ToDoLists);
+export default connect(mapStateToProps, { addTodo, editTodo })(Todos);

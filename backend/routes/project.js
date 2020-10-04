@@ -46,19 +46,11 @@ router.post(
     ],
     async(req, res) => {
         const errors = validationResult(req);
-        if(!errors.isEmpty()) {
-            // console.log(errors.array());
-            // return res.status(400).json({ errors: errors.array() });
-            return res.status(400).json({ "error": "Server error" });
-        }
+        if(!errors.isEmpty()) return res.status(400).json({ "error": "Server error" });
         const { name, category, description, deadline } = req.body;
-        // console.log(name, category, deadline);
         try {
             let project = await Project.findOne({ name });
-            // console.log(project);
-            // console.log(req.user.id);
-            // console.log(req.user);
-            if(project) return res.status(400).json({ 'error': 'This project name already taken, choose another one' });
+            if(project) return res.status(422).json({ 'error': 'This project name already taken, choose another one' });
             const newProject = new Project({
                 name,
                 category,
@@ -97,15 +89,12 @@ router.put(
     ],
     async(req, res) => {
         const errors = validationResult(req);
-        if(!errors.isEmpty()) {
-            return res.status(400).json({ "error": "Server error" });
-        }
+        if(!errors.isEmpty()) return res.status(400).json({ "error": "Server error" });
+
         const { name, category, description, deadline } = req.body;
-        // console.log(name, category, description, deadline, req.params.projectId);
         try {
             let project = await Project.findById(req.params.projectId);
             if(!project) return res.status(400).json({ 'error': 'Server Error' });
-            // console.log('11111111111111111111111111111111111111111111111111111111')
             project = await Project.findOneAndUpdate({ _id: req.params.projectId},
                  {
                         name,
@@ -114,7 +103,6 @@ router.put(
                         deadline
                     }
             );
-            // console.log('9999999999999999999999');
             await res.json({
                 name: project.name,
                 category: project.category,
@@ -175,8 +163,78 @@ router.post(
             };
             project.discussion.unshift(newDiscussion);
             await project.save();
-            project = await Project.findById(req.params.projectId).populate('discussion.user', 'username -_id')
+            project = await Project.findById(req.params.projectId).populate('discussion.user', 'username profileImage -_id')
             await res.json(project.discussion[0]);
+        } catch(error) {
+            console.error(error);
+            return res.status(400).json({ 'error': 'Server Error' });
+        }
+    }
+)
+
+// @route   PUT api/project/discussion/:projectId/:discussionId
+// @desc    Edit an existing discussion
+// @access  Private
+router.put(
+    '/discussion/:projectId/:discussionId',
+    auth,
+    [
+        check('discussionEditText')
+            .not()
+            .isEmpty()
+    ],
+    async(req, res) => {
+        try {
+            let project = await Project.findOne( { 'discussion._id': req.params.discussionId } )
+            const discussion = project.discussion;
+            let isThisDiscussionAddedByCurrentUser = false;
+            discussion.map(discussion => {
+                if(discussion._id.toString() === req.params.discussionId) {
+                    if (discussion.user.toString() === req.user.id) isThisDiscussionAddedByCurrentUser = true;
+                }
+            })
+            if(!isThisDiscussionAddedByCurrentUser) return res.status(400).json({ 'error': 'Server Error' });
+            await Project.updateOne(
+                { _id: req.params.projectId, 'discussion._id': req.params.discussionId},
+                {'$set': {
+                        'discussion.$.text': req.body.discussionEditText
+                        }
+                }
+            );
+            project = await Project.findById(req.params.projectId).populate('discussion.user', 'username profileImage -_id');
+            await res.json(project.discussion);
+        } catch(error) {
+            console.error(error);
+            return res.status(400).json({ 'error': 'Server Error' });
+        }
+    }
+)
+
+// @route   DELETE api/project/discussion/:projectId/:discussionId
+// @desc    Delete an discussion
+// @access  Private
+router.delete(
+    '/discussion/:projectId/:discussionId',
+    auth,
+    async(req, res) => {
+        try {
+            let project = await Project.findOne( { 'discussion._id': req.params.discussionId } )
+            const discussion = project.discussion;
+            let isThisDiscussionAddedByCurrentUser = false;
+            discussion.map(discuss => {
+                if(discuss._id.toString() === req.params.discussionId) {
+                    if (discuss.user.toString() === req.user.id) isThisDiscussionAddedByCurrentUser = true;
+                }
+            })
+            if(!isThisDiscussionAddedByCurrentUser) return res.status(400).json({ 'error': 'Server Error' });
+            await Project.updateOne(
+                { _id: req.params.projectId },
+                {'$pull': {
+                        'discussion': { _id: req.params.discussionId }
+                    }}
+            );
+            project = await Project.findById(req.params.projectId).populate('discussion.user', 'username profileImage -_id');
+            await res.json(project.discussion);
         } catch(error) {
             console.error(error);
             return res.status(400).json({ 'error': 'Server Error' });
@@ -242,10 +300,8 @@ router.post(
 
 
             let isDone = req.body.isDone === 'true';
-            // let project = await Project.findOne({ _id: req.params.projectId, 'todos._id': req.params.todoId});
             let doneAt = null;
             if(isDone) doneAt = new Date();
-            // console.log(doneAt);
             await Project.updateOne({ _id: req.params.projectId, 'todos._id': req.params.todoId},
                  {'$set': {
                     'todos.$.done': isDone,
@@ -390,8 +446,6 @@ router.post(
             let isFixed = req.body.isFixed === 'true';
             let fixedAt = null;
             if(isFixed) fixedAt = new Date();
-            // console.log(fixedAt);
-            // let project = await Project.findOne({ _id: req.params.projectId, 'todos._id': req.params.todoId});
             await Project.updateOne(
                 { _id: req.params.projectId, 'bugs._id': req.params.bugId},
                 {'$set': {
@@ -499,11 +553,8 @@ router.post(
         const project = await Project.findById(req.params.projectId);
         const user = await User.findOne({ username: username });
         if(!user) return res.status(400).json({ 'error': 'Server Error' });
-        // console.log(user);
-        // console.log(user._id);
         await project.members.unshift({ user: user._id });
         await project.save();
-        // await res.json(user.username);
         const membersOfProject = await Project.findOne({ _id: req.params.projectId })
             .populate('members.user', 'username profileImage -_id')
         await res.json(membersOfProject.members[0]);
@@ -531,11 +582,9 @@ router.delete(
         }
         try {
             const { username } = req.body;
-            // console.log('server');
             const project = await Project.findById(req.params.projectId);
             if(project.createdBy.toString() !== req.user.id) return res.status(400).json({ 'error': 'Server Error' });
             const user = await User.findOne({ username: username });
-            // console.log(user)
             if(!user) return res.status(400).json({ 'error': 'Server Error' });
             await Project.updateOne(
                 { _id: req.params.projectId },
@@ -564,17 +613,9 @@ router.get(
             const membersOfProject = await Project.findOne({ _id: req.params.projectId })
                 .select('members -_id')
                 .populate('members.user', 'username profileImage -_id');
-            // console.log(membersOfProject);
-            const memberNameList = {};
-            // membersOfProject.members.map(member => {
-            //     console.log(member.user.username);
-            // })
-            // console.log('member of project')
-            // console.log(membersOfProject);
             const userNameOfMemberInProject = membersOfProject.members.map(member => {
                 return member.user.username;
             })
-            // console.log(userNameOfMemberInProject);
             return await res.json(userNameOfMemberInProject);
         } catch (error) {
             console.error(error);

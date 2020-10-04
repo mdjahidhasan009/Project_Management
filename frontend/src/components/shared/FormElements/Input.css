@@ -1,7 +1,3 @@
-/*.form-control {*/
-/*    margin: 1rem 0;*/
-/*}*/
-
 .form-control label,
 .form-control input,
 .form-control textarea {
@@ -19,7 +15,6 @@
     font: inherit;
     border: 1px solid #ccc;
     background: #f8f8f8;
-    /*padding: 0.15rem 0.25rem;*/
 }
 
 .form-control input:focus,

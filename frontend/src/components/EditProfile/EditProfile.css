@@ -1,18 +1,17 @@
-.edit_profile .row {
-    margin: 20px;
-}
-
-.profile_avatar {
-    vertical-align: middle;
-    width: 300px;
-    object-fit: cover;
-    /*Center an image*/
-    display: block;
-    margin-left: auto;
+/*.edit_profile .profile_avatar {*/
+/*    !*To center the image*!*/
+/*    display: block;*/
+/*    margin-left: auto;*/
+/*    margin-right: auto;*/
+/*}*/
+.edit_profile .btn {
+    margin-top: 20px;
+    display: table;
     margin-right: auto;
+    margin-left: auto;
 }
 
-.edit_profile .details {
+.edit_profile__details {
     padding: 20px;
     display: block;
     margin-left: auto;
@@ -20,20 +19,9 @@
     margin-top: 50px;
 }
 
-.save_button {
-    margin-top: 10px;
-}
-
-.edit_profile .imageUpload {
-    margin-top: 20px;
-    display: table;
-    margin-right: auto;
-    margin-left: auto;
-}
-
-@media only screen and (max-width: 400px) {
-    .profile_avatar {
-        width: 200px !important;
-        height: 200px !important;
-    }
-}
+/*@media only screen and (max-width: 400px) {*/
+/*    .edit_profile .profile_avatar {*/
+/*        width: 200px !important;*/
+/*        height: 200px !important;*/
+/*    }*/
+/*}*/

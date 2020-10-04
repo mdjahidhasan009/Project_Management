@@ -1,49 +1,47 @@
 import React, { useEffect } from 'react';
+import { connect } from "react-redux";
 import { useParams } from 'react-router-dom';
 
-import ProjectSummaryRow from "./ProjectSummaryRow";
-
-import './Project.css';
-import {useHttpClient} from "../../hooks/http-hook";
-import { getProjectById, getNotAssignedMember, prepareActivity, prepareWorkDonePreview, getIsMemberAndCreatorOfProject } from "../../actions/project-action";
-import { connect } from "react-redux";
-import Overview from "./Overview";
-import Discussion from "./Discussion";
+import ProjectSummaryRow from "./ProjectSummary";
+import Overview from "./overview/Overview";
+import Discussion from "./discussion/Discussion";
 import Activities from "./activities/Activities";
-import Details from "./Details";
-import ToDoLists from "./todos/ToDoLists";
+import Details from "./details/Details";
+import Todos from "./todos/Todos";
 import Bugs from "./bugs/Bugs";
+import { useHttpClient } from "../../hooks/http-hook";
+import {
+    getProjectById, getNotAssignedMember, prepareActivity, prepareWorkDonePreview, getIsMemberAndCreatorOfProject
+} from "../../actions/project-action";
 
-const Project = ({ project, getProjectById ,selectedItem, getNotAssignedMember, prepareActivity, prepareWorkDonePreview, getIsMemberAndCreatorOfProject }) => {
-    const { isLoading, error, sendRequest , clearError} = useHttpClient();
+
+const Project = ({ getProjectById ,selectedItem, getNotAssignedMember, prepareActivity, prepareWorkDonePreview,
+                     getIsMemberAndCreatorOfProject, project
+}) => {
+    const { sendRequest } = useHttpClient();
     const projectId = useParams().projectId;
 
     useEffect(() => {
-        // console.log(projectId);
         getIsMemberAndCreatorOfProject(projectId, sendRequest);
         getProjectById(projectId, sendRequest);
         getNotAssignedMember(projectId, sendRequest);
         prepareActivity(projectId, sendRequest);
         prepareWorkDonePreview(projectId, sendRequest);
-        // console.log(selectedItem)
     }, []);
 
     return (
-        <div className="main project">
+        <div className="main">
             <ProjectSummaryRow projectId={projectId} selectedItem={selectedItem} />
             {selectedItem === 'overview' && <Overview />}
             {selectedItem === 'activities' && <Activities />}
             {selectedItem === 'details' && <Details />}
-            {selectedItem === 'todolist' && <ToDoLists />}
+            {selectedItem === 'todolist' && <Todos />}
             {selectedItem === 'bugs' && <Bugs />}
             {selectedItem === 'discussion' && <Discussion />}
         </div>
     )
 }
 
-const mapStateToProps = state => ({
-    project: state.project.project
-});
-
-// export default connect(null, { getProjectById })(Project);
-export default connect(mapStateToProps, { getProjectById, getNotAssignedMember, prepareActivity, prepareWorkDonePreview, getIsMemberAndCreatorOfProject })(Project);
+export default connect(null, { getProjectById, getNotAssignedMember, prepareActivity, prepareWorkDonePreview,
+    getIsMemberAndCreatorOfProject
+})(Project);

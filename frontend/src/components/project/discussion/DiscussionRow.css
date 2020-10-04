@@ -1,0 +1,51 @@
+.discussion-row {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin: 0 0 10px 0 !important;
+}
+.discussion-row .col {
+    display: grid;
+    padding: 0;
+}
+.discussion-row img {
+    margin-left: 10px;
+}
+
+.discussion-row__text {
+    margin-left: -20px !important;
+}
+
+.discussion-row__text p{
+    margin: 0;
+    padding: 0;
+}
+
+@media only screen and (max-width: 640px) {
+    .discussion-row__text {
+        padding-left: 10px !important;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    .discussion-row__text {
+        padding-left: 20px !important;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    .discussion-row__text {
+        padding-left: 30px !important;
+    }
+}
+
+@media only screen and (max-width: 540px) {
+    .discussion-row__text {
+        padding-left: 40px !important;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .discussion-row__text {
+        padding-left: 50px !important;
+    }
+}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHistory, Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import './MemberItem.css';
 
@@ -8,8 +8,6 @@ const MemberItem = ({ user }) => {
     let clickedOnEmail = false;
 
     const openMemberDetails = async () => {
-        console.log('clicked');
-        console.log(clickedOnEmail);
         if(!clickedOnEmail) await history.push('/member/' + user.username);
         clickedOnEmail = false;
     }
@@ -24,7 +22,8 @@ const MemberItem = ({ user }) => {
                 <div className="card-content" onClick={openMemberDetails}>
                     <img className="profile_avatar"
                          src={user?.profileImage?.imageUrl}
-                         alt="no image"/>
+                         alt="no image"
+                    />
                     <span className="card-title">{user.name}</span>
                     <h6 className="card-username" onClick={toggleIsClickedOnEmail}>{user.email}</h6>
                     <p className="card-role">{user.role}</p>

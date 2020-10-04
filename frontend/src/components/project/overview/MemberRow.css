@@ -1,0 +1,38 @@
+.team-member {
+    text-align: center;
+    margin: 0 !important;
+    padding-bottom: 1px;
+}
+
+.team-member__image {
+    padding-left: 0 !important;
+}
+
+.team-member__details {
+    padding: 0 !important;
+}
+
+.team-member__details p {
+    text-align: left;
+}
+
+.team-member__details .delete_icon {
+    font-size: 18px;
+    opacity: 0;
+}
+
+.team-member:hover > .col > .delete_icon {
+    opacity: 1;
+}
+
+.team-member__details .name {
+    font-size: 13px;
+    color: cornflowerblue;
+    line-height: 1.2;
+}
+
+.team-member__details .role {
+    font-size: 13px;
+    color: gray;
+    line-height: 1;
+}

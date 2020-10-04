@@ -1,28 +1,27 @@
-import axios from 'axios';
-
-import setAuthTokenToAxiosHeader from "../utils/setAuthToken";
-
-import {ALL_USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGOUT, REGISTER_SUCCESS, USER_LOADED,
+import {
+    ALL_USER_LOADED,
+    AUTH_ERROR, LOGIN_SUCCESS, LOGOUT, REGISTER_SUCCESS, USER_LOADED,
     LOADED_SELECTED_USER
 } from './types'
 
 //Load user form token
-export const loadUser = () => async dispatch => {
-    console.log('in load user')
-    if(localStorage.token) {
-        console.log(localStorage.token);
-        setAuthTokenToAxiosHeader(localStorage.token);
-    }
+export const loadUser = (method) => async dispatch => {
     try {
-        const res = await axios.get(process.env.REACT_APP_ASSET_URL + '/api/auth');
+        const responseData = await method(
+            process.env.REACT_APP_ASSET_URL + '/api/auth',
+            'GET',
+            null,
+            {
+                'Authorization': 'Bearer ' + localStorage.token
+            }
+        );
+
         dispatch({
             type: USER_LOADED,
-            payload: res.data
+            payload: responseData
         })
-    } catch (e) {
-        dispatch({
-            type: AUTH_ERROR
-        })
+    } catch (error) {
+
     }
 }
 
@@ -45,14 +44,10 @@ export const register = ( name, username, email, password, method ) => async dis
         console.log(responseData);
         dispatch({
             type: REGISTER_SUCCESS,
-            payload: responseData //token
+            payload: responseData
         });
-        // dispatch(loadUser()); //will do later after add image upload
-        console.log(responseData)
-        // auth.login(responseData.userId, responseData.token);
     } catch (e) {
         console.log(e);
-        throw e;
     }
 }
 
@@ -72,20 +67,16 @@ export const login = (email, password, method) => async dispatch => {
         );
         dispatch({
             type: LOGIN_SUCCESS,
-            payload: responseData   //Token
+            payload: responseData
         });
-        // dispatch(loadUser()); //will do later after add image upload
-        // await auth.login(responseData.userId, responseData.token);
     } catch (err) {
-        console.log(err);
-        throw err;
+        console.error(err);
     }
 }
 
 //Edit user details
 export const updateUser = (formState, method) => async dispatch => {
     try {
-        // console.log(fullName, username, email, role, newPassword, currentPassword);
         const responseData = await method(
             process.env.REACT_APP_ASSET_URL + '/api/user',
             'PUT',
@@ -99,7 +90,7 @@ export const updateUser = (formState, method) => async dispatch => {
         );
         console.log(responseData);
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 
@@ -147,11 +138,4 @@ export const getUserByUserName = (username, method) => async dispatch => {
     } catch (error) {
         console.error(error);
     }
-}
-
-
-
-//Check is given username available
-export const isUsernameAvailable = () => async dispatch => {
-
 }

@@ -1,0 +1,80 @@
+.profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #31cbf1;
+    padding: 20px 0;
+    margin: 10px 0;
+    color: white;
+}
+
+.profile p {
+    margin: 5px;
+}
+
+.profile h4,
+.profile p {
+    text-align: center;
+}
+
+.profile .fab {
+    padding-right: 20px;
+    color: white;
+}
+
+.profile .skills {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.profile .skill {
+    margin: 0 10px;
+}
+
+.profile-bio,
+.profile-skills {
+    background-color: #b5e4ff;
+    color: #085259;
+}
+
+.profile-bio {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.profile-skills {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.bottom-space {
+    margin-bottom: 50px;
+}
+
+@media only screen and (max-width: 750px) {
+    .profile {
+        margin: 10px 10px;
+    }
+
+    .profile .skill {
+        margin: 0 3px;
+    }
+}
+
+@media only screen and (max-width: 550px) {
+    .profile .skills {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        text-align: left;
+    }
+}
+
+@media only screen and (max-width: 394px) {
+    .profile .skills {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}

@@ -1,12 +1,11 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import { toggleIsDone } from "../../../actions/project-action";
+import { connect } from 'react-redux';
 
-import './CompletedTodoRow.css';
+import { toggleIsDone } from "../../../actions/project-action";
 import {useHttpClient} from "../../../hooks/http-hook";
 
 const CompletedTodoRow = ({ todo, projectId, toggleIsDone }) => {
-    const { isLoading, error, sendRequest , clearError} = useHttpClient();
+    const { sendRequest } = useHttpClient();
 
     const handleTodoDone = async () => {
         await toggleIsDone(projectId, todo._id, 'false', sendRequest);
@@ -14,8 +13,8 @@ const CompletedTodoRow = ({ todo, projectId, toggleIsDone }) => {
     return (
         <>
              {todo.done && (
-             <div className="white col s12 completed_todo_row" onClick={handleTodoDone}>
-                     <p className="completed_todo">{todo.text}</p>
+             <div className="white col s12 completed-todo" onClick={handleTodoDone}>
+                     <p className="completed-todo__text">{todo.text}</p>
                      <img
                          src={todo.user?.profileImage?.imageUrl}
                          alt=" "

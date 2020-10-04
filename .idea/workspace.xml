@@ -11,63 +11,99 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cf56ad10-8b53-4663-8e5e-f466c23daf74" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/backend/models/Project.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/models/Project.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/project/ProjectSummary.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.env" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/config/db.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/config/db.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/config/default.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/middleware/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/middleware/auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/auth.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/routes/project.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/project.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/routes/upload.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/upload.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/routes/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/users.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.css" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/actions/alert-action.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/actions/auth-action.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/actions/auth-action.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/actions/form-action.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/actions/project-action.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/actions/project-action.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/actions/types.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/actions/types.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/actions/user-action.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/actions/user-action.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/ChangeImage/UploadImage.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ChangeImage/UploadImage.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/ChangeImage/UploadImage.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ChangeImage/UploadImage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/Dashboard/Dashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Dashboard/Dashboard.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/Dashboard/Dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Dashboard/Dashboard.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/EditProfile/EditProfile.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/EditProfile/EditProfile.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/EditProfile/EditProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/EditProfile/EditProfile.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/Member/MemberItem.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Member/MemberItem.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/Member/MemberItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Member/MemberItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Member/MemberList.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Member/MemberList.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Member/Members.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/auth/Login.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/auth/auth.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/auth/auth.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/auth/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/auth/auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/auth/index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/Alert.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/MainNavbar.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/MainNavbar.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/MainNavbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/MainNavbar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/profile/ProfileTop.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/profile/ProfileTop.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/profile/ProfileTop.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/profile/ProfileTop.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Activities.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Activities.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/ActivityDetailsRow.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/ActivityDetailsRow.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/ActivityRow.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/ActivityRow.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Bugs.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Bugs.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/CompletedTodoRow.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/CompletedTodoRow.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Discussion.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Discussion.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/DiscussionRow.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/DiscussionRow.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Files.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Files.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/FixedBugRow.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/FixedBugRow.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/IncompleteTodoRow.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/IncompleteTodoRow.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/MemberRow.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/MemberRow.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Milestone.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Milestone.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/NotFixedBugRow.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/NotFixedBugRow.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Overview.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Overview.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Project.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Project.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/Modal.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/Modal_old.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/old_navbar.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/profile/ProfileAbout.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/profile/ProfileEduction.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/profile/ProfileExperience.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/profile/ProfileGithub.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/profile/ProfileTop.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/profile/Profile.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/profile/ProfileTop.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/profile/Profile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/Details.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/details/Details.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/Details.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/details/Details.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/Discussion.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/Discussion.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/discussion/Discussion.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/DiscussionRow.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/discussion/DiscussionRow.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/DiscussionRow.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/discussion/DiscussionRow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/MemberRow.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/overview/MemberRow.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/MemberRow.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/overview/MemberRow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/Overview.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/overview/Overview.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/Overview.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/overview/Overview.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/Project.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/Project.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/Project.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/ProjectSummaryRow.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/ProjectSummaryRow.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/ProjectSummary.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/activities/Activities.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/activities/Activities.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/activities/Activities.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/activities/ActivityDetailsRow.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/activities/ActivityDetailsRow.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/activities/ActivityDetailsRow.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/activities/ActivityDetailsRow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/activities/ActivityRow.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/activities/ActivityRow.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/activities/ActivityRow.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/activities/ActivityRow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/bugs/Bugs.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/bugs/Bugs.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/bugs/Bugs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/bugs/FixedBugRow.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/bugs/FixedBugRow.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/bugs/FixedBugRow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/bugs/NotFixedBugRow.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/bugs/NotFixedBugRow.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/bugs/NotFixedBugRow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/todos/CompletedTodoRow.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/todos/CompletedTodoRow.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/todos/CompletedTodoRow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/todos/IncompleteTodoRow.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/todos/IncompleteTodoRow.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/todos/IncompleteTodoRow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/todos/ToDoLists.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/todos/ToDoLists.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/todos/Todos.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Loader.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/ProjectItem.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/projects/ProjectItem.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/ProjectSummaryRow.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/ProjectSummaryRow.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Projects.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/projects/Projects.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Projects.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/projects/Projects.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/ToDoLists.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/ToDoLists.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/projectItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/projects/projectItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/reducers/auth-reducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/reducers/auth-reducer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/projectItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/projects/ProjectItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/shared/FormElements/Input.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/shared/FormElements/Input.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/shared/FormElements/Input.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/shared/FormElements/Input.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/hooks/form-hook.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/hooks/form-hook.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/hooks/http-hook.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/hooks/http-hook.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/reducers/alert-reducer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/reducers/form-reducer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/reducers/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/reducers/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/reducers/project-reducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/reducers/project-reducer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/utils/setAuthToken.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,11 +137,11 @@
       <recent name="$PROJECT_DIR$/frontend/src/components" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/frontend/src/components/project/details" />
+      <recent name="$PROJECT_DIR$/frontend/src/components/project/overview" />
+      <recent name="$PROJECT_DIR$/frontend/src/components/project/discussion" />
+      <recent name="$PROJECT_DIR$/frontend/src/components/project/activities" />
       <recent name="$PROJECT_DIR$/frontend/src/components/project/bugs" />
-      <recent name="$PROJECT_DIR$/frontend/src/components/project/todos" />
-      <recent name="$PROJECT_DIR$/frontend/src/components/project" />
-      <recent name="$PROJECT_DIR$/frontend/src/components" />
-      <recent name="$PROJECT_DIR$/frontend/src/Member" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -135,7 +171,12 @@
       <workItem from="1601295850524" duration="26000" />
       <workItem from="1601352345155" duration="4641000" />
       <workItem from="1601439164328" duration="13339000" />
-      <workItem from="1601525429399" duration="1669000" />
+      <workItem from="1601525429399" duration="5450000" />
+      <workItem from="1601535978098" duration="12386000" />
+      <workItem from="1601610645798" duration="20898000" />
+      <workItem from="1601697159245" duration="13342000" />
+      <workItem from="1601723388810" duration="15321000" />
+      <workItem from="1601784619990" duration="12114000" />
     </task>
     <servers />
   </component>
@@ -155,29 +196,33 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="367" y="185" width="622" height="396" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1601527102276">
+    <state x="367" y="185" width="622" height="396" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1601536876644">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state x="367" y="185" width="622" height="396" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.768@0.0.1366.768" timestamp="1601527102276" />
-    <state x="416" y="132" width="524" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1601441406997">
+    <state x="367" y="185" width="622" height="396" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.768@0.0.1366.768" timestamp="1601536876644" />
+    <state x="416" y="132" width="524" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1601788470046">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state x="416" y="132" width="524" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1366.768@0.0.1366.768" timestamp="1601441406997" />
+    <state x="416" y="132" width="524" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1366.768@0.0.1366.768" timestamp="1601788470046" />
     <state x="350" y="66" width="655" height="633" key="RollbackChangesDialog" timestamp="1600511868623">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
     <state x="350" y="66" width="655" height="633" key="RollbackChangesDialog/0.0.1366.768@0.0.1366.768" timestamp="1600511868623" />
-    <state x="100" y="98" width="1166" height="570" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1601526733541">
+    <state x="100" y="98" width="1166" height="570" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1601745234185">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state x="100" y="98" width="1166" height="570" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.0.1366.768@0.0.1366.768" timestamp="1601526733541" />
+    <state x="100" y="98" width="1166" height="570" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.0.1366.768@0.0.1366.768" timestamp="1601745234185" />
     <state x="100" y="98" width="1166" height="570" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1600491459172">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
     <state x="100" y="98" width="1166" height="570" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1366.768@0.0.1366.768" timestamp="1600491459172" />
-    <state x="298" y="137" width="826" height="522" key="find.popup" timestamp="1601461368170">
+    <state x="343" y="73" width="826" height="594" key="find.popup" timestamp="1601802752170">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state x="298" y="137" width="826" height="522" key="find.popup/0.0.1366.768@0.0.1366.768" timestamp="1601461368170" />
+    <state x="343" y="73" width="826" height="594" key="find.popup/0.0.1366.768@0.0.1366.768" timestamp="1601802752170" />
+    <state x="347" y="168" key="run.anything.popup" timestamp="1601546531004">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="347" y="168" key="run.anything.popup/0.0.1366.768@0.0.1366.768" timestamp="1601546531004" />
   </component>
 </project>

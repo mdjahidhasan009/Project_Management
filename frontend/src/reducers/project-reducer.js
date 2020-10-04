@@ -12,7 +12,7 @@ import {
     ACTIVITY_PREPARED,
     ADD_WORK_PREVIEW,
     ADD_IS_MEMBER_AND_CREATOR,
-    DELETE_BUG, DELETE_TODO, DELETE_MEMBER_FROM_PROJECT
+    DELETE_BUG, DELETE_TODO, DELETE_MEMBER_FROM_PROJECT, UPDATE_DISCUSSION, DELETE_DISCUSSION
 } from "../actions/types";
 
 const initialState = {
@@ -49,6 +49,15 @@ export default function (state = initialState, action) {
                 project: {
                     ...state.project,
                     discussion: [payload, ...state.project.discussion]
+                }
+            };
+        case UPDATE_DISCUSSION:
+        case DELETE_DISCUSSION:
+            return {
+                ...state,
+                project: {
+                    ...state.project,
+                    discussion: payload
                 }
             };
         case ADD_TODO:

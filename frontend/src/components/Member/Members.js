@@ -1,20 +1,21 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import {getAllUser} from "../../actions/auth-action";
-import {useHttpClient} from "../../hooks/http-hook";
+
+import { getAllUser } from "../../actions/auth-action";
+import { useHttpClient } from "../../hooks/http-hook";
 import MemberItem from "./MemberItem";
 
-import './MemberList.css';
+const Members = ({ users, getAllUser }) => {
+    const { sendRequest } = useHttpClient();
 
-const MemberList = ({ users, getAllUser }) => {
-    const { isLoading, error, sendRequest , clearError} = useHttpClient();
     useEffect(() => {
         getAllUser(sendRequest);
     }, [])
+
     return (
         <div className="main">
             <div className="row memberList">
-                {!isLoading && (
+                {users && (
                     users.map(user => (
                         <MemberItem key={user.username} user={user}/>
                     ))
@@ -29,4 +30,4 @@ const mapStateToProps = state => ({
     users: state.auth.users
 })
 
-export default connect(mapStateToProps, { getAllUser })(MemberList);
+export default connect(mapStateToProps, { getAllUser })(Members);

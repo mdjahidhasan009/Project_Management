@@ -1,23 +1,26 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from "react-router-dom";
 
 import { uploadProfileImage } from '../../actions/user-action';
-
+import { useHttpClient } from "../../hooks/http-hook";
+import M from "materialize-css";
 import './UploadImage.css';
-import {useHttpClient} from "../../hooks/http-hook";
 
 const UploadImage = ({ uploadProfileImage }) => {
-    const { isLoading, error, sendRequest , clearError} = useHttpClient();
+    const history = useHistory();
+    const { sendRequest } = useHttpClient();
     const [fileInputState, setFileInputState] = useState('');
     const [previewSource, setPreviewSource] = useState('');
     const [selectedFile, setSelectedFile] = useState();
-    // const [successMsg, setSuccessMsg] = useState('');
-    // const [errMsg, setErrMsg] = useState('');
+
     const handleFileInputChange = (e) => {
         const file = e.target.files[0];
         previewFile(file);
         setSelectedFile(file);
-        setFileInputState(e.target.value);
+        setFileInputState(e.target.value); //Temp
+        console.log(e.target.files[0])
+        console.log(e.target.value)
     };
 
     const previewFile = (file) => {
@@ -26,46 +29,26 @@ const UploadImage = ({ uploadProfileImage }) => {
         reader.onloadend = () => {
             setPreviewSource(reader.result);
         };
+        reader.onerror = () => {
+            M.toast({html: 'Image upload failed, Please try again', classes: 'red'});
+        };
     };
 
     const handleSubmitFile = async (e) => {
         e.preventDefault();
         if (!selectedFile) return;
-        const reader = new FileReader();
-        reader.readAsDataURL(selectedFile);
-        reader.onloadend = async () => {
-            await uploadImage(reader.result);
-        };
-        reader.onerror = () => {
-            console.error('AHHHHHHHH!!');
-            // setErrMsg('something went wrong!');
-        };
+        await uploadImage(previewSource)
     };
 
     const uploadImage = async (base64EncodedImage) => {
         await uploadProfileImage(base64EncodedImage, sendRequest);
-        // try {
-        //     await fetch(process.env.REACT_APP_ASSET_URL + '/api/upload', {
-        //         method: 'POST',
-        //         body: JSON.stringify({ data: base64EncodedImage }),
-        //         headers: { 'Content-Type': 'application/json',
-        //             'Authorization': 'Bearer ' + localStorage.token
-        //         },
-        //     });
-        //     setFileInputState('');
-        //     setPreviewSource('');
-        //     // setSuccessMsg('Image uploaded successfully');
-        // } catch (err) {
-        //     console.error(err);
-        //     // setErrMsg('Something went wrong!');
-        // }
+        await history.push('/profile/');
     };
+
     return (
-        <div className="main">
-            <div className="uploadImage">
+        <div className="main uploadImage">
+            <div className="uploadImage__div">
                 <h4 className="title">Upload an Image</h4>
-                {/*<Alert msg={errMsg} type="danger" />*/}
-                {/*<Alert msg={successMsg} type="success" />*/}
                 <form onSubmit={handleSubmitFile} className="form">
                     <input
                         id="fileInput"
@@ -79,6 +62,7 @@ const UploadImage = ({ uploadProfileImage }) => {
                         Submit
                     </button>
                 </form>
+
                 {previewSource && (
                     <img
                         className="previewImage"

@@ -1,12 +1,11 @@
 import React from 'react';
+import { connect } from "react-redux";
 
-import './FixedBugRow.css';
-import {useHttpClient} from "../../../hooks/http-hook";
-import {connect} from "react-redux";
-import {toggleIsFixed} from "../../../actions/project-action";
+import { useHttpClient } from "../../../hooks/http-hook";
+import { toggleIsFixed } from "../../../actions/project-action";
 
-const FixedBugRow = ({ bug, projectId, toggleIsFixed }) => {
-    const { isLoading, error, sendRequest , clearError} = useHttpClient();
+const FixedBugRow = ({ bug, projectId, toggleIsFixed, noImage }) => {
+    const { sendRequest } = useHttpClient();
 
     const handleIsFixed = async () => {
         await toggleIsFixed(projectId, bug._id, 'false', sendRequest);
@@ -15,10 +14,14 @@ const FixedBugRow = ({ bug, projectId, toggleIsFixed }) => {
     return (
         <>
             {bug.fixed && (
-                <div className="white col s12 fixed_bug_row" onClick={handleIsFixed}>
-                    <p className="fixed_bug">{bug.text}</p>
+                <div className="white col s12 fixed-bug" onClick={handleIsFixed}>
+                    <p className="fixed-bug__text">{bug.text}</p>
                     <img
-                        src={bug.user?.profileImage?.imageUrl}
+                        src = {
+                            bug.user?.profileImage?.imageUrl === undefined
+                            ? noImage
+                            : bug.user?.profileImage?.imageUrl
+                        }
                         alt=" "
                         className="avatar"
                     />
@@ -28,4 +31,8 @@ const FixedBugRow = ({ bug, projectId, toggleIsFixed }) => {
     )
 }
 
-export default connect(null, { toggleIsFixed })(FixedBugRow);
+const mapStateToProps = state => ({
+    noImage: state.auth.noImage
+});
+
+export default connect(mapStateToProps, { toggleIsFixed })(FixedBugRow);

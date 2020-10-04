@@ -1,0 +1,103 @@
+.overview__showChartAndMember {
+    margin: 0 !important;
+}
+
+.chart {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.member {
+    padding: 0 !important;
+}
+
+.member__add-member {
+    margin: 0 0 10px 10px !important;
+    padding: 0 !important;
+}
+
+.member__add-member .col {
+    padding: 0;
+}
+
+.member__team-member {
+    margin: 0 0 0 10px !important;
+    padding: 5px;
+}
+
+.member__team-member p {
+    padding: 0;
+    margin: 0;
+}
+
+.member__team-member .divider {
+    margin: 7px 2px;
+}
+
+.overview__project-done {
+    margin-top: 20px;
+}
+
+@media only screen and (max-width: 1200px) {
+    .chart {
+        width: 100% !important;
+    }
+    .member {
+        margin-top: 20px !important;
+        width: 20% !important;
+    }
+    .member__add-member {
+        margin-left: 0 !important;
+    }
+    .member__team-member {
+        margin-left: 0 !important;
+    }
+}
+
+@media only screen and (max-width: 1100px) {
+    .member {
+        width: 23% !important;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .member {
+        width: 20% !important;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .member {
+        width: 25% !important;
+    }
+}
+
+@media only screen and (max-width: 730px) {
+    .member {
+        width: 30% !important;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .member {
+        width: 35% !important;
+    }
+}
+
+@media only screen and (max-width: 520px) {
+    .member {
+        width: 40% !important;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .member {
+        width: 50% !important;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .member {
+        width: 60% !important;
+    }
+}

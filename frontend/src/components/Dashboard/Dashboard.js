@@ -1,15 +1,15 @@
-import React, {useEffect} from 'react';
-import {connect} from 'react-redux';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { Chart } from "react-google-charts";
 
 import { getAllProjects, prepareTodoAndBugForPreview } from "../../actions/project-action";
-
-import './Dashboard.css';
 import {useHttpClient} from "../../hooks/http-hook";
-import {Chart} from "react-google-charts";
+import './Dashboard.css';
 
 const Dashboard = ({ projects, auth, getAllProjects, prepareTodoAndBugForPreview }) => {
-    const { isLoading, error, sendRequest , clearError} = useHttpClient();
+    const { sendRequest } = useHttpClient();
     const { user, chartData, todoBugSummary, activitySummary } = auth;
+
     useEffect(() => {
         getAllProjects(sendRequest);
     }, []);
@@ -20,7 +20,9 @@ const Dashboard = ({ projects, auth, getAllProjects, prepareTodoAndBugForPreview
 
     return (
         <div className="main dashboard">
-            <div className="row">
+
+            {/*Work summary such as remaining todo, not fixed bug, finished todo, fixed bug count*/}
+            <div className="row dashboard__work-summary">
                 <div className="col s6 m3 l3">
                     <div className="card blue-grey darken-1">
                         <div className="card-content white-text">
@@ -62,7 +64,8 @@ const Dashboard = ({ projects, auth, getAllProjects, prepareTodoAndBugForPreview
                 </div>
             </div>
 
-            <div className="row s12">
+            {/*Chart for showing fixed bug and finished todo*/}
+            <div className="row s12 dashboard__chart">
                 {chartData && (
                     <Chart
                     width={'100%'}
@@ -87,11 +90,13 @@ const Dashboard = ({ projects, auth, getAllProjects, prepareTodoAndBugForPreview
             </div>
 
             {(activitySummary && activitySummary.notCompletedActivity.length > 0) && (
-                <div className="row white work_summary">
+                <div className="row white dashboard__work-summary">
+
+                    {/*Work not finished*/}
                     <h5>Active Projects</h5>
                     {activitySummary.notCompletedActivity.map(project => (
                         <div className="project_summary">
-                            <h6 className="project_name white-text">Project name : {project.projectName}</h6>
+                            <h6 className="project_summary__project-name white-text">Project name : {project.projectName}</h6>
                             <div className="row">
                                 <div className="col s12 m6 l6">
                                     {(project.notCompletedTodo.length > 0) && (
@@ -139,12 +144,13 @@ const Dashboard = ({ projects, auth, getAllProjects, prepareTodoAndBugForPreview
             )}
 
 
+            {/*Finished Work*/}
             {(activitySummary && activitySummary.completedActivity.length > 0) && (
-                <div className="row white work_summary">
+                <div className="row white dashboard__work-summary">
                     <h5>Completed Projects</h5>
                     {activitySummary.completedActivity.map(project => (
                         <div className="project_summary">
-                            <h6 className="project_name white-text">Project Name : {project.projectName}</h6>
+                            <h6 className="project_summary__project-name white-text">Project Name : {project.projectName}</h6>
                             <div className="row">
                                 <div className="col s12 m6 l6">
                                     {(project.completedTodo.length > 0) && (
@@ -191,8 +197,8 @@ const Dashboard = ({ projects, auth, getAllProjects, prepareTodoAndBugForPreview
                 </div>
             )}
         </div>
-    )
-}
+    );
+};
 
 const mapStateToProps = state => ({
     projects: state.project.projects,

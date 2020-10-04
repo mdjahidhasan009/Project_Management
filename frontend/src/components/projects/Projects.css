@@ -1,144 +1,51 @@
 .projects h4 {
-    padding-top: 5px;
+    padding-top: 10px;
     text-align: center;
 }
 
-.projects .white {
-    background-color: white;
+.projects .projects__navigation_row {
+    margin: 0 !important;
 }
 
-.projects .row {
-    margin: 20px;
-}
-
-.projects__addProject {
-    margin-left: 15px;
-    margin-bottom: 10px;
-}
-
-.add_project_btn {
-    margin: 0 5px 0 0 !important;
-    font-size: 13px !important;
-}
-
-.projects__threeButton {
+.projects .project-type-div {
     display: inline-block;
-    /*margin: 0 30px;*/
     line-height: 10px;
     padding: 20px;
 }
 
-.projects__threeButton a{
-    color: black !important;
-}
-
-.projects__threeButton a .fas{
+.projects .project-type-div a .fas{
     margin-right: 5px;
 }
 
-.numberIcon {
-    background: black;
-    border-radius: 0.8em;
-    -moz-border-radius: 0.8em;
-    -webkit-border-radius: 0.8em;
-    color: #ffffff;
-    display: inline-block;
-    font-weight: bold;
-    line-height: 1.6em;
-    margin-right: 5px;
-    text-align: center;
-    width: 1.6em;
-}
-
-.numberCircle {
-    background: #0000fa;
-    border-radius: 0.8em;
-    -moz-border-radius: 0.8em;
-    -webkit-border-radius: 0.8em;
-    color: #ffffff;
-    display: inline-block;
-    font-weight: bold;
-    line-height: 1.6em;
-    margin-right: 15px;
-    text-align: center;
-    width: 1.6em;
-    margin-left: 5px;
-}
-
-.numberCircle__button {
+.projects .project-type-btn {
     background: none !important;
     border: none;
     padding: 0 !important;
-    /*color: white;*/
     cursor: pointer;
+    color: black !important;
 }
 
-/*.col {*/
-/*    padding: 0 !important;*/
-/*}*/
-.projects__showAllProjects {
+.projects .projects__addProject {
+    margin: 0 0 10px 20px;
+}
+
+.projects .add_project_btn {
+    margin: 0 5px 0 0 !important;
+    font-size: 13px !important;
+}
+
+.projects .projects__showAllProjects {
     margin: 10px !important;
 }
 
-.member {
-    margin: 0 !important;
-}
-
-.member .s3 {
-    padding: 3px 0;
-}
-
-.member .s9 {
-    padding: 3px 0;
-}
-
-.avatar {
-    vertical-align: middle;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    margin-right: 5px;
-    margin-bottom: 5px;
-}
-
-.name {
-    font-size: 13px;
-    color: cornflowerblue;
-    line-height: 1.2;
-}
-
-.role {
-    font-size: 13px;
-    color: gray;
-    line-height: 1;
-}
-
-/*.material-icons {*/
-/*    margin: 0 5px !important;*/
-/*}*/
-.projects .card {
-    min-height: 285px;
-}
-
-.projects__summary_row {
-    margin: 0 !important;
-}
-
-.projects .selected {
-    border: 1px solid blue;
-}
-
 @media only screen and (max-width: 1000px) {
-    .projects .projects__threeButton {
+    .projects .project-type-div {
         padding: 10px 1px;
-    }
-    .projects .card {
-        min-height: 255px;
     }
 }
 
 @media only screen and (max-width: 500px) {
-    .projects .numberIcon {
+    .projects .iconCircle {
         margin: 0;
     }
     .projects .numberCircle {

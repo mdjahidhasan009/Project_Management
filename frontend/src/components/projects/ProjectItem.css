@@ -1,61 +1,54 @@
-.card-title {
-    font-size: 20px;
-    line-height: 15px;
-}
-
-.card-content {
+.project_item .card-content {
     padding: 18px;
     line-height: 20px;
 }
-.card .card-content .card-title {
-    display: block;
-    line-height: 15px;
+
+.project_item .card-title {
+    font-size: 20px ;
+    line-height: 25px !important;
     text-align: center;
     overflow: hidden;
-    margin: 0;
-    padding: 1px 0;
+    margin: 0 !important;
 }
 
 .project_item .grey-text {
     text-align: center;
 }
 
-.summary {
+.project_item .summary {
     display: flex;
-}
-.collection {
-    display: flex;
-    margin-bottom: 0;
-}
-.card .card-action {
-    padding: 5px 0;
-}
-.collection {
-    border: none;
-}
-.collection .collection-item  {
-    padding: 0 !important;
 }
 
-.collection .collection-item {
+.project_item #right,
+.project_item #left {
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.project_item .card-action {
+    padding: 5px 0;
+}
+
+.project_item .collection {
+    display: flex;
+    margin-bottom: 0;
+    justify-content: center;
+    margin-left: -21px;
+    overflow: hidden;
+    border: none;
+}
+
+.project_item .collection-item  {
+    padding: 0 !important;
     border-bottom: none;
 }
 
-.collection .collection-item.avatar {
+.project_item .avatar {
     padding: 0;
     min-height: 50px;
 }
 
-.collection .collection-item.avatar:first-child {
+.project_item .avatar:first-child {
     padding-left: 0;
-}
-
-#right, #left {
-    padding: 0;
-}
-
-.project_item .card-action .collection {
-    display: flex;
-    justify-content: center;
-    margin-left: -21px;
 }

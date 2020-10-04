@@ -1,26 +1,24 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
+import { connect } from "react-redux";
+import { PropTypes } from 'prop-types';
 
-import ProjectItem from "./projectItem";
-
-import './Projects.css';
-import {VALIDATOR_REQUIRE} from "../../utils/validators";
-import Input from "../shared/FormElements/Input";
 import { useForm } from "../../hooks/form-hook";
 import { useHttpClient } from "../../hooks/http-hook";
 import { addProject, getAllProjects } from "../../actions/project-action";
-import {connect} from "react-redux";
-import { PropTypes } from 'prop-types';
-import Alert from "../layout/Alert";
-import { setAlert } from "../../actions/alert-action";
+import { VALIDATOR_REQUIRE } from "../../utils/validators";
+import Input from "../shared/FormElements/Input";
+import ProjectItem from "./ProjectItem";
 
-const Projects = ({ addProject, getAllProjects, projects, setAlert }) => {
-    const { isLoading, error, sendRequest , clearError} = useHttpClient();
+import './Projects.css';
+
+const Projects = ({ addProject, getAllProjects, projects }) => {
+    const { sendRequest } = useHttpClient();
     const [ selectedProjectType, setSelectedProjectType ] = useState('all');
     const [ completedProjectCount, setCompletedProjectCount] = useState(0);
     const [ inCompletedProjectCount, setInCompletedProjectCount] = useState(0);
+
     useEffect( () => {
         getAllProjects(sendRequest);
-        console.log(projects);
     }, []);
 
     useEffect(() => {
@@ -34,13 +32,6 @@ const Projects = ({ addProject, getAllProjects, projects, setAlert }) => {
             setInCompletedProjectCount(notDone);
         }
     }, [projects])
-
-    useEffect(() => {
-        if(error) {
-            setAlert(error, 'danger');
-            clearError();
-        }
-    }, [error]);
 
     const [ formState, inputHandler ] = useForm(
         {
@@ -78,19 +69,13 @@ const Projects = ({ addProject, getAllProjects, projects, setAlert }) => {
 
     return (
         <div className="main projects">
-            <Alert />
             <div className="row white">
-                <h4>Project Manager</h4>
-                {/*Modal Trigger*/}
-                <button data-target="modal1" className="btn modal-trigger projects__addProject">
-                    <i className="material-icons add_project_btn">add_circle_outline</i>
-                    ADD NEW PROJECT
-                </button>
-                {/*Modal Structure*/}
-                <div id="modal1" className="modal">
+                <h4>Project Management</h4>
+
+                {/*Modal Structure(Add project modal)*/}
+                <div id="add-project-modal" className="modal">
                     <div className="modal-content">
                         <h5>Add New Project</h5>
-                        {/*<p>A bunch of text7</p>*/}
                         <Input
                             element="input"
                             elementTitle="projectName"
@@ -133,35 +118,36 @@ const Projects = ({ addProject, getAllProjects, projects, setAlert }) => {
                     </div>
                 </div>
 
+                {/*Project type selection(as all, active or finished)*/}
                 <div className="divider" />
-                <div className="row projects__summary_row">
-                    <div className={`projects__threeButton ${selectedProjectType === 'all' && 'selected'}`}>
-                        <button className="numberCircle__button"
+                <div className="row projects__navigation_row">
+                    <div className={`project-type-div ${selectedProjectType === 'all' && 'selected'}`}>
+                        <button className="project-type-btn"
                                 onClick={ ()=> {setSelectedProjectType('all')}}
                         >
-                            <span className="numberIcon">
+                            <span className="iconCircle">
                                 <i className="fas fa-list-ol" />
                             </span>
                             <span> All</span>
                             <span className="numberCircle">{projects.length}</span>
                         </button>
                     </div>
-                    <div className={`projects__threeButton ${selectedProjectType === 'incomplete' && 'selected'}`}>
-                        <button className="numberCircle__button"
+                    <div className={`project-type-div ${selectedProjectType === 'incomplete' && 'selected'}`}>
+                        <button className="project-type-btn"
                                 onClick={ ()=> {setSelectedProjectType('incomplete')}}
                         >
-                            <span className="numberIcon">
+                            <span className="iconCircle">
                                 <i className="fas fa-clipboard-list" />
                             </span>
                             <span> Active</span>
                             <span className="numberCircle">{inCompletedProjectCount}</span>
                         </button>
                     </div>
-                    <div className={`projects__threeButton ${selectedProjectType === 'completed' && 'selected'}`}>
-                        <button className="numberCircle__button"
+                    <div className={`project-type-div ${selectedProjectType === 'completed' && 'selected'}`}>
+                        <button className="project-type-btn"
                                 onClick={ ()=> {setSelectedProjectType('completed')}}
                         >
-                            <span className="numberIcon">
+                            <span className="iconCircle">
                                 <i className="fas fa-list-alt" />
                             </span>
                             <span> Finished</span>
@@ -171,6 +157,13 @@ const Projects = ({ addProject, getAllProjects, projects, setAlert }) => {
                 </div>
             </div>
 
+            {/*Modal Trigger(Add project modal)*/}
+            <button data-target="add-project-modal" className="btn modal-trigger projects__addProject">
+                <i className="material-icons add_project_btn">add_circle_outline</i>
+                ADD NEW PROJECT
+            </button>
+
+            {/*Project List*/}
             <div className="row projects__showAllProjects">
                 {selectedProjectType === 'all' && projects && projects.map(project => (
                         <ProjectItem key={project._id} project={project} type={selectedProjectType}/>
@@ -194,11 +187,11 @@ const Projects = ({ addProject, getAllProjects, projects, setAlert }) => {
 Projects.propTypes = {
     addProject: PropTypes.func.isRequired,
     getAllProjects: PropTypes.func.isRequired,
-    projects: PropTypes.object.isRequired
+    projects: PropTypes.array.isRequired
 };
 
 const mapStateToProps = state => ({
     projects: state.project.projects
 });
 
-export default connect(mapStateToProps, { addProject, getAllProjects, setAlert })(Projects);
+export default connect(mapStateToProps, { addProject, getAllProjects })(Projects);

@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
+import { connect } from "react-redux";
+import { useParams } from "react-router-dom";
 
-import './Bugs.css';
-import {connect} from "react-redux";
-import {addBug, editBug} from "../../../actions/project-action";
-import {useHttpClient} from "../../../hooks/http-hook";
-import {useParams} from "react-router-dom";
-import {useForm} from "../../../hooks/form-hook";
+import { useHttpClient } from "../../../hooks/http-hook";
+import { useForm } from "../../../hooks/form-hook";
+import { addBug, editBug } from "../../../actions/project-action";
+import { VALIDATOR_REQUIRE } from "../../../utils/validators";
 import Input from "../../shared/FormElements/Input";
-import {VALIDATOR_REQUIRE} from "../../../utils/validators";
 import NotFixedBugRow from "./NotFixedBugRow";
 import FixedBugRow from "./FixedBugRow";
 import M from 'materialize-css';
 
 const Bugs = ({ project, addBug, editBug, isMemberOfThisProject, isCreatedByUser }) => {
-    const { isLoading, error, sendRequest , clearError} = useHttpClient();
+    const { sendRequest } = useHttpClient();
     const projectId = useParams().projectId;
     const [ editBugText, setEditBugText ] = useState('');
     const [ bugId, setBugId ] = useState();
@@ -79,63 +78,70 @@ const Bugs = ({ project, addBug, editBug, isMemberOfThisProject, isCreatedByUser
     }
 
     return (
-            <div className="row">
-                {(isMemberOfThisProject || isCreatedByUser) && (
-                    <>
-                        <button data-target="modal2" className="light-blue lighten-1 modal-trigger">
-                            <i className="fas fa-plus-circle"></i>      ADD NEW BUG
-                        </button>
-                        <div id="modal2" className="modal">
-                            <div className="modal-content">
-                                <h5>Add New Bug</h5>
-                                <Input
-                                    element="input"
-                                    elementTitle="bugText"
-                                    type="text"
-                                    placeholder="Enter A Bug"
-                                    validators={[VALIDATOR_REQUIRE()]}
-                                    errorText="Please enter todo text."
-                                    onInput={inputHandler}
-                                />
-                            </div>
-                            <div className="modal-footer">
-                                <button disabled={!formState.isValid} onClick={addBugHandler} className="modal-close btn-flat">Add New Bug</button>
-                            </div>
-                        </div>
+            <div className="row bugs">
 
-                        <div id="edit-bug-modal" className="modal">
-                            <div className="modal-content">
-                                <h5>Edit Bug</h5>
-                                <Input
-                                    element="input"
-                                    elementTitle="bugEditText"
-                                    type="text"
-                                    placeholder="Enter A Bug"
-                                    validators={[VALIDATOR_REQUIRE()]}
-                                    errorText="Please enter bug text."
-                                    onInput={inputHandler}
-                                    initialValue={editBugText}
-                                    initialValidity={true}
-                                />
-                            </div>
-                            <div className="modal-footer">
-                                <button onClick={editBugHandler}
-                                        disabled={!formState.isValid}  className="modal-close btn-flat">Edit Bug</button>
-                            </div>
-                        </div>
-                    </>
+                {/*Add bug modal structure*/}
+                <div id="add-bug-modal" className="modal">
+                    <div className="modal-content">
+                        <h5>Add New Bug</h5>
+                        <Input
+                            element="input"
+                            elementTitle="bugText"
+                            type="text"
+                            placeholder="Enter A Bug"
+                            validators={[VALIDATOR_REQUIRE()]}
+                            errorText="Please enter todo text."
+                            onInput={inputHandler}
+                        />
+                    </div>
+                    <div className="modal-footer">
+                        <button disabled={!formState.isValid} onClick={addBugHandler}
+                                className="modal-close btn-flat"
+                        >
+                            Add New Bug
+                        </button>
+                    </div>
+                </div>
+
+                {/*Edit bug modal structure*/}
+                <div id="edit-bug-modal" className="modal">
+                    <div className="modal-content">
+                        <h5>Edit Bug</h5>
+                        <Input
+                            element="input"
+                            elementTitle="bugEditText"
+                            type="text"
+                            placeholder="Enter A Bug"
+                            validators={[VALIDATOR_REQUIRE()]}
+                            errorText="Please enter bug text."
+                            onInput={inputHandler}
+                            initialValue={editBugText}
+                            initialValidity={true}
+                        />
+                    </div>
+                    <div className="modal-footer">
+                        <button onClick={editBugHandler}
+                                disabled={!formState.isValid}  className="modal-close btn-flat">Edit Bug</button>
+                    </div>
+                </div>
+
+                {(isMemberOfThisProject || isCreatedByUser) && (
+                    //Add bug button of add bug modal
+                    <button data-target="add-bug-modal" className="light-blue lighten-1 modal-trigger add-btn">
+                        <i className="fas fa-plus-circle" />      ADD NEW BUG
+                    </button>
                 )}
 
                 <h5>Not Fixed Bug List</h5>
-                <div className="row main_row">
-                    {project && project.bugs.map(bug => (
+                <div className=" ">
+                    {project && project.bugs && project?.bugs.map(bug => (
                         <NotFixedBugRow key={bug._id} bug={bug} projectId={projectId} handleClickOnEdit={handleClickOnEdit}/>
                         ))
                     }
                 </div>
                 <h5>Fixed Bug List</h5>
-                <div className="row main_row">
-                    {project && project.bugs.map(bug => (
+                <div className=" ">
+                    {project && project.bugs && project?.bugs.map(bug => (
                         <FixedBugRow key={bug._id} bug={bug} projectId={projectId}/>
                         ))
                     }

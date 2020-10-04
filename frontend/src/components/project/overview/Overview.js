@@ -1,15 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import { Chart } from "react-google-charts";
 import { connect } from "react-redux";
+
+import {useHttpClient} from "../../../hooks/http-hook";
+import {assignAnMemberToAProject, toggleIsProjectIsFinished, getProjectById} from '../../../actions/project-action';
 import M from 'materialize-css';
 import MemberRow from './MemberRow';
-
 import './Overview.css';
-import {useHttpClient} from "../../hooks/http-hook";
-import {assignAnMemberToAProject, toggleIsProjectIsFinished, getProjectById} from '../../actions/project-action';
 
-const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThisProject, isCreatedByUser, getProjectById, toggleIsProjectIsFinished }) => {
-    const { isLoading, error, sendRequest , clearError} = useHttpClient();
+const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThisProject, isCreatedByUser,
+                      getProjectById, toggleIsProjectIsFinished
+}) => {
+    const { sendRequest } = useHttpClient();
     const [ addMember, setAddMember ] = useState('');
 
     useEffect(() =>  {
@@ -28,7 +30,6 @@ const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThis
     const handleIsDoneClick = async () => {
         await toggleIsProjectIsFinished(!project.isDone , project._id, sendRequest);
         await getProjectById(project._id, sendRequest);
-        console.log('after')
     }
 
     const handleSetAddMember = async (event) => {
@@ -46,8 +47,8 @@ const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThis
     return (
         <div className="row overview">
 
-            {/* Modal Structure */}
-            <div id="modal2" className="modal">
+            {/* Modal Structure of Add Member */}
+            <div id="add-member-modal" className="modal">
                 <div className="modal-content">
                     <h5>Add member to this project</h5>
                     <label>
@@ -63,8 +64,14 @@ const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThis
                 </div>
             </div>
 
-            <div className=" row project__showSummary">
-                <div className={(isCreatedByUser || isMemberOfThisProject) ? "col s12 m12 l10 chart" : "col s12 m12 l12 chart"}>
+            <div className=" row overview__showChartAndMember">
+                <div className={
+                    (isCreatedByUser || isMemberOfThisProject)
+                        ? "col s12 m12 l10 chart"
+                        : "col s12 m12 l12 chart"
+                    }
+                >
+                    {/*Todo done and bug fixed summary chart*/}
                     <Chart
                         width={'100%'}
                         height={'400px'}
@@ -86,19 +93,22 @@ const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThis
                     />
                 </div>
 
+
                 {(isCreatedByUser || isMemberOfThisProject) && (
                 <div className="col s5 m5 l2 member">
                     {isCreatedByUser && (
-                        <div className="row add_member_row">
+                        <div className="row member__add-member">
                             <div className="col s12">
-                                <button data-target="modal2" className="light-blue lighten-1 modal-trigger">
+                                <button data-target="add-member-modal" className="light-blue lighten-1 modal-trigger add-btn">
                                     <i className="fas fa-plus-circle" />    ADD MEMBER
                                 </button>
                             </div>
                         </div>
                     )}
+
+                    {/*Member list of this project*/}
                     {project && (project.members.length > 0) && (
-                        <div className="member_list white row">
+                        <div className="member__team-member white row">
                             <p>Team Members</p>
                             <div className="divider"/>
                             {project.members.map(member => (
@@ -109,8 +119,10 @@ const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThis
                 </div>
                 )}
             </div>
+
+            {/*Mark as done or not done button*/}
             {isCreatedByUser && (
-                <button className="project_done green accent-4" onClick={handleIsDoneClick}>Mark Project as
+                <button className="overview__project-done green accent-4 add-btn" onClick={handleIsDoneClick}>Mark Project as
                     {project?.isDone
                         ? ' Not Done'
                         : ' Done'
@@ -128,8 +140,4 @@ const mapStateToProps = state => ({
     isMemberOfThisProject: state.project.isMemberOfThisProject
 });
 
-export default connect(mapStateToProps,
-    { assignAnMemberToAProject,
-        toggleIsProjectIsFinished,
-        getProjectById
-    })(Overview);
+export default connect(mapStateToProps, { assignAnMemberToAProject, toggleIsProjectIsFinished, getProjectById})(Overview);

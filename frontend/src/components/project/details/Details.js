@@ -1,15 +1,15 @@
 import React, {useEffect} from 'react';
-
-import './Details.css';
-import Input from "../shared/FormElements/Input";
 import { connect } from 'react-redux';
-import {VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE} from "../../utils/validators";
-import {useForm} from "../../hooks/form-hook";
-import {editProjectDetails} from "../../actions/project-action";
-import {useHttpClient} from "../../hooks/http-hook";
+
+import {useForm} from "../../../hooks/form-hook";
+import {editProjectDetails} from "../../../actions/project-action";
+import {useHttpClient} from "../../../hooks/http-hook";
+import {VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE} from "../../../utils/validators";
+import Input from "../../shared/FormElements/Input";
+import './Details.css';
 
 const Details = ({ project, editProjectDetails }) => {
-    const { isLoading, error, sendRequest , clearError} = useHttpClient();
+    const { sendRequest } = useHttpClient();
     const [ formState, inputHandler, setFormData ] = useForm(
         {
             projectName: {
@@ -59,13 +59,13 @@ const Details = ({ project, editProjectDetails }) => {
     }, [project]);
 
     const saveProjectDetails = async() => {
-        console.log(formState);
         await editProjectDetails(formState.inputs.projectName.value, formState.inputs.projectDetails.value,
             formState.inputs.projectCategory.value, formState.inputs.projectDeadline.value, project._id, sendRequest);
     }
 
     return (
             <div className="row white">
+
                 {project && (
                     <div className="project_details">
                         <Input

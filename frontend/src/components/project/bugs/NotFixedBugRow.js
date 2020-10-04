@@ -1,12 +1,11 @@
 import React from 'react';
+import { connect } from "react-redux";
 
-import './NotFixedBugRow.css';
 import {useHttpClient} from "../../../hooks/http-hook";
-import {connect} from "react-redux";
 import { toggleIsFixed, deleteBug} from "../../../actions/project-action";
 
-const NotFixedBugRow = ({username, bug, projectId, toggleIsFixed, deleteBug, handleClickOnEdit }) => {
-    const { isLoading, error, sendRequest , clearError} = useHttpClient();
+const NotFixedBugRow = ({username, bug, projectId, toggleIsFixed, deleteBug, handleClickOnEdit, noImage }) => {
+    const { sendRequest } = useHttpClient();
     let clicked = false;
 
     const handleIsFixed = async () => {
@@ -29,17 +28,22 @@ const NotFixedBugRow = ({username, bug, projectId, toggleIsFixed, deleteBug, han
     return (
         <>
             {!bug.fixed && (
-                <div className="white col s12 not_fixed_bug_row" onClick={handleIsFixed}>
-                    <p className="not_fixed_bug">{bug.text}</p>
+                <div className="white col s12 not-fixed-bug showEditDeleteOnHover" onClick={handleIsFixed}>
+                    <p className="not-fixed-bug__text">{bug.text}</p>
                     <img
-                        src={bug.user?.profileImage?.imageUrl}
+                        src = {
+                            bug.user?.profileImage?.imageUrl === undefined
+                                ? noImage
+                                : bug.user?.profileImage?.imageUrl
+                        }
                         alt=" "
                         className="avatar"
                     />
+                    {/*If current user add this bug then edit and delete will be appears while hover*/}
                     {username && (username === bug.user.username) && (
                         <>
-                            <p id="edit" onClick={handleEditClick}>Edit</p>
-                            <p id="delete" onClick={handleDeleteClick}>Delete</p>
+                            <p className="edit" onClick={handleEditClick}>Edit</p>
+                            <p className="delete" onClick={handleDeleteClick}>Delete</p>
                         </>
                     )}
                 </div>
@@ -49,7 +53,8 @@ const NotFixedBugRow = ({username, bug, projectId, toggleIsFixed, deleteBug, han
 }
 
 const mapStateToProps = state => ({
-    username: state.auth.user.username
+    username: state?.auth?.user?.username,
+    noImage: state.auth.noImage
 })
 
 export default connect(mapStateToProps, { toggleIsFixed, deleteBug })(NotFixedBugRow);

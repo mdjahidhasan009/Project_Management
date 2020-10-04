@@ -16,7 +16,9 @@ import {
     DELETE_BUG,
     DELETE_TODO,
     DELETE_MEMBER_FROM_PROJECT,
-    PREPARE_DATA_FOR_DASHBOARD
+    PREPARE_DATA_FOR_DASHBOARD,
+    UPDATE_DISCUSSION,
+    DELETE_DISCUSSION
 } from "./types";
 
 //Add new project
@@ -36,7 +38,6 @@ export const addProject = (projectName, projectCategory, projectDescription,proj
                  Authorization: 'Bearer ' + localStorage.token
              }
          )
-        // console.log(responseData)
         dispatch({
             type: ADD_PROJECT,
             payload: responseData
@@ -65,10 +66,6 @@ export const editProjectDetails = (projectName, projectDetails, projectCategory,
 
         );
         console.log(responseData);
-        // dispatch({
-        //     type: EDIT_PROJECT,
-        //     payload: responseData
-        // })
     } catch (error) {
         console.error(error);
     }
@@ -85,7 +82,6 @@ export const getAllProjects = (method) => async dispatch => {
             type: GET_PROJECTS,
             payload: responseData
         });
-        // console.log(responseData);
     } catch (error) {
         console.error(error);
     }
@@ -105,21 +101,60 @@ export const addDiscussion = (discussionText, projectId ,method) => async dispat
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        // console.log(responseData);
         dispatch({
             type: ADD_DISCUSSION,
             payload: responseData
         })
-        // console.log(responseData);
     } catch (error) {
         console.error(error);
     }
 }
 
-//Add a bug in a project
+//Edit an discussion
+export const editDiscussion = (projectId, discussionId, discussionEditText, method) => async dispatch => {
+    try {
+        const responseData = await method(
+            process.env.REACT_APP_ASSET_URL +'/api/project/discussion/' + projectId + '/' + discussionId,
+            'PUT',
+            JSON.stringify({
+                discussionEditText
+            }),
+            {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + localStorage.token
+            }
+        );
+        dispatch({
+            type: UPDATE_DISCUSSION,
+            payload: responseData
+        })
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+//Delete a discussion from a project
+export const deleteDiscussion = (projectId, discussionId, method) => async dispatch => {
+    try {
+        const responseData = await method(
+            process.env.REACT_APP_ASSET_URL +'/api/project/discussion/' + projectId + '/' + discussionId,
+            'DELETE',
+            null,
+            {
+                Authorization: 'Bearer ' + localStorage.token
+            }
+        );
+        dispatch({
+            type: DELETE_DISCUSSION,
+            payload: responseData
+        })
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+//Add a todo in a project
 export const addTodo = (todoText, projectId ,method) => async dispatch => {
-    // console.log(todoText)
-    // console.log(projectId)
     try {
         const responseData = await method(
             process.env.REACT_APP_ASSET_URL +'/api/project/todos/' + projectId,
@@ -132,21 +167,17 @@ export const addTodo = (todoText, projectId ,method) => async dispatch => {
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        // console.log(responseData);
         dispatch({
             type: ADD_TODO,
             payload: responseData
         })
-        // console.log(responseData);
     } catch (error) {
         console.error(error);
     }
 }
 
-//Mark any bug as done
+//Mark any todo as done or not done(toggle is done)
 export const toggleIsDone = (projectId, todoId, isDone, method) => async dispatch => {
-    // console.log(projectId)
-    // console.log(todoId)
     try {
         const responseData = await method(
             process.env.REACT_APP_ASSET_URL +'/api/project/todos/' + projectId + '/' + todoId,
@@ -159,7 +190,6 @@ export const toggleIsDone = (projectId, todoId, isDone, method) => async dispatc
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        // console.log(responseData);
         dispatch({
             type: UPDATE_TODO,
             payload: responseData
@@ -169,7 +199,7 @@ export const toggleIsDone = (projectId, todoId, isDone, method) => async dispatc
     }
 }
 
-//Mark any todo as done
+//Edit an todo
 export const editTodo = (projectId, todoId, todoEditText, method) => async dispatch => {
     try {
         const responseData = await method(
@@ -183,7 +213,6 @@ export const editTodo = (projectId, todoId, todoEditText, method) => async dispa
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        // console.log(responseData);
         dispatch({
             type: UPDATE_TODO,
             payload: responseData
@@ -204,18 +233,16 @@ export const deleteTodo = (projectId, todoId, method) => async dispatch => {
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        // console.log(responseData);
         dispatch({
             type: DELETE_TODO,
             payload: responseData
         })
-        // console.log(responseData);
     } catch (error) {
         console.error(error);
     }
 }
 
-//Mark any bug as fixed
+//Mark any bug as fixed or not fixed(toggle isFixed of an bug)
 export const toggleIsFixed = (projectId, bugId, isFixed, method) => async dispatch => {
     try {
         const responseData = await method(
@@ -229,7 +256,6 @@ export const toggleIsFixed = (projectId, bugId, isFixed, method) => async dispat
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        // console.log(responseData);
         dispatch({
             type: UPDATE_BUG,
             payload: responseData
@@ -253,7 +279,6 @@ export const editBug = (projectId, bugId, bugEditText, method) => async dispatch
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        // console.log(responseData);
         dispatch({
             type: UPDATE_BUG,
             payload: responseData
@@ -277,12 +302,10 @@ export const addBug = (bugText, projectId ,method) => async dispatch => {
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        // console.log(responseData);
         dispatch({
             type: ADD_BUG,
             payload: responseData
         })
-        // console.log(responseData);
     } catch (error) {
         console.error(error);
     }
@@ -299,12 +322,10 @@ export const deleteBug = (projectId, bugId, method) => async dispatch => {
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        // console.log(responseData);
         dispatch({
             type: DELETE_BUG,
             payload: responseData
         })
-        // console.log(responseData);
     } catch (error) {
         console.error(error);
     }
@@ -322,7 +343,6 @@ export const getProjectById = (projectId, method) => async dispatch => {
                 'Authorization': 'Bearer ' + localStorage.token
             }
         );
-        // console.log(responseData);
         dispatch({
             type: GET_PROJECT,
             payload: responseData
@@ -343,7 +363,6 @@ export const getNotAssignedMember = (projectId, method) => async dispatch => {
                 'Authorization': 'Bearer ' + localStorage.token
             }
         );
-        // console.log(responseData);
         dispatch({
             type: ADD_NOT_ASSIGNED_MEMBER,
             payload: responseData
@@ -414,7 +433,6 @@ export const getIsMemberAndCreatorOfProject = (projectId, method) => async dispa
                 'Authorization': 'Bearer ' + localStorage.token
             }
         )
-        // console.log(responseData);
         dispatch({
             type: ADD_IS_MEMBER_AND_CREATOR,
             payload: responseData
@@ -424,9 +442,10 @@ export const getIsMemberAndCreatorOfProject = (projectId, method) => async dispa
     }
 }
 
-//Prepare activity
+//Prepare project activities
 export const prepareActivity = (projectId, method) => async dispatch => {
-    let allActivities = [];
+    let allActivities = []; //All activities as discussion, bug, todo (time, username, text, type)
+    //types are todo, todo-done, bug, bug-fixed
     try {
         const responseData = await method(
             process.env.REACT_APP_ASSET_URL + '/api/project/' + projectId,
@@ -436,7 +455,6 @@ export const prepareActivity = (projectId, method) => async dispatch => {
                 'Authorization': 'Bearer ' + localStorage.token
             }
         );
-
         if(responseData) {
             allActivities = responseData.discussion.map(discuss => {
                 return {
@@ -446,7 +464,6 @@ export const prepareActivity = (projectId, method) => async dispatch => {
                     type: 'discuss'
                 }
             })
-            // console.log(allActivities);
             responseData.bugs.map(bug => {
                 allActivities.push({
                     time: bug.time,
@@ -484,7 +501,7 @@ export const prepareActivity = (projectId, method) => async dispatch => {
         allActivities.sort(function(a,b){
             return new Date(b.time) - new Date(a.time);
         });
-        const modifiedActivities = [];
+        const modifiedActivities = []; //Grouping discussion, bug, todo by date
         let currentDate = null, previousDate = null;
         let sameDateActivities = [];
 
@@ -500,7 +517,7 @@ export const prepareActivity = (projectId, method) => async dispatch => {
         })
         if(sameDateActivities.length > 0)
             modifiedActivities.unshift(sameDateActivities);
-        let lastArray = [];
+        let lastArray = []; //As we using unshift most recent date will be at last reversing this and add to lastArray
        for(let i = 0; i < modifiedActivities.length - 1; i++) {
            lastArray.unshift(modifiedActivities[i]);
        }
@@ -627,21 +644,19 @@ export const prepareWorkDonePreview = (projectId, method) => async dispatch => {
     }
 }
 
-//Prepare todo and bug for display in dashboard
+//Prepare todo and bug summary of an user for showing in his/her dashboard
 export const prepareTodoAndBugForPreview = (username, projects) => async dispatch => {
-    console.log(projects);
-    console.log(username);
-    let completedActivity = []; //completedTodo and fixed bug
-    let notCompletedActivity = []; //notCompletedTodo and notFixed bug
+    let completedActivity = []; //all completedTodo and fixed bug(means work finished) of all projects of a member
+    let notCompletedActivity = []; //all notCompletedTodo and notFixed bug(means remaining work) of all projects of a member
     let projectName = null;
-    let completedTodo = [];
-    let notCompletedTodo = [];
-    let notFixedBug = [];
-    let fixedBug = [];
+    let completedTodo = []; //completed todo of a single project of a member
+    let notCompletedTodo = []; //not completed todo of a single project of a member
+    let notFixedBug = []; //not fixed bug of a single project of a member
+    let fixedBug = []; //fixed bug of of a single project of a member
     let dataPreview = [
         ['x', 'Todo done', 'Bug fixed'],
         [0, 0, 0]
-    ];
+    ]; //For chart preview in dashboard
     let finishedActivity = []; //finished todo and fixed bug for chart
     let type = null, time = null;
     let completedTodoCount = 0, notCompletedTodoCount = 0, notFixedBugCount = 0, fixedBugCount = 0; //For top four card at dashboard
@@ -655,7 +670,6 @@ export const prepareTodoAndBugForPreview = (username, projects) => async dispatc
             if(project.todos) {
                 project.todos.map(todo => {
                     if(todo.user.username === username) {
-                        console.log('//////////////////////////////////////////////////////////////////')
                         if(todo.doneAt) {
                             type = 'todo';
                             time = todo.doneAt;
@@ -672,7 +686,6 @@ export const prepareTodoAndBugForPreview = (username, projects) => async dispatc
             if(project.bugs) {
                 project.bugs.map(bug => {
                     if(bug.user.username === username) {
-                        console.log('****************************************************************************')
                         if(bug.fixedAt) {
                             type = 'bug';
                             time = bug.fixedAt;
@@ -700,23 +713,15 @@ export const prepareTodoAndBugForPreview = (username, projects) => async dispatc
         });
         let todo = 0, bug = 0, i = 0;
         let activityForChart = [];
-        // console.log(finishedActivity[0].time)
         if(finishedActivity.length > 0) {
             let currentDate = new Date(finishedActivity[0].time).getDate() + '/' + new Date(finishedActivity[0].time).getMonth() + '/' + new Date(finishedActivity[0].time).getFullYear();
             let previousDate = new Date(finishedActivity[0].time).getDate() + '/' + new Date(finishedActivity[0].time).getMonth() + '/' + new Date(finishedActivity[0].time).getFullYear();
             finishedActivity.map(activity => {
                 currentDate = new Date(activity.time).getDate() + '/' + new Date(activity.time).getMonth() + '/' + new Date(activity.time).getFullYear();
                 if (currentDate !== previousDate) {
-                    console.log(currentDate);
-                    console.log(previousDate);
-                    console.log(i, todo, bug)
-
                     previousDate = currentDate;
                     if (todo > 0 || bug > 0) {
                         i++;
-                        console.log(currentDate);
-                        console.log(previousDate);
-                        console.log(i, todo, bug)
                         activityForChart.unshift([i, todo, bug]);
                         todo = 0
                         bug = 0
@@ -731,9 +736,6 @@ export const prepareTodoAndBugForPreview = (username, projects) => async dispatc
             activityForChart.reverse();
         }
         const finalActivity = dataPreview.concat(activityForChart);
-        console.log(finishedActivity);
-        console.log(finalActivity)
-        // console.log(activitySummary);
         const todoBugSummary = {
             todoDone: completedTodoCount,
             todoNotDone: notCompletedTodoCount,

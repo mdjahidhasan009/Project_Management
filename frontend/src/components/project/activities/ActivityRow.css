@@ -6,6 +6,7 @@
 .activity .date, .month, .year {
     text-align: center;
 }
-.activity .time_section {
-    overflow-y: hidden;
+
+.activity p {
+    margin: 0;
 }

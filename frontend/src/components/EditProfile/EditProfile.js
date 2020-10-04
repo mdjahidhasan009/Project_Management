@@ -1,21 +1,22 @@
-import React, {useEffect, useState} from 'react';
-import {connect} from 'react-redux';
-import M from 'materialize-css';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from "react-router-dom";
+import { connect } from 'react-redux';
 
-import './EditProfile.css';
+import { updateUser } from "../../actions/auth-action";
+import { useHttpClient } from "../../hooks/http-hook";
+import { useForm } from "../../hooks/form-hook";
 import Input from "../shared/FormElements/Input";
 import {VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE,VALIDATOR_EMAIL} from "../../utils/validators";
-import {useForm} from "../../hooks/form-hook";
-import Alert from "../layout/Alert";
-import {setAlert} from "../../actions/alert-action";
-import { updateUser } from "../../actions/auth-action";
-import {useHttpClient} from "../../hooks/http-hook";
+import M from 'materialize-css';
+import './EditProfile.css';
 
-const EditProfile = ({ user, setAlert, updateUser }) => {
+const EditProfile = ({ user, updateUser }) => {
+    const history = useHistory();
     const [ profileImage, setProfileImage ] = useState("");
     const [ formState, inputHandler, setFormData ] = useForm();
     const { isLoading, error, sendRequest , clearError } = useHttpClient();
     const [image, setImage] = useState('');
+
     useEffect(  () => {
         if(user) {
             setFormData(
@@ -91,7 +92,6 @@ const EditProfile = ({ user, setAlert, updateUser }) => {
         if(user?.profileImage?.imageUrl) {
             setProfileImage(user.profileImage.imageUrl);
         }
-        // console.log(formState)
     }, [user]);
 
     const saveProfile = async () => {
@@ -99,21 +99,20 @@ const EditProfile = ({ user, setAlert, updateUser }) => {
         if(formState.inputs.newPassword.value !== formState.inputs.confirmNewPassword.value) {
             M.toast({html: 'Confirm password and Confirm new password have to be same', classes: 'red'});
         } else {
-            console.log(formState.inputs.fullName.value);
             await updateUser(formState, sendRequest);
+            history.push('/profile');
         }
     }
 
     return(
-        <div className="main edit_profile">
-            <Alert />
-            <div className="row">
+        <div className="main">
+            <div className="row edit_profile">
                 <img
                     src={profileImage}
                     alt="Add Profile Image"
                     className="profile_avatar"
                 />
-                <a href="/uploadImage" className="btn imageUpload">Change Profile Pic</a>
+                <a href="/uploadImage" className="btn">Change Profile Pic</a>
 
                 {user && (
                     <div className="details">
@@ -316,7 +315,7 @@ const EditProfile = ({ user, setAlert, updateUser }) => {
                             errorText="Please enter current password."
                             onInput={inputHandler}
                         />
-                        <button className="waves-effect waves-light blue btn save_button"
+                        <button className="waves-effect waves-light blue btn"
                                 onClick={saveProfile} disabled={!formState.isValid}>Save Profile Details</button>
                     </div>
                 )}
@@ -329,4 +328,4 @@ const mapStateToProps = state => ({
     user: state.auth.user
 })
 
-export default connect(mapStateToProps, { setAlert, updateUser })(EditProfile);
+export default connect(mapStateToProps, { updateUser })(EditProfile);

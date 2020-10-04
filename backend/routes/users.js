@@ -3,7 +3,6 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const config = require('config');
 
 const User = require('../models/User');
 const Project = require('../models/Project');
@@ -28,13 +27,10 @@ router.post(
     ],
     async (req, res) => {
         const errors = validationResult(req); //Checking validation errors
-        // console.log(req.body);
         if(!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
         const { name, email, username, password } = req.body;
         try {
             let user = await User.findOne({ email });
-            // if(user) console.log('User exits with this email');
-            // if(user) return res.status(400).json({ errors: [{ msg: 'User already exits '}]});
             if(user) return res.status(400).json({ 'error' : 'User already exits' });
             user = await User.findOne({ username });
             if(user) return res.status(400).json({ 'error': 'Username already exits. Choose another one' });
@@ -49,7 +45,7 @@ router.post(
             const salt = await bcrypt.genSalt(10);
             user.password = await bcrypt.hash(password, salt);
             await user.save();
-            jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 360000 }, (error, token) => {
+            jwt.sign(payload, process.env.JWTSCERET, { expiresIn: 360000 }, (error, token) => {
                     if(error) throw error;
                     res.json({ token });
                 }
@@ -84,17 +80,14 @@ router.put(
     ],
     async (req, res) => {
         const errors = validationResult(req); //Checking validation errors
-        // if(!errors.isEmpty()) console.log(errors);
         if(!errors.isEmpty()) return res.status(500).json({ 'error': 'Server Error1 '});
 
         let { fullName, username ,email, role, newPassword, currentPassword, bio, skills, github, youtube, twitter, facebook, linkedIn, instagram, stackoverflow } = req.body.formState.inputs;
         fullName = fullName.value, username = username.value, email = email.value, role = role.value, newPassword = newPassword.value,
         currentPassword = currentPassword.value, bio = bio.value, skills = skills.value, github = github.value, youtube = youtube.value,
         twitter = twitter.value, facebook = facebook.value, linkedIn = linkedIn.value, instagram = instagram.value, stackoverflow = stackoverflow.value;
-        // console.log(req.body.formState.inputs);
         let updateObject = null;
         if(skills.length > 0 && (typeof skills !== "object")) {
-            // console.log(typeof skills);
             skills = skills.split(',').map(skill => skill.trim());
         }
         try {
@@ -128,7 +121,6 @@ router.put(
             }
             await User.findOneAndUpdate( { _id: req.user.id }, updateObject, function(err, doc) {
                 if (err) return res.status(500).json({ 'error': 'Server Error3 '});
-                // console.log(doc);
                 return res.status(200).json( doc )
             });
 
@@ -147,14 +139,11 @@ router.get(
     auth,
     async (req, res) => {
         try {
-            // console.log('projectId=' + req.params.projectId)
             let allUser = await User.find()
                 .select('username -_id');
             const membersOfProject = await Project.findOne({ _id: req.params.projectId })
                 .select('members -_id')
                 .populate('members.user', 'username -_id');
-            // console.log(allUser);
-            // console.log(membersOfProject)
             membersOfProject.members.map(user => {
                 allUser = allUser.filter(user1 => {
                     return user1.username !== user.user.username
@@ -166,7 +155,6 @@ router.get(
             return await res.status(200).json(nonMemberOfCurrentProject);
         } catch (error) {
             console.error(error);
-            // console.log('unassigned')
             return res.status(500).json({ "error": "Server Error" } );
         }
     }

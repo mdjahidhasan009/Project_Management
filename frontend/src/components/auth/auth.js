@@ -3,24 +3,22 @@ import { useHistory } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 
-import Input from "../shared/FormElements/Input";
 import { useForm } from "../../hooks/form-hook";
 import { useHttpClient } from "../../hooks/http-hook";
 import { login, register, loadUser } from "../../actions/auth-action";
-import { setAlert } from "../../actions/alert-action";
 import { initSwitchLayout } from "./initSwitchLayout";
+import Input from "../shared/FormElements/Input";
 import {
     VALIDATOR_EMAIL,
     VALIDATOR_MINLENGTH,
     VALIDATOR_REQUIRE
 } from "../../utils/validators";
 import './auth.css';
-import Alert from "../layout/Alert";
+import M from "materialize-css";
 
-const Auth = ({ login, register , isAuthenticated , setAlert, loadUser}) => {
-    // const auth = useContext(AuthContext);
+const Auth = ({ login, register , isAuthenticated , loadUser}) => {
     const [ isLoginMode, setIsLoginMode ] = useState(true);
-    const { isLoading, error, sendRequest , clearError } = useHttpClient();
+    const { sendRequest } = useHttpClient();
     const history = useHistory();
 
     const [ formState, inputHandler, setFormData ] = useForm(
@@ -40,13 +38,6 @@ const Auth = ({ login, register , isAuthenticated , setAlert, loadUser}) => {
     useEffect(() => {
         initSwitchLayout();
     }, [])
-
-    useEffect(() => {
-        if(error) {
-            setAlert(error, 'danger');
-            clearError();
-        }
-    }, [error]);
 
     const switchModeHandler = () => {
         if(!isLoginMode) {
@@ -74,7 +65,6 @@ const Auth = ({ login, register , isAuthenticated , setAlert, loadUser}) => {
                      username: {
                         value: '',
                         isValid: false,
-                        // isAvailable: false
                     },
                     confirmPassword: {
                         value: '',
@@ -88,37 +78,36 @@ const Auth = ({ login, register , isAuthenticated , setAlert, loadUser}) => {
     };
 
     const authSubmitHandler = async event => {
-        console.log(formState);
-        console.log('in submit handler');
         event.preventDefault();
         if(isLoginMode) {
-            console.log(formState);
             try {
                 await login(formState.inputs.email.value, formState.inputs.password.value, sendRequest);
-                await loadUser();
+                await loadUser(sendRequest());
                 await history.push('/');
             } catch (error) {
                 console.log(error);
             }
         } else {
             try {
-                console.log('in else of submithandler')
                 if(formState.inputs.password.value !== formState.inputs.confirmPassword.value) {
-                    setAlert('Passwords do not match', 'danger');
+                    M.toast({html: 'Confirm password and Confirm new password have to be same', classes: 'red'});
                 } else {
                     try {
                         await register(formState.inputs.name.value, formState.inputs.username.value,
                             formState.inputs.email.value, formState.inputs.password.value, sendRequest);
-                        await loadUser();
+                        await loadUser(sendRequest);
                         await history.push('/');
                     } catch (error) {
                         console.error(error);
                     }
                 }
                 console.log(formState);
-            } catch (err) {}
+            } catch (err) {
+
+            }
         }
     };
+
     const emailInput = <Input
         element="input"
         elementTitle="email"
@@ -141,7 +130,6 @@ const Auth = ({ login, register , isAuthenticated , setAlert, loadUser}) => {
 
     return (
         <div className="main signin__signup">
-            <Alert />
             <div className="row">
                 <br/><br/>
                 <div className="col s12 m12 l12">
@@ -183,10 +171,11 @@ const Auth = ({ login, register , isAuthenticated , setAlert, loadUser}) => {
                             </form>
                         </div>
                         )}
+
                         {isLoginMode && (
                         <div className="form-container sign-in-container">
                             <form onSubmit={authSubmitHandler}>
-                                <h1>Sign in</h1>
+                                <h3>Sign in</h3>
                                 {emailInput}
                                 {passwordInput}
                                 <a href="#">Forgot your password?</a>
@@ -198,33 +187,22 @@ const Auth = ({ login, register , isAuthenticated , setAlert, loadUser}) => {
                         <div className="overlay-container">
                             <div className="overlay">
                                 <div className="overlay-panel overlay-left">
-                                    <h1>Welcome Back!</h1>
+                                    <h3>Welcome Back!</h3>
                                     <p>To keep connected with us please login with your personal info</p>
                                     <button onClick={switchModeHandler} className="ghost" id="signIn">Sign In</button>
                                 </div>
                                 <div className="overlay-panel overlay-right">
-                                    <h1>Hello, Friend!</h1>
+                                    <h4>Do Not Have Account?</h4>
                                     <p>Enter your personal details and start journey with us</p>
                                     <button onClick={switchModeHandler} className="ghost" id="signUp">Sign Up</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
-                    <footer>
-                        <p>
-                            Created with <i className="fa fa-heart"></i> by
-                            <a target="_blank" href="https://florin-pop.com">Florin Pop</a>
-                            - Read how I created this and how you can join the challenge
-                            <a target="_blank"
-                               href="https://www.florin-pop.com/blog/2019/03/double-slider-sign-in-up-form/">here</a>.
-                        </p>
-                    </footer>
                 </div>
             </div>
         </div>
-    )
+    );
 };
 
 Auth.propTypes = {
@@ -237,4 +215,4 @@ const mapStateToProps = state => ({
 })
 
 
-export default connect(mapStateToProps, { login, register, setAlert, loadUser })(Auth);
+export default connect(mapStateToProps, { login, register, loadUser })(Auth);

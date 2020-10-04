@@ -11,3 +11,111 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.iconCircle {
+  background: black;
+  border-radius: 0.8em;
+  -moz-border-radius: 0.8em;
+  -webkit-border-radius: 0.8em;
+  color: #ffffff;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 1.6em;
+  margin-right: 5px;
+  text-align: center;
+  width: 1.6em;
+}
+
+.numberCircle {
+  background: #0000fa;
+  border-radius: 0.8em;
+  -moz-border-radius: 0.8em;
+  -webkit-border-radius: 0.8em;
+  color: #ffffff;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 1.6em;
+  margin-right: 15px;
+  text-align: center;
+  width: 1.6em;
+  margin-left: 5px;
+}
+
+.main .row {
+  margin: 20px;
+}
+
+/*For navigation row (all projects and project)*/
+.selected {
+  border: 1px solid blue;
+}
+
+.avatar {
+    vertical-align: middle;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.add-btn {
+  padding: 10px;
+}
+
+/* For todo(not completed) and bug(fixed bug) */
+.delete ,
+.edit {
+  opacity: 0;
+  margin: 0 10px 0 10px;
+  display: none;
+}
+
+/* For todo(not completed) and bug(fixed bug) */
+.showEditDeleteOnHover:hover .delete {
+  opacity: 1;
+  display: contents;
+}
+
+/* For todo(not completed) and bug(fixed bug) */
+.showEditDeleteOnHover:hover .edit {
+  opacity: 1;
+  display: inline-block;
+}
+
+/* For todo(not completed and completed todo) and bug(fixed and not fixed bug) */
+.not-fixed-bug__text,
+.fixed-bug__text,
+.completed-todo__text,
+.incomplete-todo__text {
+  display: inline-block;
+  padding: 0;
+  margin-right: 10px;
+}
+
+.fixed-bug,
+.not-fixed-bug,
+.completed-todo,
+.incomplete-todo {
+  margin-bottom: 5px;
+}
+
+.fixed-bug__text,
+.completed-todo__text {
+  text-decoration: line-through;
+}
+
+/*Avatar for profile and edit profile*/
+.profile_avatar {
+  max-width: 60vw;
+  object-fit: cover;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media only screen and (max-width: 992px) {
+  .profile_avatar {
+    max-width: 80vw;
+  }
+}

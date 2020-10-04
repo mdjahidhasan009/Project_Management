@@ -1,9 +1,8 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-// import axios from 'axios';
+import M from "materialize-css";
 
 export const useHttpClient = () => {
     const [ isLoading, setIsLoading ] = useState(false);
-    const [ error, setError ] = useState();
 
     const activeHttpRequests = useRef([]);
 
@@ -31,15 +30,12 @@ export const useHttpClient = () => {
             return responseData;
         } catch (e) {
             console.log(e);
-            setError(e.message);
+             M.toast({html: e.message, classes: 'red'});
             setIsLoading(false);
             throw e;
         }
     }, []);
 
-    const clearError = () => {
-        setError(null);
-    };
 
     useEffect(() => {
         //this runs as cleanup function before next time useEffect run or also when an component use useEffect unmount
@@ -48,5 +44,5 @@ export const useHttpClient = () => {
         }
     }, []);
 
-    return { isLoading, error, sendRequest, clearError };
+    return { isLoading, sendRequest };
 }

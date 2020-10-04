@@ -1,12 +1,11 @@
-import React, {useEffect} from 'react';
-import {connect} from 'react-redux';
-import {toggleIsDone, deleteTodo} from "../../../actions/project-action";
+import React from 'react';
+import { connect } from 'react-redux';
 
-import './IncompleteTodoRow.css';
+import {toggleIsDone, deleteTodo} from "../../../actions/project-action";
 import {useHttpClient} from "../../../hooks/http-hook";
 
 const IncompleteTodoRow = ({ todo, projectId, toggleIsDone, username, deleteTodo, handleClickOnEdit }) => {
-    const { isLoading, error, sendRequest , clearError} = useHttpClient();
+    const { sendRequest } = useHttpClient();
     let clicked = false;
 
     const handleTodoDone = async () => {
@@ -16,12 +15,12 @@ const IncompleteTodoRow = ({ todo, projectId, toggleIsDone, username, deleteTodo
         clicked = false;
     }
 
-    const handleEditClick = () => {
+    const handleEdit = () => {
         clicked = true;
         handleClickOnEdit(todo._id, todo.text);
     }
 
-    const handleDeleteClick = async () => {
+    const handleDelete = async () => {
         clicked = true;
         await deleteTodo(projectId, todo._id, sendRequest);
     }
@@ -29,8 +28,8 @@ const IncompleteTodoRow = ({ todo, projectId, toggleIsDone, username, deleteTodo
     return (
         <>
              {!todo.done && (
-             <div className="white col s12 incomplete_todo_row" onClick={handleTodoDone}>
-                     <p className="incomplete_todo">{todo.text}</p>
+             <div className="white col s12 incomplete-todo showEditDeleteOnHover" onClick={handleTodoDone}>
+                     <p className="incomplete-todo__text">{todo.text}</p>
                      <img
                          src={todo.user?.profileImage?.imageUrl}
                          alt=" "
@@ -38,8 +37,8 @@ const IncompleteTodoRow = ({ todo, projectId, toggleIsDone, username, deleteTodo
                      />
                  {username && (username === todo.user.username) && (
                      <>
-                         <p id="edit" onClick={handleEditClick}>Edit</p>
-                         <p id="delete" onClick={handleDeleteClick}>Delete</p>
+                         <p className="edit" onClick={handleEdit}>Edit</p>
+                         <p className="delete" onClick={handleDelete}>Delete</p>
                      </>
                  )}
              </div>
