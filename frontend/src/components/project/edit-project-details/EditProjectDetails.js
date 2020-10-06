@@ -6,9 +6,9 @@ import {editProjectDetails} from "../../../actions/project-action";
 import {useHttpClient} from "../../../hooks/http-hook";
 import {VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE} from "../../../utils/validators";
 import Input from "../../shared/FormElements/Input";
-import './Details.css';
+import './EditProjectDetails.css';
 
-const Details = ({ project, editProjectDetails }) => {
+const Details = ({ project, editProjectDetails, isAuthenticated }) => {
     const { sendRequest } = useHttpClient();
     const [ formState, inputHandler, setFormData ] = useForm(
         {
@@ -66,7 +66,7 @@ const Details = ({ project, editProjectDetails }) => {
     return (
             <div className="row white">
 
-                {project && (
+                {project && isAuthenticated && (
                     <div className="project_details">
                         <Input
                             label="Project Name"
@@ -123,7 +123,8 @@ const Details = ({ project, editProjectDetails }) => {
 }
 
 const mapStateToProps = state => ({
-    project: state.project.project
+    project: state.project.project,
+    isAuthenticated: state.auth.isAuthenticated
 })
 
 export default connect(mapStateToProps, { editProjectDetails })(Details);
