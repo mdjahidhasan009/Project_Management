@@ -11,7 +11,7 @@ import IncompleteTodoRow from "./IncompleteTodoRow";
 import CompletedTodoRow from "./CompletedTodoRow";
 import M from "materialize-css";
 
-const Todos = ({ addTodo, project, editTodo, isMemberOfThisProject, isCreatedByUser }) => {
+const Todos = ({ addTodo, project, editTodo, isMemberOfThisProject, isCreatedByUser, isAuthenticated }) => {
     const { sendRequest } = useHttpClient();
     const projectId = useParams().projectId;
     const [ editTodoText, setEditTodoText ] = useState('');
@@ -80,14 +80,6 @@ const Todos = ({ addTodo, project, editTodo, isMemberOfThisProject, isCreatedByU
 
     return (
         <div className="row todos">
-
-            {/*Add todo modal trigger button */}
-            {(isMemberOfThisProject || isCreatedByUser) && (
-                <button data-target="add-todo-modal" className="light-blue lighten-1 modal-trigger add-btn">
-                    <i className="fas fa-plus-circle"/>      ADD NEW TODO
-                </button>
-            )}
-
             {/*Add todo modal structure*/}
             <div id="add-todo-modal" className="modal">
                 <div className="modal-content">
@@ -129,21 +121,32 @@ const Todos = ({ addTodo, project, editTodo, isMemberOfThisProject, isCreatedByU
                 </div>
             </div>
 
-            <h5>Incomplete ToDo List</h5>
-            <div>
-                {project && project.todos && project?.todos.map(todo => (
-                    <IncompleteTodoRow key={todo._id} todo={todo} projectId={projectId} handleClickOnEdit={handleClickOnEdit}/>
-                    ))
-                }
-            </div>
+            {isAuthenticated && (
+                <>
+                    {/*Add todo modal trigger button */}
+                    {(isMemberOfThisProject || isCreatedByUser) && (
+                        <button data-target="add-todo-modal" className="light-blue lighten-1 modal-trigger add-btn">
+                            <i className="fas fa-plus-circle"/>      ADD NEW TODO
+                        </button>
+                    )}
 
-            <h5>Completed ToDo List</h5>
-            <div>
-                {project && project.todos && project?.todos.map(todo => (
-                    <CompletedTodoRow key={todo._id} todo={todo} projectId={projectId}/>
-                    ))
-                }
-            </div>
+                    <h5>Incomplete ToDo List</h5>
+                    <div>
+                        {project && project.todos && project?.todos.map(todo => (
+                            <IncompleteTodoRow key={todo._id} todo={todo} projectId={projectId} handleClickOnEdit={handleClickOnEdit}/>
+                        ))
+                        }
+                    </div>
+
+                    <h5>Completed ToDo List</h5>
+                    <div>
+                        {project && project.todos && project?.todos.map(todo => (
+                            <CompletedTodoRow key={todo._id} todo={todo} projectId={projectId}/>
+                        ))
+                        }
+                    </div>
+                </>
+            )}
         </div>
     )
 }
@@ -151,7 +154,8 @@ const Todos = ({ addTodo, project, editTodo, isMemberOfThisProject, isCreatedByU
 const mapStateToProps = state => ({
     project: state.project.project,
     isMemberOfThisProject: state.project.isMemberOfThisProject,
-    isCreatedByUser: state.project.isCreatedByUser
+    isCreatedByUser: state.project.isCreatedByUser,
+    isAuthenticated: state.auth.isAuthenticated
 
 });
 

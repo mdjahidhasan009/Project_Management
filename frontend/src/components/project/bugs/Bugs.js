@@ -11,7 +11,7 @@ import NotFixedBugRow from "./NotFixedBugRow";
 import FixedBugRow from "./FixedBugRow";
 import M from 'materialize-css';
 
-const Bugs = ({ project, addBug, editBug, isMemberOfThisProject, isCreatedByUser }) => {
+const Bugs = ({ project, addBug, editBug, isMemberOfThisProject, isCreatedByUser, isAuthenticated }) => {
     const { sendRequest } = useHttpClient();
     const projectId = useParams().projectId;
     const [ editBugText, setEditBugText ] = useState('');
@@ -79,7 +79,6 @@ const Bugs = ({ project, addBug, editBug, isMemberOfThisProject, isCreatedByUser
 
     return (
             <div className="row bugs">
-
                 {/*Add bug modal structure*/}
                 <div id="add-bug-modal" className="modal">
                     <div className="modal-content">
@@ -125,27 +124,31 @@ const Bugs = ({ project, addBug, editBug, isMemberOfThisProject, isCreatedByUser
                     </div>
                 </div>
 
-                {(isMemberOfThisProject || isCreatedByUser) && (
-                    //Add bug button of add bug modal
-                    <button data-target="add-bug-modal" className="light-blue lighten-1 modal-trigger add-btn">
-                        <i className="fas fa-plus-circle" />      ADD NEW BUG
-                    </button>
-                )}
+                {isAuthenticated && (
+                    <>
+                        {(isMemberOfThisProject || isCreatedByUser) && (
+                            //Add bug button of add bug modal
+                            <button data-target="add-bug-modal" className="light-blue lighten-1 modal-trigger add-btn">
+                                <i className="fas fa-plus-circle" />      ADD NEW BUG
+                            </button>
+                        )}
 
-                <h5>Not Fixed Bug List</h5>
-                <div className=" ">
-                    {project && project.bugs && project?.bugs.map(bug => (
-                        <NotFixedBugRow key={bug._id} bug={bug} projectId={projectId} handleClickOnEdit={handleClickOnEdit}/>
-                        ))
-                    }
-                </div>
-                <h5>Fixed Bug List</h5>
-                <div className=" ">
-                    {project && project.bugs && project?.bugs.map(bug => (
-                        <FixedBugRow key={bug._id} bug={bug} projectId={projectId}/>
-                        ))
-                    }
-                </div>
+                        <h5>Not Fixed Bug List</h5>
+                        <div className=" ">
+                            {project && project.bugs && project?.bugs.map(bug => (
+                                <NotFixedBugRow key={bug._id} bug={bug} projectId={projectId} handleClickOnEdit={handleClickOnEdit}/>
+                            ))
+                            }
+                        </div>
+                        <h5>Fixed Bug List</h5>
+                        <div className=" ">
+                            {project && project.bugs && project?.bugs.map(bug => (
+                                <FixedBugRow key={bug._id} bug={bug} projectId={projectId}/>
+                            ))
+                            }
+                        </div>
+                    </>
+                )}
             </div>
     )
 }
@@ -153,8 +156,8 @@ const Bugs = ({ project, addBug, editBug, isMemberOfThisProject, isCreatedByUser
 const mapStateToProps = state => ({
     project: state.project.project,
     isMemberOfThisProject: state.project.isMemberOfThisProject,
-    isCreatedByUser: state.project.isCreatedByUser
-
+    isCreatedByUser: state.project.isCreatedByUser,
+    isAuthenticated: state.auth.isAuthenticated
 });
 
 export default connect(mapStateToProps, { addBug, editBug })(Bugs);

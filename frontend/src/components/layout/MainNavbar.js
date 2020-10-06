@@ -1,9 +1,9 @@
 import React, {Fragment, useEffect, useState} from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { logout } from '../../actions/auth-action'
+import M from "materialize-css";
 import './MainNavbar.css';
 
 const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
@@ -12,6 +12,8 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
         if(user?.profileImage?.imageUrl) {
             setProfileImage(user.profileImage.imageUrl);
         }
+        let elems = document.querySelectorAll('.sidenav');
+        M.Sidenav.init(elems);
     }, [user])
 
     //Link for user at sidebar
@@ -25,7 +27,7 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
 
     const guestSidebarLinks = (
         <React.Fragment>
-            <li><a className="waves-effect" href="/authenticate">Sign In / Up</a></li>
+            <li><a className="waves-effect authentication" href="/">Sign In / Up</a></li>
         </React.Fragment>
     )
 
@@ -40,7 +42,7 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
 
     const guestNavbarLinks = (
         <React.Fragment>
-            <li><a href="/authenticate">Sign In / Up</a></li>
+            <li><a href="/">Sign In / Up</a></li>
         </React.Fragment>
     )
 
@@ -68,12 +70,16 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                             <a href="/profile"><span className="black-text email">{user ? user.email : ''}</span></a>
                         </div>
                     </li>
-                    <li><a href="/">Dashboard</a></li>
-                    <li><a href="/edit-profile">Edit Profile</a></li>
-                    <li><a href="/profile">Profile</a></li>
-                    <li><a href="/members">Members</a></li>
-                    <li><a href="/projects">Projects</a></li>
-                    <li><div className="divider"></div></li>
+                    {isAuthenticated && (
+                        <>
+                            <li><a href="/dashboard">Dashboard</a></li>
+                            <li><a href="/edit-profile">Edit Profile</a></li>
+                            <li><a href="/profile">Profile</a></li>
+                            <li><a href="/members">Members</a></li>
+                            <li><a href="/projects">Projects</a></li>
+                            <li><div className="divider"></div></li>
+                        </>
+                    )}
                     {isAuthenticated ? authSidebarLinks : guestSidebarLinks }
                 </ul>
             </div>

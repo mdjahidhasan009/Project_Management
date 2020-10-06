@@ -8,7 +8,7 @@ import {VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE} from "../../../utils/validators"
 import Input from "../../shared/FormElements/Input";
 import './EditProjectDetails.css';
 
-const Details = ({ project, editProjectDetails, isAuthenticated }) => {
+const EditProjectDetails = ({ project, editProjectDetails, isAuthenticated }) => {
     const { sendRequest } = useHttpClient();
     const [ formState, inputHandler, setFormData ] = useForm(
         {
@@ -81,9 +81,9 @@ const Details = ({ project, editProjectDetails, isAuthenticated }) => {
                             initialValidity={true}
                         />
                         <Input
-                            label="Project Details"
+                            label="Project EditProjectDetails"
                             element="textarea"
-                            placeholder="Project Details"
+                            placeholder="Project EditProjectDetails"
                             elementTitle="projectDetails"
                             type="text"
                             validators={[VALIDATOR_MINLENGTH(5)]}
@@ -127,4 +127,4 @@ const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated
 })
 
-export default connect(mapStateToProps, { editProjectDetails })(Details);
+export default connect(mapStateToProps, { editProjectDetails })(EditProjectDetails);

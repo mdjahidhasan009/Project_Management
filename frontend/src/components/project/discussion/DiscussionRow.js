@@ -17,7 +17,7 @@ const DiscussionRow = ({ discussion, username, handleClickOnEdit, projectId, del
     }
     return (
         <div className="row white discussion-row showEditDeleteOnHover">
-            <div className="col s1 ">
+            <div className="col s1 discussion-row__image">
                 <img
                     src={discussion?.user?.profileImage?.imageUrl}
                     alt=" "

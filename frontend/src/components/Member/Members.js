@@ -5,29 +5,30 @@ import { getAllUser } from "../../actions/auth-action";
 import { useHttpClient } from "../../hooks/http-hook";
 import MemberItem from "./MemberItem";
 
-const Members = ({ users, getAllUser }) => {
+const Members = ({ auth: { users, isAuthenticated }, getAllUser }) => {
     const { sendRequest } = useHttpClient();
 
     useEffect(() => {
         getAllUser(sendRequest);
-    }, [])
+    }, []);
 
     return (
         <div className="main">
-            <div className="row memberList">
-                {users && (
-                    users.map(user => (
-                        <MemberItem key={user.username} user={user}/>
-                    ))
-                )}
-            </div>
+            {isAuthenticated && (
+                <div className="row memberList">
+                    {users && (
+                        users.map(user => (
+                            <MemberItem key={user.username} user={user}/>
+                        ))
+                    )}
+                </div>
+            )}
         </div>
-
-    )
-}
+    );
+};
 
 const mapStateToProps = state => ({
-    users: state.auth.users
+    auth: state.auth
 })
 
 export default connect(mapStateToProps, { getAllUser })(Members);

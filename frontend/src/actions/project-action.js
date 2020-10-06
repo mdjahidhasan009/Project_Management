@@ -20,6 +20,7 @@ import {
     UPDATE_DISCUSSION,
     DELETE_DISCUSSION
 } from "./types";
+import M from "materialize-css";
 
 //Add new project
 export const addProject = (projectName, projectCategory, projectDescription,projectDeadline, method) => async dispatch =>{
@@ -38,6 +39,7 @@ export const addProject = (projectName, projectCategory, projectDescription,proj
                  Authorization: 'Bearer ' + localStorage.token
              }
          )
+        M.toast({html: 'New Project Added', classes: 'green'});
         dispatch({
             type: ADD_PROJECT,
             payload: responseData
@@ -47,7 +49,7 @@ export const addProject = (projectName, projectCategory, projectDescription,proj
     }
 }
 
-//Edit project Details(name, details, category, deadline)
+//Edit project EditProjectDetails(name, edit-project-details, category, deadline)
 export const editProjectDetails = (projectName, projectDetails, projectCategory, projectDeadline, projectId, method) => async dispatch => {
     try{
         const responseData = await method(
@@ -65,7 +67,45 @@ export const editProjectDetails = (projectName, projectDetails, projectCategory,
             }
 
         );
-        console.log(responseData);
+        M.toast({html: 'Project Details Updated', classes: 'green'});
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
+//Toggle is project done or not
+export const toggleIsProjectIsFinished = (isDone, projectId, method) => async dispatch => {
+    try {
+        await method(
+            process.env.REACT_APP_ASSET_URL + '/api/project/isDone/' + projectId,
+            'PUT',
+            JSON.stringify({
+                isDone
+            }),
+            {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + localStorage.token
+            }
+        );
+        M.toast({html: 'Project Updated', classes: 'green'});
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+//Delete an project
+export const deleteProject = (projectId, method) => async dispatch => {
+    try {
+        await method(
+            process.env.REACT_APP_ASSET_URL + '/api/project/' + projectId,
+            'DELETE',
+            null,
+            {
+                Authorization: 'Bearer ' + localStorage.token
+            }
+        );
+        M.toast({html: 'Project Deleted', classes: 'green'});
     } catch (error) {
         console.error(error);
     }
@@ -76,7 +116,11 @@ export const getAllProjects = (method) => async dispatch => {
     try {
         const responseData = await method(
             process.env.REACT_APP_ASSET_URL +'/api/project',
-            'GET'
+            'GET',
+            null,
+            {
+                Authorization: 'Bearer ' + localStorage.token
+            }
         );
         dispatch({
             type: GET_PROJECTS,
@@ -101,6 +145,7 @@ export const addDiscussion = (discussionText, projectId ,method) => async dispat
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
+        M.toast({html: 'New Discussion Added', classes: 'green'});
         dispatch({
             type: ADD_DISCUSSION,
             payload: responseData
@@ -124,6 +169,7 @@ export const editDiscussion = (projectId, discussionId, discussionEditText, meth
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
+        M.toast({html: 'Discussion Updated', classes: 'green'});
         dispatch({
             type: UPDATE_DISCUSSION,
             payload: responseData
@@ -144,6 +190,7 @@ export const deleteDiscussion = (projectId, discussionId, method) => async dispa
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
+        M.toast({html: 'Discussion Deleted Successfully', classes: 'green'});
         dispatch({
             type: DELETE_DISCUSSION,
             payload: responseData
@@ -167,6 +214,7 @@ export const addTodo = (todoText, projectId ,method) => async dispatch => {
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
+        M.toast({html: 'New Todo Added', classes: 'green'});
         dispatch({
             type: ADD_TODO,
             payload: responseData
@@ -190,6 +238,7 @@ export const toggleIsDone = (projectId, todoId, isDone, method) => async dispatc
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
+        M.toast({html: 'Todo Updated', classes: 'green'});
         dispatch({
             type: UPDATE_TODO,
             payload: responseData
@@ -213,6 +262,7 @@ export const editTodo = (projectId, todoId, todoEditText, method) => async dispa
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
+        M.toast({html: 'Todo Updated', classes: 'green'});
         dispatch({
             type: UPDATE_TODO,
             payload: responseData
@@ -233,6 +283,7 @@ export const deleteTodo = (projectId, todoId, method) => async dispatch => {
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
+        M.toast({html: 'Todo Deleted', classes: 'green'});
         dispatch({
             type: DELETE_TODO,
             payload: responseData
@@ -256,6 +307,7 @@ export const toggleIsFixed = (projectId, bugId, isFixed, method) => async dispat
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
+        M.toast({html: 'Bug Updated', classes: 'green'});
         dispatch({
             type: UPDATE_BUG,
             payload: responseData
@@ -279,6 +331,7 @@ export const editBug = (projectId, bugId, bugEditText, method) => async dispatch
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
+        M.toast({html: 'Bug Updated', classes: 'green'});
         dispatch({
             type: UPDATE_BUG,
             payload: responseData
@@ -302,6 +355,7 @@ export const addBug = (bugText, projectId ,method) => async dispatch => {
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
+        M.toast({html: 'New Bug Added', classes: 'green'});
         dispatch({
             type: ADD_BUG,
             payload: responseData
@@ -322,6 +376,7 @@ export const deleteBug = (projectId, bugId, method) => async dispatch => {
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
+        M.toast({html: 'Bug Deleted', classes: 'green'});
         dispatch({
             type: DELETE_BUG,
             payload: responseData
@@ -387,7 +442,7 @@ export const assignAnMemberToAProject = (projectId, username,  method) => async 
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        console.log(responseData);
+        M.toast({html: 'New Member Added', classes: 'green'});
         dispatch({
             type: ADD_MEMBER_AT_PROJECT,
             payload: responseData
@@ -412,7 +467,7 @@ export const deleteMemberFromProject = (projectId, username,  method) => async d
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        console.log(responseData);
+        M.toast({html: 'Member Deleted', classes: 'green'});
         dispatch({
             type: DELETE_MEMBER_FROM_PROJECT,
             payload: responseData
@@ -748,24 +803,5 @@ export const prepareTodoAndBugForPreview = (username, projects) => async dispatc
         })
     } catch (error) {
         console.log(error);
-    }
-}
-
-//Toggle is project done or not
-export const toggleIsProjectIsFinished = (isDone, projectId, method) => async dispatch => {
-    try {
-        await method(
-            process.env.REACT_APP_ASSET_URL + '/api/project/isDone/' + projectId,
-            'PUT',
-            JSON.stringify({
-                isDone
-            }),
-            {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + localStorage.token
-            }
-        );
-    } catch (error) {
-        console.error(error);
     }
 }

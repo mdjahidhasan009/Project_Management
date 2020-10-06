@@ -38,6 +38,11 @@
     margin-top: 20px;
 }
 
+.overview__project-delete {
+    margin-top: 20px;
+    margin-left: 50px;
+}
+
 @media only screen and (max-width: 1200px) {
     .chart {
         width: 100% !important;

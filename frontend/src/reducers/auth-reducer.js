@@ -13,7 +13,7 @@ import {
 const initialState = {
     token: localStorage.getItem('token'),
     isAuthenticated: false,
-    loading: false,
+    loading: true,
     user: null,
     chartData: null,
     activitySummary: null,
@@ -59,17 +59,20 @@ export default function (state = initialState, action) {
                 ...state,
                 chartData: payload.chartData,
                 activitySummary: payload.activitySummary,
-                todoBugSummary: payload.todoBugSummary
+                todoBugSummary: payload.todoBugSummary,
+                loading: false
             }
         case ALL_USER_LOADED:
             return {
                 ...state,
-                users: payload
+                users: payload,
+                loading: false
             }
         case LOADED_SELECTED_USER:
             return {
                 ...state,
-                loadedUser: payload
+                loadedUser: payload,
+                loading: false
             }
         default:
             return {

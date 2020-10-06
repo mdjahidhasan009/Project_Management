@@ -10,7 +10,8 @@ import Input from "../../shared/FormElements/Input";
 import { VALIDATOR_REQUIRE } from "../../../utils/validators";
 import M from "materialize-css";
 
-const Discussion = ({ project, addDiscussion, editDiscussion, isMemberOfThisProject, isCreatedByUser }) => {
+const Discussion = ({ project, addDiscussion, editDiscussion, isMemberOfThisProject, isCreatedByUser, isAuthenticated
+}) => {
     const { sendRequest } = useHttpClient();
     const projectId = useParams().projectId;
     const [ editDiscussionText, setEditDiscussionText ] = useState('');
@@ -78,14 +79,6 @@ const Discussion = ({ project, addDiscussion, editDiscussion, isMemberOfThisProj
 
     return (
         <div className="row discussion">
-
-            {/*Add Discussion Modal Button*/}
-            {(isMemberOfThisProject || isCreatedByUser) && (
-                <button data-target="add-discussion-modal" className="light-blue lighten-1 modal-trigger add-btn">
-                    <i className="fas fa-plus-circle" />      ADD NEW DISCUSSION
-                </button>
-            )}
-
             {/*Add discussion Modal Structure*/}
             <div id="add-discussion-modal" className="modal">
                 <div className="modal-content">
@@ -127,22 +120,34 @@ const Discussion = ({ project, addDiscussion, editDiscussion, isMemberOfThisProj
                 </div>
             </div>
 
-            <h5>Discussion List</h5>
-            {project && project.discussion && project.discussion.map(discussion => (
-                <DiscussionRow key={discussion._id}
-                               discussion={discussion}
-                               handleClickOnEdit={handleClickOnEdit}
-                               projectId={projectId}
-                />
-            ))}
+            {isAuthenticated && (
+                <>
+                    {/*Add Discussion Modal Button*/}
+                    {(isMemberOfThisProject || isCreatedByUser) && (
+                        <button data-target="add-discussion-modal" className="light-blue lighten-1 modal-trigger add-btn">
+                        <i className="fas fa-plus-circle" />      ADD NEW DISCUSSION
+                        </button>
+                    )}
+
+                    <h5>Discussion List</h5>
+                    {project && project.discussion && project.discussion.map(discussion => (
+                        <DiscussionRow key={discussion._id}
+                        discussion={discussion}
+                        handleClickOnEdit={handleClickOnEdit}
+                        projectId={projectId}
+                    />
+                    ))}
+                </>
+            )}
         </div>
-    )
-}
+    );
+};
 
 const mapStateToProps = state => ({
     project: state.project.project,
     isMemberOfThisProject: state.project.isMemberOfThisProject,
-    isCreatedByUser: state.project.isCreatedByUser
+    isCreatedByUser: state.project.isCreatedByUser,
+    isAuthenticated: state.auth.isAuthenticated
 });
 
 export default connect(mapStateToProps, { addDiscussion, editDiscussion })(Discussion);

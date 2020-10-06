@@ -7,12 +7,17 @@
     display: grid;
     padding: 0;
 }
-.discussion-row img {
+
+.discussion-row__image {
+    width: 6% !important;
+}
+
+.discussion-row__image img {
     margin-left: 10px;
 }
 
 .discussion-row__text {
-    margin-left: -20px !important;
+    width: 94% !important;
 }
 
 .discussion-row__text p{
@@ -20,32 +25,52 @@
     padding: 0;
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 1130px) {
+    .discussion-row__image {
+        width: 8% !important;
+    }
+
     .discussion-row__text {
-        padding-left: 10px !important;
+        width: 92% !important;
     }
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 700px) {
+    .discussion-row__image {
+        width: 10% !important;
+    }
+
     .discussion-row__text {
-        padding-left: 20px !important;
+        width: 90% !important;
     }
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 550px) {
+    .discussion-row__image {
+        width: 12% !important;
+    }
+
     .discussion-row__text {
-        padding-left: 30px !important;
+        width: 88% !important;
     }
 }
 
-@media only screen and (max-width: 540px) {
+@media only screen and (max-width: 460px) {
+    .discussion-row__image {
+        width: 15% !important;
+    }
+
     .discussion-row__text {
-        padding-left: 40px !important;
+        width: 85% !important;
     }
 }
 
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 380px) {
+    .discussion-row__image {
+        width: 18% !important;
+    }
+
     .discussion-row__text {
-        padding-left: 50px !important;
+        width: 82% !important;
     }
 }

@@ -7,7 +7,7 @@ import { useHttpClient } from "../../hooks/http-hook";
 import M from "materialize-css";
 import './UploadImage.css';
 
-const UploadImage = ({ uploadProfileImage }) => {
+const UploadImage = ({ uploadProfileImage, isAuthenticated }) => {
     const history = useHistory();
     const { sendRequest } = useHttpClient();
     const [fileInputState, setFileInputState] = useState('');
@@ -47,33 +47,39 @@ const UploadImage = ({ uploadProfileImage }) => {
 
     return (
         <div className="main uploadImage">
-            <div className="uploadImage__div">
-                <h4 className="title">Upload an Image</h4>
-                <form onSubmit={handleSubmitFile} className="form">
-                    <input
-                        id="fileInput"
-                        type="file"
-                        name="image"
-                        onChange={handleFileInputChange}
-                        value={fileInputState}
-                        className="form-input"
-                    />
-                    <button className="btn" type="submit">
-                        Submit
-                    </button>
-                </form>
+            {isAuthenticated && (
+                <div className="uploadImage__div">
+                    <h4 className="title">Upload an Image</h4>
+                    <form onSubmit={handleSubmitFile} className="form">
+                        <input
+                            id="fileInput"
+                            type="file"
+                            name="image"
+                            onChange={handleFileInputChange}
+                            value={fileInputState}
+                            className="form-input"
+                        />
+                        <button className="btn" type="submit">
+                            Submit
+                        </button>
+                    </form>
 
-                {previewSource && (
-                    <img
-                        className="previewImage"
-                        src={previewSource}
-                        alt="chosen"
-                        style={{ height: '300px' }}
-                    />
-                )}
-            </div>
+                    {previewSource && (
+                        <img
+                            className="previewImage"
+                            src={previewSource}
+                            alt="chosen"
+                            style={{ height: '300px' }}
+                        />
+                    )}
+                </div>
+            )}
         </div>
     );
-}
+};
 
-export default connect(null, { uploadProfileImage } )(UploadImage);
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+})
+
+export default connect(mapStateToProps, { uploadProfileImage } )(UploadImage);

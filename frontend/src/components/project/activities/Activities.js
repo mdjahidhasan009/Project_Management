@@ -20,3 +20,5 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, { prepareActivity })(Activities);
+
+//As while not logged in activities of project state will be null nothing will show for that

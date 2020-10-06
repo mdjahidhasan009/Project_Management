@@ -3,6 +3,7 @@ import {
     AUTH_ERROR, LOGIN_SUCCESS, LOGOUT, REGISTER_SUCCESS, USER_LOADED,
     LOADED_SELECTED_USER
 } from './types'
+import M from "materialize-css";
 
 //Load user form token
 export const loadUser = (method) => async dispatch => {
@@ -15,11 +16,14 @@ export const loadUser = (method) => async dispatch => {
                 'Authorization': 'Bearer ' + localStorage.token
             }
         );
+        //if token is not valid it returns undefined and update the state isAuthenticated to true it will prevent that
+        if(responseData) {
+            dispatch({
+                type: USER_LOADED,
+                payload: responseData
+            })
+        }
 
-        dispatch({
-            type: USER_LOADED,
-            payload: responseData
-        })
     } catch (error) {
 
     }
@@ -74,7 +78,7 @@ export const login = (email, password, method) => async dispatch => {
     }
 }
 
-//Edit user details
+//Edit user edit-project-details
 export const updateUser = (formState, method) => async dispatch => {
     try {
         const responseData = await method(
@@ -89,6 +93,7 @@ export const updateUser = (formState, method) => async dispatch => {
             }
         );
         console.log(responseData);
+        M.toast({html: 'User Details Updated', classes: 'green'});
     } catch (error) {
         console.error(error);
     }

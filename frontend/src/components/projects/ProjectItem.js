@@ -9,10 +9,8 @@ const ProjectItem = ({ project, noImage, noMember }) => {
     let history = useHistory();
 
     const openProject = async () => {
-        console.log(project._id);
-        console.log(project.name);
         await history.push('/project/' + project._id);
-    }
+    };
 
     return (
         <div className="col s12 m6 l4 project_item">

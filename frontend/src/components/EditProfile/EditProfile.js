@@ -10,7 +10,7 @@ import {VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE,VALIDATOR_EMAIL} from "../../util
 import M from 'materialize-css';
 import './EditProfile.css';
 
-const EditProfile = ({ user, updateUser }) => {
+const EditProfile = ({ auth: {user, isAuthenticated}, updateUser }) => {
     const history = useHistory();
     const [ profileImage, setProfileImage ] = useState("");
     const [ formState, inputHandler, setFormData ] = useForm();
@@ -106,226 +106,230 @@ const EditProfile = ({ user, updateUser }) => {
 
     return(
         <div className="main">
-            <div className="row edit_profile">
-                <img
-                    src={profileImage}
-                    alt="Add Profile Image"
-                    className="profile_avatar"
-                />
-                <a href="/uploadImage" className="btn">Change Profile Pic</a>
+            {isAuthenticated && (
+                <>
+                    <div className="row edit_profile">
+                        <img
+                            src={profileImage}
+                            alt="Add Profile Image"
+                            className="profile_avatar"
+                        />
+                        <a href="/uploadImage" className="btn">Change Profile Pic</a>
 
-                {user && (
-                    <div className="details">
-                        <Input
-                            label="Full Name"
-                            element="input"
-                            placeholder="Full Name"
-                            elementTitle="fullName"
-                            type="text"
-                            validators={[VALIDATOR_MINLENGTH(5)]}
-                            errorText="Please enter at least 5 character."
-                            onInput={inputHandler}
-                            initialValue={user.name}
-                            initialValidity={true}
-                        />
-                        <Input
-                            label="Username"
-                            element="input"
-                            placeholder="Username"
-                            elementTitle="username"
-                            type="text"
-                            validators={[VALIDATOR_MINLENGTH(5)]}
-                            errorText="Please enter at least 5 character."
-                            onInput={inputHandler}
-                            initialValue={user.username}
-                            initialValidity={true}
-                        />
-                        <Input
-                            label="Email"
-                            element="input"
-                            placeholder="Email"
-                            elementTitle="email"
-                            type="email"
-                            validators={[VALIDATOR_EMAIL()]}
-                            errorText="Please enter at least 5 character."
-                            onInput={inputHandler}
-                            initialValue={user.email}
-                            initialValidity={true}
-                        />
-                        <Input
-                            label="Role"
-                            element="input"
-                            placeholder="Role"
-                            elementTitle="role"
-                            type="text"
-                            validators={[VALIDATOR_MINLENGTH(2)]}
-                            errorText="Please enter at least 2 character."
-                            onInput={inputHandler}
-                            initialValue={user.role}
-                            initialValidity={true}
-                        />
-                        <Input
-                            label="Skills"
-                            element="input"
-                            placeholder="Use comma to separate skills such as(HTML, CSS, JavaScript)"
-                            elementTitle="skills"
-                            type="text"
-                            validators={[VALIDATOR_MINLENGTH(2)]}
-                            errorText="Please enter at least 2 character."
-                            onInput={inputHandler}
-                            initialValue={user.skills}
-                            initialValidity={true}
-                        />
-                        <Input
-                            label="Bio"
-                            element="input"
-                            placeholder="Bio"
-                            elementTitle="bio"
-                            type="textarea"
-                            validators={[VALIDATOR_MINLENGTH(10)]}
-                            errorText="Please enter at least 10 character."
-                            onInput={inputHandler}
-                            initialValue={user.bio}
-                            initialValidity={true}
-                        />
-                        <Input
-                            label="Github"
-                            element="input"
-                            placeholder="Github profile url"
-                            elementTitle="github"
-                            type="text"
-                            validators={[VALIDATOR_REQUIRE()]}
-                            errorText="Please enter your github profile link"
-                            onInput={inputHandler}
-                            initialValue={user.social && user.social.github}
-                            initialValidity={true}
-                        />
-                        <Input
-                            label="Twitter"
-                            element="input"
-                            placeholder="Twitter profile url"
-                            elementTitle="twitter"
-                            type="text"
-                            // validators={[VALIDATOR_MINLENGTH(2)]}
-                            // errorText="Please enter at least 2 character."
-                            validators={[VALIDATOR_REQUIRE()]}
-                            errorText="Please enter your github profile link"
-                            onInput={inputHandler}
-                            initialValue={user.social && user.social.twitter}
-                            initialValidity={true}
-                        />
-                        <Input
-                            label="Stackoverflow"
-                            element="input"
-                            placeholder="Stackoverflow profile url"
-                            elementTitle="stackoverflow"
-                            type="text"
-                            // validators={[VALIDATOR_MINLENGTH(2)]}
-                            // errorText="Please enter at least 2 character."
-                            validators={[VALIDATOR_REQUIRE()]}
-                            errorText="Please enter your stackoverflow profile link"
-                            onInput={inputHandler}
-                            initialValue={user.social && user.social.stackoverflow}
-                            initialValidity={true}
-                        />
-                        <Input
-                            label="Facebook"
-                            element="input"
-                            placeholder="Facebook profile url"
-                            elementTitle="facebook"
-                            type="text"
-                            // validators={[VALIDATOR_MINLENGTH(2)]}
-                            // errorText="Please enter at least 2 character."
-                            validators={[VALIDATOR_REQUIRE()]}
-                            errorText="Please enter your github profile link"
-                            onInput={inputHandler}
-                            initialValue={user.social && user.facebook}
-                            initialValidity={true}
-                        />
-                        <Input
-                            label="LinkedIn"
-                            element="input"
-                            placeholder="LinkedIn profile url"
-                            elementTitle="linkedIn"
-                            type="text"
-                            // validators={[VALIDATOR_MINLENGTH(2)]}
-                            // errorText="Please enter at least 2 character."
-                            validators={[VALIDATOR_REQUIRE()]}
-                            errorText="Please enter your github profile link"
-                            onInput={inputHandler}
-                            initialValue={user.social && user.social.linkedIn}
-                            initialValidity={true}
-                        />
-                        <Input
-                            label="Instagram"
-                            element="input"
-                            placeholder="Instagram profile url"
-                            elementTitle="instagram"
-                            type="text"
-                            // validators={[VALIDATOR_MINLENGTH(2)]}
-                            // errorText="Please enter at least 2 character."
-                            validators={[VALIDATOR_REQUIRE()]}
-                            errorText="Please enter your github profile link"
-                            onInput={inputHandler}
-                            initialValue={user.social && user.social.instagram}
-                            initialValidity={true}
-                        />
-                        <Input
-                            label="Youtube"
-                            element="input"
-                            placeholder="Youtube channel url"
-                            elementTitle="youtube"
-                            type="text"
-                            // validators={[VALIDATOR_MINLENGTH(2)]}
-                            // errorText="Please enter at least 2 character."
-                            validators={[VALIDATOR_REQUIRE()]}
-                            errorText="Please enter your github profile link"
-                            onInput={inputHandler}
-                            initialValue={user.social && user.social.youtube}
-                            initialValidity={true}
-                        />
+                        {user && (
+                            <div className="details">
+                                <Input
+                                    label="Full Name"
+                                    element="input"
+                                    placeholder="Full Name"
+                                    elementTitle="fullName"
+                                    type="text"
+                                    validators={[VALIDATOR_MINLENGTH(5)]}
+                                    errorText="Please enter at least 5 character."
+                                    onInput={inputHandler}
+                                    initialValue={user.name}
+                                    initialValidity={true}
+                                />
+                                <Input
+                                    label="Username"
+                                    element="input"
+                                    placeholder="Username"
+                                    elementTitle="username"
+                                    type="text"
+                                    validators={[VALIDATOR_MINLENGTH(5)]}
+                                    errorText="Please enter at least 5 character."
+                                    onInput={inputHandler}
+                                    initialValue={user.username}
+                                    initialValidity={true}
+                                />
+                                <Input
+                                    label="Email"
+                                    element="input"
+                                    placeholder="Email"
+                                    elementTitle="email"
+                                    type="email"
+                                    validators={[VALIDATOR_EMAIL()]}
+                                    errorText="Please enter at least 5 character."
+                                    onInput={inputHandler}
+                                    initialValue={user.email}
+                                    initialValidity={true}
+                                />
+                                <Input
+                                    label="Role"
+                                    element="input"
+                                    placeholder="Role"
+                                    elementTitle="role"
+                                    type="text"
+                                    validators={[VALIDATOR_MINLENGTH(2)]}
+                                    errorText="Please enter at least 2 character."
+                                    onInput={inputHandler}
+                                    initialValue={user.role}
+                                    initialValidity={true}
+                                />
+                                <Input
+                                    label="Skills"
+                                    element="input"
+                                    placeholder="Use comma to separate skills such as(HTML, CSS, JavaScript)"
+                                    elementTitle="skills"
+                                    type="text"
+                                    validators={[VALIDATOR_MINLENGTH(2)]}
+                                    errorText="Please enter at least 2 character."
+                                    onInput={inputHandler}
+                                    initialValue={user.skills}
+                                    initialValidity={true}
+                                />
+                                <Input
+                                    label="Bio"
+                                    element="input"
+                                    placeholder="Bio"
+                                    elementTitle="bio"
+                                    type="textarea"
+                                    validators={[VALIDATOR_MINLENGTH(10)]}
+                                    errorText="Please enter at least 10 character."
+                                    onInput={inputHandler}
+                                    initialValue={user.bio}
+                                    initialValidity={true}
+                                />
+                                <Input
+                                    label="Github"
+                                    element="input"
+                                    placeholder="Github profile url"
+                                    elementTitle="github"
+                                    type="text"
+                                    validators={[VALIDATOR_REQUIRE()]}
+                                    errorText="Please enter your github profile link"
+                                    onInput={inputHandler}
+                                    initialValue={user.social && user.social.github}
+                                    initialValidity={true}
+                                />
+                                <Input
+                                    label="Twitter"
+                                    element="input"
+                                    placeholder="Twitter profile url"
+                                    elementTitle="twitter"
+                                    type="text"
+                                    // validators={[VALIDATOR_MINLENGTH(2)]}
+                                    // errorText="Please enter at least 2 character."
+                                    validators={[VALIDATOR_REQUIRE()]}
+                                    errorText="Please enter your github profile link"
+                                    onInput={inputHandler}
+                                    initialValue={user.social && user.social.twitter}
+                                    initialValidity={true}
+                                />
+                                <Input
+                                    label="Stackoverflow"
+                                    element="input"
+                                    placeholder="Stackoverflow profile url"
+                                    elementTitle="stackoverflow"
+                                    type="text"
+                                    // validators={[VALIDATOR_MINLENGTH(2)]}
+                                    // errorText="Please enter at least 2 character."
+                                    validators={[VALIDATOR_REQUIRE()]}
+                                    errorText="Please enter your stackoverflow profile link"
+                                    onInput={inputHandler}
+                                    initialValue={user.social && user.social.stackoverflow}
+                                    initialValidity={true}
+                                />
+                                <Input
+                                    label="Facebook"
+                                    element="input"
+                                    placeholder="Facebook profile url"
+                                    elementTitle="facebook"
+                                    type="text"
+                                    // validators={[VALIDATOR_MINLENGTH(2)]}
+                                    // errorText="Please enter at least 2 character."
+                                    validators={[VALIDATOR_REQUIRE()]}
+                                    errorText="Please enter your github profile link"
+                                    onInput={inputHandler}
+                                    initialValue={user.social && user.facebook}
+                                    initialValidity={true}
+                                />
+                                <Input
+                                    label="LinkedIn"
+                                    element="input"
+                                    placeholder="LinkedIn profile url"
+                                    elementTitle="linkedIn"
+                                    type="text"
+                                    // validators={[VALIDATOR_MINLENGTH(2)]}
+                                    // errorText="Please enter at least 2 character."
+                                    validators={[VALIDATOR_REQUIRE()]}
+                                    errorText="Please enter your github profile link"
+                                    onInput={inputHandler}
+                                    initialValue={user.social && user.social.linkedIn}
+                                    initialValidity={true}
+                                />
+                                <Input
+                                    label="Instagram"
+                                    element="input"
+                                    placeholder="Instagram profile url"
+                                    elementTitle="instagram"
+                                    type="text"
+                                    // validators={[VALIDATOR_MINLENGTH(2)]}
+                                    // errorText="Please enter at least 2 character."
+                                    validators={[VALIDATOR_REQUIRE()]}
+                                    errorText="Please enter your github profile link"
+                                    onInput={inputHandler}
+                                    initialValue={user.social && user.social.instagram}
+                                    initialValidity={true}
+                                />
+                                <Input
+                                    label="Youtube"
+                                    element="input"
+                                    placeholder="Youtube channel url"
+                                    elementTitle="youtube"
+                                    type="text"
+                                    // validators={[VALIDATOR_MINLENGTH(2)]}
+                                    // errorText="Please enter at least 2 character."
+                                    validators={[VALIDATOR_REQUIRE()]}
+                                    errorText="Please enter your github profile link"
+                                    onInput={inputHandler}
+                                    initialValue={user.social && user.social.youtube}
+                                    initialValidity={true}
+                                />
 
-                        <Input
-                            label="New Password"
-                            element="input"
-                            placeholder="New Password"
-                            elementTitle="newPassword"
-                            type="password"
-                            validators={[VALIDATOR_MINLENGTH(6)]}
-                            errorText="Please enter at least 6 character."
-                            onInput={inputHandler}
-                        />
-                        <Input
-                            label="Confirm New Password"
-                            element="input"
-                            placeholder="Confirm New Password"
-                            elementTitle="confirmNewPassword"
-                            type="password"
-                            validators={[VALIDATOR_MINLENGTH(6)]}
-                            errorText="Please enter at least 6 character."
-                            onInput={inputHandler}
-                        />
-                        <Input
-                            label="Current Password"
-                            element="input"
-                            placeholder="Current Password"
-                            elementTitle="currentPassword"
-                            type="password"
-                            validators={[VALIDATOR_MINLENGTH(6)]}
-                            errorText="Please enter current password."
-                            onInput={inputHandler}
-                        />
-                        <button className="waves-effect waves-light blue btn"
-                                onClick={saveProfile} disabled={!formState.isValid}>Save Profile Details</button>
+                                <Input
+                                    label="New Password"
+                                    element="input"
+                                    placeholder="New Password"
+                                    elementTitle="newPassword"
+                                    type="password"
+                                    validators={[VALIDATOR_MINLENGTH(6)]}
+                                    errorText="Please enter at least 6 character."
+                                    onInput={inputHandler}
+                                />
+                                <Input
+                                    label="Confirm New Password"
+                                    element="input"
+                                    placeholder="Confirm New Password"
+                                    elementTitle="confirmNewPassword"
+                                    type="password"
+                                    validators={[VALIDATOR_MINLENGTH(6)]}
+                                    errorText="Please enter at least 6 character."
+                                    onInput={inputHandler}
+                                />
+                                <Input
+                                    label="Current Password"
+                                    element="input"
+                                    placeholder="Current Password"
+                                    elementTitle="currentPassword"
+                                    type="password"
+                                    validators={[VALIDATOR_MINLENGTH(6)]}
+                                    errorText="Please enter current password."
+                                    onInput={inputHandler}
+                                />
+                                <button className="waves-effect waves-light blue btn"
+                                        onClick={saveProfile} disabled={!formState.isValid}>Save Profile Details</button>
+                            </div>
+                        )}
                     </div>
-                )}
-            </div>
+                </>
+            )}
         </div>
     )
 }
 
 const mapStateToProps = state => ({
-    user: state.auth.user
+    auth: state.auth
 })
 
 export default connect(mapStateToProps, { updateUser })(EditProfile);

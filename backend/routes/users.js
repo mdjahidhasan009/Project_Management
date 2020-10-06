@@ -58,7 +58,7 @@ router.post(
 );
 
 // @route  PUT api/user
-// @desc   Edit user details
+// @desc   Edit user edit-project-details
 // @access Private
 router.put(
     '/',

@@ -2,12 +2,12 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import M from "materialize-css";
 
 export const useHttpClient = () => {
-    const [ isLoading, setIsLoading ] = useState(false);
+    const [ isLoading, setIsLoading ] = useState(true);
 
     const activeHttpRequests = useRef([]);
 
     const sendRequest = useCallback(async (url, method = 'GET', body = null, headers = {}) => {
-        setIsLoading(true);
+        // setIsLoading(true);
         const httpAbortCtrl = new AbortController();
         activeHttpRequests.current.push(httpAbortCtrl);
          try {
@@ -28,11 +28,9 @@ export const useHttpClient = () => {
 
             setIsLoading(false);
             return responseData;
-        } catch (e) {
-            console.log(e);
-             M.toast({html: e.message, classes: 'red'});
-            setIsLoading(false);
-            throw e;
+        } catch (error) {
+             setIsLoading(false);
+             M.toast({html: error.message, classes: 'red'});
         }
     }, []);
 

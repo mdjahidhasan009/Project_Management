@@ -5,14 +5,14 @@ const { check, validationResult } = require('express-validator');
 const Project = require('../models/Project');
 const User = require('../models/User');
 const auth = require('../middleware/auth');
-const ObjectId = require("mongoose");
 
 // @route   GET api/project
 // @desc    Get all projects
 // @access  Private
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
     try {
         const projects = await Project.find()
+            .populate('createdBy', 'username -_id')
             .populate('discussion.user', 'username profileImage -_id')
             .populate('members.user', 'username profileImage -_id')
             .populate('todos.user', 'username profileImage -_id')
@@ -45,6 +45,7 @@ router.post(
         .isEmpty()
     ],
     async(req, res) => {
+        //Validation error check
         const errors = validationResult(req);
         if(!errors.isEmpty()) return res.status(400).json({ "error": "Server error" });
         const { name, category, description, deadline } = req.body;
@@ -58,7 +59,7 @@ router.post(
                 deadline,
                 createdBy : req.user.id
             });
-            project = await newProject.save();
+            project = await newProject.save(); //Created by will be userId as it user's own userid so it will not a problem
             await res.json(project);
         } catch(error) {
             console.error(error);
@@ -95,6 +96,8 @@ router.put(
         try {
             let project = await Project.findById(req.params.projectId);
             if(!project) return res.status(400).json({ 'error': 'Server Error' });
+            if(project.createdBy.toString() !== req.user.id)
+                return await res.status(400).json({ 'error': 'Server Error' });
             project = await Project.findOneAndUpdate({ _id: req.params.projectId},
                  {
                         name,
@@ -116,7 +119,28 @@ router.put(
     }
 )
 
-// @route   POST api/project/memberorcreator/:projectId
+// @route   DELETE api/project/:projectId
+// @desc    Delete an project
+// @access  Private
+router.delete(
+    '/:projectId',
+    auth,
+    async (req, res) => {
+        try {
+            const project = await Project.findById(req.params.projectId);
+            if(!project) await res.status(400).json({ 'error': 'Server Error' });
+            if(project.createdBy.toString() !== req.user.id)
+                return await res.status(400).json({ 'error': 'Server Error' });
+            await Project.deleteOne({ _id: req.params.projectId });
+            await res.status(200).json('Deleted');
+        } catch(error) {
+            console.error(error);
+            return res.status(400).json({ "error": "Server Error"});
+        }
+    }
+)
+
+// @route   GET api/project/memberorcreator/:projectId
 // @desc    Get is current user is member or creator current project or both
 // @access  Private
 router.get(
@@ -131,7 +155,6 @@ router.get(
                 if(member.user.toString() === req.user.id) isMemberOfThisProject = true;
             })
             return res.json({ isMemberOfThisProject, isCreatedByUser});
-
         } catch(error) {
             console.error(error);
             return res.status(400).json("Server Error");
@@ -653,6 +676,7 @@ router.put(
 router.get('/:projectId', auth, async (req, res) => {
     try {
         const project = await Project.findById(req.params.projectId)
+            .populate('createdBy', 'username -_id')
             .populate('discussion.user', 'username profileImage -_id')
             .populate('members.user', 'username profileImage role -_id')
             .populate('todos.user', 'username profileImage -_id')
