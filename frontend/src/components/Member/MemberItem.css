@@ -16,6 +16,12 @@
     margin-top: 10px !important;
 }
 
+.member_item .card-content p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .member_item .card-role {
     text-align: center;
     color: gray;

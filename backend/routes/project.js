@@ -311,7 +311,7 @@ router.post(
     ],
     async(req, res) => {
         try {
-            let project = await Project.findOne( { 'todos._id': req.params.todoId } )
+            let project = await Project.findOne( { 'todos._id': req.params.todoId } );
             const todos = project.todos;
             let isThisTodoAddedByCurrentUser = false;
             todos.map(todo => {
@@ -319,8 +319,8 @@ router.post(
                     if (todo.user.toString() === req.user.id) isThisTodoAddedByCurrentUser = true;
                 }
             })
-            if(!isThisTodoAddedByCurrentUser) return res.status(400).json({ 'error': 'Server Error' });
-
+            if(!isThisTodoAddedByCurrentUser)
+                return res.status(400).json({ 'error': 'This todo does not added by you.' });
 
             let isDone = req.body.isDone === 'true';
             let doneAt = null;
@@ -464,7 +464,8 @@ router.post(
                     if (bug.user.toString() === req.user.id) isThisBugAddedByCurrentUser = true;
                 }
             })
-            if(!isThisBugAddedByCurrentUser) return res.status(400).json({ 'error': 'Server Error' });
+            if(!isThisBugAddedByCurrentUser)
+                return res.status(400).json({ 'error': 'This bug does not added by you.' });
 
             let isFixed = req.body.isFixed === 'true';
             let fixedAt = null;
@@ -514,7 +515,7 @@ router.put(
                         'bugs.$.text': req.body.bugEditText
                     }}
             );
-            project = await Project.findById(req.params.projectId).populate('bugs.user', 'username -_id');
+            project = await Project.findById(req.params.projectId).populate('bugs.user', 'username profileImage -_id');
             await res.json(project.bugs);
         } catch(error) {
             console.error(error);
@@ -579,7 +580,7 @@ router.post(
         await project.members.unshift({ user: user._id });
         await project.save();
         const membersOfProject = await Project.findOne({ _id: req.params.projectId })
-            .populate('members.user', 'username profileImage -_id')
+            .populate('members.user', 'username profileImage role -_id')
         await res.json(membersOfProject.members[0]);
     } catch (error) {
         console.error(error);
@@ -587,11 +588,11 @@ router.post(
     }
 })
 
-// @route   DELETE api/project/:projectId
-// @desc    Delete an member from a project
+// @route   DELETE api/project/member/:projectId/
+// @desc    Delete a member from a project
 // @access  Private
 router.delete(
-    '/:projectId',
+    '/member/:projectId',
     auth,
     [
         check('username')
@@ -617,7 +618,7 @@ router.delete(
             );
             await project.save();
             const membersOfProject = await Project.findOne({ _id: req.params.projectId })
-                .populate('members.user', 'username profileImage -_id');
+                .populate('members.user', 'username profileImage role -_id');
             await res.json(membersOfProject.members);
         } catch (error) {
             console.error(error);
@@ -630,7 +631,7 @@ router.delete(
 // @access  Private
 router.get(
     '/:projectId/allmember',
-    // auth,
+    auth,
     async (req, res) => {
         try {
             const membersOfProject = await Project.findOne({ _id: req.params.projectId })

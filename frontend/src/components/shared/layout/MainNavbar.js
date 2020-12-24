@@ -1,8 +1,8 @@
-import React, {Fragment, useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { logout } from '../../actions/auth-action'
+import { logout } from '../../../actions/auth-action'
 import M from "materialize-css";
 import './MainNavbar.css';
 
@@ -14,13 +14,18 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
         }
         let elems = document.querySelectorAll('.sidenav');
         M.Sidenav.init(elems);
-    }, [user])
+    }, [user]);
+
+    const handleLogout = async () => {
+        setProfileImage('');
+        await logout();
+    }
 
     //Link for user at sidebar
     const authSidebarLinks = (
         <li>
             <a className="waves-effect" href="#">
-                <button id="sidebar__button" onClick={logout}>Logout</button>
+                <button id="sidebar__button" onClick={handleLogout}>Logout</button>
             </a>
         </li>
     )
@@ -35,7 +40,7 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
     const authNavbarLinks = (
         <li>
             <a className="waves-effect" href="#">
-                <button id="navbar__button" onClick={logout}>Logout</button>
+                <button id="navbar__button" onClick={handleLogout}>Logout</button>
             </a>
         </li>
     )
@@ -67,6 +72,7 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                         <div className="user-view blue lighten-3">
                             <a href="/profile"><img className="image_navbar" src={profileImage}/></a>
                             <a href="/profile"><span className="black-text name">{user ? user.name : 'Login First'}</span></a>
+                            <a href="/profile"><span className="black-text name">{user ? user.username : ''}</span></a>
                             <a href="/profile"><span className="black-text email">{user ? user.email : ''}</span></a>
                         </div>
                     </li>

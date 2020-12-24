@@ -3,11 +3,16 @@
     line-height: 20px;
 }
 
+.project_item .card-content p {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
 .project_item .card-title {
     font-size: 20px ;
     line-height: 25px !important;
     text-align: center;
-    overflow: hidden;
     margin: 0 !important;
 }
 

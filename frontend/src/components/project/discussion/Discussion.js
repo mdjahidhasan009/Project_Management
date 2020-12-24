@@ -9,9 +9,9 @@ import DiscussionRow from "./DiscussionRow";
 import Input from "../../shared/FormElements/Input";
 import { VALIDATOR_REQUIRE } from "../../../utils/validators";
 import M from "materialize-css";
+import {initModalAndOpen} from "../../../utils/helper";
 
-const Discussion = ({ project, addDiscussion, editDiscussion, isMemberOfThisProject, isCreatedByUser, isAuthenticated
-}) => {
+const Discussion = ({ project, addDiscussion, editDiscussion, isMemberOfThisProject, isCreatedByUser, isAuthenticated }) => {
     const { sendRequest } = useHttpClient();
     const projectId = useParams().projectId;
     const [ editDiscussionText, setEditDiscussionText ] = useState('');
@@ -27,6 +27,7 @@ const Discussion = ({ project, addDiscussion, editDiscussion, isMemberOfThisProj
         false
     );
 
+    //initialization(set discussionText to '' and validation to false)
     const setAddDiscussionData = async () => {
         await setFormData(
             {
@@ -44,18 +45,18 @@ const Discussion = ({ project, addDiscussion, editDiscussion, isMemberOfThisProj
         event.preventDefault();
         try {
             await addDiscussion(formState.inputs.discussionText.value, projectId, sendRequest);
+            await setAddDiscussionData();
         } catch (error) {
             console.log(error);
         }
     }
 
     const editDiscussionHandler = async (event) => {
-        console.log(formState);
         await editDiscussion(project._id, discussionId, formState.inputs.discussionEditText.value, sendRequest);
         await setAddDiscussionData();
     }
 
-    const setEditDiscussionData = async (discussionText) => {
+    const initEditDiscussionData = async (discussionText) => {
         await setEditDiscussionText(discussionText);
         await setFormData(
             {
@@ -69,12 +70,10 @@ const Discussion = ({ project, addDiscussion, editDiscussion, isMemberOfThisProj
     }
 
     const handleClickOnEdit = async (discussionId, discussionText) => {
-        await setEditDiscussionData(discussionText);
+        await initEditDiscussionData(discussionText);
         await setDiscussionId(discussionId);
         document.getElementById("discussionEditText").value = discussionText;
-        let Modalelem = document.querySelector('#edit-discussion-modal');
-        let instance = M.Modal.init(Modalelem);
-        instance.open();
+        initModalAndOpen('#edit-discussion-modal')
     }
 
     return (
@@ -94,7 +93,7 @@ const Discussion = ({ project, addDiscussion, editDiscussion, isMemberOfThisProj
                     />
                 </div>
                 <div className="modal-footer">
-                    <button disabled={!formState.isValid} onClick={addDiscussionHandler} className="modal-close waves-effect waves-green btn-flat">Add New Project</button>
+                    <button disabled={!formState.isValid} onClick={addDiscussionHandler} className="modal-close waves-effect waves-light btn-flat">Add New Project</button>
                 </div>
             </div>
 
@@ -116,29 +115,27 @@ const Discussion = ({ project, addDiscussion, editDiscussion, isMemberOfThisProj
                 </div>
                 <div className="modal-footer">
                     <button onClick={editDiscussionHandler}
-                            disabled={!formState.isValid}  className="modal-close btn-flat">Edit Discussion</button>
+                            disabled={!formState.isValid}  className="modal-close waves-effect waves-light btn-flat">Edit Discussion</button>
                 </div>
             </div>
 
-            {isAuthenticated && (
-                <>
-                    {/*Add Discussion Modal Button*/}
-                    {(isMemberOfThisProject || isCreatedByUser) && (
-                        <button data-target="add-discussion-modal" className="light-blue lighten-1 modal-trigger add-btn">
-                        <i className="fas fa-plus-circle" />      ADD NEW DISCUSSION
-                        </button>
-                    )}
+            <>
+                {/*Add Discussion Modal Button*/}
+                {(isMemberOfThisProject || isCreatedByUser) && (
+                    <button data-target="add-discussion-modal" className="light-blue lighten-1 modal-trigger add-btn">
+                    <i className="fas fa-plus-circle" />      ADD NEW DISCUSSION
+                    </button>
+                )}
 
-                    <h5>Discussion List</h5>
-                    {project && project.discussion && project.discussion.map(discussion => (
-                        <DiscussionRow key={discussion._id}
+                <h5>Discussion List</h5>
+                {project && project.discussion && project.discussion.map(discussion => (
+                    <DiscussionRow key={discussion._id}
                         discussion={discussion}
                         handleClickOnEdit={handleClickOnEdit}
                         projectId={projectId}
-                    />
-                    ))}
-                </>
-            )}
+                />
+                ))}
+            </>
         </div>
     );
 };

@@ -1,7 +1,7 @@
 .team-member {
     text-align: center;
     margin: 0 !important;
-    padding-bottom: 1px;
+    padding-bottom: 5px;
 }
 
 .team-member__image {
@@ -19,9 +19,10 @@
 .team-member__details .delete_icon {
     font-size: 18px;
     opacity: 0;
+    /*padding-top: 6px;*/
 }
 
-.team-member:hover > .col > .delete_icon {
+.team-member:hover .delete_icon {
     opacity: 1;
 }
 

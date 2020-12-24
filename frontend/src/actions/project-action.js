@@ -20,6 +20,7 @@ import {
     UPDATE_DISCUSSION,
     DELETE_DISCUSSION
 } from "./types";
+import { prepareActivityHelper } from "../utils/helper";
 import M from "materialize-css";
 
 //Add new project
@@ -238,13 +239,15 @@ export const toggleIsDone = (projectId, todoId, isDone, method) => async dispatc
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        M.toast({html: 'Todo Updated', classes: 'green'});
-        dispatch({
-            type: UPDATE_TODO,
-            payload: responseData
-        })
+        if(responseData) {
+            M.toast({html: 'Todo Updated', classes: 'green'});
+            dispatch({
+                type: UPDATE_TODO,
+                payload: responseData
+            })
+        }
     } catch (error) {
-        console.error(error);
+        // console.error(error);
     }
 }
 
@@ -307,13 +310,15 @@ export const toggleIsFixed = (projectId, bugId, isFixed, method) => async dispat
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        M.toast({html: 'Bug Updated', classes: 'green'});
-        dispatch({
-            type: UPDATE_BUG,
-            payload: responseData
-        })
+        if(responseData) {
+            M.toast({ html: 'Bug Updated', classes: 'green' });
+            dispatch({
+                type: UPDATE_BUG,
+                payload: responseData
+            })
+        }
     } catch (error) {
-        console.error(error);
+        // console.error(error);
     }
 }
 
@@ -422,7 +427,6 @@ export const getNotAssignedMember = (projectId, method) => async dispatch => {
             type: ADD_NOT_ASSIGNED_MEMBER,
             payload: responseData
         });
-        return responseData;
     } catch (error) {
         console.error(error);
     }
@@ -454,10 +458,9 @@ export const assignAnMemberToAProject = (projectId, username,  method) => async 
 
 //Delete / remove an member from project
 export const deleteMemberFromProject = (projectId, username,  method) => async dispatch => {
-    console.log(projectId, username)
     try {
         const responseData = await method(
-            process.env.REACT_APP_ASSET_URL + '/api/project/' + projectId,
+            process.env.REACT_APP_ASSET_URL + '/api/project/member/' + projectId,
             'DELETE',
             JSON.stringify({
                 username
@@ -499,7 +502,7 @@ export const getIsMemberAndCreatorOfProject = (projectId, method) => async dispa
 
 //Prepare project activities
 export const prepareActivity = (projectId, method) => async dispatch => {
-    let allActivities = []; //All activities as discussion, bug, todo (time, username, text, type)
+    let preparedActivities = []; //All activities as discussion, bug, todo (time, username, text, type)
     //types are todo, todo-done, bug, bug-fixed
     try {
         const responseData = await method(
@@ -510,75 +513,10 @@ export const prepareActivity = (projectId, method) => async dispatch => {
                 'Authorization': 'Bearer ' + localStorage.token
             }
         );
-        if(responseData) {
-            allActivities = responseData.discussion.map(discuss => {
-                return {
-                    time: discuss.time,
-                    user: discuss.user.username,
-                    text: discuss.text,
-                    type: 'discuss'
-                }
-            })
-            responseData.bugs.map(bug => {
-                allActivities.push({
-                    time: bug.time,
-                    user: bug.user.username,
-                    text: bug.text,
-                    type: 'bug'
-                })
-                if(bug.fixedAt) {
-                    allActivities.push({
-                        time: bug.fixedAt,
-                        user: bug.user.username,
-                        text: bug.text,
-                        type: 'bug-fixed'
-                    })
-                }
-            });
-            responseData.todos.map(todo => {
-                allActivities.push({
-                    time: todo.time,
-                    user: todo.user.username,
-                    text: todo.text,
-                    type: 'todo'
-                })
-                if(todo.doneAt) {
-                    allActivities.push({
-                        time: todo.doneAt,
-                        user: todo.user.username,
-                        text: todo.text,
-                        type: 'todo-done'
-                    })
-                }
-            })
-        }
-
-        allActivities.sort(function(a,b){
-            return new Date(b.time) - new Date(a.time);
-        });
-        const modifiedActivities = []; //Grouping discussion, bug, todo by date
-        let currentDate = null, previousDate = null;
-        let sameDateActivities = [];
-
-        allActivities.map(activity => {
-            currentDate = new Date(activity.time).getDate() + '/' + new Date(activity.time).getMonth() + '/' + new Date(activity.time).getFullYear();
-            if(currentDate === previousDate) sameDateActivities.unshift(activity)
-            else {
-                previousDate = currentDate;
-                modifiedActivities.unshift(sameDateActivities);
-                sameDateActivities = [];
-                sameDateActivities.unshift(activity);
-            }
-        })
-        if(sameDateActivities.length > 0)
-            modifiedActivities.unshift(sameDateActivities);
-        let lastArray = []; //As we using unshift most recent date will be at last reversing this and add to lastArray
-       for(let i = 0; i < modifiedActivities.length - 1; i++) {
-           lastArray.unshift(modifiedActivities[i]);
-       }
+        preparedActivities = prepareActivityHelper(responseData);
         dispatch({
             type: ACTIVITY_PREPARED,
-            payload: lastArray
+            payload: preparedActivities
         })
     } catch (error) {
         console.error(error);
@@ -588,7 +526,7 @@ export const prepareActivity = (projectId, method) => async dispatch => {
 //Work done(todo done and bug fixed) preview for project overview page
 export const prepareWorkDonePreview = (projectId, method) => async dispatch => {
     try {
-        let allActivities = [];
+        let preparedActivities = [];
         const responseData = await method(
             process.env.REACT_APP_ASSET_URL + '/api/project/' + projectId,
             'GET',
@@ -597,102 +535,34 @@ export const prepareWorkDonePreview = (projectId, method) => async dispatch => {
                 'Authorization': 'Bearer ' + localStorage.token
             }
         );
-        if(responseData) {
-            allActivities = responseData.discussion.map(discuss => {
-                return {
-                    time: discuss.time,
-                    user: discuss.user.username,
-                    text: discuss.text,
-                    type: 'discuss'
-                }
-            })
-            responseData.bugs.map(bug => {
-                allActivities.push({
-                    time: bug.time,
-                    user: bug.user.username,
-                    text: bug.text,
-                    type: 'bug'
-                })
-                if(bug.fixedAt) {
-                    allActivities.push({
-                        time: bug.fixedAt,
-                        user: bug.user.username,
-                        text: bug.text,
-                        type: 'bug-fixed'
-                    })
-                }
-            });
-            responseData.todos.map(todo => {
-                allActivities.push({
-                    time: todo.time,
-                    user: todo.user.username,
-                    text: todo.text,
-                    type: 'todo'
-                })
-                if(todo.doneAt) {
-                    allActivities.push({
-                        time: todo.doneAt,
-                        user: todo.user.username,
-                        text: todo.text,
-                        type: 'todo-done'
-                    })
-                }
-            })
-        }
-
-        allActivities.sort(function(a,b){
-            return new Date(b.time) - new Date(a.time);
-        });
-
-        const modifiedActivities = [];
-        let currentDate = null, previousDate = null;
-        let sameDateActivities = [];
-
-        allActivities.map(activity => {
-            currentDate = new Date(activity.time).getDate() + '/' + new Date(activity.time).getMonth() + '/' + new Date(activity.time).getFullYear();
-            if(currentDate === previousDate) sameDateActivities.unshift(activity)
-            else {
-                previousDate = currentDate;
-                modifiedActivities.unshift(sameDateActivities);
-                sameDateActivities = [];
-                sameDateActivities.unshift(activity);
-            }
-        })
-        if(sameDateActivities.length > 0)
-            modifiedActivities.unshift(sameDateActivities);
-        let lastArray = [];
-        for(let i = 0; i < modifiedActivities.length - 1; i++) {
-            lastArray.unshift(modifiedActivities[i]);
-        }
-
+        preparedActivities = prepareActivityHelper(responseData);
         let dataPreview = [
             ['x', 'Todo done', 'Bug fixed'],
             [0, 0, 0]
         ];
-        let finalArray = [];
+        let finalArrayForChart = [];
 
         let todo = 0, bug = 0, i = 0;
         let newDataPreview = [];
-        if(lastArray) {
-            lastArray.map(activity => {
-                todo = 0
-                bug = 0
+        let preparedActivitiesReverse = preparedActivities.reverse(); //as in activities recent come first we need old to recent
+        if(preparedActivitiesReverse) {
+            preparedActivitiesReverse.map(activity => {
+                todo = 0;
+                bug = 0;
                 activity.map(singleActivity => {
                     if(singleActivity.type === 'todo-done') todo++;
                     else if(singleActivity.type === 'bug-fixed') bug++;
-                    if(todo > 0 || bug > 0) {
-                        i++;
-                        newDataPreview.unshift([i, todo, bug]);
-                    }
                 });
-
+                if(todo > 0 || bug > 0) {
+                    i++;
+                    newDataPreview.push([i, todo, bug]);
+                }
             })
         }
-        newDataPreview.reverse();
-        finalArray = dataPreview.concat(newDataPreview);
+        finalArrayForChart = dataPreview.concat(newDataPreview);
         dispatch({
             type: ADD_WORK_PREVIEW,
-            payload: finalArray
+            payload: finalArrayForChart
         })
     } catch (error) {
         console.error(error);
@@ -701,14 +571,14 @@ export const prepareWorkDonePreview = (projectId, method) => async dispatch => {
 
 //Prepare todo and bug summary of an user for showing in his/her dashboard
 export const prepareTodoAndBugForPreview = (username, projects) => async dispatch => {
-    let completedActivity = []; //all completedTodo and fixed bug(means work finished) of all projects of a member
-    let notCompletedActivity = []; //all notCompletedTodo and notFixed bug(means remaining work) of all projects of a member
+    let allCompletedActivity = []; //all completedTodoOfAProject and fixed bug(means work finished) of all projects of a member
+    let allNotCompletedActivity = []; //all notCompletedTodoOfAProject and notFixed bug(means remaining work) of all projects of a member
     let projectName = null;
-    let completedTodo = []; //completed todo of a single project of a member
-    let notCompletedTodo = []; //not completed todo of a single project of a member
-    let notFixedBug = []; //not fixed bug of a single project of a member
-    let fixedBug = []; //fixed bug of of a single project of a member
-    let dataPreview = [
+    let completedTodoOfAProject = []; //completed todo of a single project of a member
+    let notCompletedTodoOfAProject = []; //not completed todo of a single project of a member
+    let notFixedBugOfAProject = []; //not fixed bug of a single project of a member
+    let fixedBugOfAProject = []; //fixed bug of of a single project of a member
+    let dataPreviewForChart = [
         ['x', 'Todo done', 'Bug fixed'],
         [0, 0, 0]
     ]; //For chart preview in dashboard
@@ -718,22 +588,22 @@ export const prepareTodoAndBugForPreview = (username, projects) => async dispatc
     try {
         projects.map(project => {
             projectName = project.name;
-            completedTodo = [];
-            notCompletedTodo = [];
-            notFixedBug = [];
-            fixedBug = [];
+            completedTodoOfAProject = [];
+            notCompletedTodoOfAProject = [];
+            notFixedBugOfAProject = [];
+            fixedBugOfAProject = [];
             if(project.todos) {
                 project.todos.map(todo => {
                     if(todo.user.username === username) {
                         if(todo.doneAt) {
-                            type = 'todo';
+                            type = 'todo-done';
                             time = todo.doneAt;
                             finishedActivity.unshift({ type, time })
                             completedTodoCount++;
-                            completedTodo.unshift(todo);
+                            completedTodoOfAProject.unshift(todo);
                         } else {
                             notCompletedTodoCount++;
-                            notCompletedTodo.unshift(todo);
+                            notCompletedTodoOfAProject.unshift(todo);
                         }
                     }
                 })
@@ -742,36 +612,46 @@ export const prepareTodoAndBugForPreview = (username, projects) => async dispatc
                 project.bugs.map(bug => {
                     if(bug.user.username === username) {
                         if(bug.fixedAt) {
-                            type = 'bug';
+                            type = 'bug-fixed';
                             time = bug.fixedAt;
                             finishedActivity.unshift({ type, time })
                             fixedBugCount++;
-                            fixedBug.unshift(bug);
+                            fixedBugOfAProject.unshift(bug);
                         } else {
                             notFixedBugCount++;
-                            notFixedBug.unshift(bug);
+                            notFixedBugOfAProject.unshift(bug);
                         }
                     }
                 })
             }
-            completedTodo = completedTodo.reverse();
-            notCompletedTodo = notCompletedTodo.reverse();
-            fixedBug = fixedBug.reverse();
-            notFixedBug = notFixedBug.reverse();
-            if((completedTodo.length > 0) || (fixedBug.length > 0))
-                completedActivity.unshift( { projectName, completedTodo, fixedBug } );
-            if((notCompletedTodo.length > 0) || (notFixedBug.length > 0))
-                notCompletedActivity.unshift( { projectName, notCompletedTodo, notFixedBug } );
+            completedTodoOfAProject = completedTodoOfAProject.reverse();
+            notCompletedTodoOfAProject = notCompletedTodoOfAProject.reverse();
+            fixedBugOfAProject = fixedBugOfAProject.reverse();
+            notFixedBugOfAProject = notFixedBugOfAProject.reverse();
+            if((completedTodoOfAProject.length > 0) || (fixedBugOfAProject.length > 0))
+                allCompletedActivity.unshift( { projectName, completedTodo: completedTodoOfAProject, fixedBug: fixedBugOfAProject } );
+            if((notCompletedTodoOfAProject.length > 0) || (notFixedBugOfAProject.length > 0))
+                allNotCompletedActivity.unshift( { projectName, notCompletedTodo: notCompletedTodoOfAProject, notFixedBug: notFixedBugOfAProject } );
         })
+        console.log(allCompletedActivity);
+
         finishedActivity.sort(function(a,b){
             return new Date(b.time) - new Date(a.time);
         });
+        let finishedActivityReversed = finishedActivity.reverse();
+        console.log(finishedActivity);
         let todo = 0, bug = 0, i = 0;
         let activityForChart = [];
-        if(finishedActivity.length > 0) {
-            let currentDate = new Date(finishedActivity[0].time).getDate() + '/' + new Date(finishedActivity[0].time).getMonth() + '/' + new Date(finishedActivity[0].time).getFullYear();
-            let previousDate = new Date(finishedActivity[0].time).getDate() + '/' + new Date(finishedActivity[0].time).getMonth() + '/' + new Date(finishedActivity[0].time).getFullYear();
-            finishedActivity.map(activity => {
+        if(finishedActivityReversed.length > 0) {
+            let currentDate = new Date(finishedActivityReversed[0].time).getDate() + '/' +
+                new Date(finishedActivityReversed[0].time).getMonth() + '/' +
+                new Date(finishedActivityReversed[0].time).getFullYear();
+
+            let previousDate = new Date(finishedActivityReversed[0].time).getDate() + '/' +
+                new Date(finishedActivityReversed[0].time).getMonth() + '/' +
+                new Date(finishedActivityReversed[0].time).getFullYear();
+
+            finishedActivityReversed.map(activity => {
                 currentDate = new Date(activity.time).getDate() + '/' + new Date(activity.time).getMonth() + '/' + new Date(activity.time).getFullYear();
                 if (currentDate !== previousDate) {
                     previousDate = currentDate;
@@ -782,15 +662,15 @@ export const prepareTodoAndBugForPreview = (username, projects) => async dispatc
                         bug = 0
                     }
                 }
-                if (activity.type === 'todo') todo++;
-                else if (activity.type === 'bug') bug++;
+                if (activity.type === 'todo-done') todo++;
+                else if (activity.type === 'bug-fixed') bug++;
             })
             if(todo > 0 || bug > 0) {
                 activityForChart.unshift([++i, todo, bug]);
             }
             activityForChart.reverse();
         }
-        const finalActivity = dataPreview.concat(activityForChart);
+        const finalActivity = dataPreviewForChart.concat(activityForChart);
         const todoBugSummary = {
             todoDone: completedTodoCount,
             todoNotDone: notCompletedTodoCount,
@@ -799,9 +679,9 @@ export const prepareTodoAndBugForPreview = (username, projects) => async dispatc
         }
         dispatch({
             type: PREPARE_DATA_FOR_DASHBOARD,
-            payload: { chartData: finalActivity, activitySummary: { completedActivity, notCompletedActivity }, todoBugSummary }
+            payload: { chartData: finalActivity, activitySummary: { completedActivity: allCompletedActivity, notCompletedActivity: allNotCompletedActivity }, todoBugSummary }
         })
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }

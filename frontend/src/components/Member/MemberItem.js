@@ -17,15 +17,15 @@ const MemberItem = ({ user }) => {
     }
 
     return (
-        <div className="col s12 m6 l4 card_item member_item">
+        <div className="col s12 m6 l4 member_item">
             <div className="card white">
                 <div className="card-content" onClick={openMemberDetails}>
                     <img className="profile_avatar"
                          src={user?.profileImage?.imageUrl}
                          alt="no image"
                     />
-                    <span className="card-title">{user.name}</span>
-                    <h6 className="card-username" onClick={toggleIsClickedOnEmail}>{user.email}</h6>
+                    <p className="card-title">{user.name}</p>
+                    <p className="card-username" onClick={toggleIsClickedOnEmail}>{user.email}</p>
                     <p className="card-role">{user.role}</p>
                     <div className="social-links">
                         {user && user.social && user.social.twitter && (

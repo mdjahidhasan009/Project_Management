@@ -106,3 +106,9 @@
         width: 60% !important;
     }
 }
+
+@media only screen and (max-width: 364px) {
+    .overview__project-delete {
+        margin-left: 5px;
+    }
+}

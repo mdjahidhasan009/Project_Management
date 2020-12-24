@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { connect } from 'react-redux';
 
 import { updateUser } from "../../actions/auth-action";
 import { useHttpClient } from "../../hooks/http-hook";
 import { useForm } from "../../hooks/form-hook";
 import Input from "../shared/FormElements/Input";
-import {VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE,VALIDATOR_EMAIL} from "../../utils/validators";
+import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE,VALIDATOR_EMAIL, VALIDATOR_NOT_REQUIRE } from "../../utils/validators";
 import M from 'materialize-css';
 import './EditProfile.css';
 
-const EditProfile = ({ auth: {user, isAuthenticated}, updateUser }) => {
+const EditProfile = ({ auth: { user, isAuthenticated }, updateUser }) => {
     const history = useHistory();
     const [ profileImage, setProfileImage ] = useState("");
     const [ formState, inputHandler, setFormData ] = useForm();
-    const { isLoading, error, sendRequest , clearError } = useHttpClient();
+    const { sendRequest } = useHttpClient();
     const [image, setImage] = useState('');
+    const [ loading, setIsLoading ] = useState(false);
 
     useEffect(  () => {
+        // if(!isAuthenticated) history.push('/');
         if(user) {
             setFormData(
                 {
@@ -99,14 +101,17 @@ const EditProfile = ({ auth: {user, isAuthenticated}, updateUser }) => {
         if(formState.inputs.newPassword.value !== formState.inputs.confirmNewPassword.value) {
             M.toast({html: 'Confirm password and Confirm new password have to be same', classes: 'red'});
         } else {
+            setIsLoading(true);
             await updateUser(formState, sendRequest);
+            setIsLoading(false);
             history.push('/profile');
         }
     }
 
     return(
         <div className="main">
-            {isAuthenticated && (
+            {isAuthenticated
+            && (
                 <>
                     <div className="row edit_profile">
                         <img
@@ -180,7 +185,7 @@ const EditProfile = ({ auth: {user, isAuthenticated}, updateUser }) => {
                                 />
                                 <Input
                                     label="Bio"
-                                    element="input"
+                                    element="textarea"
                                     placeholder="Bio"
                                     elementTitle="bio"
                                     type="textarea"
@@ -196,7 +201,7 @@ const EditProfile = ({ auth: {user, isAuthenticated}, updateUser }) => {
                                     placeholder="Github profile url"
                                     elementTitle="github"
                                     type="text"
-                                    validators={[VALIDATOR_REQUIRE()]}
+                                    validators={[VALIDATOR_NOT_REQUIRE()]}
                                     errorText="Please enter your github profile link"
                                     onInput={inputHandler}
                                     initialValue={user.social && user.social.github}
@@ -210,7 +215,7 @@ const EditProfile = ({ auth: {user, isAuthenticated}, updateUser }) => {
                                     type="text"
                                     // validators={[VALIDATOR_MINLENGTH(2)]}
                                     // errorText="Please enter at least 2 character."
-                                    validators={[VALIDATOR_REQUIRE()]}
+                                    validators={[VALIDATOR_NOT_REQUIRE()]}
                                     errorText="Please enter your github profile link"
                                     onInput={inputHandler}
                                     initialValue={user.social && user.social.twitter}
@@ -224,7 +229,7 @@ const EditProfile = ({ auth: {user, isAuthenticated}, updateUser }) => {
                                     type="text"
                                     // validators={[VALIDATOR_MINLENGTH(2)]}
                                     // errorText="Please enter at least 2 character."
-                                    validators={[VALIDATOR_REQUIRE()]}
+                                    validators={[VALIDATOR_NOT_REQUIRE()]}
                                     errorText="Please enter your stackoverflow profile link"
                                     onInput={inputHandler}
                                     initialValue={user.social && user.social.stackoverflow}
@@ -238,7 +243,7 @@ const EditProfile = ({ auth: {user, isAuthenticated}, updateUser }) => {
                                     type="text"
                                     // validators={[VALIDATOR_MINLENGTH(2)]}
                                     // errorText="Please enter at least 2 character."
-                                    validators={[VALIDATOR_REQUIRE()]}
+                                    validators={[VALIDATOR_NOT_REQUIRE()]}
                                     errorText="Please enter your github profile link"
                                     onInput={inputHandler}
                                     initialValue={user.social && user.facebook}
@@ -252,7 +257,7 @@ const EditProfile = ({ auth: {user, isAuthenticated}, updateUser }) => {
                                     type="text"
                                     // validators={[VALIDATOR_MINLENGTH(2)]}
                                     // errorText="Please enter at least 2 character."
-                                    validators={[VALIDATOR_REQUIRE()]}
+                                    validators={[VALIDATOR_NOT_REQUIRE()]}
                                     errorText="Please enter your github profile link"
                                     onInput={inputHandler}
                                     initialValue={user.social && user.social.linkedIn}
@@ -266,7 +271,7 @@ const EditProfile = ({ auth: {user, isAuthenticated}, updateUser }) => {
                                     type="text"
                                     // validators={[VALIDATOR_MINLENGTH(2)]}
                                     // errorText="Please enter at least 2 character."
-                                    validators={[VALIDATOR_REQUIRE()]}
+                                    validators={[VALIDATOR_NOT_REQUIRE()]}
                                     errorText="Please enter your github profile link"
                                     onInput={inputHandler}
                                     initialValue={user.social && user.social.instagram}
@@ -280,7 +285,7 @@ const EditProfile = ({ auth: {user, isAuthenticated}, updateUser }) => {
                                     type="text"
                                     // validators={[VALIDATOR_MINLENGTH(2)]}
                                     // errorText="Please enter at least 2 character."
-                                    validators={[VALIDATOR_REQUIRE()]}
+                                    validators={[VALIDATOR_NOT_REQUIRE()]}
                                     errorText="Please enter your github profile link"
                                     onInput={inputHandler}
                                     initialValue={user.social && user.social.youtube}
@@ -310,20 +315,28 @@ const EditProfile = ({ auth: {user, isAuthenticated}, updateUser }) => {
                                 <Input
                                     label="Current Password"
                                     element="input"
-                                    placeholder="Current Password"
+                                    placeholder="Current Password(To save edit)"
                                     elementTitle="currentPassword"
                                     type="password"
                                     validators={[VALIDATOR_MINLENGTH(6)]}
                                     errorText="Please enter current password."
                                     onInput={inputHandler}
                                 />
-                                <button className="waves-effect waves-light blue btn"
-                                        onClick={saveProfile} disabled={!formState.isValid}>Save Profile Details</button>
+                                {/*<button className="waves-effect waves-light blue btn"*/}
+                                <button className="blue btn"
+                                        onClick={saveProfile}
+                                        disabled={!formState.isValid}
+                                >
+                                  {loading && <i className="fas fa-spinner fa-pulse" />}
+                                  {loading && ' Saving Profile Details'}
+                                  {!loading && 'Save Profile Details'}
+                                </button>
                             </div>
                         )}
                     </div>
                 </>
             )}
+            {/*{!isAuthenticated && (<Redirect to='/' />)}*/}
         </div>
     )
 }

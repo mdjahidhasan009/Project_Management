@@ -7,7 +7,6 @@ export const useHttpClient = () => {
     const activeHttpRequests = useRef([]);
 
     const sendRequest = useCallback(async (url, method = 'GET', body = null, headers = {}) => {
-        // setIsLoading(true);
         const httpAbortCtrl = new AbortController();
         activeHttpRequests.current.push(httpAbortCtrl);
          try {
@@ -30,7 +29,13 @@ export const useHttpClient = () => {
             return responseData;
         } catch (error) {
              setIsLoading(false);
-             M.toast({html: error.message, classes: 'red'});
+             //
+             if(error.message !== 'Login First' || (
+                 error.response &&
+                 error.response.data &&
+                 error.response.data.message
+             ))
+                M.toast({html: error.message, classes: 'red'});
         }
     }, []);
 

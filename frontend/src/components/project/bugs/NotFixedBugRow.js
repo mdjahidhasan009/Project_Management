@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from "react-redux";
 
-import {useHttpClient} from "../../../hooks/http-hook";
+import { useHttpClient } from "../../../hooks/http-hook";
 import { toggleIsFixed, deleteBug} from "../../../actions/project-action";
 
 const NotFixedBugRow = ({username, bug, projectId, toggleIsFixed, deleteBug, handleClickOnEdit, noImage }) => {
     const { sendRequest } = useHttpClient();
+    const [ isMobile, setIsMobile ] = useState(false);
     let clicked = false;
 
     const handleIsFixed = async () => {
@@ -25,10 +26,15 @@ const NotFixedBugRow = ({username, bug, projectId, toggleIsFixed, deleteBug, han
         await deleteBug(projectId, bug._id, sendRequest);
     }
 
+    useEffect(() => {
+        if (/Mobi/.test(navigator.userAgent))
+            setIsMobile(true);
+    }, [])
+
     return (
         <>
             {!bug.fixed && (
-                <div className="white col s12 not-fixed-bug showEditDeleteOnHover" onClick={handleIsFixed}>
+                <div className={`white col s12 not-fixed-bug ${isMobile ? '' : 'showEditDeleteOnHover'}`} onClick={handleIsFixed}>
                     <p className="not-fixed-bug__text">{bug.text}</p>
                     <img
                         src = {
@@ -42,8 +48,8 @@ const NotFixedBugRow = ({username, bug, projectId, toggleIsFixed, deleteBug, han
                     {/*If current user add this bug then edit and delete will be appears while hover*/}
                     {username && (username === bug.user.username) && (
                         <>
-                            <p className="edit" onClick={handleEditClick}>Edit</p>
-                            <p className="delete" onClick={handleDeleteClick}>Delete</p>
+                            <p id='edit' className={`edit ${isMobile ? 'showEdit' : ''}`} onClick={handleEditClick}>Edit</p>
+                            <p id='delete' className={`delete ${isMobile ? 'showDelete' : ''}`} onClick={handleDeleteClick}>Delete</p>
                         </>
                     )}
                 </div>

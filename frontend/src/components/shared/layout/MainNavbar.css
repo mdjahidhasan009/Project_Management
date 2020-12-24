@@ -54,3 +54,9 @@ So then solution is reduce the top of sidenav.*/
         justify-content: center;
     }
 }
+
+@media only screen and (max-width: 401px) {
+    .brand-logo {
+        font-size: 1.6rem !important;
+    }
+}

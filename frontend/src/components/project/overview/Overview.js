@@ -3,20 +3,22 @@ import { Chart } from "react-google-charts";
 import { connect } from "react-redux";
 import { useHistory } from 'react-router-dom';
 
-
 import {useHttpClient} from "../../../hooks/http-hook";
 import {
     assignAnMemberToAProject,
     toggleIsProjectIsFinished,
     getProjectById,
-    deleteProject
+    deleteProject,
+    getNotAssignedMember
 } from '../../../actions/project-action';
 import M from 'materialize-css';
 import MemberRow from './MemberRow';
 import './Overview.css';
+import {initAllModal} from "../../../utils/helper";
 
 const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThisProject, isCreatedByUser,
-                      getProjectById, toggleIsProjectIsFinished, isAuthenticated, deleteProject
+                      getProjectById, toggleIsProjectIsFinished, isAuthenticated, deleteProject, notAssignMembers,
+                      getNotAssignedMember
 }) => {
     const { sendRequest } = useHttpClient();
     const [ addMember, setAddMember ] = useState('');
@@ -24,33 +26,48 @@ const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThis
 
     useEffect(() =>  {
         let selectList = document.getElementById("member_list");
-        if (project && project.notAssignMembers) {
-            project.notAssignMembers.map(member => {
+        if (notAssignMembers) {
+            notAssignMembers.map(member => {
                 let selectObject = document.createElement("option");
                 selectObject.text = member;
                 selectObject.value = member;
                 selectList.appendChild(selectObject);
             })
             M.FormSelect.init(selectList);
+            initAllModal();
         }
-    }, [project, isCreatedByUser, isMemberOfThisProject]);
+    }, [notAssignMembers]);
 
     const handleIsDoneClick = async () => {
-        await toggleIsProjectIsFinished(!project.isDone , project._id, sendRequest);
-        await getProjectById(project._id, sendRequest);
+        if(window.confirm("Do you want to mark this project as " + (project?.isDone ? "Not Done?" : "Done?"))) {
+            await toggleIsProjectIsFinished(!project.isDone , project._id, sendRequest);
+            await getProjectById(project._id, sendRequest);
+        }
     }
 
+    //get selected member username
     const handleSetAddMember = async (event) => {
         await setAddMember(event.target.value);
+        await getNotAssignedMember(project._id, sendRequest);
     }
 
     const handleAddMember = async () => {
+        let selectList = document.getElementById("member_list");
+        if(selectList.options.length > 1) {
+            let i, length = selectList.options.length - 1;
+            for(i = length; i > 0; i--) {
+                selectList.remove(i);
+            }
+        }
         await assignAnMemberToAProject(project._id, addMember ,sendRequest);
+        await getNotAssignedMember(project._id, sendRequest);
     }
 
     const handleProjectDelete = async () => {
-        await deleteProject(project._id, sendRequest);
-        history.push('/projects');
+        if(window.confirm("Do you want to delete this project? There is no recovery method!!")) {
+            await deleteProject(project._id, sendRequest);
+            history.push('/projects');
+        }
     }
 
     return (
@@ -68,7 +85,7 @@ const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThis
                     </label>
                 </div>
                 <div className="modal-footer">
-                    <button className="modal-close waves-effect waves-green btn-flat"
+                    <button className="modal-close waves-effect btn-flat"
                             onClick={handleAddMember}>Add Member</button>
                 </div>
             </div>
@@ -156,8 +173,9 @@ const mapStateToProps = state => ({
     chartData: state.project.chartData,
     isCreatedByUser: state.project.isCreatedByUser,
     isMemberOfThisProject: state.project.isMemberOfThisProject,
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated,
+    notAssignMembers: state.project?.project?.notAssignMembers
 });
 
 export default connect(mapStateToProps, { assignAnMemberToAProject, toggleIsProjectIsFinished, getProjectById,
-    deleteProject})(Overview);
+    deleteProject, getNotAssignedMember })(Overview);

@@ -6,6 +6,7 @@ import { useHttpClient } from "../../../hooks/http-hook";
 import { useForm } from "../../../hooks/form-hook";
 import { addBug, editBug } from "../../../actions/project-action";
 import { VALIDATOR_REQUIRE } from "../../../utils/validators";
+import {initAllModal, initModalAndOpen} from "../../../utils/helper";
 import Input from "../../shared/FormElements/Input";
 import NotFixedBugRow from "./NotFixedBugRow";
 import FixedBugRow from "./FixedBugRow";
@@ -27,6 +28,7 @@ const Bugs = ({ project, addBug, editBug, isMemberOfThisProject, isCreatedByUser
         false
     );
 
+    //initialization(bugText is ''
     const setAddBugData = async () => {
         await setFormData(
             {
@@ -71,10 +73,9 @@ const Bugs = ({ project, addBug, editBug, isMemberOfThisProject, isCreatedByUser
         await setEditBugData(bugText);
         await setBugId(bugId);
         document.getElementById("bugEditText").value = bugText;
-        let Modalelem = document.querySelector('#edit-bug-modal');
-        let instance = M.Modal.init(Modalelem);
+        initAllModal();
+        initModalAndOpen('#edit-bug-modal');
         document.getElementById("bugEditText").value = bugText;
-        instance.open();
     }
 
     return (
@@ -123,32 +124,29 @@ const Bugs = ({ project, addBug, editBug, isMemberOfThisProject, isCreatedByUser
                                 disabled={!formState.isValid}  className="modal-close btn-flat">Edit Bug</button>
                     </div>
                 </div>
+                <>
+                    {(isMemberOfThisProject || isCreatedByUser) && (
+                        //Add bug button of add bug modal
+                        <button data-target="add-bug-modal" className="light-blue lighten-1 modal-trigger add-btn">
+                            <i className="fas fa-plus-circle" />      ADD NEW BUG
+                        </button>
+                    )}
 
-                {isAuthenticated && (
-                    <>
-                        {(isMemberOfThisProject || isCreatedByUser) && (
-                            //Add bug button of add bug modal
-                            <button data-target="add-bug-modal" className="light-blue lighten-1 modal-trigger add-btn">
-                                <i className="fas fa-plus-circle" />      ADD NEW BUG
-                            </button>
-                        )}
-
-                        <h5>Not Fixed Bug List</h5>
-                        <div className=" ">
-                            {project && project.bugs && project?.bugs.map(bug => (
-                                <NotFixedBugRow key={bug._id} bug={bug} projectId={projectId} handleClickOnEdit={handleClickOnEdit}/>
-                            ))
-                            }
-                        </div>
-                        <h5>Fixed Bug List</h5>
-                        <div className=" ">
-                            {project && project.bugs && project?.bugs.map(bug => (
-                                <FixedBugRow key={bug._id} bug={bug} projectId={projectId}/>
-                            ))
-                            }
-                        </div>
-                    </>
-                )}
+                    <h5>Not Fixed Bug List</h5>
+                    <div className=" ">
+                        {project && project.bugs && project?.bugs.map(bug => (
+                            <NotFixedBugRow key={bug._id} bug={bug} projectId={projectId} handleClickOnEdit={handleClickOnEdit}/>
+                        ))
+                        }
+                    </div>
+                    <h5>Fixed Bug List</h5>
+                    <div className=" ">
+                        {project && project.bugs && project?.bugs.map(bug => (
+                            <FixedBugRow key={bug._id} bug={bug} projectId={projectId}/>
+                        ))
+                        }
+                    </div>
+                </>
             </div>
     )
 }

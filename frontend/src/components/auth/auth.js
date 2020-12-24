@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import  { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -16,9 +16,19 @@ import {
 import './auth.css';
 import M from "materialize-css";
 
-const Auth = ({ login, register , isAuthenticated , loadUser}) => {
+const Auth = ({ login, register , isAuthenticated , loadUser, user, token }) => {
     const [ isLoginMode, setIsLoginMode ] = useState(true);
+    const [ isMobile, setIsMobile ] = useState(false);
     const { sendRequest } = useHttpClient();
+    const history = useHistory();
+
+    useEffect(() => {
+        if(user) {
+            history.push('/dashboard');
+        }
+        if (/Mobi/.test(navigator.userAgent))
+            setIsMobile(true);
+    }, [user])
 
     const [ formState, inputHandler, setFormData ] = useForm(
         {
@@ -38,11 +48,10 @@ const Auth = ({ login, register , isAuthenticated , loadUser}) => {
         initSwitchLayout();
     }, [])
 
-    const switchModeHandler = () => {
+    const switchModeHandler = async () => {
         if(!isLoginMode) {
-            console.log('Switching from sign up to sign in mode')
             //Switching from sign up to sign in mode
-            setFormData(
+            await setFormData(
                 {
                     ...formState.inputs,
                     name: undefined,
@@ -52,9 +61,8 @@ const Auth = ({ login, register , isAuthenticated , loadUser}) => {
                  formState.inputs.email.isValid && formState.inputs.password.isValid
             );
         } else {
-            console.log('Switching from sign in to sign up mode')
             //Switching from sign in to sing up mode
-            setFormData(
+            await setFormData(
                  {
                     ...formState.inputs,
                     name: {
@@ -81,10 +89,9 @@ const Auth = ({ login, register , isAuthenticated , loadUser}) => {
         if(isLoginMode) {
             try {
                 await login(formState.inputs.email.value, formState.inputs.password.value, sendRequest);
-                await loadUser(sendRequest());
-                return (<Redirect to="/dashboard" />)
+                await loadUser(sendRequest);
             } catch (error) {
-                console.log(error);
+                console.error(error);
             }
         } else {
             try {
@@ -95,14 +102,12 @@ const Auth = ({ login, register , isAuthenticated , loadUser}) => {
                         await register(formState.inputs.name.value, formState.inputs.username.value,
                             formState.inputs.email.value, formState.inputs.password.value, sendRequest);
                         await loadUser(sendRequest);
-                        return (<Redirect to="/dashboard" />)
                     } catch (error) {
                         console.error(error);
                     }
                 }
-                console.log(formState);
             } catch (err) {
-
+                console.error(err);
             }
         }
     };
@@ -122,18 +127,16 @@ const Auth = ({ login, register , isAuthenticated , loadUser}) => {
         placeholder="Password"
         elementTitle="password"
         type="password"
-        validators={[VALIDATOR_MINLENGTH(5)]}
-        errorText="Please enter at least 5 character."
+        validators={[VALIDATOR_MINLENGTH(6)]}
+        errorText="Please enter at least 6 character."
         onInput={inputHandler}
     />;
 
     return (
         <div className="main signin__signup">
-            {isAuthenticated
-            ? <Redirect to="/dashboard" />
-            : (
-                <div className="row">
-                    <br/><br/>
+            <div className="row">
+                <br/><br/>
+                {!isMobile && (
                     <div className="col s12 m12 l12">
                         <div className="container" id="container">
                             {!isLoginMode && (
@@ -165,8 +168,8 @@ const Auth = ({ login, register , isAuthenticated , loadUser}) => {
                                             placeholder="Confirm Password"
                                             elementTitle="confirmPassword"
                                             type="password"
-                                            validators={[VALIDATOR_MINLENGTH(5)]}
-                                            errorText="Please enter at least 5 character."
+                                            validators={[VALIDATOR_MINLENGTH(6)]}
+                                            errorText="Please enter at least 6 character."
                                             onInput={inputHandler}
                                         />
                                         <button id="signup__button" disabled={!formState.isValid}>Sign Up</button>
@@ -202,9 +205,98 @@ const Auth = ({ login, register , isAuthenticated , loadUser}) => {
                             </div>
                         </div>
                     </div>
-                </div>
-              )
-            }
+                )}
+
+
+                {isMobile && (
+                    <div className="col s12 m12 l12">
+                        <div className="container" id="container">
+                            {/*<div className="row">*/}
+                                {!isLoginMode && (
+                                    <div className="form-container signInForMobile">
+                                        <form onSubmit={authSubmitHandler}>
+                                            <h4>Create Account</h4>
+                                            <Input
+                                                element="input"
+                                                elementTitle="name"
+                                                type="text"
+                                                placeholder="Name"
+                                                validators={[VALIDATOR_REQUIRE()]}
+                                                errorText="Please enter your full name."
+                                                onInput={inputHandler}
+                                            />
+                                            <Input
+                                                element="input"
+                                                elementTitle="username"
+                                                type="text"
+                                                placeholder="User Name"
+                                                validators={[VALIDATOR_REQUIRE()]}
+                                                errorText="Please enter your full name."
+                                                onInput={inputHandler}
+                                            />
+                                            {emailInput}
+                                            {passwordInput}
+                                            <Input
+                                                element="input"
+                                                placeholder="Confirm Password"
+                                                elementTitle="confirmPassword"
+                                                type="password"
+                                                validators={[VALIDATOR_MINLENGTH(6)]}
+                                                errorText="Please enter at least 6 character."
+                                                onInput={inputHandler}
+                                            />
+                                            <button id="signup__button" disabled={!formState.isValid}>Sign Up</button>
+                                            <button id="switchButtonForMobile"
+                                                    onClick={() => switchModeHandler()}>
+                                                Switch to {isLoginMode ? 'Sign Up' : 'Sign In'}
+                                            </button>
+                                        </form>
+                                    </div>
+                                )}
+
+                                {isLoginMode && (
+                                    <div className="form-container signUpForMobile">
+                                        <form onSubmit={authSubmitHandler}>
+                                            <h3>Sign in</h3>
+                                            {emailInput}
+                                            {passwordInput}
+                                            <a href="#">Forgot your password?</a>
+                                            <button disabled={!formState.isValid}>Sign In</button>
+                                            <button id="switchButtonForMobile"
+                                                    onClick={() => switchModeHandler()}>
+                                                Switch to {isLoginMode ? 'Sign Up' : 'Sign In'}
+                                            </button>
+                                        </form>
+                                    </div>
+                                )}
+
+                            {/*</div>*/}
+                            {/*<div className="row">*/}
+                            {/*    <div className="overlay-container">*/}
+                            {/*        <div className="overlay">*/}
+                            {/*            <div className="overlay-panel overlay-left">*/}
+                            {/*                <h3>Welcome Back!</h3>*/}
+                            {/*                <p>To keep connected with us please login with your personal info</p>*/}
+                            {/*                <button onClick={switchModeHandler} className="ghost" id="signIn">Sign In</button>*/}
+                            {/*            </div>*/}
+                            {/*            <div className="overlay-panel overlay-right">*/}
+                            {/*                <h4>Do Not Have Account?</h4>*/}
+                            {/*                <p>Enter your personal details and start journey with us</p>*/}
+                            {/*                <button onClick={switchModeHandler} className="ghost" id="signUp">Sign Up</button>*/}
+                            {/*            </div>*/}
+                            {/*        </div>*/}
+                            {/*    </div>*/}
+                            {/*</div>*/}
+
+
+
+
+
+                        </div>
+                    </div>
+                )}
+
+            </div>
         </div>
     );
 };
@@ -216,6 +308,8 @@ Auth.propTypes = {
 
 const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated,
+    user: state.auth.user,
+    token: state.auth.token
 })
 
 

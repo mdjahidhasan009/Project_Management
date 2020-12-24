@@ -29,23 +29,41 @@ export default function (state = initialState, action) {
     switch (type) {
         case REGISTER_SUCCESS:
         case LOGIN_SUCCESS:
-            localStorage.setItem('token', payload.token);
+            localStorage.setItem('token', payload);
             return {
                 ...state,
-                ...payload,
+                token: payload,
                 isAuthenticated: true,
                 loading: false
             }
         case REGISTER_FAIL:
         case AUTH_ERROR:
         case LOGIN_FAIL:
+            return {
+                ...state,
+                token: null,
+                isAuthenticated: false,
+                loading: false,
+                user: null,
+                chartData: null,
+                activitySummary: null,
+                todoBugSummary: null,
+                users: [],
+                selectedUser: null,
+            }
         case LOGOUT:
             localStorage.removeItem('token');
             return {
                 ...state,
                 token: null,
                 isAuthenticated: false,
-                loading: false
+                loading: false,
+                user: null,
+                chartData: null,
+                activitySummary: null,
+                todoBugSummary: null,
+                users: [],
+                selectedUser: null,
             }
         case USER_LOADED:
             return {
@@ -65,9 +83,7 @@ export default function (state = initialState, action) {
         case ALL_USER_LOADED:
             return {
                 ...state,
-                users: payload,
-                loading: false
-            }
+                users: payload            }
         case LOADED_SELECTED_USER:
             return {
                 ...state,

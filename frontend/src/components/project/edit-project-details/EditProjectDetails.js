@@ -1,15 +1,16 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { connect } from 'react-redux';
 
-import {useForm} from "../../../hooks/form-hook";
-import {editProjectDetails} from "../../../actions/project-action";
-import {useHttpClient} from "../../../hooks/http-hook";
-import {VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE} from "../../../utils/validators";
+import { useForm } from "../../../hooks/form-hook";
+import { editProjectDetails, getProjectById } from "../../../actions/project-action";
+import { useHttpClient } from "../../../hooks/http-hook";
+import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from "../../../utils/validators";
 import Input from "../../shared/FormElements/Input";
 import './EditProjectDetails.css';
 
-const EditProjectDetails = ({ project, editProjectDetails, isAuthenticated }) => {
+const EditProjectDetails = ({ project, editProjectDetails, isAuthenticated, getProjectById }) => {
     const { sendRequest } = useHttpClient();
+    const [ loading, setIsLoading ] = useState(false);
     const [ formState, inputHandler, setFormData ] = useForm(
         {
             projectName: {
@@ -59,8 +60,11 @@ const EditProjectDetails = ({ project, editProjectDetails, isAuthenticated }) =>
     }, [project]);
 
     const saveProjectDetails = async() => {
+        setIsLoading(true);
         await editProjectDetails(formState.inputs.projectName.value, formState.inputs.projectDetails.value,
             formState.inputs.projectCategory.value, formState.inputs.projectDeadline.value, project._id, sendRequest);
+        await getProjectById(project._id, sendRequest);
+        setIsLoading(false);
     }
 
     return (
@@ -69,9 +73,9 @@ const EditProjectDetails = ({ project, editProjectDetails, isAuthenticated }) =>
                 {project && isAuthenticated && (
                     <div className="project_details">
                         <Input
-                            label="Project Name"
+                            label="ProjectScreen Name"
                             element="input"
-                            placeholder="Project Name"
+                            placeholder="ProjectScreen Name"
                             elementTitle="projectName"
                             type="text"
                             validators={[VALIDATOR_MINLENGTH(5)]}
@@ -81,9 +85,9 @@ const EditProjectDetails = ({ project, editProjectDetails, isAuthenticated }) =>
                             initialValidity={true}
                         />
                         <Input
-                            label="Project EditProjectDetails"
+                            label="ProjectScreen Details"
                             element="textarea"
-                            placeholder="Project EditProjectDetails"
+                            placeholder="ProjectScreen Details"
                             elementTitle="projectDetails"
                             type="text"
                             validators={[VALIDATOR_MINLENGTH(5)]}
@@ -93,9 +97,9 @@ const EditProjectDetails = ({ project, editProjectDetails, isAuthenticated }) =>
                             initialValidity={true}
                         />
                         <Input
-                            label="Project Category"
+                            label="ProjectScreen Category"
                             element="input"
-                            placeholder="Project Category"
+                            placeholder="ProjectScreen Category"
                             elementTitle="projectCategory"
                             type="text"
                             validators={[VALIDATOR_MINLENGTH(2)]}
@@ -108,14 +112,19 @@ const EditProjectDetails = ({ project, editProjectDetails, isAuthenticated }) =>
                             element="input"
                             elementTitle="projectDeadline"
                             type="date"
-                            label="Project Deadline"
+                            label="ProjectScreen Deadline"
                             validators={[VALIDATOR_REQUIRE()]}
                             errorText="Please enter project deadline."
                             onInput={inputHandler}
                             initialValue={project.deadline}
                             initialValidity={true}
                         />
-                        <a className="waves-effect waves-light blue btn" onClick={saveProjectDetails}>Save Project Details</a>
+                        <a className="waves-effect btn"
+                           onClick={saveProjectDetails}>
+                           {loading && <i className="fas fa-spinner fa-pulse" />}
+                           {loading && ' Saving Project Details'}
+                           {!loading && 'Save Project Details'}
+                        </a>
                     </div>
                 )}
             </div>
@@ -127,4 +136,4 @@ const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated
 })
 
-export default connect(mapStateToProps, { editProjectDetails })(EditProjectDetails);
+export default connect(mapStateToProps, { editProjectDetails, getProjectById })(EditProjectDetails);

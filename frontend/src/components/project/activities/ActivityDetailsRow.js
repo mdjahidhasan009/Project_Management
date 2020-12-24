@@ -25,7 +25,8 @@ const ActivityDetailsRow = ({ activityDetail }) => {
                     by {" "}
                     <a href={`/member/${activityDetail.user}`}>{activityDetail.user}</a>
                     {" "}
-                    at - {new Date(activityDetail.time).getHours()}:{new Date(activityDetail.time).getMinutes()}
+                    {/*at - {new Date(activityDetail.time).getHours()}:{new Date(activityDetail.time).getMinutes()}*/}
+                    at - {new Date(activityDetail.time).toUTCString()}
                 </p>
             </div>
         </div>

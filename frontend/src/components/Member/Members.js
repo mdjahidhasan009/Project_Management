@@ -5,7 +5,7 @@ import { getAllUser } from "../../actions/auth-action";
 import { useHttpClient } from "../../hooks/http-hook";
 import MemberItem from "./MemberItem";
 
-const Members = ({ auth: { users, isAuthenticated }, getAllUser }) => {
+const Members = ({ auth: { users }, getAllUser }) => {
     const { sendRequest } = useHttpClient();
 
     useEffect(() => {
@@ -14,15 +14,13 @@ const Members = ({ auth: { users, isAuthenticated }, getAllUser }) => {
 
     return (
         <div className="main">
-            {isAuthenticated && (
-                <div className="row memberList">
-                    {users && (
-                        users.map(user => (
-                            <MemberItem key={user.username} user={user}/>
-                        ))
-                    )}
-                </div>
-            )}
+            <div className="row memberList">
+                {users && (
+                    users.map(user => (
+                        <MemberItem key={user.username} user={user}/>
+                    ))
+                )}
+            </div>
         </div>
     );
 };

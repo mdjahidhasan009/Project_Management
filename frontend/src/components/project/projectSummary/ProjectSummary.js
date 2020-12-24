@@ -4,14 +4,15 @@ import { connect } from "react-redux";
 import { getProjectById, getNotAssignedMember } from "../../../actions/project-action";
 import './ProjectSummary.css';
 
-const ProjectSummary = ({ project, projectId, selectedItem, user }) => {
+const ProjectSummary = ({ project, projectId, selectedItem, user, name, description, category, deadline }) => {
+
     return (
         <div className="row white project-summary">
         <>
-            <h4>{project && project.name}</h4>
-            <h6>{project && project.description}</h6>
-            <h6>{project && project.category}</h6>
-            <h6>{project && project.deadline}</h6>
+            <h4>{name && name}</h4>
+            <h6>{description && description}</h6>
+            <h6>{category && category}</h6>
+            <h6>{deadline && deadline}</h6>
             <div className="divider" />
 
             {/*Project Summary Row*/}
@@ -77,7 +78,11 @@ const ProjectSummary = ({ project, projectId, selectedItem, user }) => {
 
 const mapStateToProps = state => ({
     project: state.project.project,
-    user: state.auth.user
+    user: state.auth.user,
+    name: state.project?.project?.name,
+    description: state.project?.project?.description,
+    category: state.project?.project?.category,
+    deadline: state.project?.project?.deadline
 });
 
 export default connect(mapStateToProps, { getProjectById, getNotAssignedMember })(ProjectSummary);

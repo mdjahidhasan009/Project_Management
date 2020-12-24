@@ -242,6 +242,25 @@
 }
 
 
+/* Mobile sign in and sign up*/
+.signInForMobile,
+.signUpForMobile {
+    width: 100%;
+}
+#switchButtonForMobile {
+    margin-top: 10px;
+
+}
+
+@media only screen and (max-width: 500px) {
+    .signInForMobile .form-control,
+    .signUpForMobile .form-control {
+        width: 90%;
+    }
+}
+
+
+
 /*BUTTON*/
 button:disabled,
 button:hover:disabled,
@@ -255,4 +274,46 @@ button:active:disabled {
 
 form {
     overflow-y: auto;
+}
+
+@media only screen and (max-width: 590px) {
+    h3 {
+        font-size: 2rem
+    }
+    h4 {
+        font-size: 1.8rem;
+    }
+    form {
+        padding: 0 15px !important;
+    }
+}
+
+@media only screen and (max-width: 507px) {
+    .signin__signup button {
+        padding: 12px 30px;
+    }
+}
+
+@media only screen and (max-width: 453px) {
+    .signin__signup button {
+        padding: 12px 15px;
+    }
+    .overlay-panel {
+        padding: 0 5px !important;
+    }
+}
+
+@media only screen and (max-width: 410px) {
+    input {
+        font-size: 12px !important;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    h3 {
+        font-size: 1.8rem
+    }
+    h4 {
+        font-size: 1.5rem;
+    }
 }

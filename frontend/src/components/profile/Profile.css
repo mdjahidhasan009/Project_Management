@@ -3,9 +3,10 @@
     flex-direction: column;
     align-items: center;
     background-color: #31cbf1;
-    padding: 20px 0;
-    margin: 10px 0;
+    padding: 20px 20px 0 20px !important;
+    margin: 10px !important;
     color: white;
+    min-height: 100vh;
 }
 
 .profile p {
@@ -35,19 +36,20 @@
 
 .profile-bio,
 .profile-skills {
-    background-color: #b5e4ff;
+    /*background-color: #b5e4ff;*/
+    background-color: #31cbf1;
     color: #085259;
 }
 
 .profile-bio {
-    padding-bottom: 0 !important;
-    margin-bottom: 0 !important;
+    /*padding-bottom: 0 !important;*/
+    margin-top: 0 !important;
+    padding: 0 20px 0 20px !important;
 }
 
 .profile-skills {
-    padding-top: 0 !important;
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
+    margin: 0 10px 10px 10px !important;
+    padding: 0 0 20px 0 !important;
 }
 
 .bottom-space {
@@ -69,6 +71,12 @@
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr;
         text-align: left;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .icons {
+        display: flex;
     }
 }
 

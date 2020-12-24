@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
-import {toggleIsDone, deleteTodo} from "../../../actions/project-action";
-import {useHttpClient} from "../../../hooks/http-hook";
+import { toggleIsDone, deleteTodo } from "../../../actions/project-action";
+import { useHttpClient } from "../../../hooks/http-hook";
 
 const IncompleteTodoRow = ({ todo, projectId, toggleIsDone, username, deleteTodo, handleClickOnEdit }) => {
     const { sendRequest } = useHttpClient();
-    let clicked = false;
+    const [ isMobile, setIsMobile ] = useState(false);
+    let clicked = false; //is clicked on edit or delete
 
     const handleTodoDone = async () => {
         if(!clicked) {
@@ -22,13 +23,20 @@ const IncompleteTodoRow = ({ todo, projectId, toggleIsDone, username, deleteTodo
 
     const handleDelete = async () => {
         clicked = true;
-        await deleteTodo(projectId, todo._id, sendRequest);
+        if(window.confirm('Do you want to delete this todo?')) {
+            await deleteTodo(projectId, todo._id, sendRequest);
+        }
     }
+
+    useEffect(() => {
+        if (/Mobi/.test(navigator.userAgent))
+            setIsMobile(true);
+    }, [])
 
     return (
         <>
              {!todo.done && (
-             <div className="white col s12 incomplete-todo showEditDeleteOnHover" onClick={handleTodoDone}>
+             <div className={`white col s12 incomplete-todo ${isMobile ? '' : 'showEditDeleteOnHover'}`} onClick={handleTodoDone}>
                      <p className="incomplete-todo__text">{todo.text}</p>
                      <img
                          src={todo.user?.profileImage?.imageUrl}
@@ -37,8 +45,8 @@ const IncompleteTodoRow = ({ todo, projectId, toggleIsDone, username, deleteTodo
                      />
                  {username && (username === todo.user.username) && (
                      <>
-                         <p className="edit" onClick={handleEdit}>Edit</p>
-                         <p className="delete" onClick={handleDelete}>Delete</p>
+                         <p id='edit' className={`edit ${isMobile ? 'showEdit' : ''}`} onClick={handleEdit}>Edit</p>
+                         <p id='delete' className={`delete ${isMobile ? 'showDelete' : ''}`} onClick={handleDelete}>Delete</p>
                      </>
                  )}
              </div>

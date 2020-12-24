@@ -10,6 +10,7 @@ import Input from "../../shared/FormElements/Input";
 import IncompleteTodoRow from "./IncompleteTodoRow";
 import CompletedTodoRow from "./CompletedTodoRow";
 import M from "materialize-css";
+import {initAllModal, initModalAndOpen} from "../../../utils/helper";
 
 const Todos = ({ addTodo, project, editTodo, isMemberOfThisProject, isCreatedByUser, isAuthenticated }) => {
     const { sendRequest } = useHttpClient();
@@ -27,7 +28,8 @@ const Todos = ({ addTodo, project, editTodo, isMemberOfThisProject, isCreatedByU
         false
     );
 
-    const setAddTodoData = async () => {
+    //initialization:(set todotext '' and validation to false)
+    const initAddTodoData = async () => {
         await setFormData(
             {
                 todoText: {
@@ -44,18 +46,19 @@ const Todos = ({ addTodo, project, editTodo, isMemberOfThisProject, isCreatedByU
         event.preventDefault();
         try {
             await addTodo(formState.inputs.todoText.value, projectId, sendRequest);
+            await initAddTodoData();
         } catch (error) {
             console.log(error);
         }
-        await setAddTodoData();
     }
 
     const editTodoHandler = async (event) => {
         await editTodo(project._id, todoId, formState.inputs.todoEditText.value, sendRequest);
-        await setAddTodoData();
+        await initAddTodoData();
     }
 
     const setEditTodoData = async (todoText) => {
+        await initAddTodoData();
         await setEditTodoText(todoText);
         await setFormData(
             {
@@ -72,10 +75,8 @@ const Todos = ({ addTodo, project, editTodo, isMemberOfThisProject, isCreatedByU
         await setEditTodoData(todoText);
         await setTodoId(todoId);
         document.getElementById("todoEditText").value = todoText;
-        let Modalelem = document.querySelector('#edit-todo-modal');
-        let instance = M.Modal.init(Modalelem);
+        initModalAndOpen('#edit-todo-modal');
         document.getElementById("todoEditText").value = todoText;
-        instance.open();
     }
 
     return (
@@ -95,7 +96,7 @@ const Todos = ({ addTodo, project, editTodo, isMemberOfThisProject, isCreatedByU
                     />
                 </div>
                 <div className="modal-footer">
-                    <button disabled={!formState.isValid} onClick={addTodoHandler} className="modal-close waves-effect waves-green btn-flat">Add New Todos</button>
+                    <button disabled={!formState.isValid} onClick={addTodoHandler} className="modal-close waves-effect btn-flat">Add New Todos</button>
                 </div>
             </div>
 
@@ -117,7 +118,7 @@ const Todos = ({ addTodo, project, editTodo, isMemberOfThisProject, isCreatedByU
                 </div>
                 <div className="modal-footer">
                     <button onClick={editTodoHandler}
-                            disabled={!formState.isValid}  className="modal-close btn-flat">Edit Todos</button>
+                            disabled={!formState.isValid}  className="modal-close waves-effect waves-light btn-flat">Edit Todos</button>
                 </div>
             </div>
 
@@ -142,7 +143,7 @@ const Todos = ({ addTodo, project, editTodo, isMemberOfThisProject, isCreatedByU
                     <div>
                         {project && project.todos && project?.todos.map(todo => (
                             <CompletedTodoRow key={todo._id} todo={todo} projectId={projectId}/>
-                        ))
+                            ))
                         }
                     </div>
                 </>

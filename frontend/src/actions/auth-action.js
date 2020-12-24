@@ -22,8 +22,11 @@ export const loadUser = (method) => async dispatch => {
                 type: USER_LOADED,
                 payload: responseData
             })
+        } else {
+            dispatch({
+                type: AUTH_ERROR
+            })
         }
-
     } catch (error) {
 
     }
@@ -45,10 +48,9 @@ export const register = ( name, username, email, password, method ) => async dis
                 'Content-Type': 'application/json'
             }
         );
-        console.log(responseData);
         dispatch({
             type: REGISTER_SUCCESS,
-            payload: responseData
+            payload: responseData.token
         });
     } catch (e) {
         console.log(e);
@@ -69,10 +71,12 @@ export const login = (email, password, method) => async dispatch => {
                 'Content-Type': 'application/json'
             }
         );
-        dispatch({
-            type: LOGIN_SUCCESS,
-            payload: responseData
-        });
+        if(responseData) {
+            dispatch({
+                type: LOGIN_SUCCESS,
+                payload: responseData.token
+            });
+        }
     } catch (err) {
         console.error(err);
     }
@@ -92,7 +96,6 @@ export const updateUser = (formState, method) => async dispatch => {
                 'Authorization': 'Bearer ' + localStorage.token
             }
         );
-        console.log(responseData);
         M.toast({html: 'User Details Updated', classes: 'green'});
     } catch (error) {
         console.error(error);
@@ -119,9 +122,7 @@ export const getAllUser = (method) => async dispatch => {
             type: ALL_USER_LOADED,
             payload: responseData
         });
-    } catch (error) {
-        console.error(error);
-    }
+    } catch (error) {}
 }
 
 //Get user by username

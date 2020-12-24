@@ -9,7 +9,9 @@ const MemberRow = ({ project, member, isCreatedByUser, deleteMemberFromProject, 
     const { sendRequest } = useHttpClient();
 
     const removeMember = async () => {
-        await deleteMemberFromProject(project._id, member.user.username, sendRequest);
+        if(window.confirm('Do you want to remove this member from project?')) {
+            await deleteMemberFromProject(project._id, member.user.username, sendRequest);
+        }
     }
 
     return (
@@ -26,10 +28,12 @@ const MemberRow = ({ project, member, isCreatedByUser, deleteMemberFromProject, 
             </div>
             <div className="col s9 team-member__details">
                 <p className="name">{member.user.username}</p>
-                <p className="role">{member.user?.role}</p>
-                {isCreatedByUser && (
-                    <i className="material-icons delete_icon" onClick={removeMember}>delete</i>
-                )}
+                <p className="role">
+                    {member.user?.role}
+                    {isCreatedByUser && (
+                        <i className="material-icons delete_icon" onClick={removeMember}>delete</i>
+                    )}
+                </p>
             </div>
         </div>
     )

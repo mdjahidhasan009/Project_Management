@@ -7,13 +7,13 @@ import {useHttpClient} from "../../../hooks/http-hook";
 const CompletedTodoRow = ({ todo, projectId, toggleIsDone }) => {
     const { sendRequest } = useHttpClient();
 
-    const handleTodoDone = async () => {
+    const handleToggleIsDone = async () => {
         await toggleIsDone(projectId, todo._id, 'false', sendRequest);
     }
     return (
         <>
              {todo.done && (
-             <div className="white col s12 completed-todo" onClick={handleTodoDone}>
+             <div className="white col s12 completed-todo" onClick={handleToggleIsDone}>
                      <p className="completed-todo__text">{todo.text}</p>
                      <img
                          src={todo.user?.profileImage?.imageUrl}

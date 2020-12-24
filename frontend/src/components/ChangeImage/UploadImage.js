@@ -7,20 +7,19 @@ import { useHttpClient } from "../../hooks/http-hook";
 import M from "materialize-css";
 import './UploadImage.css';
 
-const UploadImage = ({ uploadProfileImage, isAuthenticated }) => {
+const UploadImage = ({ uploadProfileImage }) => {
     const history = useHistory();
     const { sendRequest } = useHttpClient();
-    const [fileInputState, setFileInputState] = useState('');
-    const [previewSource, setPreviewSource] = useState('');
-    const [selectedFile, setSelectedFile] = useState();
+    const [ fileInputState, setFileInputState ] = useState('');//Image url temporary(for input tag)
+    const [ previewSource, setPreviewSource ] = useState('');//converted normal image to base64EncodedImage format
+    const [ selectedFile, setSelectedFile ] = useState();//for check is any file selected or not before submitting
+    const [ loading, setLoading ] = useState(false);
 
     const handleFileInputChange = (e) => {
-        const file = e.target.files[0];
+        const file = e.target.files[0]; //File data with file
         previewFile(file);
         setSelectedFile(file);
-        setFileInputState(e.target.value); //Temp
-        console.log(e.target.files[0])
-        console.log(e.target.value)
+        setFileInputState(e.target.value);
     };
 
     const previewFile = (file) => {
@@ -41,45 +40,43 @@ const UploadImage = ({ uploadProfileImage, isAuthenticated }) => {
     };
 
     const uploadImage = async (base64EncodedImage) => {
+        setLoading(true);
         await uploadProfileImage(base64EncodedImage, sendRequest);
+        setLoading(false);
         await history.push('/profile/');
     };
 
     return (
         <div className="main uploadImage">
-            {isAuthenticated && (
-                <div className="uploadImage__div">
-                    <h4 className="title">Upload an Image</h4>
-                    <form onSubmit={handleSubmitFile} className="form">
-                        <input
-                            id="fileInput"
-                            type="file"
-                            name="image"
-                            onChange={handleFileInputChange}
-                            value={fileInputState}
-                            className="form-input"
-                        />
-                        <button className="btn" type="submit">
-                            Submit
-                        </button>
-                    </form>
+            <div className="uploadImage__div">
+                <h4 className="title">Upload an Image</h4>
+                <form onSubmit={handleSubmitFile} className="form">
+                    <input
+                        id="fileInput"
+                        type="file"
+                        name="image"
+                        onChange={handleFileInputChange}
+                        value={fileInputState}
+                        className="form-input"
+                    />
+                    <button className="btn" type="submit">
+                        {loading && <i className="fas fa-spinner fa-pulse" />}
+                        {loading && ' Uploading Image'}
+                        {!loading && 'Submit'}
+                    </button>
+                </form>
 
-                    {previewSource && (
-                        <img
-                            className="previewImage"
-                            src={previewSource}
-                            alt="chosen"
-                            style={{ height: '300px' }}
-                        />
-                    )}
-                </div>
-            )}
+                {previewSource && (
+                    <img
+                        className="previewImage"
+                        src={previewSource}
+                        alt="chosen"
+                        style={{ height: '300px' }}
+                    />
+                )}
+            </div>
         </div>
     );
 };
 
-const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated
-})
-
-export default connect(mapStateToProps, { uploadProfileImage } )(UploadImage);
+export default connect(null, { uploadProfileImage } )(UploadImage);

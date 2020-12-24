@@ -70,6 +70,9 @@ code {
   margin: 0 10px 0 10px;
   display: none;
 }
+.delete {
+  color: red;
+}
 
 /* For todo(not completed) and bug(fixed bug) */
 .showEditDeleteOnHover:hover .delete {
@@ -82,6 +85,11 @@ code {
   opacity: 1;
   display: inline-block;
 }
+
+/* For mobile always show edit and delete */
+.showEdit, .showDelete { opacity: 1; }
+.showEdit { display: inline-block; }
+.showDelete { display: contents; }
 
 /* For todo(not completed and completed todo) and bug(fixed and not fixed bug) */
 .not-fixed-bug__text,
@@ -98,6 +106,7 @@ code {
 .completed-todo,
 .incomplete-todo {
   margin-bottom: 5px;
+  overflow: auto;
 }
 
 .fixed-bug__text,
