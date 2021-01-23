@@ -11,8 +11,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cf56ad10-8b53-4663-8e5e-f466c23daf74" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/.env.production" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/.env.production" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/build/asset-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build/asset-manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/build/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/build/precache-manifest.6a308bb9249abbb14a022d6a57f4a194.js" beforeDir="false" />
@@ -53,7 +54,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/frontend" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/frontend/src/components/EditProfile/EditProfile.js" root0="SKIP_INSPECTION" />
@@ -165,7 +166,17 @@
       <workItem from="1608783196935" duration="1128000" />
       <workItem from="1608786479970" duration="5343000" />
       <workItem from="1608799949024" duration="6083000" />
-      <workItem from="1608812344303" duration="5672000" />
+      <workItem from="1608812344303" duration="6099000" />
+      <workItem from="1608891584073" duration="1239000" />
+      <workItem from="1609243882549" duration="767000" />
+      <workItem from="1609244907796" duration="33000" />
+      <workItem from="1609246041306" duration="279000" />
+      <workItem from="1609251238537" duration="89000" />
+      <workItem from="1609339853297" duration="27000" />
+      <workItem from="1610863774914" duration="175000" />
+      <workItem from="1610880317578" duration="22000" />
+      <workItem from="1611233659722" duration="776000" />
+      <workItem from="1611411141398" duration="314000" />
     </task>
     <servers />
   </component>

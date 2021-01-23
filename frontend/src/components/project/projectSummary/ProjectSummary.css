@@ -17,6 +17,7 @@
 
 .project__navigation-button a{
     color: black !important;
+    margin-left: 3px;
 }
 
 @media only screen and (max-width: 1200px) {
@@ -56,7 +57,7 @@
     }
 }
 
-@media only screen and (max-width: 413px) {
+@media only screen and (max-width: 419px) {
     .project-summary__navigation {
         display: grid;
         grid-template-columns: 1fr 1fr;
