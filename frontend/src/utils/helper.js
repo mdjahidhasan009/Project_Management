@@ -76,3 +76,13 @@ export const prepareActivityHelper = (responseData) => {
     //key:data => value(all bug fixed/todo finished and bug appears and todo add at that day)
     return lastArray;
 }
+
+export const getUserRoleString = (role) => {
+    if(role === '1') return 'CEO';
+    if(role === '2') return 'Project Manger';
+    if(role === '3') return 'Team Leader';
+    if(role === '4') return 'Senior Software Developer';
+    if(role === '5') return 'Software Developer';
+    if(role === '6') return 'Junior Software Developer';
+    if(role === '7') return 'Intern';
+}

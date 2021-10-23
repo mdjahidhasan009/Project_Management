@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Redirect, useHistory } from "react-router-dom";
 import { connect } from 'react-redux';
 
+import UploadImage from '../ChangeImage/UploadImage';
 import { updateUser } from "../../actions/auth-action";
 import { useHttpClient } from "../../hooks/http-hook";
 import { useForm } from "../../hooks/form-hook";
@@ -20,6 +21,8 @@ const EditProfile = ({ auth: { user, isAuthenticated }, updateUser }) => {
 
     useEffect(  () => {
         // if(!isAuthenticated) history.push('/');
+        let elems = document.querySelectorAll('select');
+        M.FormSelect.init(elems);
         if(user) {
             setFormData(
                 {
@@ -119,7 +122,8 @@ const EditProfile = ({ auth: { user, isAuthenticated }, updateUser }) => {
                             alt="Add Profile Image"
                             className="profile_avatar"
                         />
-                        <a href="/uploadImage" className="btn">Change Profile Pic</a>
+                        <UploadImage />
+                        {/*<a href="/uploadImage" className="btn">Change Profile Pic</a>*/}
 
                         {user && (
                             <div className="details">
@@ -161,12 +165,12 @@ const EditProfile = ({ auth: { user, isAuthenticated }, updateUser }) => {
                                 />
                                 <Input
                                     label="Role"
-                                    element="input"
+                                    element="select"
                                     placeholder="Role"
                                     elementTitle="role"
                                     type="text"
-                                    validators={[VALIDATOR_MINLENGTH(2)]}
-                                    errorText="Please enter at least 2 character."
+                                    validators={[VALIDATOR_REQUIRE()]}
+                                    errorText="Please select type of role"
                                     onInput={inputHandler}
                                     initialValue={user.role}
                                     initialValidity={true}

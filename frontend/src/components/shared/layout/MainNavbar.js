@@ -6,7 +6,7 @@ import { logout } from '../../../actions/auth-action'
 import M from "materialize-css";
 import './MainNavbar.css';
 
-const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
+const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
     const [ profileImage, setProfileImage ] = useState("");
     useEffect(() => {
         if(user?.profileImage?.imageUrl) {
@@ -69,9 +69,11 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
             <div className="scrollable2_sidenav2">
                 <ul id="slide-out" className="sidenav sidenav-fixed">
                     <li>
-                        <div className="user-view blue lighten-3">
+                        <div className="user-view light-blue lighten-2">
                             <a href="/profile"><img className="image_navbar" src={profileImage}/></a>
-                            <a href="/profile"><span className="black-text name">{user ? user.name : 'Login First'}</span></a>
+                            <a href="/profile"><span className="black-text name">
+                                {user ? user.name : 'Login First'}</span>
+                            </a>
                             <a href="/profile"><span className="black-text name">{user ? user.username : ''}</span></a>
                             <a href="/profile"><span className="black-text email">{user ? user.email : ''}</span></a>
                         </div>

@@ -47,9 +47,9 @@ const UploadImage = ({ uploadProfileImage }) => {
     };
 
     return (
-        <div className="main uploadImage">
+        <div className=" uploadImage">
             <div className="uploadImage__div">
-                <h4 className="title">Upload an Image</h4>
+                <h5 className="title">Edit Profile Image</h5>
                 <form onSubmit={handleSubmitFile} className="form">
                     <input
                         id="fileInput"
@@ -62,7 +62,7 @@ const UploadImage = ({ uploadProfileImage }) => {
                     <button className="btn" type="submit">
                         {loading && <i className="fas fa-spinner fa-pulse" />}
                         {loading && ' Uploading Image'}
-                        {!loading && 'Submit'}
+                        {!loading && 'Upload Profile Image'}
                     </button>
                 </form>
 

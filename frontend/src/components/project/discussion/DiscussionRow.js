@@ -25,7 +25,7 @@ const DiscussionRow = ({ discussion, username, handleClickOnEdit, projectId, del
     }, [])
 
     return (
-        <div className={`row white discussion-row ${isMobile ? '' : 'showEditDeleteOnHover'}`} id="discussion-row">
+        <div className={`row white discussion-row ${isMobile ? '' : 'showElementOnHover'}`} id="discussion-row">
             <div className="col s1 discussion-row__image">
                 <img
                     src={discussion?.user?.profileImage?.imageUrl}

@@ -57,6 +57,10 @@ const projectSchema = new mongoose.Schema({
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'User'
             },
+            addedBy: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User'
+            },
             time: {
                 type: Date,
                 default: Date.now()
@@ -74,7 +78,38 @@ const projectSchema = new mongoose.Schema({
                 default: false,
                 require: true
             }
-        }
+            ,
+            subTodos: [
+                {
+                    user: {
+                        type: mongoose.Schema.Types.ObjectId,
+                        ref: 'User'
+                    },
+                    addedBy: {
+                        type: mongoose.Schema.Types.ObjectId,
+                        ref: 'User'
+                    },
+                    time: {
+                        type: Date,
+                        default: Date.now()
+                    },
+                    doneAt: {
+                        type: Date,
+                        default: null
+                    },
+                    text: {
+                        type: String,
+                        require: true
+                    },
+                    done: {
+                        type: Boolean,
+                        default: false,
+                        require: true
+                    }
+                    ,
+                }
+            ]
+        },
     ],
     bugs: [
         {

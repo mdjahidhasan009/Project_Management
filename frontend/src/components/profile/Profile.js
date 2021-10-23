@@ -4,12 +4,14 @@ import { useHistory } from "react-router-dom";
 
 import { getUserByUserName } from "../../actions/auth-action";
 import { useHttpClient } from "../../hooks/http-hook";
+import { getUserRoleString } from "../../utils/helper";
 import './Profile.css';
 
 const Profile = ({ match, loadedUser, getUserByUserName, auth: { user, isAuthenticated} }) => {
     const history = useHistory();
     const { sendRequest } = useHttpClient();
     const [ showUser, setShowUser ] = useState(user);
+    const [ userRole, setUserRole ] = useState('');
     useEffect(() => {
         // if(!isAuthenticated) history.push('/');
         if(match.params && match.params.username) {
@@ -19,6 +21,11 @@ const Profile = ({ match, loadedUser, getUserByUserName, auth: { user, isAuthent
         }
 
     }, []);
+
+    useEffect(() => {
+        if(loadedUser && loadedUser.role) setUserRole(getUserRoleString(loadedUser.role));
+        else if(user && user.role) setUserRole(getUserRoleString(user.role));
+    })
     return (
         <div className="main">
         <>
@@ -41,10 +48,9 @@ const Profile = ({ match, loadedUser, getUserByUserName, auth: { user, isAuthent
                         : (user && user.username)
                     }
                 </h6>
-                <p className="lead">{loadedUser
-                    ? (loadedUser.role)
-                    : (user && user.role)
-                } </p>
+                <p className="lead">
+                    {userRole}
+                </p>
                 <p className="lead">{loadedUser
                     ? (loadedUser.email)
                     : (user && user.email)

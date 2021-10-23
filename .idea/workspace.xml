@@ -13,40 +13,6 @@
     <list default="true" id="cf56ad10-8b53-4663-8e5e-f466c23daf74" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/.env.production" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/.env.production" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/asset-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build/asset-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/precache-manifest.6a308bb9249abbb14a022d6a57f4a194.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/service-worker.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build/service-worker.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/css/main.2f0a864f.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/css/main.2f0a864f.chunk.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/2.2b669610.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/2.2b669610.chunk.js.LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/2.2b669610.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.cce2fab3.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.cce2fab3.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/actions/project-action.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/actions/project-action.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/ChangeImage/UploadImage.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ChangeImage/UploadImage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Dashboard/Dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Dashboard/Dashboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/EditProfile/EditProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/EditProfile/EditProfile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/auth/auth.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/auth/auth.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/auth/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/auth/auth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/profile/Profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/profile/Profile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/Project.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/ProjectScreen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/activities/Activities.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/activities/ActivitiesScreen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/activities/ActivityDetailsRow.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/activities/ActivityDetailsRow.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/bugs/NotFixedBugRow.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/bugs/NotFixedBugRow.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/discussion/Discussion.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/discussion/Discussion.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/discussion/DiscussionRow.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/discussion/DiscussionRow.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/edit-project-details/EditProjectDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/edit-project-details/EditProjectDetails.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/projectSummary/ProjectSummary.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/projectSummary/ProjectSummary.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/todos/IncompleteTodoRow.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/todos/IncompleteTodoRow.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/projects/Projects.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/projects/Projects.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/routing/Routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/routing/Routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/shared/layout/MainNavbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/shared/layout/MainNavbar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/utils/helper.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/helper.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +20,15 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/frontend" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/frontend/src/components/EditProfile/EditProfile.js" root0="SKIP_INSPECTION" />
@@ -75,9 +49,10 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/frontend/src" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Downloaded for github/Project_Management-master/frontend/src/components/EditProfile/EditProfile.js" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
+    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/../Downloaded for github/Project_Management-master/frontend/src/components/EditProfile/EditProfile.js" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -176,7 +151,22 @@
       <workItem from="1610863774914" duration="175000" />
       <workItem from="1610880317578" duration="22000" />
       <workItem from="1611233659722" duration="776000" />
-      <workItem from="1611411141398" duration="314000" />
+      <workItem from="1611411141398" duration="1637000" />
+      <workItem from="1611469464438" duration="196000" />
+      <workItem from="1611469687917" duration="55000" />
+      <workItem from="1611469822814" duration="884000" />
+      <workItem from="1613403423944" duration="150000" />
+      <workItem from="1613403595003" duration="1282000" />
+      <workItem from="1613449265909" duration="27327000" />
+      <workItem from="1613489560343" duration="6723000" />
+      <workItem from="1613531133422" duration="25160000" />
+      <workItem from="1613571169207" duration="7351000" />
+      <workItem from="1613621570711" duration="15534000" />
+      <workItem from="1614163713254" duration="599000" />
+      <workItem from="1614229102318" duration="599000" />
+      <workItem from="1634918668490" duration="3608000" />
+      <workItem from="1634972681196" duration="227000" />
+      <workItem from="1634972957132" duration="842000" />
     </task>
     <servers />
   </component>

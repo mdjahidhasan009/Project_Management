@@ -1,11 +1,13 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { useHistory } from 'react-router-dom';
+import {getUserRoleString} from "../../utils/helper";
 
 import './MemberItem.css';
 
 const MemberItem = ({ user }) => {
     let history = useHistory();
     let clickedOnEmail = false;
+    let [ userRole, setUserRole ] = useState('');
 
     const openMemberDetails = async () => {
         if(!clickedOnEmail) await history.push('/member/' + user.username);
@@ -15,6 +17,10 @@ const MemberItem = ({ user }) => {
     const toggleIsClickedOnEmail = () => {
         clickedOnEmail = !clickedOnEmail;
     }
+
+    useEffect( () => {
+        setUserRole(getUserRoleString(user.role));
+    }, [user.role]);
 
     return (
         <div className="col s12 m6 l4 member_item">
@@ -26,7 +32,7 @@ const MemberItem = ({ user }) => {
                     />
                     <p className="card-title">{user.name}</p>
                     <p className="card-username" onClick={toggleIsClickedOnEmail}>{user.email}</p>
-                    <p className="card-role">{user.role}</p>
+                    <p className="card-role">{userRole}</p>
                     <div className="social-links">
                         {user && user.social && user.social.twitter && (
                             <a href={user.social.twitter} target="_blank" rel="noopener noreferrer">

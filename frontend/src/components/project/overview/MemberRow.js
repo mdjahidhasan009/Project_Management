@@ -1,9 +1,10 @@
-import React  from "react";
+import React from "react";
 import { connect } from 'react-redux';
 
 import { deleteMemberFromProject } from "../../../actions/project-action";
 import { useHttpClient } from "../../../hooks/http-hook";
 import './MemberRow.css';
+import {getUserRoleString} from "../../../utils/helper";
 
 const MemberRow = ({ project, member, isCreatedByUser, deleteMemberFromProject, noImage }) => {
     const { sendRequest } = useHttpClient();
@@ -29,7 +30,8 @@ const MemberRow = ({ project, member, isCreatedByUser, deleteMemberFromProject, 
             <div className="col s9 team-member__details">
                 <p className="name">{member.user.username}</p>
                 <p className="role">
-                    {member.user?.role}
+                    {getUserRoleString(member.user?.role)}
+                    {/*{member.user?.role}*/}
                     {isCreatedByUser && (
                         <i className="material-icons delete_icon" onClick={removeMember}>delete</i>
                     )}

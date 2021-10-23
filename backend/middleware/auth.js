@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
     if(!token) return res.status(401).json({ "error": "Login First"});
     try {
         const decoded = jwt.verify(token, process.env.JWTSCERET);
-        req.user = decoded.user;
+        req.user = decoded.user; //decoded.user is { id: userId }
         next();
     } catch (e) {
         res.status(401).json({ "error": "Login First"});

@@ -201,6 +201,33 @@ export const deleteDiscussion = (projectId, discussionId, method) => async dispa
     }
 }
 
+//Add a todo to junior
+export const addTodoToJunior = (todoText, projectId, username, method) => async dispatch => {
+    console.log('in addtodo to junior')
+    try {
+        const responseData = await method(
+            process.env.REACT_APP_ASSET_URL +'/api/project/assignTodo/todos/' + projectId + '/' + username,
+            'POST',
+            JSON.stringify({
+                todo: todoText
+            }),
+            {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + localStorage.token
+            }
+        );
+
+        M.toast({html: 'New Todo Added', classes: 'green'});
+        console.log(responseData)
+        dispatch({
+            type: ADD_TODO,
+            payload: responseData
+        })
+    } catch(error) {
+        console.error(error);
+    }
+}
+
 //Add a todo in a project
 export const addTodo = (todoText, projectId ,method) => async dispatch => {
     try {
@@ -229,8 +256,8 @@ export const addTodo = (todoText, projectId ,method) => async dispatch => {
 export const toggleIsDone = (projectId, todoId, isDone, method) => async dispatch => {
     try {
         const responseData = await method(
-            process.env.REACT_APP_ASSET_URL +'/api/project/todos/' + projectId + '/' + todoId,
-            'POST',
+            process.env.REACT_APP_ASSET_URL +'/api/project/toggle/todos/' + projectId + '/' + todoId,
+            'PUT',
             JSON.stringify({
                 isDone: isDone
             }),
@@ -295,6 +322,104 @@ export const deleteTodo = (projectId, todoId, method) => async dispatch => {
         console.error(error);
     }
 }
+
+
+//Add a sub todo in a project
+export const addSubTodo = (todoText, projectId, todoId, method) => async dispatch => {
+    try {
+        const responseData = await method(
+            process.env.REACT_APP_ASSET_URL +'/api/project/todos/' + projectId + '/todoId/' + todoId,
+            'POST',
+            JSON.stringify({
+                todo: todoText,
+                todoId: todoId
+            }),
+            {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + localStorage.token
+            }
+        );
+        M.toast({html: 'New Sub Todo Added', classes: 'green'});
+        dispatch({
+            type: UPDATE_TODO,
+            payload: responseData
+        })
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+//Mark any sub todo as done or not done(toggle is done)
+export const toggleSubTodoIsDone = (projectId, todoId, subTodoId, isDone, method) => async dispatch => {
+    try {
+        const responseData = await method(
+            process.env.REACT_APP_ASSET_URL +'/api/project/toggle/todos/' + projectId + '/' + todoId + '/' + subTodoId,
+            'PUT',
+            JSON.stringify({
+                isDone: isDone
+            }),
+            {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + localStorage.token
+            }
+        );
+        if(responseData) {
+            M.toast({html: 'Sub Todo Updated', classes: 'green'});
+            dispatch({
+                type: UPDATE_TODO,
+                payload: responseData
+            })
+        }
+    } catch (error) {
+        // console.error(error);
+    }
+}
+
+//Edit an todo
+export const editSubTodo = (projectId, todoId, subTodoId, subTodoEditText, method) => async dispatch => {
+    try {
+        const responseData = await method(
+            process.env.REACT_APP_ASSET_URL +'/api/project/todos/' + projectId + '/' + todoId + '/' + subTodoId,
+            'PUT',
+            JSON.stringify({
+                subTodoEditText
+            }),
+            {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + localStorage.token
+            }
+        );
+        M.toast({html: 'Sub Todo Updated', classes: 'green'});
+        dispatch({
+            type: UPDATE_TODO,
+            payload: responseData
+        })
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+//Delete a sub todo from a project
+export const deleteSubTodo = (projectId, todoId, subTodoId, method) => async dispatch => {
+    try {
+        const responseData = await method(
+            process.env.REACT_APP_ASSET_URL +'/api/project/todos/' + projectId + '/' + todoId + '/' + subTodoId,
+            'DELETE',
+            null,
+            {
+                Authorization: 'Bearer ' + localStorage.token
+            }
+        );
+        M.toast({html: 'Sub Todo Deleted', classes: 'green'});
+        dispatch({
+            type: DELETE_TODO,
+            payload: responseData
+        })
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 
 //Mark any bug as fixed or not fixed(toggle isFixed of an bug)
 export const toggleIsFixed = (projectId, bugId, isFixed, method) => async dispatch => {

@@ -49,8 +49,30 @@ const Input = props => {
         })
     };
 
-    const element = props.element === 'input' ? (
-        <input
+    // const element = props.element === 'input' ? (
+    //     <input
+    //         id={props.elementTitle}
+    //         type={props.type}
+    //         placeholder={props.placeholder}
+    //         onChange={changeHandler}
+    //         onBlur={clickHandler}
+    //         value={inputState.value}
+    //     />
+    // ) : (
+    //     <textarea
+    //         id={props.elementTitle}
+    //         cols={props.cols || 30}
+    //         rows={props.rows || 10}
+    //         onChange={changeHandler}
+    //         onBlur={clickHandler}
+    //         value={inputState.value}
+    //     />
+    // );
+
+    let element = null;
+    if(props.element === 'input')
+        element =
+            <input
             id={props.elementTitle}
             type={props.type}
             placeholder={props.placeholder}
@@ -58,17 +80,33 @@ const Input = props => {
             onBlur={clickHandler}
             value={inputState.value}
         />
-    ) : (
-        <textarea
-            id={props.elementTitle}
-            cols={props.cols || 30}
-            rows={props.rows || 10}
-            onChange={changeHandler}
-            onBlur={clickHandler}
-            value={inputState.value}
-        />
-    );
-
+    else if(props.element === 'select')
+        element =
+            <select
+                id={props.elementTitle}
+                // cols={props.cols || 30}
+                // rows={props.rows || 10}
+                onChange={changeHandler}
+                onBlur={clickHandler}
+                value={inputState.value}
+            >
+                <option value="1">CEO</option>
+                <option value="2">Project Manger</option>
+                <option value="3">Team Leader</option>
+                <option value="4">Senior Software Developer</option>
+                <option value="5">Software Developer</option>
+                <option value="6">Junior Software Developer</option>
+                <option value="7">Intern</option>
+            </select>
+    else element =
+            <textarea
+                id={props.elementTitle}
+                cols={props.cols || 30}
+                rows={props.rows || 10}
+                onChange={changeHandler}
+                onBlur={clickHandler}
+                value={inputState.value}
+            />
     return <div className={`form-control ${!inputState.isValid && inputState.isClicked && 'form-control--invalid'}`}>
         {props.label && <label htmlFor={props.elementTitle}>{props.label}</label>}
         {element}

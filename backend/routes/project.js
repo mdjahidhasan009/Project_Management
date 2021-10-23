@@ -16,6 +16,7 @@ router.get('/', auth, async (req, res) => {
             .populate('discussion.user', 'username profileImage -_id')
             .populate('members.user', 'username profileImage -_id')
             .populate('todos.user', 'username profileImage -_id')
+            .populate('todos.subTodos.user', 'username profileImage -_id')
             .populate('bugs.user', 'username profileImage -_id');
         await res.json(projects);
     } catch (error) {
@@ -265,6 +266,49 @@ router.delete(
     }
 )
 
+// @route   POST api/project/assignTodo/todos/:projectId/:username
+// @desc    Assign an todo to junior
+// @access  Private
+router.post(
+    '/assignTodo/todos/:projectId/:username',
+    auth,
+    [
+        check('todo')
+            .not()
+            .isEmpty()
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()) return res.status(400).json({ 'error': 'Server Error' });
+        try {
+            //Checking is given user is junior than current user
+            const givenUser = await User.findOne({ 'username': req.params.username })
+                .select('_id role');
+            const currentUser = await User.findById(req.user.id)
+                .select('_id role');
+            if(parseInt(currentUser.role) > parseInt(givenUser.role))
+                return res.status(400).json({ 'error': 'You can not assign todo for senior.'});
+
+            //Adding todo in project
+            let project = await Project.findById(req.params.projectId);
+            const newTodo = {
+                user: givenUser._id,
+                addedBy: req.user.id,
+                text: req.body.todo,
+            };
+            project.todos.unshift(newTodo);
+            await project.save();
+            project = await Project.findById(req.params.projectId)
+                .populate('todos.user', 'username profileImage -_id')
+                .populate('todos.subTodos.user', 'username profileImage -_id')
+            await res.json(project.todos[0]);
+        } catch (e) {
+            console.error(e);
+            return res.status(400).json({ 'error': 'Server Error' });
+        }
+    }
+)
+
 // @route   POST api/project/todos/:projectId
 // @desc    Add new todo
 // @access  Private
@@ -285,11 +329,14 @@ router.post(
             let project = await Project.findById(req.params.projectId);
             const newTodo = {
                 user: req.user.id,
+                addedBy: req.user.id,
                 text: req.body.todo,
             };
             project.todos.unshift(newTodo);
             await project.save();
-            project = await Project.findById(req.params.projectId).populate('todos.user', 'username profileImage -_id');
+            project = await Project.findById(req.params.projectId)
+                .populate('todos.user', 'username profileImage -_id')
+                .populate('todos.subTodos.user', 'username profileImage -_id')
             await res.json(project.todos[0]);
         } catch(error) {
             console.error(error);
@@ -298,11 +345,11 @@ router.post(
     }
 )
 
-// @route   POST api/project/todos/:projectId/:todoId
+// @route   PUT api/project/toggle/todos/:projectId/:todoId
 // @desc    Set todo done or incomplete
 // @access  Private
-router.post(
-    '/todos/:projectId/:todoId',
+router.put(
+    '/toggle/todos/:projectId/:todoId',
     auth,
     [
         check('isDone')
@@ -313,14 +360,14 @@ router.post(
         try {
             let project = await Project.findOne( { 'todos._id': req.params.todoId } );
             const todos = project.todos;
-            let isThisTodoAddedByCurrentUser = false;
+            let isAssignedToCurrentUser = false;
             todos.map(todo => {
                 if(todo._id.toString() === req.params.todoId) {
-                    if (todo.user.toString() === req.user.id) isThisTodoAddedByCurrentUser = true;
+                    if (todo.user.toString() === req.user.id) isAssignedToCurrentUser = true;
                 }
             })
-            if(!isThisTodoAddedByCurrentUser)
-                return res.status(400).json({ 'error': 'This todo does not added by you.' });
+            if(!isAssignedToCurrentUser)
+                return res.status(400).json({ 'error': 'This todo does not assign to you.' });
 
             let isDone = req.body.isDone === 'true';
             let doneAt = null;
@@ -331,7 +378,9 @@ router.post(
                     'todos.$.doneAt': doneAt
                 }}
             );
-            project = await Project.findById(req.params.projectId).populate('todos.user', 'username profileImage -_id');
+            project = await Project.findById(req.params.projectId)
+                .populate('todos.user', 'username profileImage -_id')
+                .populate('todos.subTodos.user', 'username profileImage -_id')
             await res.json(project.todos);
         } catch(error) {
             console.error(error);
@@ -355,20 +404,22 @@ router.put(
         try {
             let project = await Project.findOne( { 'todos._id': req.params.todoId } )
             const todos = project.todos;
-            let isThisTodoAddedByCurrentUser = false;
+            let isAssignedToCurrentUser = false;
             todos.map(todo => {
                 if(todo._id.toString() === req.params.todoId) {
-                    if (todo.user.toString() === req.user.id) isThisTodoAddedByCurrentUser = true;
+                    if (todo.user.toString() === req.user.id) isAssignedToCurrentUser = true;
                 }
             })
-            if(!isThisTodoAddedByCurrentUser) return res.status(400).json({ 'error': 'Server Error' });
+            if(!isAssignedToCurrentUser) return res.status(400).json({ 'error': 'Server Error' });
             await Project.updateOne(
                 { _id: req.params.projectId, 'todos._id': req.params.todoId},
                 {'$set': {
                     'todos.$.text': req.body.todoEditText
                 }}
             );
-            project = await Project.findById(req.params.projectId).populate('todos.user', 'username profileImage -_id');
+            project = await Project.findById(req.params.projectId)
+                .populate('todos.user', 'username profileImage -_id')
+                .populate('todos.subTodos.user', 'username profileImage -_id')
             await res.json(project.todos);
         } catch(error) {
             console.error(error);
@@ -387,20 +438,206 @@ router.delete(
         try {
             let project = await Project.findOne( { 'todos._id': req.params.todoId } )
             const todos = project.todos;
-            let isThisTodoAddedByCurrentUser = false;
+            let isAssignedToCurrentUser = false;
             todos.map(todo => {
                 if(todo._id.toString() === req.params.todoId) {
-                    if (todo.user.toString() === req.user.id) isThisTodoAddedByCurrentUser = true;
+                    if (todo.user.toString() === req.user.id) isAssignedToCurrentUser = true;
                 }
             })
-            if(!isThisTodoAddedByCurrentUser) return res.status(400).json({ 'error': 'Server Error' });
+            if(!isAssignedToCurrentUser) return res.status(400).json({ 'error': 'Server Error' });
             await Project.updateOne(
                 { _id: req.params.projectId },
                 {'$pull': {
                         'todos': { _id: req.params.todoId }
                     }}
             );
-            project = await Project.findById(req.params.projectId).populate('todos.user', 'username profileImage -_id');
+            project = await Project.findById(req.params.projectId)
+                .populate('todos.user', 'username profileImage -_id')
+                .populate('todos.subTodos.user', 'username profileImage -_id')
+            await res.json(project.todos);
+        } catch(error) {
+            console.error(error);
+            return res.status(400).json({ 'error': 'Server Error' });
+        }
+    }
+)
+
+// @route   POST api/project/todos/:projectId/todoId/:todoId
+// @desc    Add new sub todo
+// @access  Private
+router.post(
+    '/todos/:projectId/todoId/:todoId',
+    auth,
+    [
+        check('todo')
+            .not()
+            .isEmpty()
+    ],
+    async(req, res) => {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()) {
+            return res.status(400).json({ 'error': 'Server Error' });
+        }
+        try {
+            const newTodo = {
+                user: req.user.id,
+                addedBy: req.user.id,
+                text: req.body.todo,
+            };
+            await Project.update({ '_id': req.params.projectId , 'todos._id': req.params.todoId},
+                { $push: { 'todos.$.subTodos': newTodo }});
+            let updatedProject = await Project.findById(req.params.projectId)
+                .populate('todos.user', 'username profileImage -_id')
+                .populate('todos.subTodos.user', 'username profileImage -_id');
+            await res.json(updatedProject.todos);
+        } catch(error) {
+            console.error(error);
+            return res.status(400).json({ 'error': 'Server Error' });
+        }
+    }
+)
+
+// @route   PUT api/project/toggle/todos/:projectId/:todoId/:subTodoId
+// @desc    Set sub todo done or incomplete
+// @access  Private
+router.put(
+    '/toggle/todos/:projectId/:todoId/:subTodoId',
+    auth,
+    [
+        check('isDone')
+            .not()
+            .isEmpty()
+    ],
+    async(req, res) => {
+        try {
+            //Checking is the subTodo assigned to current user
+            let todos = await Project.findById(req.params.projectId)
+                    .select({ 'todos' : { $elemMatch: { _id: req.params.todoId }}})
+            //as elemMatch does not work for nested element
+            let subTodoRequested = await todos.todos[0].subTodos.filter(subTodo =>
+                subTodo._id.toString() === req.params.subTodoId.toString());
+            subTodoRequested = subTodoRequested[0]; //as return array
+            let isAssignedToCurrentUser = subTodoRequested.user.toString() === req.user.id;
+            if(!isAssignedToCurrentUser)
+                return res.status(400).json({ 'error': 'This sub todo does not assign to you.' });
+
+            //Toggling isDone
+            let isDone = req.body.isDone === 'true';
+            console.log(isDone)
+            let doneAt = null;
+            if(isDone) doneAt = new Date();
+            await Project.updateOne({
+                _id: req.params.projectId,
+            }, {
+                "$set": {
+                    "todos.$[i].subTodos.$[j].done": isDone,
+                    "todos.$[i].subTodos.$[j].doneAt": doneAt
+                }
+            }, {
+                arrayFilters: [
+                    {"i._id": req.params.todoId},
+                    {"j._id": req.params.subTodoId}
+                ]
+            })
+
+            let project = await Project.findById(req.params.projectId)
+                .populate('todos.user', 'username profileImage -_id')
+                .populate('todos.subTodos.user', 'username profileImage -_id')
+            await res.json(project.todos);
+        } catch(error) {
+            console.error(error);
+            return res.status(400).json({ 'error': 'Server Error' });
+        }
+    }
+)
+
+// @route   PUT api/project/todos/:projectId/:todoId/:subTodoId
+// @desc    Edit an existing sub todo
+// @access  Private
+router.put(
+    '/todos/:projectId/:todoId/:subTodoId',
+    auth,
+    [
+        check('subTodoEditText')
+            .not()
+            .isEmpty()
+    ],
+    async(req, res) => {
+        try {
+            //Checking is the subTodo assigned to current user
+            let todos = await Project.findById(req.params.projectId)
+                .select({ 'todos' : { $elemMatch: { _id: req.params.todoId }}})
+            //as elemMatch does not work for nested element
+            let subTodoRequested = await todos.todos[0].subTodos.filter(subTodo =>
+                subTodo._id.toString() === req.params.subTodoId.toString());
+            subTodoRequested = subTodoRequested[0]; //as return array
+            let isAssignedToCurrentUser = subTodoRequested.user.toString() === req.user.id;
+            if(!isAssignedToCurrentUser)
+                return res.status(400).json({ 'error': 'This sub todo does not assign to you.' });
+
+            //Update subTodo
+            await Project.updateOne({
+                _id: req.params.projectId
+            }, {
+                "$set": {
+                    "todos.$[i].subTodos.$[j].text": req.body.subTodoEditText
+                }
+            }, {
+                arrayFilters: [
+                    { "i._id": req.params.todoId },
+                    { "j._id": req.params.subTodoId }
+                ]
+            })
+
+            let project = await Project.findById(req.params.projectId)
+                .populate('todos.user', 'username profileImage -_id')
+                .populate('todos.subTodos.user', 'username profileImage -_id')
+            await res.json(project.todos);
+        } catch(error) {
+            console.error(error);
+            return res.status(400).json({ 'error': 'Server Error' });
+        }
+    }
+)
+
+// @route   DELETE api/project/todos/:projectId/:todoId/:subTodoId
+// @desc    Delete an sub todo
+// @access  Private
+router.delete(
+    '/todos/:projectId/:todoId/:subTodoId',
+    auth,
+    async(req, res) => {
+        try {
+            //Checking is the subTodo assigned to current user
+            let todos = await Project.findById(req.params.projectId)
+                .select({ 'todos' : { $elemMatch: { _id: req.params.todoId }}})
+            //as elemMatch does not work for nested element
+            let subTodoRequested = await todos.todos[0].subTodos.filter(subTodo =>
+                subTodo._id.toString() === req.params.subTodoId.toString());
+            console.log(!subTodoRequested);
+            if(subTodoRequested.length <= 0) return res.status(400).json({ 'error': 'No sub todo there' });
+            subTodoRequested = subTodoRequested[0]; //as return array
+            let isAssignedToCurrentUser = subTodoRequested.user.toString() === req.user.id;
+            if(!isAssignedToCurrentUser)
+                return res.status(400).json({ 'error': 'This sub todo does not assign to you.' });
+
+            //deleting sub todo
+            await Project.updateOne({
+                _id: req.params.projectId
+            }, {
+                "$pull" : {
+                    "todos.$[i].subTodos": { '_id' : req.params.subTodoId }
+                }
+            }, {
+                arrayFilters: [
+                    { "i._id": req.params.todoId }
+                ]
+            })
+
+
+            let project = await Project.findById(req.params.projectId)
+                .populate('todos.user', 'username profileImage -_id')
+                .populate('todos.subTodos.user', 'username profileImage -_id')
             await res.json(project.todos);
         } catch(error) {
             console.error(error);
@@ -681,6 +918,7 @@ router.get('/:projectId', auth, async (req, res) => {
             .populate('discussion.user', 'username profileImage -_id')
             .populate('members.user', 'username profileImage role -_id')
             .populate('todos.user', 'username profileImage -_id')
+            .populate('todos.subTodos.user', 'username profileImage -_id')
             .populate('bugs.user', 'username profileImage -_id');
         await res.status(200).json(project);
     } catch (error) {

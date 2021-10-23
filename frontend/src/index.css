@@ -64,6 +64,9 @@ code {
 }
 
 /* For todo(not completed) and bug(fixed bug) */
+.subTodo {
+  padding-left: 20px;
+}
 .delete ,
 .edit {
   opacity: 0;
@@ -75,13 +78,13 @@ code {
 }
 
 /* For todo(not completed) and bug(fixed bug) */
-.showEditDeleteOnHover:hover .delete {
+.showElementOnHover:hover .delete {
   opacity: 1;
   display: contents;
 }
 
 /* For todo(not completed) and bug(fixed bug) */
-.showEditDeleteOnHover:hover .edit {
+.showElementOnHover:hover .edit {
   opacity: 1;
   display: inline-block;
 }
@@ -127,4 +130,8 @@ code {
   .profile_avatar {
     max-width: 80vw;
   }
+}
+
+button {
+  border: none;
 }

@@ -34,7 +34,7 @@ const NotFixedBugRow = ({username, bug, projectId, toggleIsFixed, deleteBug, han
     return (
         <>
             {!bug.fixed && (
-                <div className={`white col s12 not-fixed-bug ${isMobile ? '' : 'showEditDeleteOnHover'}`} onClick={handleIsFixed}>
+                <div className={`white col s12 not-fixed-bug ${isMobile ? '' : 'showElementOnHover'}`} onClick={handleIsFixed}>
                     <p className="not-fixed-bug__text">{bug.text}</p>
                     <img
                         src = {
