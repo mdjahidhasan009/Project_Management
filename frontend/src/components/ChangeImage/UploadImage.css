@@ -5,5 +5,19 @@
 }
 
 .previewImage {
-    margin-top: 30px;
+    margin: 30px auto;
+    max-width: 100%;
+}
+
+input[type=file]::file-selector-button {
+    border: 2px solid #29b6f6;
+    padding: .2em .4em;
+    border-radius: .2em;
+    background-color: #4fc3f7;
+    transition: 1s;
+}
+
+input[type=file]::file-selector-button:hover {
+    background-color: #8cd8fa;
+    border: 2px solid #5eccfd;
 }

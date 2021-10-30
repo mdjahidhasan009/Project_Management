@@ -1,5 +1,5 @@
-.idea
-.gitignore
+/.gitignore
+/.git
 
 /frontend/build
 /frontend/node_modules

@@ -5,12 +5,14 @@
 
 .projects .projects__navigation_row {
     margin: 0 !important;
+    display: flex;
 }
 
 .projects .project-type-div {
     display: inline-block;
     line-height: 10px;
     padding: 20px;
+    margin: 0 auto;
 }
 
 .projects .project-type-div a .fas{

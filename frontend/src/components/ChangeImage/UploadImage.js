@@ -7,7 +7,7 @@ import { useHttpClient } from "../../hooks/http-hook";
 import M from "materialize-css";
 import './UploadImage.css';
 
-const UploadImage = ({ uploadProfileImage }) => {
+const UploadImage = ({ uploadProfileImage, profileImageUrl }) => {
     const history = useHistory();
     const { sendRequest } = useHttpClient();
     const [ fileInputState, setFileInputState ] = useState('');//Image url temporary(for input tag)
@@ -47,10 +47,28 @@ const UploadImage = ({ uploadProfileImage }) => {
     };
 
     return (
-        <div className=" uploadImage">
+        <div className="uploadImage">
+
             <div className="uploadImage__div">
-                <h5 className="title">Edit Profile Image</h5>
+                {/* Profile Image */}
+                {!previewSource && (
+                    <img
+                        className="previewImage"
+                        src={profileImageUrl}
+                        alt="Add Profile Image"
+                    />
+                )}
+
+                {/* Profile Image */}
+                {previewSource && (
+                    <img
+                        className="previewImage"
+                        src={previewSource}
+                        alt="chosen"
+                    />
+                )}
                 <form onSubmit={handleSubmitFile} className="form">
+                    <label htmlFor="fileInput">Change Profile Picture   </label>
                     <input
                         id="fileInput"
                         type="file"
@@ -66,14 +84,6 @@ const UploadImage = ({ uploadProfileImage }) => {
                     </button>
                 </form>
 
-                {previewSource && (
-                    <img
-                        className="previewImage"
-                        src={previewSource}
-                        alt="chosen"
-                        style={{ height: '300px' }}
-                    />
-                )}
             </div>
         </div>
     );

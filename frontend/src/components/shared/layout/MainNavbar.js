@@ -8,12 +8,14 @@ import './MainNavbar.css';
 
 const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
     const [ profileImage, setProfileImage ] = useState("");
+    const [ currentPath, setCurrentPath ] = useState("");
     useEffect(() => {
         if(user?.profileImage?.imageUrl) {
             setProfileImage(user.profileImage.imageUrl);
         }
         let elems = document.querySelectorAll('.sidenav');
         M.Sidenav.init(elems);
+        setCurrentPath(window.location.pathname);
     }, [user]);
 
     const handleLogout = async () => {
@@ -80,12 +82,23 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
                     </li>
                     {isAuthenticated && (
                         <>
-                            <li><a href="/dashboard">Dashboard</a></li>
-                            <li><a href="/edit-profile">Edit Profile</a></li>
-                            <li><a href="/profile">Profile</a></li>
-                            <li><a href="/members">Members</a></li>
-                            <li><a href="/projects">Projects</a></li>
-                            <li><div className="divider"></div></li>
+                            <li className={currentPath === "/dashboard" ? "active" : ""}>
+                                <a href="/dashboard">Dashboard</a>
+                            </li>
+                            <li className={currentPath === "/edit-profile" ? "active" : ""}>
+                                <a href="/edit-profile">Edit Profile</a>
+                            </li>
+                            <li className={currentPath === "/profile" ? "active" : ""}>
+                                <a href="/profile">Profile</a>
+                            </li>
+                            <li className={currentPath === "/members" ? "active" : ""}>
+                                <a href="/members">Members</a>
+                            </li>
+                            <li className={currentPath === "/projects" ? "active" : ""}>
+                                <a href="/projects">Projects</a>
+                            </li>
+                            <li>
+                                <div className="divider"/></li>
                         </>
                     )}
                     {isAuthenticated ? authSidebarLinks : guestSidebarLinks }

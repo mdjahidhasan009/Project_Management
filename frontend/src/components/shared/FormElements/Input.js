@@ -49,26 +49,6 @@ const Input = props => {
         })
     };
 
-    // const element = props.element === 'input' ? (
-    //     <input
-    //         id={props.elementTitle}
-    //         type={props.type}
-    //         placeholder={props.placeholder}
-    //         onChange={changeHandler}
-    //         onBlur={clickHandler}
-    //         value={inputState.value}
-    //     />
-    // ) : (
-    //     <textarea
-    //         id={props.elementTitle}
-    //         cols={props.cols || 30}
-    //         rows={props.rows || 10}
-    //         onChange={changeHandler}
-    //         onBlur={clickHandler}
-    //         value={inputState.value}
-    //     />
-    // );
-
     let element = null;
     if(props.element === 'input')
         element =
@@ -84,8 +64,6 @@ const Input = props => {
         element =
             <select
                 id={props.elementTitle}
-                // cols={props.cols || 30}
-                // rows={props.rows || 10}
                 onChange={changeHandler}
                 onBlur={clickHandler}
                 value={inputState.value}
