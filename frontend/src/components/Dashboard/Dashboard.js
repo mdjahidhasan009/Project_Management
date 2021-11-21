@@ -12,21 +12,12 @@ const Dashboard = ({ projects, auth, getAllProjects, prepareTodoAndBugForPreview
     const { sendRequest } = useHttpClient();
     const { user, chartData, todoBugSummary, activitySummary, isAuthenticated } = auth;
 
-    // useEffect(() => {
-    //     if(localStorage.token) loadUser(sendRequest());
-    // }, [])
-
     useEffect(() => {
-        // if(localStorage.getItem('token') && !user) {
-        //     console.log('8989898989898')
-        //     loadUser(sendRequest);
-        // }
         if(user) getAllProjects(sendRequest);
     }, [user]);
 
     useEffect(() => {
         if(projects && user) prepareTodoAndBugForPreview(user.username, projects);
-        // console.log(user)
     }, [projects, user]);
 
     return (
@@ -84,6 +75,7 @@ const Dashboard = ({ projects, auth, getAllProjects, prepareTodoAndBugForPreview
                         loader={<div>Loading Chart</div>}
                         data={chartData}
                         options={{
+                            legend: { position: 'top', maxLines: 3 },
                             hAxis: {
                                 title: 'Todo done and bug fixed',
                             },

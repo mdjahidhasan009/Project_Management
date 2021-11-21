@@ -68,42 +68,40 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout }) => {
             </div>
 
             {/* Side Navbar */}
-            <div className="scrollable2_sidenav2">
-                <ul id="slide-out" className="sidenav sidenav-fixed">
-                    <li>
-                        <div className="user-view light-blue lighten-2">
-                            <a href="/profile"><img className="image_navbar" src={profileImage}/></a>
-                            <a href="/profile"><span className="black-text name">
-                                {user ? user.name : 'Login First'}</span>
-                            </a>
-                            <a href="/profile"><span className="black-text name">{user ? user.username : ''}</span></a>
-                            <a href="/profile"><span className="black-text email">{user ? user.email : ''}</span></a>
-                        </div>
-                    </li>
-                    {isAuthenticated && (
-                        <>
-                            <li className={currentPath === "/dashboard" ? "active" : ""}>
-                                <a href="/dashboard">Dashboard</a>
-                            </li>
-                            <li className={currentPath === "/edit-profile" ? "active" : ""}>
-                                <a href="/edit-profile">Edit Profile</a>
-                            </li>
-                            <li className={currentPath === "/profile" ? "active" : ""}>
-                                <a href="/profile">Profile</a>
-                            </li>
-                            <li className={currentPath === "/members" ? "active" : ""}>
-                                <a href="/members">Members</a>
-                            </li>
-                            <li className={currentPath === "/projects" ? "active" : ""}>
-                                <a href="/projects">Projects</a>
-                            </li>
-                            <li>
-                                <div className="divider"/></li>
-                        </>
-                    )}
-                    {isAuthenticated ? authSidebarLinks : guestSidebarLinks }
-                </ul>
-            </div>
+            <ul className="sidenav sidenav-fixed" id="slide-out">
+                <li>
+                    <div className="user-view light-blue lighten-2">
+                        <a href="/profile"><img className="image_navbar" src={profileImage}/></a>
+                        <a href="/profile"><span className="black-text name">
+                            {user ? user.name : 'Login First'}</span>
+                        </a>
+                        <a href="/profile"><span className="black-text name">{user ? user.username : ''}</span></a>
+                        <a href="/profile"><span className="black-text email">{user ? user.email : ''}</span></a>
+                    </div>
+                </li>
+                {isAuthenticated && (
+                    <>
+                        <li className={currentPath === "/dashboard" ? "active" : ""}>
+                            <a href="/dashboard">Dashboard</a>
+                        </li>
+                        <li className={currentPath === "/edit-profile" ? "active" : ""}>
+                            <a href="/edit-profile">Edit Profile</a>
+                        </li>
+                        <li className={currentPath === "/profile" ? "active" : ""}>
+                            <a href="/profile">Profile</a>
+                        </li>
+                        <li className={currentPath === "/members" ? "active" : ""}>
+                            <a href="/members">Members</a>
+                        </li>
+                        <li className={currentPath === "/projects" ? "active" : ""}>
+                            <a href="/projects">Projects</a>
+                        </li>
+                        <li>
+                            <div className="divider"/></li>
+                    </>
+                )}
+                {isAuthenticated ? authSidebarLinks : guestSidebarLinks }
+            </ul>
         </section>
     );
 };

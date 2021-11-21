@@ -49,10 +49,10 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Project Tracker/backend/server.js" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Project Tracker for testing new charts with APEXCHARTS/Project Tracker/frontend/src/components/Dashboard/Dashboard.js" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
-    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/../Project Tracker/backend/server.js" />
+    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/../Project Tracker for testing new charts with APEXCHARTS/Project Tracker/frontend/src/components/Dashboard/Dashboard.js" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -170,6 +170,10 @@
       <workItem from="1635585828890" duration="393000" />
       <workItem from="1635586329363" duration="1283000" />
       <workItem from="1635587719467" duration="394000" />
+      <workItem from="1635588176400" duration="949000" />
+      <workItem from="1636712365214" duration="3137000" />
+      <workItem from="1637516314730" duration="50000" />
+      <workItem from="1637516791983" duration="1838000" />
     </task>
     <servers />
   </component>

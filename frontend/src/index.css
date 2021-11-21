@@ -99,9 +99,7 @@ code {
 .fixed-bug__text,
 .completed-todo__text,
 .incomplete-todo__text {
-  display: inline-block;
-  padding: 0;
-  margin-right: 10px;
+  display: contents;
 }
 
 .fixed-bug,
@@ -110,6 +108,14 @@ code {
 .incomplete-todo {
   margin-bottom: 5px;
   overflow: auto;
+  padding: 10px !important;
+}
+
+.fixed-bug .avatar,
+.not-fixed-bug .avatar,
+.completed-todo .avatar,
+.incomplete-todo .avatar {
+  margin-left: 5px;
 }
 
 .fixed-bug__text,
