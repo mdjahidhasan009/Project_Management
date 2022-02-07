@@ -10,10 +10,10 @@ const SubInCompleteTodoRow = ({ subTodo, projectId, todoId, toggleSubTodoIsDone,
     const [ isMobile, setIsMobile ] = useState(false);
     let clicked = false; //is clicked on edit or delete
 
-    const handleSubTodoDone = async () => {
+    const handleSubTodoDone = () => {
         let isDone = 'true';
         if(subTodo.done) isDone = 'false';
-        if(!clicked) await toggleSubTodoIsDone(projectId, todoId, subTodo._id, isDone, sendRequest);
+        if(!clicked) toggleSubTodoIsDone(projectId, todoId, subTodo._id, isDone, sendRequest);
         clicked = false;
     }
 
@@ -22,10 +22,10 @@ const SubInCompleteTodoRow = ({ subTodo, projectId, todoId, toggleSubTodoIsDone,
         handleClickOnEditSubTodo(todoId, subTodo._id, subTodo.text);
     }
 
-    const handleDelete = async () => {
+    const handleDelete = () => {
         clicked = true;
         if(window.confirm('Do you want to delete this sub todo?')) {
-            await deleteSubTodo(projectId, todoId, subTodo._id, sendRequest);
+            deleteSubTodo(projectId, todoId, subTodo._id, sendRequest);
       }
     }
 

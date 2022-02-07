@@ -33,6 +33,7 @@
 
 .project_item .card-action {
     padding: 5px 0;
+    overflow: hidden;
 }
 
 .project_item .collection {

@@ -1,16 +1,20 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Chart } from "react-google-charts";
-import { Redirect } from "react-router-dom";
 
-import { getAllProjects, prepareTodoAndBugForPreview } from "../../actions/project-action";
+import { prepareTodoAndBugForPreview } from "../../actions/project-action";
+import { getAllProjects } from "../../actions/projects-action";
+import { loadUser } from "../../actions/auth-action";
 import { useHttpClient } from "../../hooks/http-hook";
 import './Dashboard.css';
-import {loadUser} from "../../actions/auth-action";
 
 const Dashboard = ({ projects, auth, getAllProjects, prepareTodoAndBugForPreview }) => {
     const { sendRequest } = useHttpClient();
-    const { user, chartData, todoBugSummary, activitySummary, isAuthenticated } = auth;
+    const { user,
+        chartData, //for showing chart of finished todos and fixed bugs of a member
+        todoBugCountSummary, //Count of how many todos are completed or incomplete and bug fixed or not fixed yet.
+        activitySummary, // All completed or incomplete todos and fixed or not fixed bugs of a member
+    } = auth;
 
     useEffect(() => {
         if(user) getAllProjects(sendRequest);
@@ -27,7 +31,7 @@ const Dashboard = ({ projects, auth, getAllProjects, prepareTodoAndBugForPreview
                 <div className="col s6 m3 l3">
                     <div className="card blue-grey darken-1">
                         <div className="card-content white-text">
-                            <span className="card-title center">{todoBugSummary && todoBugSummary.todoNotDone}</span>
+                            <span className="card-title center">{todoBugCountSummary && todoBugCountSummary.todoNotDone}</span>
                             <p className="center">Remaining</p>
                             <p className="center">Todo</p>
                         </div>
@@ -37,7 +41,7 @@ const Dashboard = ({ projects, auth, getAllProjects, prepareTodoAndBugForPreview
                 <div className="col s6 m3 l3">
                     <div className="card blue-grey darken-1">
                         <div className="card-content white-text">
-                            <span className="card-title center">{todoBugSummary && todoBugSummary.notFixedBug}</span>
+                            <span className="card-title center">{todoBugCountSummary && todoBugCountSummary.notFixedBug}</span>
                             <p className="center">Remaining</p>
                             <p className="center">Bug</p>
                         </div>
@@ -47,7 +51,7 @@ const Dashboard = ({ projects, auth, getAllProjects, prepareTodoAndBugForPreview
                 <div className="col s6 m3 l3">
                     <div className="card blue-grey darken-1">
                         <div className="card-content white-text">
-                            <span className="card-title center">{todoBugSummary && todoBugSummary.todoDone}</span>
+                            <span className="card-title center">{todoBugCountSummary && todoBugCountSummary.todoDone}</span>
                             <p className="center">Finished</p>
                             <p className="center">Todo</p>
                         </div>
@@ -57,7 +61,7 @@ const Dashboard = ({ projects, auth, getAllProjects, prepareTodoAndBugForPreview
                 <div className="col s6 m3 l3">
                     <div className="card blue-grey darken-1">
                         <div className="card-content white-text">
-                            <span className="card-title center">{todoBugSummary && todoBugSummary.fixedBug}</span>
+                            <span className="card-title center">{todoBugCountSummary && todoBugCountSummary.fixedBug}</span>
                             <p className="center">Fixed</p>
                             <p className="center">Bug</p>
                         </div>
@@ -75,7 +79,6 @@ const Dashboard = ({ projects, auth, getAllProjects, prepareTodoAndBugForPreview
                         loader={<div>Loading Chart</div>}
                         data={chartData}
                         options={{
-                            legend: { position: 'top', maxLines: 3 },
                             hAxis: {
                                 title: 'Todo done and bug fixed',
                             },
@@ -95,7 +98,7 @@ const Dashboard = ({ projects, auth, getAllProjects, prepareTodoAndBugForPreview
                 <div className="row white dashboard__work-summary">
 
                     {/*Work not finished*/}
-                    <h5>Active Projects</h5>
+                    <h5>Remaining Tasks</h5>
                     {activitySummary.notCompletedActivity.map(project => (
                         <div className="project_summary">
                             <h6 className="project_summary__project-name white-text">Project name : {project.projectName}</h6>
@@ -149,7 +152,7 @@ const Dashboard = ({ projects, auth, getAllProjects, prepareTodoAndBugForPreview
             {/*Finished Work*/}
             {(activitySummary && activitySummary.completedActivity.length > 0) && (
                 <div className="row white dashboard__work-summary">
-                    <h5>Completed Projects</h5>
+                    <h5>Completed Tasks</h5>
                     {activitySummary.completedActivity.map(project => (
                         <div className="project_summary">
                             <h6 className="project_summary__project-name white-text">Project Name : {project.projectName}</h6>
@@ -203,7 +206,7 @@ const Dashboard = ({ projects, auth, getAllProjects, prepareTodoAndBugForPreview
 };
 
 const mapStateToProps = state => ({
-    projects: state.project.projects,
+    projects: state.projects,
     auth: state.auth
 })
 

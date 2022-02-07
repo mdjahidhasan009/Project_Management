@@ -39,6 +39,9 @@
     <other-services-enabled>true</other-services-enabled>
     <auto-save>true</auto-save>
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="1hiMqYKR1YrQNXoikq3Fu4nS8gp" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -64,11 +67,11 @@
       <recent name="$PROJECT_DIR$/frontend/src/components" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/frontend/src/screens/stylesheets" />
+      <recent name="$PROJECT_DIR$/frontend/src/screens" />
       <recent name="$PROJECT_DIR$/frontend/src/components/project/projectSummary" />
       <recent name="$PROJECT_DIR$/frontend/src/components/routing" />
       <recent name="$PROJECT_DIR$/frontend/src/components/shared" />
-      <recent name="$PROJECT_DIR$/frontend/src/components/project/details" />
-      <recent name="$PROJECT_DIR$/frontend/src/components/project/overview" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -173,7 +176,20 @@
       <workItem from="1635588176400" duration="949000" />
       <workItem from="1636712365214" duration="3137000" />
       <workItem from="1637516314730" duration="50000" />
-      <workItem from="1637516791983" duration="1838000" />
+      <workItem from="1637516791983" duration="2974000" />
+      <workItem from="1639497020995" duration="1826000" />
+      <workItem from="1639548329006" duration="6590000" />
+      <workItem from="1642056923460" duration="5438000" />
+      <workItem from="1642161761869" duration="2410000" />
+      <workItem from="1643783961485" duration="1086000" />
+      <workItem from="1643863377428" duration="10000" />
+      <workItem from="1643867439553" duration="18440000" />
+      <workItem from="1643970730257" duration="3599000" />
+      <workItem from="1643997647901" duration="589000" />
+      <workItem from="1644050072688" duration="10286000" />
+      <workItem from="1644147102471" duration="6502000" />
+      <workItem from="1644220972733" duration="29000" />
+      <workItem from="1644222138275" duration="2494000" />
     </task>
     <servers />
   </component>
@@ -190,6 +206,5 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

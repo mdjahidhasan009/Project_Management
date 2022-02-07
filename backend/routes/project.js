@@ -523,7 +523,6 @@ router.put(
 
             //Toggling isDone
             let isDone = req.body.isDone === 'true';
-            console.log(isDone)
             let doneAt = null;
             if(isDone) doneAt = new Date();
             await Project.updateOne({
@@ -614,7 +613,6 @@ router.delete(
             //as elemMatch does not work for nested element
             let subTodoRequested = await todos.todos[0].subTodos.filter(subTodo =>
                 subTodo._id.toString() === req.params.subTodoId.toString());
-            console.log(!subTodoRequested);
             if(subTodoRequested.length <= 0) return res.status(400).json({ 'error': 'No sub todo there' });
             subTodoRequested = subTodoRequested[0]; //as return array
             let isAssignedToCurrentUser = subTodoRequested.user.toString() === req.user.id;

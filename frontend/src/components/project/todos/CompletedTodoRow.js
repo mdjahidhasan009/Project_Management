@@ -7,8 +7,8 @@ import {useHttpClient} from "../../../hooks/http-hook";
 const CompletedTodoRow = ({ todo, projectId, toggleIsDone }) => {
     const { sendRequest } = useHttpClient();
 
-    const handleToggleIsDone = async () => {
-        await toggleIsDone(projectId, todo._id, 'false', sendRequest);
+    const handleToggleIsDone = () => {
+        toggleIsDone(projectId, todo._id, 'false', sendRequest);
     }
     return (
         <>

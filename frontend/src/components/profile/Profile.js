@@ -1,34 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { useHistory } from "react-router-dom";
 
 import { getUserByUserName } from "../../actions/auth-action";
 import { useHttpClient } from "../../hooks/http-hook";
 import { getUserRoleString } from "../../utils/helper";
 import './Profile.css';
 
-const Profile = ({ match, loadedUser, getUserByUserName, auth: { user, isAuthenticated} }) => {
-    const history = useHistory();
+const Profile = ({ match, loadedUser, getUserByUserName, auth: { user } }) => {
     const { sendRequest } = useHttpClient();
-    const [ showUser, setShowUser ] = useState(user);
+    // const [ showUser, setShowUser ] = useState(user);
     const [ userRole, setUserRole ] = useState('');
     useEffect(() => {
-        // if(!isAuthenticated) history.push('/');
         if(match.params && match.params.username) {
             getUserByUserName(match.params.username, sendRequest);
-            setShowUser(loadedUser);
-            console.log(match.params.username);
+            // setShowUser(loadedUser);
         }
-
     }, []);
 
     useEffect(() => {
         if(loadedUser && loadedUser.role) setUserRole(getUserRoleString(loadedUser.role));
         else if(user && user.role) setUserRole(getUserRoleString(user.role));
-    })
+    }, [loadedUser]);
     return (
         <div className="main">
-        <>
             <div className="row profile">
                 <img className="profile_avatar"
                      src= {loadedUser
@@ -176,52 +170,7 @@ const Profile = ({ match, loadedUser, getUserByUserName, auth: { user, isAuthent
                         </div>
                     ))
                 }
-
             </div>
-
-            {/*{loadedUser*/}
-            {/*    ? (loadedUser.bio && (*/}
-            {/*        <div className="row profile profile-bio">*/}
-            {/*            <h4>{loadedUser && loadedUser.name}'s Bio</h4>*/}
-            {/*            <p>{loadedUser?.bio}</p>*/}
-            {/*        </div>*/}
-            {/*    ))*/}
-            {/*    : (user && user.bio && (*/}
-            {/*        <div className="row profile profile-bio">*/}
-            {/*            <h4>{user && user.name}'s Bio</h4>*/}
-            {/*            <p>{user.bio}</p>*/}
-            {/*        </div>*/}
-            {/*    ))*/}
-            {/*}*/}
-
-            {/*{loadedUser*/}
-            {/*    ? (loadedUser.skills && loadedUser.skills.length > 0 && (*/}
-            {/*        <div className="row profile profile-skills">*/}
-            {/*            <h4 >Skill Set</h4>*/}
-            {/*            <div className="skills">*/}
-            {/*                {loadedUser.skills.map((skill, index) => (*/}
-            {/*                    <div key={index} className="skill">*/}
-            {/*                        <i className="fas fa-check" /> {skill}*/}
-            {/*                    </div>*/}
-            {/*                ))}*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*    ))*/}
-            {/*    : (user && user.skills && user.skills.length > 0 && (*/}
-            {/*        <div className="row profile profile-skills">*/}
-            {/*            <h4 >Skill Set</h4>*/}
-            {/*            <div className="skills wrapper">*/}
-            {/*                {user.skills.map((skill, index) => (*/}
-            {/*                    <div key={index} className="skill">*/}
-            {/*                        <i className="fas fa-check" /> {skill}*/}
-            {/*                    </div>*/}
-            {/*                ))}*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*    ))*/}
-            {/*}*/}
-            {/*<div className="bottom-space" />*/}
-        </>
 
         </div>
     );

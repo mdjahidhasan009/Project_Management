@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { connect } from "react-redux";
 import { PropTypes } from 'prop-types';
 
-import { useForm } from "../../hooks/form-hook";
-import { useHttpClient } from "../../hooks/http-hook";
-import { addProject, getAllProjects } from "../../actions/project-action";
-import { VALIDATOR_REQUIRE } from "../../utils/validators";
-import Input from "../shared/FormElements/Input";
-import ProjectItem from "./ProjectItem";
-import {initAllModal} from "../../utils/helper";
-import './Projects.css';
+import { useForm } from "../hooks/form-hook";
+import { useHttpClient } from "../hooks/http-hook";
+import { addProject, getAllProjects } from "../actions/projects-action";
+import { VALIDATOR_REQUIRE } from "../utils/validators";
+import Input from "../components/shared/FormElements/Input";
+import ProjectItem from "../components/projects/Project";
+import { initAllModal } from "../utils/helper";
+import './stylesheets/ProjectsScreen.css';
 
-const Projects = ({ addProject, getAllProjects, projects }) => {
+const ProjectsScreen = ({ addProject, getAllProjects, projects }) => {
     const { sendRequest } = useHttpClient();
     const [ selectedProjectType, setSelectedProjectType ] = useState('all');
     const [ completedProjectCount, setCompletedProjectCount] = useState(0);
@@ -24,7 +24,7 @@ const Projects = ({ addProject, getAllProjects, projects }) => {
 
     useEffect(() => {
         let done = 0, notDone = 0;
-        if(projects) {
+        if(projects?.length > 0) {
             projects.map(project => {
                 if(project.isDone) done++;
                 else notDone++;
@@ -56,10 +56,10 @@ const Projects = ({ addProject, getAllProjects, projects }) => {
         false
     );
 
-    const addProjectHandler = async (event) => {
+    const addProjectHandler = (event) => {
         event.preventDefault();
         try {
-            await addProject(formState.inputs.projectName.value, formState.inputs.projectCategory.value,
+             addProject(formState.inputs.projectName.value, formState.inputs.projectCategory.value,
                 formState.inputs.projectDescription.value, formState.inputs.projectDeadline.value,
                 sendRequest
             );
@@ -111,24 +111,23 @@ const Projects = ({ addProject, getAllProjects, projects }) => {
                     />
                 </div>
                 <div className="modal-footer">
-                    <button disabled={!formState.isValid} onClick={addProjectHandler} className="modal-close waves-effect waves-green btn-flat">Add New ProjectScreen</button>
+                    <button disabled={!formState.isValid} onClick={addProjectHandler}
+                            className="modal-close waves-effect waves-green btn-flat"
+                    >
+                        Add New Project
+                    </button>
                 </div>
             </div>
 
 
             <div className="row white">
-                <h4>Project Management</h4>
-
-                {/*ProjectScreen type selection(as all, active or finished)*/}
+                {/*Project type selection(as all, active or finished)*/}
                 <div className="divider" />
                 <div className="row projects__navigation_row">
                     <div className={`project-type-div ${selectedProjectType === 'all' && 'selected'}`}>
                         <button className="project-type-btn"
                                 onClick={ ()=> {setSelectedProjectType('all')}}
                         >
-                        <span className="iconCircle">
-                            <i className="fas fa-list-ol" />
-                        </span>
                             <span> All</span>
                             <span className="numberCircle">{projects.length}</span>
                         </button>
@@ -137,9 +136,6 @@ const Projects = ({ addProject, getAllProjects, projects }) => {
                         <button className="project-type-btn"
                                 onClick={ ()=> {setSelectedProjectType('incomplete')}}
                         >
-                        <span className="iconCircle">
-                            <i className="fas fa-clipboard-list" />
-                        </span>
                             <span> Active</span>
                             <span className="numberCircle">{inCompletedProjectCount}</span>
                         </button>
@@ -148,9 +144,6 @@ const Projects = ({ addProject, getAllProjects, projects }) => {
                         <button className="project-type-btn"
                                 onClick={ ()=> {setSelectedProjectType('completed')}}
                         >
-                        <span className="iconCircle">
-                            <i className="fas fa-list-alt" />
-                        </span>
                             <span> Finished</span>
                             <span className="numberCircle">{completedProjectCount}</span>
                         </button>
@@ -166,16 +159,16 @@ const Projects = ({ addProject, getAllProjects, projects }) => {
 
             {/*ProjectScreen List*/}
             <div className="row projects__showAllProjects">
-                {selectedProjectType === 'all' && projects && projects.map(project => (
+                {selectedProjectType === 'all' && projects.length > 0 && projects.map(project => (
                     <ProjectItem key={project._id} project={project} type={selectedProjectType}/>
                 ))
                 }
-                {selectedProjectType === 'completed' && projects && projects.map(project => (
+                {selectedProjectType === 'completed' && projects.length > 0 && projects.map(project => (
                     project.isDone && (
                         <ProjectItem key={project._id} project={project} type={selectedProjectType}/>
                     )
                 ))}
-                {selectedProjectType === 'incomplete' && projects && projects.map(project => (
+                {selectedProjectType === 'incomplete' && projects.length > 0 && projects.map(project => (
                     !project.isDone && (
                         <ProjectItem key={project._id} project={project} type={selectedProjectType}/>
                     )
@@ -187,14 +180,14 @@ const Projects = ({ addProject, getAllProjects, projects }) => {
     );
 };
 
-Projects.propTypes = {
+ProjectsScreen.propTypes = {
     addProject: PropTypes.func.isRequired,
     getAllProjects: PropTypes.func.isRequired,
     projects: PropTypes.array.isRequired
 };
 
 const mapStateToProps = state => ({
-    projects: state.project.projects
+    projects: state.projects
 });
 
-export default connect(mapStateToProps, { addProject, getAllProjects })(Projects);
+export default connect(mapStateToProps, { addProject, getAllProjects })(ProjectsScreen);

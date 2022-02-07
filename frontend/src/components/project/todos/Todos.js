@@ -10,7 +10,7 @@ import Input from "../../shared/FormElements/Input";
 import IncompleteTodoRow from "./IncompleteTodoRow";
 import CompletedTodoRow from "./CompletedTodoRow";
 import M from "materialize-css";
-import {initAllModal, initModalAndOpen} from "../../../utils/helper";
+import { initModalAndOpen } from "../../../utils/helper";
 
 const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, editTodo, editSubTodo, isMemberOfThisProject, isCreatedByUser, isAuthenticated, currentUser }) => {
     const { sendRequest } = useHttpClient();
@@ -55,7 +55,7 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, editTodo, editSu
             else await addTodoToJunior(formState.inputs.todoText.value, projectId, assignMember, sendRequest);
             await initAddTodoData();
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
 
@@ -65,7 +65,7 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, editTodo, editSu
             await addSubTodo(formState.inputs.subTodoText.value, projectId, todoId, sendRequest);
             await initAddTodoData();
         } catch(error) {
-            console.log(error);
+            console.error(error);
         }
     }
 
@@ -157,7 +157,6 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, editTodo, editSu
 
     useEffect(() => {
         let selectList = document.getElementById("member_list");
-        console.log(selectList)
         let juniorMembers = new Array();
         if(project?.members) {
             project.members.map(member => {
@@ -169,8 +168,6 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, editTodo, editSu
                     selectList.appendChild(selectObject);
                 }
             })
-            console.log(project.members)
-            console.log(juniorMembers);
             setJuniorMembers([juniorMembers]);
             M.FormSelect.init(selectList);
         }
@@ -329,7 +326,4 @@ const mapStateToProps = state => ({
     currentUser: state.auth?.user
 });
 
-export default connect(
-    mapStateToProps,
-    { addTodo, editTodo, editSubTodo, addSubTodo, addTodoToJunior }
-    )(Todos);
+export default connect(mapStateToProps, { addTodo, editTodo, editSubTodo, addSubTodo, addTodoToJunior })(Todos);

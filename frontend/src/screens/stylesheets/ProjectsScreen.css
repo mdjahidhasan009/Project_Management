@@ -25,6 +25,7 @@
     padding: 0 !important;
     cursor: pointer;
     color: black !important;
+    margin-left: 5px;
 }
 
 .projects .projects__addProject {

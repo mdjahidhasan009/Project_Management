@@ -175,7 +175,7 @@ const mapStateToProps = state => ({
     isCreatedByUser: state.project.isCreatedByUser,
     isMemberOfThisProject: state.project.isMemberOfThisProject,
     isAuthenticated: state.auth.isAuthenticated,
-    notAssignMembers: state.project?.project?.notAssignMembers
+    notAssignMembers: state.project?.notAssignMembers
 });
 
 export default connect(mapStateToProps, { assignAnMemberToAProject, toggleIsProjectIsFinished, getProjectById,

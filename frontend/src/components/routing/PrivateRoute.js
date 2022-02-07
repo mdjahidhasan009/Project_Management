@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 
 
 //Unauthorized(not logged in) user can not visit this route
-//{...props=>props of components, component=>component which will be render, {...rest}=>are things are like exact, path etc}
+// {...rest=>, component=>component which will be render,
+// {...props}=>are things are like exact, params, history,path(passed props) etc}
 const PrivateRoute = ({ component: Component, auth, selectedItem, ...rest }) => {
     return (
         <Route

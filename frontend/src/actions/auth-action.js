@@ -53,7 +53,7 @@ export const register = ( name, username, email, password, method ) => async dis
             payload: responseData.token
         });
     } catch (e) {
-        console.log(e);
+        console.error(e);
     }
 }
 
@@ -127,7 +127,6 @@ export const getAllUser = (method) => async dispatch => {
 
 //Get user by username
 export const getUserByUserName = (username, method) => async dispatch => {
-    console.log('in getUserByUserName')
     try {
         const responseData =  await method(
             process.env.REACT_APP_ASSET_URL + '/api/user/' + username,

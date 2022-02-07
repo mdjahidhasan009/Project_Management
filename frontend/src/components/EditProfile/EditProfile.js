@@ -105,9 +105,8 @@ const EditProfile = ({ auth: { user, isAuthenticated }, updateUser }) => {
   }, [user]);
 
   const saveProfile = async () => {
-    console.log(formState);
     if(formState.inputs.newPassword.value !== formState.inputs.confirmNewPassword.value) {
-      M.toast({html: 'Confirm password and Confirm new password have to be same', classes: 'red'});
+      M.toast({ html: 'Confirm password and Confirm new password have to be same', classes: 'red' });
     } else {
       setIsLoading(true);
       await updateUser(formState, sendRequest);

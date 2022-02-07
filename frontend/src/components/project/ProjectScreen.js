@@ -14,19 +14,24 @@ import {
     getProjectById, getNotAssignedMember, prepareActivity, prepareWorkDonePreview, getIsMemberAndCreatorOfProject
 } from "../../actions/project-action";
 
-const ProjectScreen = ({ getProjectById ,selectedItem, getNotAssignedMember, prepareActivity, prepareWorkDonePreview,
+const ProjectScreen = ({ project, getProjectById ,selectedItem, getNotAssignedMember, prepareWorkDonePreview,
                      getIsMemberAndCreatorOfProject
 }) => {
     const { sendRequest } = useHttpClient();
     const projectId = useParams().projectId;
 
     useEffect(() => {
-        getIsMemberAndCreatorOfProject(projectId, sendRequest);
         getProjectById(projectId, sendRequest);
-        getNotAssignedMember(projectId, sendRequest);
-        prepareActivity(projectId, sendRequest);
-        prepareWorkDonePreview(projectId, sendRequest);
     }, []);
+
+    useEffect(() => {
+        if(!project) {
+            getIsMemberAndCreatorOfProject(projectId, sendRequest);
+            getNotAssignedMember(projectId, sendRequest);
+            prepareWorkDonePreview(projectId, sendRequest);
+        }
+
+    }, [project])
 
     return (
         <div className="main">
@@ -34,22 +39,23 @@ const ProjectScreen = ({ getProjectById ,selectedItem, getNotAssignedMember, pre
                 <ProjectSummaryRow projectId={projectId} selectedItem={selectedItem} />
                 {selectedItem === 'overview' && <Overview />}
                 {selectedItem === 'activities' && <Activities />}
-                {selectedItem === 'edit-project' && <EditProjectDetails />}
+                {selectedItem === 'discussion' && <Discussion />}
                 {selectedItem === 'todolist' && <Todos />}
                 {selectedItem === 'bugs' && <Bugs />}
-                {selectedItem === 'discussion' && <Discussion />}
+                {selectedItem === 'edit-project' && <EditProjectDetails />}
             </>
         </div>
     );
 };
 
 const mapStateToProps = state => ({
-    auth: state.auth
+    auth: state.auth,
+    project: state.project.project
 })
 
-export default connect(mapStateToProps, { getProjectById, getNotAssignedMember, prepareActivity, prepareWorkDonePreview,
-    getIsMemberAndCreatorOfProject
-})(ProjectScreen);
+export default connect(mapStateToProps,
+    { getProjectById, getNotAssignedMember, prepareWorkDonePreview, getIsMemberAndCreatorOfProject})
+    (ProjectScreen);
 
 //Checking isAuthenticated here casing delay html preparing and for this index.html does not get any modal for initialization
 //So I put authentication check in projectSummary and and also other file(Overview, bug etc)
