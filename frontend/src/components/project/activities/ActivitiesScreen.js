@@ -1,10 +1,17 @@
-import React  from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import { prepareActivity } from "../../../actions/project-action";
 import ActivityRow from "./ActivityRow";
 
-const ActivitiesScreen = ({ activities }) => {
+
+const ActivitiesScreen = ({ project, activities, prepareActivity }) => {
+    useEffect(() => {
+        if(project) {
+            prepareActivity(project);
+        };
+    }, [project]);
+
     return (
         <>
             {/*ActivitiesScreen Row*/}
@@ -16,6 +23,7 @@ const ActivitiesScreen = ({ activities }) => {
 }
 
 const mapStateToProps = state => ({
+    project: state.project.project,
     activities: state.project.activities
 })
 

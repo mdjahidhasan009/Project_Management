@@ -1,8 +1,10 @@
-import React, {useEffect} from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { getProjectById, getNotAssignedMember } from "../../../actions/project-action";
 import './ProjectSummary.css';
+
 
 const ProjectSummary = ({ project, projectId, selectedItem, user, name, description, category, deadline }) => {
 
@@ -18,56 +20,56 @@ const ProjectSummary = ({ project, projectId, selectedItem, user, name, descript
             {/*Project Summary Row*/}
             <div className="row project-summary__navigation">
                 <div className={`project__navigation-button ${selectedItem === 'overview' && 'selected'}`}>
-                    <a href={`/project/${projectId}`}>
+                    <Link to={`/project/${projectId}`}>
                         <span className="iconCircle">
                             <i className="fas fa-info" />
                         </span>
                         <span>Overview</span>
-                    </a>
+                    </Link>
                 </div>
                 <div className={`project__navigation-button ${selectedItem === 'activities' && 'selected'}`}>
-                    <a href={`/activities/${projectId}`}>
+                    <Link to={`/activities/${projectId}`}>
                         <span className="iconCircle">
                             <i className="fas fa-clipboard-list" />
                         </span>
                         <span>Activities</span>
-                    </a>
+                    </Link>
                 </div>
                 <div className={`project__navigation-button ${selectedItem === 'discussion' && 'selected'}`}>
-                    <a href={`/discussion/${projectId}`}>
+                    <Link to={`/discussion/${projectId}`}>
                         <span className="iconCircle">
                             <i className="fas fa-comments" />
                         </span>
                         <span>Discussion</span>
                         <span className="numberCircle">{project && project?.discussion?.length || 0}</span>
-                    </a>
+                    </Link>
                 </div>
                 <div className={`project__navigation-button ${selectedItem === 'todolist' && 'selected'}`}>
-                    <a href={`/todolist/${projectId}`}>
+                    <Link to={`/todolist/${projectId}`}>
                         <span className="iconCircle">
                             <i className="fas fa-check-circle" />
                         </span>
                         <span>To-Do-List</span>
                         <span className="numberCircle">{project && project?.todos?.length || 0}</span>
-                    </a>
+                    </Link>
                 </div>
                 <div className={`project__navigation-button ${selectedItem === 'bugs' && 'selected'}`}>
-                    <a href={`/bugs/${projectId}`}>
+                    <Link to={`/bugs/${projectId}`}>
                         <span className="iconCircle">
                             <i className="fas fa-bug" />
                         </span>
                         <span>Bugs</span>
                         <span className="numberCircle">{project && project?.bugs?.length || 0}</span>
-                    </a>
+                    </Link>
                 </div>
                 {project?.createdBy?.username === user?.username && (
                     <div className={`project__navigation-button ${selectedItem === 'edit-project' && 'selected'}`}>
-                        <a href={`/edit-project/${projectId}`}>
+                        <Link to={`/edit-project/${projectId}`}>
                         <span className="iconCircle">
                             <i className="fas fa-cog" />
                         </span>
                             <span>Edit</span>
-                        </a>
+                        </Link>
                     </div>
                 )}
             </div>

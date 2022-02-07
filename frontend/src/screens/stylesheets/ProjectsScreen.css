@@ -1,0 +1,58 @@
+.projects h4 {
+    padding-top: 10px;
+    text-align: center;
+}
+
+.projects .projects__navigation_row {
+    margin: 0 !important;
+    display: flex;
+}
+
+.projects .project-type-div {
+    display: inline-block;
+    line-height: 10px;
+    padding: 20px;
+    margin: 0 auto;
+}
+
+.projects .project-type-div a .fas{
+    margin-right: 5px;
+}
+
+.projects .project-type-btn {
+    background: none !important;
+    border: none;
+    padding: 0 !important;
+    cursor: pointer;
+    color: black !important;
+    margin-left: 5px;
+}
+
+.projects .projects__addProject {
+    margin: 0 0 10px 20px;
+}
+
+.projects .add_project_btn {
+    margin: 0 5px 0 0 !important;
+    font-size: 13px !important;
+}
+
+.projects .projects__showAllProjects {
+    margin: 10px !important;
+}
+
+@media only screen and (max-width: 1000px) {
+    .projects .project-type-div {
+        padding: 10px 1px;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .projects .iconCircle {
+        margin: 0;
+    }
+    .projects .numberCircle {
+        margin-right: 3px;
+        margin-left: 1px;
+    }
+}

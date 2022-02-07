@@ -23,33 +23,6 @@ import {
 import { prepareActivityHelper } from "../utils/helper";
 import M from "materialize-css";
 
-//Add new project
-export const addProject = (projectName, projectCategory, projectDescription,projectDeadline, method) => async dispatch =>{
-    try {
-         const responseData = await method(
-             process.env.REACT_APP_ASSET_URL +'/api/project',
-             'POST',
-             JSON.stringify({
-                 name: projectName,
-                 category: projectCategory,
-                 description: projectDescription,
-                 deadline: projectDeadline
-             }),
-             {
-                 'Content-Type': 'application/json',
-                 Authorization: 'Bearer ' + localStorage.token
-             }
-         )
-        M.toast({html: 'New Project Added', classes: 'green'});
-        dispatch({
-            type: ADD_PROJECT,
-            payload: responseData
-        })
-    } catch(error) {
-        console.error(error);
-    }
-}
-
 //Edit project EditProjectDetails(name, edit-project-details, category, deadline)
 export const editProjectDetails = (projectName, projectDetails, projectCategory, projectDeadline, projectId, method) => async dispatch => {
     try{
@@ -107,26 +80,6 @@ export const deleteProject = (projectId, method) => async dispatch => {
             }
         );
         M.toast({html: 'Project Deleted', classes: 'green'});
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-//Get all projects
-export const getAllProjects = (method) => async dispatch => {
-    try {
-        const responseData = await method(
-            process.env.REACT_APP_ASSET_URL +'/api/project',
-            'GET',
-            null,
-            {
-                Authorization: 'Bearer ' + localStorage.token
-            }
-        );
-        dispatch({
-            type: GET_PROJECTS,
-            payload: responseData
-        });
     } catch (error) {
         console.error(error);
     }
@@ -203,7 +156,6 @@ export const deleteDiscussion = (projectId, discussionId, method) => async dispa
 
 //Add a todo to junior
 export const addTodoToJunior = (todoText, projectId, username, method) => async dispatch => {
-    console.log('in addtodo to junior')
     try {
         const responseData = await method(
             process.env.REACT_APP_ASSET_URL +'/api/project/assignTodo/todos/' + projectId + '/' + username,
@@ -218,7 +170,6 @@ export const addTodoToJunior = (todoText, projectId, username, method) => async 
         );
 
         M.toast({html: 'New Todo Added', classes: 'green'});
-        console.log(responseData)
         dispatch({
             type: ADD_TODO,
             payload: responseData
@@ -626,19 +577,11 @@ export const getIsMemberAndCreatorOfProject = (projectId, method) => async dispa
 }
 
 //Prepare project activities
-export const prepareActivity = (projectId, method) => async dispatch => {
+export const prepareActivity = (project) => async dispatch => {
     let preparedActivities = []; //All activities as discussion, bug, todo (time, username, text, type)
     //types are todo, todo-done, bug, bug-fixed
     try {
-        const responseData = await method(
-            process.env.REACT_APP_ASSET_URL + '/api/project/' + projectId,
-            'GET',
-            null,
-            {
-                'Authorization': 'Bearer ' + localStorage.token
-            }
-        );
-        preparedActivities = prepareActivityHelper(responseData);
+        preparedActivities = prepareActivityHelper(project);
         dispatch({
             type: ACTIVITY_PREPARED,
             payload: preparedActivities
@@ -661,10 +604,6 @@ export const prepareWorkDonePreview = (projectId, method) => async dispatch => {
             }
         );
         preparedActivities = prepareActivityHelper(responseData);
-        let dataPreview = [
-            ['x', 'Todo done', 'Bug fixed'],
-            [0, 0, 0]
-        ];
         let finalArrayForChart = [];
 
         let todo = 0, bug = 0, i = 0;
@@ -684,7 +623,10 @@ export const prepareWorkDonePreview = (projectId, method) => async dispatch => {
                 }
             })
         }
-        finalArrayForChart = dataPreview.concat(newDataPreview);
+        finalArrayForChart = [
+            ['x', 'Todo done', 'Bug fixed'],
+            [0, 0, 0]
+        ].concat(newDataPreview);
         dispatch({
             type: ADD_WORK_PREVIEW,
             payload: finalArrayForChart
@@ -696,20 +638,19 @@ export const prepareWorkDonePreview = (projectId, method) => async dispatch => {
 
 //Prepare todo and bug summary of an user for showing in his/her dashboard
 export const prepareTodoAndBugForPreview = (username, projects) => async dispatch => {
-    let allCompletedActivity = []; //all completedTodoOfAProject and fixed bug(means work finished) of all projects of a member
-    let allNotCompletedActivity = []; //all notCompletedTodoOfAProject and notFixed bug(means remaining work) of all projects of a member
+    //all completedTodoOfAProject and fixed bug(means work finished) of all projects of a member
+    let allCompletedActivity = [];
+    //all notCompletedTodoOfAProject and notFixed bug(means remaining work) of all projects of a member
+    let allNotCompletedActivity = [];
     let projectName = null;
     let completedTodoOfAProject = []; //completed todo of a single project of a member
     let notCompletedTodoOfAProject = []; //not completed todo of a single project of a member
     let notFixedBugOfAProject = []; //not fixed bug of a single project of a member
-    let fixedBugOfAProject = []; //fixed bug of of a single project of a member
-    let dataPreviewForChart = [
-        ['x', 'Todo done', 'Bug fixed'],
-        [0, 0, 0]
-    ]; //For chart preview in dashboard
+    let fixedBugOfAProject = []; //fixed bug of a single project of a member
     let finishedActivity = []; //finished todo and fixed bug for chart
     let type = null, time = null;
-    let completedTodoCount = 0, notCompletedTodoCount = 0, notFixedBugCount = 0, fixedBugCount = 0; //For top four card at dashboard
+    //For top four card at dashboard
+    let completedTodoCount = 0, notCompletedTodoCount = 0, notFixedBugCount = 0, fixedBugCount = 0;
     try {
         projects.map(project => {
             projectName = project.name;
@@ -723,12 +664,12 @@ export const prepareTodoAndBugForPreview = (username, projects) => async dispatc
                         if(todo.doneAt) {
                             type = 'todo-done';
                             time = todo.doneAt;
-                            finishedActivity.unshift({ type, time })
+                            finishedActivity.push({ type, time })
                             completedTodoCount++;
-                            completedTodoOfAProject.unshift(todo);
+                            completedTodoOfAProject.push(todo);
                         } else {
                             notCompletedTodoCount++;
-                            notCompletedTodoOfAProject.unshift(todo);
+                            notCompletedTodoOfAProject.push(todo);
                         }
                     }
                 })
@@ -739,50 +680,43 @@ export const prepareTodoAndBugForPreview = (username, projects) => async dispatc
                         if(bug.fixedAt) {
                             type = 'bug-fixed';
                             time = bug.fixedAt;
-                            finishedActivity.unshift({ type, time })
+                            finishedActivity.push({ type, time });
                             fixedBugCount++;
-                            fixedBugOfAProject.unshift(bug);
+                            fixedBugOfAProject.push(bug);
                         } else {
                             notFixedBugCount++;
-                            notFixedBugOfAProject.unshift(bug);
+                            notFixedBugOfAProject.push(bug);
                         }
                     }
                 })
             }
-            completedTodoOfAProject = completedTodoOfAProject.reverse();
-            notCompletedTodoOfAProject = notCompletedTodoOfAProject.reverse();
-            fixedBugOfAProject = fixedBugOfAProject.reverse();
-            notFixedBugOfAProject = notFixedBugOfAProject.reverse();
             if((completedTodoOfAProject.length > 0) || (fixedBugOfAProject.length > 0))
-                allCompletedActivity.unshift( { projectName, completedTodo: completedTodoOfAProject, fixedBug: fixedBugOfAProject } );
+                allCompletedActivity.push(
+                    { projectName, completedTodo: completedTodoOfAProject, fixedBug: fixedBugOfAProject } );
             if((notCompletedTodoOfAProject.length > 0) || (notFixedBugOfAProject.length > 0))
-                allNotCompletedActivity.unshift( { projectName, notCompletedTodo: notCompletedTodoOfAProject, notFixedBug: notFixedBugOfAProject } );
+                allNotCompletedActivity.push(
+                    { projectName, notCompletedTodo: notCompletedTodoOfAProject, notFixedBug: notFixedBugOfAProject } );
         })
-        console.log(allCompletedActivity);
 
         finishedActivity.sort(function(a,b){
-            return new Date(b.time) - new Date(a.time);
+            return new Date(a.time) - new Date(b.time);
         });
-        let finishedActivityReversed = finishedActivity.reverse();
-        console.log(finishedActivity);
         let todo = 0, bug = 0, i = 0;
         let activityForChart = [];
-        if(finishedActivityReversed.length > 0) {
-            let currentDate = new Date(finishedActivityReversed[0].time).getDate() + '/' +
-                new Date(finishedActivityReversed[0].time).getMonth() + '/' +
-                new Date(finishedActivityReversed[0].time).getFullYear();
+        if(finishedActivity.length > 0) {
+            //First date of finished activity
+            let firstDate = new Date(finishedActivity[0].time);
+            firstDate = firstDate.getFullYear() + "/" + (firstDate.getMonth() + 1) + "/" + firstDate.getDate();
+            let currentDate = firstDate, previousDate = firstDate;
 
-            let previousDate = new Date(finishedActivityReversed[0].time).getDate() + '/' +
-                new Date(finishedActivityReversed[0].time).getMonth() + '/' +
-                new Date(finishedActivityReversed[0].time).getFullYear();
-
-            finishedActivityReversed.map(activity => {
-                currentDate = new Date(activity.time).getDate() + '/' + new Date(activity.time).getMonth() + '/' + new Date(activity.time).getFullYear();
+            finishedActivity.map(activity => {
+                currentDate = new Date(activity.time);
+                currentDate = currentDate.getFullYear() + "/" + (currentDate.getMonth() + 1) + "/" + currentDate.getDate();
                 if (currentDate !== previousDate) {
                     previousDate = currentDate;
                     if (todo > 0 || bug > 0) {
                         i++;
-                        activityForChart.unshift([i, todo, bug]);
+                        activityForChart.push([i, todo, bug]);
                         todo = 0
                         bug = 0
                     }
@@ -790,13 +724,17 @@ export const prepareTodoAndBugForPreview = (username, projects) => async dispatc
                 if (activity.type === 'todo-done') todo++;
                 else if (activity.type === 'bug-fixed') bug++;
             })
+            //for last element
             if(todo > 0 || bug > 0) {
-                activityForChart.unshift([++i, todo, bug]);
+                activityForChart.push([++i, todo, bug]);
             }
-            activityForChart.reverse();
         }
-        const finalActivity = dataPreviewForChart.concat(activityForChart);
-        const todoBugSummary = {
+        const chartData = [
+            ['x', 'Todo done', 'Bug fixed'],
+            [0, 0, 0]
+        ].concat(activityForChart);
+        //Count of how many todos are completed or incomplete and bug fixed or not fixed yet.
+        const todoBugCountSummary = {
             todoDone: completedTodoCount,
             todoNotDone: notCompletedTodoCount,
             fixedBug: fixedBugCount,
@@ -804,7 +742,7 @@ export const prepareTodoAndBugForPreview = (username, projects) => async dispatc
         }
         dispatch({
             type: PREPARE_DATA_FOR_DASHBOARD,
-            payload: { chartData: finalActivity, activitySummary: { completedActivity: allCompletedActivity, notCompletedActivity: allNotCompletedActivity }, todoBugSummary }
+            payload: { chartData, activitySummary: { completedActivity: allCompletedActivity, notCompletedActivity: allNotCompletedActivity }, todoBugCountSummary }
         })
     } catch (error) {
         console.error(error);

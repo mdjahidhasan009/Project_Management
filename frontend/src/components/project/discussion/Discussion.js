@@ -47,7 +47,7 @@ const Discussion = ({ project, addDiscussion, editDiscussion, isMemberOfThisProj
             await addDiscussion(formState.inputs.discussionText.value, projectId, sendRequest);
             await setAddDiscussionData();
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
 

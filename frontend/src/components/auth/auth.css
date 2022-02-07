@@ -9,7 +9,7 @@
 
 .signin__signup p {
     font-size: 14px;
-    font-weight: 100;
+    font-weight: 400;
     line-height: 20px;
     letter-spacing: 0.5px;
     margin: 20px 0 30px;
@@ -28,8 +28,8 @@
 
 .signin__signup button {
     border-radius: 20px;
-    border: 1px solid #FF4B2B;
-    background-color: #FF4B2B;
+    border: 1px solid #3c5aee;
+    background-color: #03a9f4;
     color: #FFFFFF;
     font-size: 12px;
     font-weight: bold;
@@ -146,9 +146,9 @@
 }
 
 .signin__signup .overlay {
-    background: #FF416C;
-    background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
-    background: linear-gradient(to right, #FF4B2B, #FF416C);
+    /*background: #03a9f4;*/
+    background: -webkit-linear-gradient(to right, #3c5aee, rgba(3, 169, 244, 0.73));
+    background: linear-gradient(to right, #3c5aee, #03a9f4);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 0 0;

@@ -77,7 +77,7 @@ export default function (state = initialState, action) {
                 ...state,
                 chartData: payload.chartData,
                 activitySummary: payload.activitySummary,
-                todoBugSummary: payload.todoBugSummary,
+                todoBugCountSummary: payload.todoBugCountSummary,
                 loading: false
             }
         case ALL_USER_LOADED:

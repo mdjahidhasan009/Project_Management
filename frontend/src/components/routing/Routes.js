@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Switch, Route } from "react-router-dom";
 
 import Dashboard from "../Dashboard/Dashboard";
-import Projects from "../projects/Projects";
+import Projects from "../../screens/ProjectsScreen";
 import Profile from "../profile/Profile";
 import PrivateRoute from "./PrivateRoute";
 import EditProfile from "../EditProfile/EditProfile";

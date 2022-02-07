@@ -1,6 +1,4 @@
 import {
-    ADD_PROJECT,
-    GET_PROJECTS,
     GET_PROJECT,
     ADD_DISCUSSION,
     ADD_TODO,
@@ -16,7 +14,6 @@ import {
 } from "../actions/types";
 
 const initialState = {
-    projects: [],
     project: null,
     activities: null,
     chartData: [],
@@ -28,16 +25,6 @@ export default function (state = initialState, action) {
     const { type, payload } = action;
 
     switch (type) {
-        case ADD_PROJECT:
-            return {
-                ...state,
-                projects: [...state.projects, payload]
-            };
-        case GET_PROJECTS:
-            return {
-                ...state,
-                projects: payload
-            };
         case GET_PROJECT:
             return {
                 ...state,
@@ -97,10 +84,7 @@ export default function (state = initialState, action) {
         case ADD_NOT_ASSIGNED_MEMBER:
             return {
                 ...state,
-                project: {
-                    ...state.project,
-                    notAssignMembers: payload
-                }
+                notAssignMembers: payload
             }
         case ADD_MEMBER_AT_PROJECT:
             return {
