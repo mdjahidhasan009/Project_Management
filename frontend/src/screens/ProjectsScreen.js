@@ -18,6 +18,7 @@ const ProjectsScreen = ({ addProject, getAllProjects, projects }) => {
     const [ inCompletedProjectCount, setInCompletedProjectCount] = useState(0);
 
     useEffect( () => {
+        // fetching all projects data
         getAllProjects(sendRequest);
         initAllModal();
     }, []);
