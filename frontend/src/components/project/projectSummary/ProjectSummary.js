@@ -41,7 +41,7 @@ const ProjectSummary = ({ project, projectId, selectedItem, user, name, descript
                             <i className="fas fa-comments" />
                         </span>
                         <span>Discussion</span>
-                        <span className="numberCircle">{project && project?.discussion?.length || 0}</span>
+                        <span className="numberCircle">{(project && project?.discussion?.length) || 0}</span>
                     </Link>
                 </div>
                 <div className={`project__navigation-button ${selectedItem === 'todolist' && 'selected'}`}>
@@ -50,7 +50,7 @@ const ProjectSummary = ({ project, projectId, selectedItem, user, name, descript
                             <i className="fas fa-check-circle" />
                         </span>
                         <span>To-Do-List</span>
-                        <span className="numberCircle">{project && project?.todos?.length || 0}</span>
+                        <span className="numberCircle">{(project && project?.todos?.length) || 0}</span>
                     </Link>
                 </div>
                 <div className={`project__navigation-button ${selectedItem === 'bugs' && 'selected'}`}>
@@ -59,7 +59,7 @@ const ProjectSummary = ({ project, projectId, selectedItem, user, name, descript
                             <i className="fas fa-bug" />
                         </span>
                         <span>Bugs</span>
-                        <span className="numberCircle">{project && project?.bugs?.length || 0}</span>
+                        <span className="numberCircle">{(project && project?.bugs?.length) || 0}</span>
                     </Link>
                 </div>
                 {project?.createdBy?.username === user?.username && (

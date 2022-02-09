@@ -6,15 +6,16 @@ import store from './store';
 import { loadUser } from "./actions/auth-action";
 import { useHttpClient } from "./hooks/http-hook";
 
-import Navbar from './components/shared/layout/MainNavbar';
-import Auth from './components/auth/auth';
-import Routes from "./components/routing/Routes";
+import Navbar from './components/shared/nav/nav';
+import Auth from './screens/auth/authScreen';
+import Routes from "./routing/Routes";
 
 const App = () => {
     const { sendRequest } = useHttpClient();
 
     useEffect(() => {
-        store.dispatch(loadUser(sendRequest));
+        store.dispatch(loadUser(sendRequest));//as till now store is not fully operational
+        // eslint-disable-next-line
     }, []);
 
     return (

@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { PropTypes } from "prop-types";
 
-import './ProjectItem.css';
+import './stylesheets/ProjectCard.css';
 
-const ProjectItem = ({ project, noImage, noMember }) => {
+const ProjectCard = ({ project, noImage, noMember }) => {
     let history = useHistory();
 
     const openProject = async () => {
@@ -90,7 +90,7 @@ const ProjectItem = ({ project, noImage, noMember }) => {
     )
 }
 
-ProjectItem.propTypes = {
+ProjectCard.propTypes = {
     project: PropTypes.object.isRequired,
     noImage: PropTypes.string.isRequired,
     noMember: PropTypes.string.isRequired
@@ -101,4 +101,4 @@ const mapStateToProps = state => ({
     noMember: state.auth.noMember
 })
 
-export default connect(mapStateToProps)(ProjectItem);
+export default connect(mapStateToProps)(ProjectCard);

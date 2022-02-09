@@ -1,8 +1,8 @@
 import React from "react";
 
-import './ActivityDetailsRow.css';
+import './ActivityDetails.css';
 
-const ActivityDetailsRow = ({ activityDetail }) => {
+const ActivityDetails = ({ activityDetail }) => {
      let type;
      if(activityDetail.type === 'todo') type = 'Todo added ';
      if(activityDetail.type === 'todo-done') type = 'Todo done ';
@@ -25,7 +25,6 @@ const ActivityDetailsRow = ({ activityDetail }) => {
                     by {" "}
                     <a href={`/member/${activityDetail.user}`}>{activityDetail.user}</a>
                     {" "}
-                    {/*at - {new Date(activityDetail.time).getHours()}:{new Date(activityDetail.time).getMinutes()}*/}
                     at - {new Date(activityDetail.time).toUTCString()}
                 </p>
             </div>
@@ -33,4 +32,4 @@ const ActivityDetailsRow = ({ activityDetail }) => {
     )
 }
 
-export default ActivityDetailsRow;
+export default ActivityDetails;

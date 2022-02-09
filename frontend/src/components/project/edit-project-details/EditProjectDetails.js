@@ -73,7 +73,7 @@ const EditProjectDetails = ({ project, editProjectDetails, isAuthenticated, getP
                 {project && isAuthenticated && (
                     <div className="project_details">
                         <Input
-                            label="ProjectScreen Name"
+                            label="Project Name"
                             element="input"
                             placeholder="ProjectScreen Name"
                             elementTitle="projectName"
@@ -85,7 +85,7 @@ const EditProjectDetails = ({ project, editProjectDetails, isAuthenticated, getP
                             initialValidity={true}
                         />
                         <Input
-                            label="ProjectScreen Details"
+                            label="Project Details"
                             element="textarea"
                             placeholder="ProjectScreen Details"
                             elementTitle="projectDetails"
@@ -97,7 +97,7 @@ const EditProjectDetails = ({ project, editProjectDetails, isAuthenticated, getP
                             initialValidity={true}
                         />
                         <Input
-                            label="ProjectScreen Category"
+                            label="Project Category"
                             element="input"
                             placeholder="ProjectScreen Category"
                             elementTitle="projectCategory"
@@ -112,7 +112,7 @@ const EditProjectDetails = ({ project, editProjectDetails, isAuthenticated, getP
                             element="input"
                             elementTitle="projectDeadline"
                             type="date"
-                            label="ProjectScreen Deadline"
+                            label="Project Deadline"
                             validators={[VALIDATOR_REQUIRE()]}
                             errorText="Please enter project deadline."
                             onInput={inputHandler}

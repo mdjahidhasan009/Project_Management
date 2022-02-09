@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 
 import {toggleIsDone, deleteTodo, toggleSubTodoIsDone} from "../../../actions/project-action";
 import { useHttpClient } from "../../../hooks/http-hook";
-import SubInCompleteTodoRow from "./SubInCompleteTodoRow";
+import SubInCompleteTodoRow from "./SubInCompleteTodo";
 
-const IncompleteTodoRow = ({ todo, projectId, toggleIsDone, toggleSubTodoIsDone, username, deleteTodo,
+const IncompleteTodo = ({ todo, projectId, toggleIsDone, toggleSubTodoIsDone, username, deleteTodo,
                                handleClickOnEdit, handleClickOnAddSubTodo, handleClickOnEditSubTodo }) => {
     const { sendRequest } = useHttpClient();
     const [ isMobile, setIsMobile ] = useState(false);
@@ -15,11 +15,6 @@ const IncompleteTodoRow = ({ todo, projectId, toggleIsDone, toggleSubTodoIsDone,
         if(!clicked) {
             toggleIsDone(projectId, todo._id, 'true', sendRequest);
         }
-        clicked = false;
-    }
-
-    const handleSubTodoDone = (subTodoId) => {
-        if(!clicked) toggleSubTodoIsDone(projectId, todo._id, subTodoId, 'true', sendRequest);
         clicked = false;
     }
 
@@ -43,6 +38,7 @@ const IncompleteTodoRow = ({ todo, projectId, toggleIsDone, toggleSubTodoIsDone,
     useEffect(() => {
         if (/Mobi/.test(navigator.userAgent))
             setIsMobile(true);
+        // eslint-disable-next-line
     }, [])
 
     return (
@@ -85,4 +81,4 @@ const mapStateToProps = state => ({
     username: state.auth?.user?.username
 })
 
-export default connect(mapStateToProps, { toggleIsDone, toggleSubTodoIsDone, deleteTodo })(IncompleteTodoRow);
+export default connect(mapStateToProps, { toggleIsDone, toggleSubTodoIsDone, deleteTodo })(IncompleteTodo);

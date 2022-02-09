@@ -8,9 +8,8 @@ import { addBug, editBug } from "../../../actions/project-action";
 import { VALIDATOR_REQUIRE } from "../../../utils/validators";
 import {initAllModal, initModalAndOpen} from "../../../utils/helper";
 import Input from "../../shared/FormElements/Input";
-import NotFixedBugRow from "./NotFixedBugRow";
-import FixedBugRow from "./FixedBugRow";
-import M from 'materialize-css';
+import NotFixedBugRow from "./NotFixedBug";
+import FixedBugRow from "./FixedBug";
 
 const Bugs = ({ project, addBug, editBug, isMemberOfThisProject, isCreatedByUser, isAuthenticated }) => {
     const { sendRequest } = useHttpClient();

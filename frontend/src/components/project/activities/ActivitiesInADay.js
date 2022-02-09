@@ -1,9 +1,9 @@
 import React from 'react';
 
-import ActivityDetailsRow from "./ActivityDetailsRow";
-import './ActivityRow.css'
+import ActivityDetails from "./ActivityDetails";
+import './ActivitiesInADay.css'
 
-const ActivityRow = ({ activity }) => {
+const ActivitiesInADay = ({ activity }) => {
     const day = new Date(activity[0].time).getDate();
     const month = new Date(activity[0].time).getMonth() + 1;
     const year = new Date(activity[0].time).getFullYear();
@@ -17,11 +17,11 @@ const ActivityRow = ({ activity }) => {
                 <p className="year">{year}</p>
             </div>
             {/*Activity of current date*/}
-            {activity.map(activityDetail => (
-                <ActivityDetailsRow activityDetail={activityDetail} />
+            {activity.map((activityDetail, index) => (
+                <ActivityDetails key={index} activityDetail={activityDetail} />
             ))}
         </div>
     )
 }
 
-export default ActivityRow;
+export default ActivitiesInADay;

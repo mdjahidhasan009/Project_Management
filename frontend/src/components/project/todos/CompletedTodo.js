@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { toggleIsDone } from "../../../actions/project-action";
 import {useHttpClient} from "../../../hooks/http-hook";
 
-const CompletedTodoRow = ({ todo, projectId, toggleIsDone }) => {
+const CompletedTodo = ({ todo, projectId, toggleIsDone }) => {
     const { sendRequest } = useHttpClient();
 
     const handleToggleIsDone = () => {
@@ -46,4 +46,4 @@ const CompletedTodoRow = ({ todo, projectId, toggleIsDone }) => {
     )
 }
 
-export default connect(null, { toggleIsDone })(CompletedTodoRow);
+export default connect(null, { toggleIsDone })(CompletedTodo);

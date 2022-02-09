@@ -1,28 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { connect } from 'react-redux';
 
-import UploadImage from '../ChangeImage/UploadImage';
-import { updateUser } from "../../actions/auth-action";
-import { useHttpClient } from "../../hooks/http-hook";
-import { useForm } from "../../hooks/form-hook";
-import Input from "../shared/FormElements/Input";
+import UploadImage from '../components/UploadImage';
+import { updateUser } from "../actions/auth-action";
+import { useHttpClient } from "../hooks/http-hook";
+import { useForm } from "../hooks/form-hook";
+import Input from "../components/shared/FormElements/Input";
 import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
   VALIDATOR_EMAIL,
   VALIDATOR_NOT_REQUIRE,
   VALIDATOR_LINK
-} from "../../utils/validators";
+} from "../utils/validators";
 import M from 'materialize-css';
-import './EditProfile.css';
+import './stylesheets/EditProfileScreen.css';
 
-const EditProfile = ({ auth: { user, isAuthenticated }, updateUser }) => {
+const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
   const history = useHistory();
   const [ profileImage, setProfileImage ] = useState("");
   const [ formState, inputHandler, setFormData ] = useForm();
   const { sendRequest } = useHttpClient();
-  const [image, setImage] = useState('');
   const [ loading, setIsLoading ] = useState(false);
 
   useEffect(  () => {
@@ -56,31 +55,31 @@ const EditProfile = ({ auth: { user, isAuthenticated }, updateUser }) => {
               isValid: true
             },
             github: {
-              value: user.social && user.social.github || null,
+              value: (user.social && user.social.github) || null,
               isValid: true
             },
             youtube: {
-              value: user.social && user.social.youtube || null,
+              value: (user.social && user.social.youtube) || null,
               isValid: true
             },
             twitter: {
-              value: user.social && user.social.twitter || null,
+              value: (user.social && user.social.twitter) || null,
               isValid: true
             },
             facebook: {
-              value: user.social && user.social.facebook || null,
+              value: (user.social && user.social.facebook) || null,
               isValid: true
             },
             linkedIn: {
-              value: user.social && user.social.linkedIn || null,
+              value: (user.social && user.social.linkedIn) || null,
               isValid: true
             },
             instagram: {
-              value: user.social && user.social.instagram || null,
+              value: (user.social && user.social.instagram) || null,
               isValid: true
             },
             stackoverflow: {
-              value: user.social && user.social.stackoverflow || null,
+              value: (user.social && user.social.stackoverflow) || null,
               isValid: true
             },
             newPassword: {
@@ -332,4 +331,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 })
 
-export default connect(mapStateToProps, { updateUser })(EditProfile);
+export default connect(mapStateToProps, { updateUser })(EditProfileScreen);

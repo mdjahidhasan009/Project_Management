@@ -7,7 +7,7 @@ import { useHttpClient } from "../hooks/http-hook";
 import { addProject, getAllProjects } from "../actions/projects-action";
 import { VALIDATOR_REQUIRE } from "../utils/validators";
 import Input from "../components/shared/FormElements/Input";
-import ProjectItem from "../components/projects/Project";
+import ProjectItem from "../components/ProjectCard.js";
 import { initAllModal } from "../utils/helper";
 import './stylesheets/ProjectsScreen.css';
 
@@ -20,6 +20,7 @@ const ProjectsScreen = ({ addProject, getAllProjects, projects }) => {
     useEffect( () => {
         getAllProjects(sendRequest);
         initAllModal();
+        // eslint-disable-next-line
     }, []);
 
     useEffect(() => {
@@ -32,6 +33,7 @@ const ProjectsScreen = ({ addProject, getAllProjects, projects }) => {
             setCompletedProjectCount(done);
             setInCompletedProjectCount(notDone);
         }
+        // eslint-disable-next-line
     }, [projects])
 
     const [ formState, inputHandler ] = useForm(

@@ -2,17 +2,17 @@ import React, { useEffect } from 'react';
 import { connect } from "react-redux";
 import { useParams } from 'react-router-dom';
 
-import ProjectSummaryRow from "./projectSummary/ProjectSummary";
-import Overview from "./overview/Overview";
-import Discussion from "./discussion/Discussion";
-import Activities from "./activities/ActivitiesScreen";
-import EditProjectDetails from "./edit-project-details/EditProjectDetails";
-import Todos from "./todos/Todos";
-import Bugs from "./bugs/Bugs";
-import { useHttpClient } from "../../hooks/http-hook";
+import ProjectSummaryRow from "../components/project/projectSummary/ProjectSummary";
+import Overview from "../components/project/overview/Overview";
+import Discussion from "../components/project/discussion/Discussions";
+import Activities from "../components/project/activities/Activities";
+import EditProjectDetails from "../components/project/edit-project-details/EditProjectDetails";
+import Todos from "../components/project/todos/Todos";
+import Bugs from "../components/project/bugs/Bugs";
+import { useHttpClient } from "../hooks/http-hook";
 import {
-    getProjectById, getNotAssignedMember, prepareActivity, prepareWorkDonePreview, getIsMemberAndCreatorOfProject
-} from "../../actions/project-action";
+    getProjectById, getNotAssignedMember, prepareWorkDonePreview, getIsMemberAndCreatorOfProject
+} from "../actions/project-action";
 
 const ProjectScreen = ({ project, getProjectById ,selectedItem, getNotAssignedMember, prepareWorkDonePreview,
                      getIsMemberAndCreatorOfProject
@@ -22,6 +22,7 @@ const ProjectScreen = ({ project, getProjectById ,selectedItem, getNotAssignedMe
 
     useEffect(() => {
         getProjectById(projectId, sendRequest);
+        // eslint-disable-next-line
     }, []);
 
     useEffect(() => {
@@ -30,7 +31,7 @@ const ProjectScreen = ({ project, getProjectById ,selectedItem, getNotAssignedMe
             getNotAssignedMember(projectId, sendRequest);
             prepareWorkDonePreview(projectId, sendRequest);
         }
-
+        // eslint-disable-next-line
     }, [project])
 
     return (

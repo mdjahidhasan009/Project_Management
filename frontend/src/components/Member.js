@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react'
 import { useHistory } from 'react-router-dom';
-import {getUserRoleString} from "../../utils/helper";
+import {getUserRoleString} from "../utils/helper";
 
-import './MemberItem.css';
+import './stylesheets/Member.css';
 
-const MemberItem = ({ user }) => {
+const Member = ({ user }) => {
     let history = useHistory();
     let clickedOnEmail = false;
     let [ userRole, setUserRole ] = useState('');
@@ -20,6 +20,7 @@ const MemberItem = ({ user }) => {
 
     useEffect( () => {
         setUserRole(getUserRoleString(user.role));
+        // eslint-disable-next-line
     }, [user.role]);
 
     return (
@@ -76,4 +77,4 @@ const MemberItem = ({ user }) => {
     )
 }
 
-export default MemberItem;
+export default Member;

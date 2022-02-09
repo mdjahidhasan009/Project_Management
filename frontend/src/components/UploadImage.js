@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from "react-router-dom";
 
-import { uploadProfileImage } from '../../actions/user-action';
-import { useHttpClient } from "../../hooks/http-hook";
+import { uploadProfileImage } from '../actions/user-action';
+import { useHttpClient } from "../hooks/http-hook";
 import M from "materialize-css";
-import './UploadImage.css';
+import './stylesheets/UploadImage.css';
 
 const UploadImage = ({ uploadProfileImage, profileImageUrl }) => {
     const history = useHistory();
@@ -50,16 +50,16 @@ const UploadImage = ({ uploadProfileImage, profileImageUrl }) => {
         <div className="uploadImage">
 
             <div className="uploadImage__div">
-                {/* Profile Image */}
+                {/* ProfileScreen Image */}
                 {!previewSource && (
                     <img
                         className="previewImage"
                         src={profileImageUrl}
-                        alt="Add Profile Image"
+                        alt="Add ProfileScreen Image"
                     />
                 )}
 
-                {/* Profile Image */}
+                {/* ProfileScreen Image */}
                 {previewSource && (
                     <img
                         className="previewImage"
@@ -68,7 +68,7 @@ const UploadImage = ({ uploadProfileImage, profileImageUrl }) => {
                     />
                 )}
                 <form onSubmit={handleSubmitFile} className="form">
-                    <label htmlFor="fileInput">Change Profile Picture   </label>
+                    <label htmlFor="fileInput">Change ProfileScreen Picture   </label>
                     <input
                         id="fileInput"
                         type="file"
@@ -80,7 +80,7 @@ const UploadImage = ({ uploadProfileImage, profileImageUrl }) => {
                     <button className="btn" type="submit">
                         {loading && <i className="fas fa-spinner fa-pulse" />}
                         {loading && ' Uploading Image'}
-                        {!loading && 'Upload Profile Image'}
+                        {!loading && 'Upload ProfileScreen Image'}
                     </button>
                 </form>
 

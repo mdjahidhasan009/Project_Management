@@ -12,7 +12,7 @@ import {
     getNotAssignedMember
 } from '../../../actions/project-action';
 import M from 'materialize-css';
-import MemberRow from './MemberRow';
+import MemberRow from './Member';
 import './Overview.css';
 import {initAllModal} from "../../../utils/helper";
 

@@ -7,16 +7,16 @@ import { useForm } from "../../hooks/form-hook";
 import { useHttpClient } from "../../hooks/http-hook";
 import { login, register, loadUser } from "../../actions/auth-action";
 import { initSwitchLayout } from "./initSwitchLayout";
-import Input from "../shared/FormElements/Input";
+import Input from "../../components/shared/FormElements/Input";
 import {
     VALIDATOR_EMAIL,
     VALIDATOR_MINLENGTH,
     VALIDATOR_REQUIRE
 } from "../../utils/validators";
-import './auth.css';
+import '../stylesheets/authScreen.css';
 import M from "materialize-css";
 
-const Auth = ({ login, register , isAuthenticated , loadUser, user, token }) => {
+const AuthScreen = ({ login, register , isAuthenticated , loadUser, user, token }) => {
     const [ isLoginMode, setIsLoginMode ] = useState(true);
     const [ isMobile, setIsMobile ] = useState(false);
     const { sendRequest } = useHttpClient();
@@ -26,8 +26,8 @@ const Auth = ({ login, register , isAuthenticated , loadUser, user, token }) => 
         if(user) {
             history.push('/dashboard');
         }
-        if (/Mobi/.test(navigator.userAgent))
-            setIsMobile(true);
+        if (/Mobi/.test(navigator.userAgent)) setIsMobile(true);
+        // eslint-disable-next-line
     }, [user])
 
     const [ formState, inputHandler, setFormData ] = useForm(
@@ -301,7 +301,7 @@ const Auth = ({ login, register , isAuthenticated , loadUser, user, token }) => 
     );
 };
 
-Auth.propTypes = {
+AuthScreen.propTypes = {
     login: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired
 }
@@ -313,4 +313,4 @@ const mapStateToProps = state => ({
 })
 
 
-export default connect(mapStateToProps, { login, register, loadUser })(Auth);
+export default connect(mapStateToProps, { login, register, loadUser })(AuthScreen);

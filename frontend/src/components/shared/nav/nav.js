@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 import { logout } from "../../../actions/auth-action";
 import M from "materialize-css";
-import "./MainNavbar.css";
+import "./nav.css";
 
 const Navbar = ({ auth: { isAuthenticated, user }, logout, history }) => {
     const [ profileImage, setProfileImage ] = useState("");

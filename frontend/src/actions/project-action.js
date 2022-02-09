@@ -1,23 +1,12 @@
 import {
-    ADD_PROJECT,
-    EDIT_PROJECT,
-    GET_PROJECTS,
-    GET_PROJECT,
-    ADD_DISCUSSION,
-    ADD_TODO,
-    ADD_BUG,
-    UPDATE_TODO,
-    UPDATE_BUG,
-    ADD_NOT_ASSIGNED_MEMBER,
-    ADD_MEMBER_AT_PROJECT,
-    ACTIVITY_PREPARED,
-    ADD_WORK_PREVIEW,
-    ADD_IS_MEMBER_AND_CREATOR,
-    DELETE_BUG,
-    DELETE_TODO,
-    DELETE_MEMBER_FROM_PROJECT,
-    PREPARE_DATA_FOR_DASHBOARD,
-    UPDATE_DISCUSSION,
+    GET_PROJECT,                ADD_DISCUSSION,
+    ADD_TODO,                   ADD_BUG,
+    UPDATE_TODO,                UPDATE_BUG,
+    ADD_NOT_ASSIGNED_MEMBER,    ADD_MEMBER_AT_PROJECT,
+    ACTIVITY_PREPARED,          ADD_WORK_PREVIEW,
+    ADD_IS_MEMBER_AND_CREATOR,  DELETE_BUG,
+    DELETE_TODO,                DELETE_MEMBER_FROM_PROJECT,
+    PREPARE_DATA_FOR_DASHBOARD, UPDATE_DISCUSSION,
     DELETE_DISCUSSION
 } from "./types";
 import { prepareActivityHelper } from "../utils/helper";
@@ -41,7 +30,7 @@ export const editProjectDetails = (projectName, projectDetails, projectCategory,
             }
 
         );
-        M.toast({html: 'Project Details Updated', classes: 'green'});
+        M.toast({ html: 'Project Details Updated', classes: 'green' });
     } catch (error) {
         console.error(error);
     }
@@ -79,7 +68,7 @@ export const deleteProject = (projectId, method) => async dispatch => {
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        M.toast({html: 'Project Deleted', classes: 'green'});
+        M.toast({ html: 'Project Deleted', classes: 'green' });
     } catch (error) {
         console.error(error);
     }
@@ -99,7 +88,7 @@ export const addDiscussion = (discussionText, projectId ,method) => async dispat
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        M.toast({html: 'New Discussion Added', classes: 'green'});
+        M.toast({ html: 'New Discussion Added', classes: 'green' });
         dispatch({
             type: ADD_DISCUSSION,
             payload: responseData
@@ -109,7 +98,7 @@ export const addDiscussion = (discussionText, projectId ,method) => async dispat
     }
 }
 
-//Edit an discussion
+//Edit a discussion
 export const editDiscussion = (projectId, discussionId, discussionEditText, method) => async dispatch => {
     try {
         const responseData = await method(

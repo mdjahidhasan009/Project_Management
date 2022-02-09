@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Chart } from "react-google-charts";
 
-import { prepareTodoAndBugForPreview } from "../../actions/project-action";
-import { getAllProjects } from "../../actions/projects-action";
-import { loadUser } from "../../actions/auth-action";
-import { useHttpClient } from "../../hooks/http-hook";
-import './Dashboard.css';
+import { prepareTodoAndBugForPreview } from "../actions/project-action";
+import { getAllProjects } from "../actions/projects-action";
+import { loadUser } from "../actions/auth-action";
+import { useHttpClient } from "../hooks/http-hook";
+import './stylesheets/DashboardScreen.css';
 
-const Dashboard = ({ projects, auth, getAllProjects, prepareTodoAndBugForPreview }) => {
+const DashboardScreen = ({ projects, auth, getAllProjects, prepareTodoAndBugForPreview }) => {
     const { sendRequest } = useHttpClient();
     const { user,
         chartData, //for showing chart of finished todos and fixed bugs of a member
@@ -18,10 +18,12 @@ const Dashboard = ({ projects, auth, getAllProjects, prepareTodoAndBugForPreview
 
     useEffect(() => {
         if(user) getAllProjects(sendRequest);
+        // eslint-disable-next-line
     }, [user]);
 
     useEffect(() => {
         if(projects && user) prepareTodoAndBugForPreview(user.username, projects);
+        // eslint-disable-next-line
     }, [projects, user]);
 
     return (
@@ -210,4 +212,4 @@ const mapStateToProps = state => ({
     auth: state.auth
 })
 
-export default connect(mapStateToProps, { getAllProjects, prepareTodoAndBugForPreview, loadUser })(Dashboard);
+export default connect(mapStateToProps, { getAllProjects, prepareTodoAndBugForPreview, loadUser })(DashboardScreen);

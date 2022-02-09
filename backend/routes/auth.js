@@ -12,7 +12,7 @@ const User = require('../models/User');
 // @access  Private
 router.get('/', auth, async (req ,res) => {
     try {
-        const user = await User.findById(req.user.id).select('-password') //as in auth.js middleware req.user has the value of user id
+        const user = await User.findById(req.user.id).select('-password') //as in authScreen.js middleware req.user has the value of user id
         await res.json(user);
     } catch(error) {
         console.error(error.message);

@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
-import { getUserByUserName } from "../../actions/auth-action";
-import { useHttpClient } from "../../hooks/http-hook";
-import { getUserRoleString } from "../../utils/helper";
-import './Profile.css';
+import { getUserByUserName } from "../actions/auth-action";
+import { useHttpClient } from "../hooks/http-hook";
+import { getUserRoleString } from "../utils/helper";
+import './stylesheets/ProfileScreen.css';
 
-const Profile = ({ match, loadedUser, getUserByUserName, auth: { user } }) => {
+const ProfileScreen = ({ match, loadedUser, getUserByUserName, auth: { user } }) => {
     const { sendRequest } = useHttpClient();
-    // const [ showUser, setShowUser ] = useState(user);
     const [ userRole, setUserRole ] = useState('');
     useEffect(() => {
         if(match.params && match.params.username) {
             getUserByUserName(match.params.username, sendRequest);
-            // setShowUser(loadedUser);
         }
+        // eslint-disable-next-line
     }, []);
 
     useEffect(() => {
         if(loadedUser && loadedUser.role) setUserRole(getUserRoleString(loadedUser.role));
         else if(user && user.role) setUserRole(getUserRoleString(user.role));
+        // eslint-disable-next-line
     }, [loadedUser]);
     return (
         <div className="main">
@@ -181,4 +181,4 @@ const mapStateToProps = state => ({
     loadedUser: state.auth.loadedUser
 })
 
-export default connect(mapStateToProps, { getUserByUserName })(Profile);
+export default connect(mapStateToProps, { getUserByUserName })(ProfileScreen);

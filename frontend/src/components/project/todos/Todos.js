@@ -7,8 +7,8 @@ import { useHttpClient } from "../../../hooks/http-hook";
 import { useForm } from "../../../hooks/form-hook";
 import { VALIDATOR_REQUIRE } from "../../../utils/validators";
 import Input from "../../shared/FormElements/Input";
-import IncompleteTodoRow from "./IncompleteTodoRow";
-import CompletedTodoRow from "./CompletedTodoRow";
+import IncompleteTodoRow from "./IncompleteTodo";
+import CompletedTodoRow from "./CompletedTodo";
 import M from "materialize-css";
 import { initModalAndOpen } from "../../../utils/helper";
 
@@ -16,7 +16,6 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, editTodo, editSu
     const { sendRequest } = useHttpClient();
     const projectId = useParams().projectId;
     const [ editTodoText, setEditTodoText ] = useState('');
-    const [ subTodoText, setSubTodoText ] = useState('');
     const [ subTodoEditText, setSubTodoEditText ] = useState('');
     const [ todoId, setTodoId ] = useState();
     const [ subTodoId, setSubTodoId ] = useState();
@@ -34,8 +33,8 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, editTodo, editSu
     );
 
     //initialization:(set todoText='' and validation=false)
-    const initAddTodoData = async () => {
-        await setFormData(
+    const initAddTodoData = () => {
+        setFormData(
             {
                 todoText: {
                     value: '',
@@ -47,42 +46,42 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, editTodo, editSu
         document.getElementById("todoText").value = '';
     }
 
-    const addTodoHandler = async (event) => {
+    const addTodoHandler = (event) => {
         event.preventDefault();
         try {
             if(!assignMember)
-                await addTodo(formState.inputs.todoText.value, projectId, sendRequest);
-            else await addTodoToJunior(formState.inputs.todoText.value, projectId, assignMember, sendRequest);
-            await initAddTodoData();
+                addTodo(formState.inputs.todoText.value, projectId, sendRequest);
+            else addTodoToJunior(formState.inputs.todoText.value, projectId, assignMember, sendRequest);
+            initAddTodoData();
         } catch (error) {
             console.error(error);
         }
     }
 
-    const addSubTodoHandler = async (event) => {
+    const addSubTodoHandler = (event) => {
         event.preventDefault();
         try {
-            await addSubTodo(formState.inputs.subTodoText.value, projectId, todoId, sendRequest);
-            await initAddTodoData();
+            addSubTodo(formState.inputs.subTodoText.value, projectId, todoId, sendRequest);
+            initAddTodoData();
         } catch(error) {
             console.error(error);
         }
     }
 
-    const editTodoHandler = async (event) => {
-        await editTodo(project._id, todoId, formState.inputs.todoEditText.value, sendRequest);
-        await initAddTodoData();
+    const editTodoHandler = (event) => {
+        editTodo(project._id, todoId, formState.inputs.todoEditText.value, sendRequest);
+        initAddTodoData();
     }
 
-    const editSubTodoHandler = async (event) => {
-        await editSubTodo(project._id, todoId, subTodoId, formState.inputs.subTodoEditText.value, sendRequest);
-        await initAddTodoData();
+    const editSubTodoHandler = (event) => {
+        editSubTodo(project._id, todoId, subTodoId, formState.inputs.subTodoEditText.value, sendRequest);
+        initAddTodoData();
     }
 
-    const setEditTodoData = async (todoText) => {
+    const setEditTodoData = (todoText) => {
         // await initAddTodoData();
-        await setEditTodoText(todoText);
-        await setFormData(
+        setEditTodoText(todoText);
+        setFormData(
             {
                 todoEditText: {
                     value: todoText,
@@ -93,10 +92,10 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, editTodo, editSu
         )
     }
 
-    const setEditSubTodoData = async (subTodoText) => {
+    const setEditSubTodoData = (subTodoText) => {
         // await initAddTodoData();
-        await setSubTodoEditText(subTodoText);
-        await setFormData(
+        setSubTodoEditText(subTodoText);
+        setFormData(
             {
                 subTodoText: {
                     value: subTodoText,
@@ -109,7 +108,6 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, editTodo, editSu
 
     const setSubTodoData = async () => {
         await initAddTodoData();
-        await setSubTodoText('');
         await setFormData(
             {
                 subTodoText: {
@@ -121,25 +119,24 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, editTodo, editSu
         )
     };
 
-    const handleClickOnEdit = async (todoId, todoText) => {
-        await setEditTodoData(todoText);
-        await setTodoId(todoId);
+    const handleClickOnEdit = (todoId, todoText) => {
+        setEditTodoData(todoText);
+        setTodoId(todoId);
         document.getElementById("todoEditText").value = todoText;
         initModalAndOpen('#edit-todo-modal');
-        // document.getElementById("todoEditText").value = todoText;
     }
 
-    const handleClickOnEditSubTodo = async (todoId, subTodoId, subTodoText) => {
-        await setEditSubTodoData(subTodoText);
-        await setTodoId(todoId);
-        await setSubTodoId(subTodoId);
+    const handleClickOnEditSubTodo = (todoId, subTodoId, subTodoText) => {
+        setEditSubTodoData(subTodoText);
+        setTodoId(todoId);
+        setSubTodoId(subTodoId);
         document.getElementById("subTodoEditText").value = subTodoText;
         initModalAndOpen("#edit-sub-todo-modal")
     }
 
-    const handleClickOnAddSubTodo = async (todoId) => {
-        await setSubTodoData();
-        await setTodoId(todoId);
+    const handleClickOnAddSubTodo = (todoId) => {
+        setSubTodoData();
+        setTodoId(todoId);
         document.getElementById("subTodoText").value = '';
         initModalAndOpen('#add-sub-todo-modal');
     }
@@ -153,11 +150,11 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, editTodo, editSu
         //as there are three modal all those element todoText, subTodoText, todoTextEdit all are got added in formState
         //which cause always false for overall form validation at start
         initAddTodoData();
+        // eslint-disable-next-line
     }, [])
 
     useEffect(() => {
         let selectList = document.getElementById("member_list");
-        let juniorMembers = new Array();
         if(project?.members) {
             project.members.map(member => {
                 if(parseInt(currentUser.role) <= member.user.role && currentUser.username !== member.user.username) {

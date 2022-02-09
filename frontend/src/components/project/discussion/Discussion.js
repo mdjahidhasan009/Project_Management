@@ -1,150 +1,56 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
 import { connect } from 'react-redux';
 
-import { useForm } from "../../../hooks/form-hook";
 import { useHttpClient } from "../../../hooks/http-hook";
-import { addDiscussion, editDiscussion } from "../../../actions/project-action";
-import DiscussionRow from "./DiscussionRow";
-import Input from "../../shared/FormElements/Input";
-import { VALIDATOR_REQUIRE } from "../../../utils/validators";
-import M from "materialize-css";
-import {initModalAndOpen} from "../../../utils/helper";
+import { deleteDiscussion } from "../../../actions/project-action";
+import './Discussion.css';
 
-const Discussion = ({ project, addDiscussion, editDiscussion, isMemberOfThisProject, isCreatedByUser, isAuthenticated }) => {
+const Discussion = ({ discussion, username, handleClickOnEdit, projectId, deleteDiscussion }) => {
     const { sendRequest } = useHttpClient();
-    const projectId = useParams().projectId;
-    const [ editDiscussionText, setEditDiscussionText ] = useState('');
-    const [ discussionId, setDiscussionId ] = useState();
+    const [ isMobile, setIsMobile ] = useState(false);
 
-    const [ formState, inputHandler, setFormData ] = useForm(
-        {
-            discussionText: {
-                value: '',
-                isValid: false
-            }
-        },
-        false
-    );
-
-    //initialization(set discussionText to '' and validation to false)
-    const setAddDiscussionData = async () => {
-        await setFormData(
-            {
-                discussionText: {
-                    value: '',
-                    isValid: false
-                }
-            },
-            false
-        );
-        document.getElementById("discussionText").value = '';
+    const handleEditClick = async () => {
+        await handleClickOnEdit(discussion._id, discussion.text);
     }
 
-    const addDiscussionHandler = async (event) => {
-        event.preventDefault();
-        try {
-            await addDiscussion(formState.inputs.discussionText.value, projectId, sendRequest);
-            await setAddDiscussionData();
-        } catch (error) {
-            console.error(error);
+    const handleDeleteClick = async () => {
+        if(window.confirm('Do you want to delete this discussion?')) {
+            await deleteDiscussion(projectId, discussion._id, sendRequest);
         }
     }
 
-    const editDiscussionHandler = async (event) => {
-        await editDiscussion(project._id, discussionId, formState.inputs.discussionEditText.value, sendRequest);
-        await setAddDiscussionData();
-    }
-
-    const initEditDiscussionData = async (discussionText) => {
-        await setEditDiscussionText(discussionText);
-        await setFormData(
-            {
-                discussionEditText: {
-                    value: discussionText,
-                    isValid: true
-                }
-            },
-            true
-        )
-    }
-
-    const handleClickOnEdit = async (discussionId, discussionText) => {
-        await initEditDiscussionData(discussionText);
-        await setDiscussionId(discussionId);
-        document.getElementById("discussionEditText").value = discussionText;
-        initModalAndOpen('#edit-discussion-modal')
-    }
+    useEffect(() => {
+        if (/Mobi/.test(navigator.userAgent))
+            setIsMobile(true);
+    }, [])
 
     return (
-        <div className="row discussion">
-            {/*Add discussion Modal Structure*/}
-            <div id="add-discussion-modal" className="modal">
-                <div className="modal-content">
-                    <h5>Add New Discussion</h5>
-                    <Input
-                        element="input"
-                        elementTitle="discussionText"
-                        type="text"
-                        placeholder="Enter Discussion"
-                        validators={[VALIDATOR_REQUIRE()]}
-                        errorText="Please enter discussion text."
-                        onInput={inputHandler}
-                    />
-                </div>
-                <div className="modal-footer">
-                    <button disabled={!formState.isValid} onClick={addDiscussionHandler} className="modal-close waves-effect waves-light btn-flat">Add New Project</button>
-                </div>
-            </div>
-
-            {/*Edit Discussion Modal*/}
-            <div id="edit-discussion-modal" className="modal">
-                <div className="modal-content">
-                    <h5>Edit Discussion</h5>
-                    <Input
-                        element="input"
-                        elementTitle="discussionEditText"
-                        type="text"
-                        placeholder="Enter a discussion"
-                        validators={[VALIDATOR_REQUIRE()]}
-                        errorText="Please enter discussion text."
-                        onInput={inputHandler}
-                        initialValue={editDiscussionText}
-                        initialValidity={true}
-                    />
-                </div>
-                <div className="modal-footer">
-                    <button onClick={editDiscussionHandler}
-                            disabled={!formState.isValid}  className="modal-close waves-effect waves-light btn-flat">Edit Discussion</button>
-                </div>
-            </div>
-
-            <>
-                {/*Add Discussion Modal Button*/}
-                {(isMemberOfThisProject || isCreatedByUser) && (
-                    <button data-target="add-discussion-modal" className="light-blue lighten-1 modal-trigger add-btn">
-                    <i className="fas fa-plus-circle" />      ADD NEW DISCUSSION
-                    </button>
-                )}
-
-                <h5>Discussion List</h5>
-                {project && project.discussion && project.discussion.map(discussion => (
-                    <DiscussionRow key={discussion._id}
-                        discussion={discussion}
-                        handleClickOnEdit={handleClickOnEdit}
-                        projectId={projectId}
+        <div className={`row white discussion-row ${isMobile ? '' : 'showElementOnHover'}`} id="discussion-row">
+            <div className="col s1 discussion-row__image">
+                <img
+                    src={discussion?.user?.profileImage?.imageUrl}
+                    alt=" "
+                    className="avatar "
                 />
-                ))}
-            </>
+            </div>
+            <div className="col s11 discussion-row__text">
+                <p>{discussion.text}</p>
+                <p>by
+                    <a href={`/member/${discussion.user.username}`}> {discussion.user.username}</a>
+                    {username && (username === discussion.user.username) && (
+                        <>
+                            <span id='edit' className={`edit ${isMobile ? 'showEdit' : ''}`} onClick={handleEditClick}>Edit</span>
+                            <span id='delete' className={`delete ${isMobile ? 'showDelete' : ''}`} onClick={handleDeleteClick}>Delete</span>
+                        </>
+                    )}
+                </p>
+            </div>
         </div>
-    );
-};
+    )
+}
 
 const mapStateToProps = state => ({
-    project: state.project.project,
-    isMemberOfThisProject: state.project.isMemberOfThisProject,
-    isCreatedByUser: state.project.isCreatedByUser,
-    isAuthenticated: state.auth.isAuthenticated
-});
+    username: state.auth?.user?.username
+})
 
-export default connect(mapStateToProps, { addDiscussion, editDiscussion })(Discussion);
+export default connect(mapStateToProps, { deleteDiscussion })(Discussion);

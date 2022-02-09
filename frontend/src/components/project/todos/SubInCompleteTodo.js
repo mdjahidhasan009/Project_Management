@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { deleteSubTodo, toggleSubTodoIsDone } from "../../../actions/project-action";
 import { useHttpClient } from "../../../hooks/http-hook";
 
-const SubInCompleteTodoRow = ({ subTodo, projectId, todoId, toggleSubTodoIsDone, username, deleteSubTodo,
+const SubInCompleteTodo = ({ subTodo, projectId, todoId, toggleSubTodoIsDone, username, deleteSubTodo,
                                 handleClickOnEditSubTodo }) => {
     const { sendRequest } = useHttpClient();
     const [ isMobile, setIsMobile ] = useState(false);
@@ -68,4 +68,4 @@ const mapStateToProps = state => ({
   username: state.auth?.user?.username
 })
 
-export default connect(mapStateToProps, { toggleSubTodoIsDone, deleteSubTodo })(SubInCompleteTodoRow);
+export default connect(mapStateToProps, { toggleSubTodoIsDone, deleteSubTodo })(SubInCompleteTodo);

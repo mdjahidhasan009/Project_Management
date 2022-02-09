@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { useHttpClient } from "../../../hooks/http-hook";
 import { toggleIsFixed } from "../../../actions/project-action";
 
-const FixedBugRow = ({ bug, projectId, toggleIsFixed, noImage }) => {
+const FixedBug = ({ bug, projectId, toggleIsFixed, noImage }) => {
     const { sendRequest } = useHttpClient();
 
     const handleIsFixed = async () => {
@@ -35,4 +35,4 @@ const mapStateToProps = state => ({
     noImage: state.auth.noImage
 });
 
-export default connect(mapStateToProps, { toggleIsFixed })(FixedBugRow);
+export default connect(mapStateToProps, { toggleIsFixed })(FixedBug);

@@ -2,21 +2,22 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import { prepareActivity } from "../../../actions/project-action";
-import ActivityRow from "./ActivityRow";
+import ActivitiesInADay from "./ActivitiesInADay";
 
 
-const ActivitiesScreen = ({ project, activities, prepareActivity }) => {
+const Activities = ({ project, activities, prepareActivity }) => {
     useEffect(() => {
         if(project) {
             prepareActivity(project);
-        };
+        }
+        // eslint-disable-next-line
     }, [project]);
 
     return (
         <>
-            {/*ActivitiesScreen Row*/}
+            {/*Activities Row*/}
             {activities && activities.map(activity => (
-                <ActivityRow activity={activity} key={new Date(activity[0].time).getDate()}/>
+                <ActivitiesInADay activity={activity} key={new Date(activity[0].time).getDate()}/>
             ))}
         </>
     )
@@ -27,6 +28,6 @@ const mapStateToProps = state => ({
     activities: state.project.activities
 })
 
-export default connect(mapStateToProps, { prepareActivity })(ActivitiesScreen);
+export default connect(mapStateToProps, { prepareActivity })(Activities);
 
 //As while not logged in activities of project state will be null nothing will show for that

@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 
 import { deleteMemberFromProject } from "../../../actions/project-action";
 import { useHttpClient } from "../../../hooks/http-hook";
-import './MemberRow.css';
+import './Member.css';
 import {getUserRoleString} from "../../../utils/helper";
 
-const MemberRow = ({ project, member, isCreatedByUser, deleteMemberFromProject, noImage }) => {
+const Member = ({ project, member, isCreatedByUser, deleteMemberFromProject, noImage }) => {
     const { sendRequest } = useHttpClient();
 
     const removeMember = async () => {
@@ -47,4 +47,4 @@ const mapStateToProps = state => ({
     noImage: state.auth.noImage,
 });
 
-export default connect(mapStateToProps, { deleteMemberFromProject })(MemberRow);
+export default connect(mapStateToProps, { deleteMemberFromProject })(Member);

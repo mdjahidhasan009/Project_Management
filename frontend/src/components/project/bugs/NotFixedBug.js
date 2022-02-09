@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { useHttpClient } from "../../../hooks/http-hook";
 import { toggleIsFixed, deleteBug} from "../../../actions/project-action";
 
-const NotFixedBugRow = ({username, bug, projectId, toggleIsFixed, deleteBug, handleClickOnEdit, noImage }) => {
+const NotFixedBug = ({username, bug, projectId, toggleIsFixed, deleteBug, handleClickOnEdit, noImage }) => {
     const { sendRequest } = useHttpClient();
     const [ isMobile, setIsMobile ] = useState(false);
     let clicked = false;
@@ -63,4 +63,4 @@ const mapStateToProps = state => ({
     noImage: state.auth.noImage
 })
 
-export default connect(mapStateToProps, { toggleIsFixed, deleteBug })(NotFixedBugRow);
+export default connect(mapStateToProps, { toggleIsFixed, deleteBug })(NotFixedBug);
