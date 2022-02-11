@@ -23,7 +23,9 @@ const NotFixedBug = ({username, bug, projectId, toggleIsFixed, deleteBug, handle
 
     const handleDeleteClick = async () => {
         clicked = true;
-        await deleteBug(projectId, bug._id, sendRequest);
+        if(window.confirm('Do you want to delete this todo?')) {
+            deleteBug(projectId, bug._id, sendRequest);
+        }
     }
 
     useEffect(() => {

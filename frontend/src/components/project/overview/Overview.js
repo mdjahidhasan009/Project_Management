@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 
 import {useHttpClient} from "../../../hooks/http-hook";
 import {
-    assignAnMemberToAProject,
+    assignAMemberToAProject,
     toggleIsProjectIsFinished,
     getProjectById,
     deleteProject,
@@ -178,5 +178,5 @@ const mapStateToProps = state => ({
     notAssignMembers: state.project?.notAssignMembers
 });
 
-export default connect(mapStateToProps, { assignAnMemberToAProject, toggleIsProjectIsFinished, getProjectById,
+export default connect(mapStateToProps, { assignAnMemberToAProject: assignAMemberToAProject, toggleIsProjectIsFinished, getProjectById,
     deleteProject, getNotAssignedMember })(Overview);

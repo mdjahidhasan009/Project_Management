@@ -3,10 +3,10 @@ const cors = require('cors');
 
 const connectDB = require('./config/db');
 
-const userRoute = require('./routes/users');
-const authRoute = require('./routes/auth');
-const projectRoute = require('./routes/project');
-const uploadRoute = require('./routes/upload');
+const userRoute = require('./routes/userRoutes');
+const authRoute = require('./routes/authRoutes');
+const projectRoute = require('./routes/projectRoutes');
+const uploadRoute = require('./routes/uploadRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;

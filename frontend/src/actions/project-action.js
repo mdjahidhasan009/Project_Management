@@ -498,10 +498,10 @@ export const getNotAssignedMember = (projectId, method) => async dispatch => {
 }
 
 //Assign / add new member to a project
-export const assignAnMemberToAProject = (projectId, username,  method) => async dispatch => {
+export const assignAMemberToAProject = (projectId, username, method) => async dispatch => {
     try {
         const responseData = await method(
-            process.env.REACT_APP_ASSET_URL + '/api/project/' + projectId,
+            process.env.REACT_APP_ASSET_URL + '/api/project/member/' + projectId,
             'POST',
             JSON.stringify({
                 username

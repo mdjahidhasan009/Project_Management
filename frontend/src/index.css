@@ -99,7 +99,7 @@ code {
 .fixed-bug__text,
 .completed-todo__text,
 .incomplete-todo__text {
-  display: contents;
+  display: inline;
 }
 
 .fixed-bug,
