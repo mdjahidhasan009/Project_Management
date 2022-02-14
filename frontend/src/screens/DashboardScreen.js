@@ -7,6 +7,7 @@ import { getAllProjects } from "../actions/projects-action";
 import { loadUser } from "../actions/auth-action";
 import { useHttpClient } from "../hooks/http-hook";
 import './stylesheets/DashboardScreen.css';
+import ChartItem from "../components/ChartItem";
 
 const DashboardScreen = ({ projects, auth, getAllProjects, prepareTodoAndBugForPreview }) => {
     const { sendRequest } = useHttpClient();
@@ -73,27 +74,7 @@ const DashboardScreen = ({ projects, auth, getAllProjects, prepareTodoAndBugForP
 
             {/*Chart for showing fixed bug and finished todo*/}
             <div className="row s12 dashboard__chart">
-                {chartData && (
-                    <Chart
-                        width={'100%'}
-                        height={'400px'}
-                        chartType="LineChart"
-                        loader={<div>Loading Chart</div>}
-                        data={chartData}
-                        options={{
-                            hAxis: {
-                                title: 'Todo done and bug fixed',
-                            },
-                            vAxis: {
-                                title: 'Time',
-                            },
-                            series: {
-                                1: { curveType: 'function' },
-                            },
-                        }}
-                        rootProps={{ 'data-testid': '2' }}
-                    />
-                )}
+                <ChartItem chartData={chartData}/>
             </div>
 
             {(activitySummary && activitySummary.notCompletedActivity.length > 0) && (

@@ -15,6 +15,7 @@ import M from 'materialize-css';
 import MemberRow from './Member';
 import './Overview.css';
 import {initAllModal} from "../../../utils/helper";
+import ChartItem from "../../ChartItem";
 
 const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThisProject, isCreatedByUser,
                       getProjectById, toggleIsProjectIsFinished, isAuthenticated, deleteProject, notAssignMembers,
@@ -36,6 +37,7 @@ const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThis
             M.FormSelect.init(selectList);
             initAllModal();
         }
+        // eslint-disable-next-line
     }, [notAssignMembers]);
 
     const handleIsDoneClick = async () => {
@@ -46,9 +48,8 @@ const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThis
     }
 
     //get selected member username
-    const handleSetAddMember = async (event) => {
-        await setAddMember(event.target.value);
-        await getNotAssignedMember(project._id, sendRequest);
+    const handleSetAddMember =  (event) => {
+        setAddMember(event.target.value);
     }
 
     const handleAddMember = async () => {
@@ -100,25 +101,26 @@ const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThis
                         }
                         >
                             {/*Todo done and bug fixed summary chart*/}
-                            <Chart
-                                width={'100%'}
-                                height={'400px'}
-                                chartType="LineChart"
-                                loader={<div>Loading Chart</div>}
-                                data={chartData}
-                                options={{
-                                    hAxis: {
-                                        title: 'Todo done and bug fixed',
-                                    },
-                                    vAxis: {
-                                        title: 'Time',
-                                    },
-                                    series: {
-                                        1: { curveType: 'function' },
-                                    },
-                                }}
-                                rootProps={{ 'data-testid': '2' }}
-                            />
+                            <ChartItem chartData={chartData} />
+                            {/*<Chart*/}
+                            {/*    width={'100%'}*/}
+                            {/*    height={'400px'}*/}
+                            {/*    chartType="LineChart"*/}
+                            {/*    loader={<div>Loading Chart</div>}*/}
+                            {/*    data={chartData}*/}
+                            {/*    options={{*/}
+                            {/*        hAxis: {*/}
+                            {/*            title: 'Todo done and bug fixed',*/}
+                            {/*        },*/}
+                            {/*        vAxis: {*/}
+                            {/*            title: 'Time',*/}
+                            {/*        },*/}
+                            {/*        series: {*/}
+                            {/*            1: { curveType: 'function' },*/}
+                            {/*        },*/}
+                            {/*    }}*/}
+                            {/*    rootProps={{ 'data-testid': '2' }}*/}
+                            {/*/>*/}
                         </div>
 
 

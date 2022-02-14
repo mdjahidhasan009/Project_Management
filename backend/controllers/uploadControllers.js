@@ -1,4 +1,4 @@
-const {cloudinary} = require("../utils/cloudinary");
+const { cloudinary } = require("../utils/cloudinary");
 const User = require("../models/User");
 
 // @route   POST api/upload

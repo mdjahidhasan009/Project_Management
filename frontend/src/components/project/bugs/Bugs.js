@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 
@@ -6,16 +6,18 @@ import { useHttpClient } from "../../../hooks/http-hook";
 import { useForm } from "../../../hooks/form-hook";
 import { addBug, editBug } from "../../../actions/project-action";
 import { VALIDATOR_REQUIRE } from "../../../utils/validators";
-import {initAllModal, initModalAndOpen} from "../../../utils/helper";
+import { initAllModal, initModalAndOpen } from "../../../utils/helper";
 import Input from "../../shared/FormElements/Input";
 import NotFixedBugRow from "./NotFixedBug";
 import FixedBugRow from "./FixedBug";
 
-const Bugs = ({ project, addBug, editBug, isMemberOfThisProject, isCreatedByUser, isAuthenticated }) => {
+const Bugs = ({ project, bugs, addBug, editBug, isMemberOfThisProject, isCreatedByUser }) => {
     const { sendRequest } = useHttpClient();
     const projectId = useParams().projectId;
     const [ editBugText, setEditBugText ] = useState('');
     const [ bugId, setBugId ] = useState();
+    const [ hasNotFixedBug, setHasNotFixedBug ] = useState(false);
+    const [ hasFixedBug, setHasFixedBug ] = useState(false);
 
     const [ formState, inputHandler, setFormData ] = useForm(
         {
@@ -42,11 +44,7 @@ const Bugs = ({ project, addBug, editBug, isMemberOfThisProject, isCreatedByUser
     }
 
     const addBugHandler = async (event) => {
-        try {
-            await addBug(formState.inputs.bugText.value, projectId, sendRequest);
-        } catch (error) {
-            console.error(error);
-        }
+        await addBug(formState.inputs.bugText.value, projectId, sendRequest);
         await setAddBugData();
     }
 
@@ -68,14 +66,33 @@ const Bugs = ({ project, addBug, editBug, isMemberOfThisProject, isCreatedByUser
         )
     }
 
+    //bugId, bugText will be passed from NotFixedBug.js as it was called from there.
     const handleClickOnEdit = async (bugId, bugText) => {
         await setEditBugData(bugText);
         await setBugId(bugId);
         document.getElementById("bugEditText").value = bugText;
-        initAllModal();
         initModalAndOpen('#edit-bug-modal');
         document.getElementById("bugEditText").value = bugText;
     }
+
+    const doesHaveCompletedOrNotFixedBugs = () => {
+        let flagHasFixedBug = false, flagHasNotFixedBug = false;
+        bugs && bugs.map(item => {
+            if(!flagHasFixedBug && item.fixed) flagHasFixedBug = true;
+            if(!flagHasNotFixedBug && !item.fixed) flagHasNotFixedBug = true;
+        })
+        setHasNotFixedBug(flagHasNotFixedBug);
+        setHasFixedBug(flagHasFixedBug);
+    }
+
+    useEffect(() => {
+        doesHaveCompletedOrNotFixedBugs();
+    }, [bugs]);
+
+    useEffect( () => {
+        initAllModal();
+        // eslint-disable-next-line
+    }, []);
 
     return (
             <div className="row bugs">
@@ -131,16 +148,17 @@ const Bugs = ({ project, addBug, editBug, isMemberOfThisProject, isCreatedByUser
                         </button>
                     )}
 
-                    <h5>Not Fixed Bug List</h5>
+                    {bugs?.length === 0 && <h5 className="center-align">Great News, no bug in this project yet!!</h5>}
+                    {hasNotFixedBug && <h5>Not Fixed Bug List</h5>}
                     <div className=" ">
-                        {project && project.bugs && project?.bugs.map(bug => (
+                        {bugs && bugs.map(bug => (
                             <NotFixedBugRow key={bug._id} bug={bug} projectId={projectId} handleClickOnEdit={handleClickOnEdit}/>
                         ))
                         }
                     </div>
-                    <h5>Fixed Bug List</h5>
+                    {hasFixedBug && <h5>Fixed Bug List</h5>}
                     <div className=" ">
-                        {project && project.bugs && project?.bugs.map(bug => (
+                        {bugs && bugs.map(bug => (
                             <FixedBugRow key={bug._id} bug={bug} projectId={projectId}/>
                         ))
                         }
@@ -152,9 +170,9 @@ const Bugs = ({ project, addBug, editBug, isMemberOfThisProject, isCreatedByUser
 
 const mapStateToProps = state => ({
     project: state.project.project,
+    bugs: state.project?.project?.bugs,
     isMemberOfThisProject: state.project.isMemberOfThisProject,
-    isCreatedByUser: state.project.isCreatedByUser,
-    isAuthenticated: state.auth.isAuthenticated
+    isCreatedByUser: state.project.isCreatedByUser
 });
 
 export default connect(mapStateToProps, { addBug, editBug })(Bugs);

@@ -50,12 +50,12 @@ const UploadImage = ({ uploadProfileImage, profileImageUrl }) => {
         <div className="uploadImage">
 
             <div className="uploadImage__div">
-                {/* ProfileScreen Image */}
+                {/* Profile Image */}
                 {!previewSource && (
                     <img
                         className="previewImage"
                         src={profileImageUrl}
-                        alt="Add ProfileScreen Image"
+                        alt="Add Profile Image"
                     />
                 )}
 
@@ -68,15 +68,17 @@ const UploadImage = ({ uploadProfileImage, profileImageUrl }) => {
                     />
                 )}
                 <form onSubmit={handleSubmitFile} className="form">
-                    <label htmlFor="fileInput">Change ProfileScreen Picture   </label>
-                    <input
-                        id="fileInput"
-                        type="file"
-                        name="image"
-                        onChange={handleFileInputChange}
-                        value={fileInputState}
-                        className="form-input"
-                    />
+                    <div className="image-selection">
+                        <label htmlFor="fileInput">Change Profile Picture</label>
+                        <input
+                            id="fileInput"
+                            type="file"
+                            name="image"
+                            onChange={handleFileInputChange}
+                            value={fileInputState}
+                            className="form-input"
+                        />
+                    </div>
                     <button className="btn" type="submit">
                         {loading && <i className="fas fa-spinner fa-pulse" />}
                         {loading && ' Uploading Image'}

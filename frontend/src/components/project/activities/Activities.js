@@ -16,9 +16,12 @@ const Activities = ({ project, activities, prepareActivity }) => {
     return (
         <>
             {/*Activities Row*/}
-            {activities && activities.map(activity => (
-                <ActivitiesInADay activity={activity} key={new Date(activity[0].time).getDate()}/>
-            ))}
+            {activities && activities.length > 0
+                ? activities.map(activity => (
+                    <ActivitiesInADay activity={activity} key={new Date(activity[0].time).getDate()}/>
+                ))
+                : <h5 className="center-align">No Activity in this project yet!!</h5>
+            }
         </>
     )
 }

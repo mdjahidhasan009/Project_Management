@@ -1,6 +1,5 @@
-const auth = require("../middleware/auth");
 const User = require("../models/User");
-const {check, validationResult} = require("express-validator");
+const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Project = require("../models/Project");
@@ -27,8 +26,10 @@ const addNewUser = async (req, res) => {
     try {
       let user = await User.findOne({ email });
       if(user) return res.status(400).json({ 'error' : 'User already exits' });
-      user = await User.findOne({ username });
+      //checking is user with same username already exits(case insensitive).
+      user = await User.findOne( { username: {$regex: new RegExp(`^${username}$`), $options: 'i'} });
       if(user) return res.status(400).json({ 'error': 'Username already exits. Choose another one' });
+
       user = new User({
         name, username, email, password
       });
@@ -56,7 +57,7 @@ const addNewUser = async (req, res) => {
 // @access Private
 const editUserDetails = async (req, res) => {
     const errors = validationResult(req); //Checking validation errors
-    if(!errors.isEmpty()) return res.status(500).json({ 'error': 'Server Error1 '});
+    if(!errors.isEmpty()) return res.status(500).json({ 'error': 'Server Error '});
 
     let { fullName, username ,email, role, newPassword, currentPassword, bio, skills, github, youtube, twitter, facebook, linkedIn, instagram, stackoverflow } = req.body.formState.inputs;
     fullName = fullName.value, username = username.value, email = email.value, role = role.value, newPassword = newPassword.value,
@@ -68,9 +69,9 @@ const editUserDetails = async (req, res) => {
     }
     try {
       let user = await User.findOne({ _id: req.user.id });
-      if(!user) return res.status(500).json({ 'error': 'Server Error2 '});
+      if(!user) return res.status(500).json({ 'error': 'Server Error '}); //user not found
       const isMatch = await bcrypt.compare(currentPassword, user.password);
-      if(!isMatch) return res.status(400).json({ error: 'Invalid Password' });
+      if(!isMatch) return res.status(400).json({ error: 'Invalid Password' }); //password does not matched
       if(newPassword !== null) {
         const salt = await bcrypt.genSalt(10);
         newPassword = await bcrypt.hash(newPassword, salt);
@@ -95,14 +96,14 @@ const editUserDetails = async (req, res) => {
           social: { github, youtube, twitter, facebook, linkedIn, instagram, stackoverflow }
         }
       }
-      await User.findOneAndUpdate( { _id: req.user.id }, updateObject, function(err, doc) {
-        if (err) return res.status(500).json({ 'error': 'Server Error3 '});
-        return res.status(200).json( doc )
-      });
+      const updatedUserDetails = await User.findOneAndUpdate( { _id: req.user.id }, updateObject, {
+        new: true //to return the document after update was applied.
+      })
+      return res.status(200).json(updatedUserDetails);
 
     } catch (e) {
       console.error(e.message);
-      return res.status(500).json({ 'error': 'Server Error4 '});
+      return res.status(500).json({ 'error': 'Server Error '});
     }
 }
 

@@ -63,6 +63,11 @@ code {
   padding: 10px;
 }
 
+.form-control {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
 /* For todo(not completed) and bug(fixed bug) */
 .subTodo {
   padding-left: 20px;

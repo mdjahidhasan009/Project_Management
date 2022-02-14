@@ -138,7 +138,7 @@ const ProfileScreen = ({ match, loadedUser, getUserByUserName, auth: { user } })
                     ))
                     : (user && user.bio && (
                         <div className="row profile-bio">
-                            <h4>{user && user.name}'s Bio</h4>
+                            <h5>{user && user.name}'s Bio</h5>
                             <p>{user.bio}</p>
                         </div>
                     ))
@@ -147,7 +147,7 @@ const ProfileScreen = ({ match, loadedUser, getUserByUserName, auth: { user } })
                 {loadedUser
                     ? (loadedUser.skills && loadedUser.skills.length > 0 && (
                         <div className="row profile-skills">
-                            <h4 >Skill Set</h4>
+                            <h5>Skill Set</h5>
                             <div className="skills">
                                 {loadedUser.skills.map((skill, index) => (
                                     <div key={index} className="skill">
@@ -159,7 +159,7 @@ const ProfileScreen = ({ match, loadedUser, getUserByUserName, auth: { user } })
                     ))
                     : (user && user.skills && user.skills.length > 0 && (
                         <div className="row profile-skills">
-                            <h4 >Skill Set</h4>
+                            <h5>Skill Set</h5>
                             <div className="skills wrapper">
                                 {user.skills.map((skill, index) => (
                                     <div key={index} className="skill">

@@ -9,6 +9,18 @@
     max-width: 100%;
 }
 
+.image-selection {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    max-width: 40vw;
+}
+
+.image-selector >
+.image-selector > * { /* Select all child */
+    display: inline;
+}
+
 input[type=file]::file-selector-button {
     border: 2px solid #29b6f6;
     padding: .2em .4em;

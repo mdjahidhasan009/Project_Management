@@ -182,7 +182,7 @@ export const addTodo = (todoText, projectId ,method) => async dispatch => {
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        M.toast({html: 'New Todo Added', classes: 'green'});
+        M.toast({ html: 'New Todo Added', classes: 'green' });
         dispatch({
             type: ADD_TODO,
             payload: responseData

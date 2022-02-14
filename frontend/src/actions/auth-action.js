@@ -1,7 +1,6 @@
 import {
-    ALL_USER_LOADED,
-    AUTH_ERROR, LOGIN_SUCCESS, LOGOUT, REGISTER_SUCCESS, USER_LOADED,
-    LOADED_SELECTED_USER
+    ALL_USER_LOADED,         AUTH_ERROR,             LOGIN_SUCCESS,               LOGOUT,              REGISTER_SUCCESS,
+    USER_LOADED,             LOADED_SELECTED_USER
 } from './types'
 import M from "materialize-css";
 
@@ -82,7 +81,7 @@ export const login = (email, password, method) => async dispatch => {
     }
 }
 
-//Edit user edit-project-details
+//Edit user details
 export const updateUser = (formState, method) => async dispatch => {
     try {
         const responseData = await method(
@@ -96,7 +95,13 @@ export const updateUser = (formState, method) => async dispatch => {
                 'Authorization': 'Bearer ' + localStorage.token
             }
         );
-        M.toast({html: 'User Details Updated', classes: 'green'});
+        if(responseData) {
+            dispatch({
+                type: USER_LOADED,
+                payload: responseData
+            })
+            M.toast({ html: 'User Details Updated', classes: 'green' });
+        }
     } catch (error) {
         console.error(error);
     }

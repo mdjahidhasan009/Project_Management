@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -8,7 +8,7 @@ import { addDiscussion, editDiscussion } from "../../../actions/project-action";
 import DiscussionRow from "./Discussion";
 import Input from "../../shared/FormElements/Input";
 import { VALIDATOR_REQUIRE } from "../../../utils/validators";
-import {initModalAndOpen} from "../../../utils/helper";
+import {initAllModal, initModalAndOpen} from "../../../utils/helper";
 
 const Discussions = ({ project, addDiscussion, editDiscussion, isMemberOfThisProject, isCreatedByUser }) => {
     const { sendRequest } = useHttpClient();
@@ -26,9 +26,14 @@ const Discussions = ({ project, addDiscussion, editDiscussion, isMemberOfThisPro
         false
     );
 
+    useEffect(() => {
+        initAllModal();
+        // eslint-disable-next-line
+    }, []);
+
     //initialization(set discussionText to '' and validation to false)
-    const setAddDiscussionData = async () => {
-        await setFormData(
+    const setAddDiscussionData = () => {
+        setFormData(
             {
                 discussionText: {
                     value: '',
@@ -126,14 +131,20 @@ const Discussions = ({ project, addDiscussion, editDiscussion, isMemberOfThisPro
                     </button>
                 )}
 
-                <h5>Discussions List</h5>
-                {project && project.discussion && project.discussion.map(discussion => (
-                    <DiscussionRow key={discussion._id}
-                        discussion={discussion}
-                        handleClickOnEdit={handleClickOnEdit}
-                        projectId={projectId}
-                />
-                ))}
+
+                {project && project.discussion.length > 0
+                    ?   <>
+                            <h5>Discussion List</h5>
+                            {project.discussion.map(discussion => (
+                                <DiscussionRow key={discussion._id}
+                                    discussion={discussion}
+                                    handleClickOnEdit={handleClickOnEdit}
+                                    projectId={projectId}
+                                />
+                            ))}
+                        </>
+                    :   <h5 className="center-align">No Discussion Yet!!</h5>
+                }
             </>
         </div>
     );

@@ -1,7 +1,5 @@
-const { validationResult, check} = require("express-validator");
+const { validationResult } = require("express-validator");
 const Project = require("../../models/Project");
-const auth = require("../../middleware/auth");
-const User = require("../../models/User");
 
 // @route   POST api/project/bugs/:id
 // @desc    Add new bug
