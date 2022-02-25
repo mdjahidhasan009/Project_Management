@@ -69,7 +69,7 @@ const ProjectCard = ({ project, noImage, noMember }) => {
                 <div className="card-action">
                     <ul className="collection">
                         {project?.members?.length > 0 && project?.members.map(userItem => (
-                            <li key={userItem?.user?.username} className="collection-item avatar">
+                            <li key={userItem?.user?.username+project._id} className="collection-item avatar">
                                 {userItem.user && userItem.user.profileImage &&
                                     <img src={userItem?.user?.profileImage?.imageUrl} alt=" " className="circle"/>
                                 }
@@ -79,7 +79,7 @@ const ProjectCard = ({ project, noImage, noMember }) => {
                             </li>
                         ))}
                         {project?.members?.length === 0 && (
-                            <li key="88" className="collection-item avatar">
+                            <li key="no_member" className="collection-item avatar">
                                 <img src={noMember} alt=" " className="circle"/>
                             </li>
                         )}

@@ -32,7 +32,7 @@ const Input = props => {
     const { value, isValid } = inputState;
 
     useEffect(() => {
-        onInput(elementTitle, value, isValid);
+        onInput(elementTitle, value, isValid); //
         // eslint-disable-next-line
     }, [elementTitle, value, isValid]);
 
@@ -58,7 +58,7 @@ const Input = props => {
             type={props.type}
             placeholder={props.placeholder}
             onChange={changeHandler}
-            onBlur={clickHandler}
+            onBlur={clickHandler}  //When loose focus means after click on the field click other place except input field
             value={inputState.value}
         />
     else if(props.element === 'select')

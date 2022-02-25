@@ -23,7 +23,7 @@ const DashboardScreen = ({ projects, auth, getAllProjects, prepareTodoAndBugForP
     }, [user]);
 
     useEffect(() => {
-        if(projects && user) prepareTodoAndBugForPreview(user.username, projects);
+        if(projects.length > 0 && user) prepareTodoAndBugForPreview(user.username, projects);
         // eslint-disable-next-line
     }, [projects, user]);
 
@@ -83,7 +83,7 @@ const DashboardScreen = ({ projects, auth, getAllProjects, prepareTodoAndBugForP
                     {/*Work not finished*/}
                     <h5>Remaining Tasks</h5>
                     {activitySummary.notCompletedActivity.map(project => (
-                        <div className="project_summary">
+                        <div className="project_summary" key={project.projectName}>
                             <h6 className="project_summary__project-name white-text">Project name : {project.projectName}</h6>
                             <div className="row">
                                 <div className="col s12 m6 l6">
@@ -137,7 +137,7 @@ const DashboardScreen = ({ projects, auth, getAllProjects, prepareTodoAndBugForP
                 <div className="row white dashboard__work-summary">
                     <h5>Completed Tasks</h5>
                     {activitySummary.completedActivity.map(project => (
-                        <div className="project_summary">
+                        <div className="project_summary" key={project.projectName}>
                             <h6 className="project_summary__project-name white-text">Project Name : {project.projectName}</h6>
                             <div className="row">
                                 <div className="col s12 m6 l6">

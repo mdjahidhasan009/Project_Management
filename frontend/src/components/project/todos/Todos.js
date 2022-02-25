@@ -65,9 +65,10 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
         event.preventDefault();
         if(!assignMember) await addTodo(formState.inputs.todoText.value, projectId, sendRequest);
         else await addTodoToJunior(formState.inputs.todoText.value, projectId, assignMember, sendRequest);
-        document.getElementById("todoText").value = "";
         await initAddTodoData();
         await setAssignMember("");
+        await prepareJuniorMemberList();
+        document.getElementById("todoText").value = "";
     }
 
     const handleOnClickEditTodo = async (todoId, todoText) => {
@@ -98,7 +99,6 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
     };
 
     const setEditSubTodoData = (subTodoText) => {
-        // await initAddTodoData();
         setSubTodoEditText(subTodoText);
         setFormData(
             {
@@ -140,6 +140,7 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
 
     const prepareJuniorMemberList = () => {
         let selectList = document.getElementById("member_list");
+        selectList.innerHTML = `<option selected defaultValue = ''>Select one member</option>`;
         if(project?.members) {
             project.members.map(member => {
                 if(parseInt(currentUser.role) <= member.user.role && currentUser.username !== member.user.username) {
@@ -198,7 +199,7 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
                     <label>
                         Select an member to assign todo
                         <select id="member_list" value={assignMember} onChange={(e)=> setAssignMember(e.target.value)}>
-                            <option selected defaultValue = '' />
+                            <option selected defaultValue = ''>Select one member</option>
                         </select>
                     </label>
 
@@ -211,7 +212,6 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
                     </button>
                 </div>
             </div>
-
 
             {/*Add sub todo modal structure*/}
             <div id="add-sub-todo-modal" className="modal">
@@ -287,7 +287,6 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
                     </button>
                 </div>
             </div>
-
 
             {isAuthenticated && (
                 <>

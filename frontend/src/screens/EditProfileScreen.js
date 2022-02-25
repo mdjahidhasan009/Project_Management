@@ -101,6 +101,7 @@ const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
     if(user?.profileImage?.imageUrl) {
       setProfileImage(user.profileImage.imageUrl);
     }
+    // eslint-disable-next-line
   }, [user]);
 
   const saveProfile = async () => {

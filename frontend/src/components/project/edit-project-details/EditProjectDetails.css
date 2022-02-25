@@ -2,6 +2,7 @@
     padding: 20px;
 }
 
-.project_details .form-control {
-    margin: 20px 0;
+.project_details .btn {
+    display: table;
+    margin: 30px auto 0 auto;
 }

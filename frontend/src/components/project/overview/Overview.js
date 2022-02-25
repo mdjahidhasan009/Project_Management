@@ -102,25 +102,6 @@ const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThis
                         >
                             {/*Todo done and bug fixed summary chart*/}
                             <ChartItem chartData={chartData} />
-                            {/*<Chart*/}
-                            {/*    width={'100%'}*/}
-                            {/*    height={'400px'}*/}
-                            {/*    chartType="LineChart"*/}
-                            {/*    loader={<div>Loading Chart</div>}*/}
-                            {/*    data={chartData}*/}
-                            {/*    options={{*/}
-                            {/*        hAxis: {*/}
-                            {/*            title: 'Todo done and bug fixed',*/}
-                            {/*        },*/}
-                            {/*        vAxis: {*/}
-                            {/*            title: 'Time',*/}
-                            {/*        },*/}
-                            {/*        series: {*/}
-                            {/*            1: { curveType: 'function' },*/}
-                            {/*        },*/}
-                            {/*    }}*/}
-                            {/*    rootProps={{ 'data-testid': '2' }}*/}
-                            {/*/>*/}
                         </div>
 
 
