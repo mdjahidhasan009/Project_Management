@@ -107,16 +107,14 @@ const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThis
 
                         {(isCreatedByUser || isMemberOfThisProject) && (
                             <div className="col s5 m5 l2 member">
-                                {isCreatedByUser && (
-                                    <div className="row member__add-member">
-                                        <div className="col s12">
-                                            <button data-target="add-member-modal"
-                                                    className="light-blue lighten-1 modal-trigger add-btn">
-                                                <i className="fas fa-plus-circle" />    ADD MEMBER
-                                            </button>
-                                        </div>
+                                <div className="row member__add-member">
+                                    <div className="col s12">
+                                        <button data-target="add-member-modal"
+                                                className="light-blue lighten-1 modal-trigger add-btn">
+                                            <i className="fas fa-plus-circle" />    ADD MEMBER
+                                        </button>
                                     </div>
-                                )}
+                                </div>
 
                                 {/*Member list of this project*/}
                                 {project && (project.members.length > 0) && (

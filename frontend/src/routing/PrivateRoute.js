@@ -5,17 +5,18 @@ import { connect } from 'react-redux';
 
 
 //Unauthorized(not logged in) user can not visit this route
-// {...rest=>, component=>component which will be render,
-// {...props}=>are things are like exact, params, history,path(passed props) etc}
 const PrivateRoute = ({ component: Component, auth, selectedItem, ...rest }) => {
     return (
         <Route
-            {...rest}
-            render={props => !auth.isAuthenticated && !auth.loading ? (
-                <Redirect to="/"/>
-            ) : (
-                <Component selectedItem={selectedItem} {...props}  />
-            )
+            {...rest}//passing component related props
+            render={(props) => !auth.isAuthenticated && !auth.loading ? ( //this is RouteComponentProps passed by react-router-dom
+                  <Redirect to="/"/>
+                ) : (
+                    <>
+                      <Component selectedItem={selectedItem} {...props}  />
+                    </>
+
+                )
             }
         />
     )

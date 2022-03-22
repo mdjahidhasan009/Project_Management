@@ -179,10 +179,10 @@ const removeMemberFromProject = async (req, res) => {
 const isCurrentUserMemberOrCreatorOfThisProject = async (req, res) => {
     try {
         const project = await Project.findById(req.params.projectId);
-        const isCreatedByUser = project.createdBy.toString() === req.user.id;
+        const isCreatedByUser = project.createdBy.toString() === req.user.id.toString();
         let isMemberOfThisProject = false;
         project.members.map(member => {
-          if(member.user.toString() === req.user.id) isMemberOfThisProject = true;
+          if(member.user.toString() === req.user.id.toString()) isMemberOfThisProject = true;
         })
         return res.json({ isMemberOfThisProject, isCreatedByUser});
     } catch(error) {

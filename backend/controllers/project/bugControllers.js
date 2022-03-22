@@ -35,8 +35,8 @@ const toggleIsBugFixed = async(req, res) => {
       const bugs = project.bugs;
       let isThisBugAddedByCurrentUser = false;
       bugs.map(bug => {
-        if(bug._id.toString() === req.params.bugId) {
-          if (bug.user.toString() === req.user.id) isThisBugAddedByCurrentUser = true;
+        if(bug._id.toString() === req.params.bugId.toString()) {
+          if (bug.user.toString() === req.user.id.toString()) isThisBugAddedByCurrentUser = true;
         }
       })
       if(!isThisBugAddedByCurrentUser)
@@ -71,8 +71,8 @@ const editBug = async(req, res) => {
       const bugs = project.bugs;
       let isThisBugAddedByCurrentUser = false;
       bugs.map(bug => {
-        if(bug._id.toString() === req.params.bugId) {
-          if (bug.user.toString() === req.user.id) isThisBugAddedByCurrentUser = true;
+        if(bug._id.toString() === req.params.bugId.toString()) {
+          if (bug.user.toString() === req.user.id.toString()) isThisBugAddedByCurrentUser = true;
         }
       })
       if(!isThisBugAddedByCurrentUser) return res.status(400).json({ 'error': 'Server Error' });
@@ -102,8 +102,8 @@ const deleteBug = async(req, res) => {
       const bugs = project.bugs;
       let isThisBugAddedByCurrentUser = false;
       bugs.map(bug => {
-        if(bug._id.toString() === req.params.bugId) {
-          if (bug.user.toString() === req.user.id) isThisBugAddedByCurrentUser = true;
+        if(bug._id.toString() === req.params.bugId.toString()) {
+          if (bug.user.toString() === req.user.id.toString()) isThisBugAddedByCurrentUser = true;
         }
       })
       if(!isThisBugAddedByCurrentUser) return res.status(400).json({ 'error': 'Server Error' });

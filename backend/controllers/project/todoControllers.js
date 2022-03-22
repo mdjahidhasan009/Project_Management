@@ -38,8 +38,8 @@ const toggleIsTodoDone = async(req, res) => {
       const todos = project.todos;
       let isAssignedToCurrentUser = false;
       todos.map(todo => {
-        if(todo._id.toString() === req.params.todoId) {
-          if (todo.user.toString() === req.user.id) isAssignedToCurrentUser = true;
+        if(todo._id.toString() === req.params.todoId.toString()) {
+          if (todo.user.toString() === req.user.id.toString()) isAssignedToCurrentUser = true;
         }
       })
       if(!isAssignedToCurrentUser)
@@ -75,8 +75,8 @@ const editTodoText = async(req, res) => {
       const todos = project.todos;
       let isAssignedToCurrentUser = false;
       todos.map(todo => {
-        if(todo._id.toString() === req.params.todoId) {
-          if (todo.user.toString() === req.user.id) isAssignedToCurrentUser = true;
+        if(todo._id.toString() === req.params.todoId.toString()) {
+          if (todo.user.toString() === req.user.id.toString()) isAssignedToCurrentUser = true;
         }
       })
       if(!isAssignedToCurrentUser) return res.status(400).json({ 'error': 'Server Error' });
@@ -107,8 +107,8 @@ const deleteTodo = async(req, res) => {
       const todos = project.todos;
       let isAssignedToCurrentUser = false;
       todos.map(todo => {
-        if(todo._id.toString() === req.params.todoId) {
-          if (todo.user.toString() === req.user.id) isAssignedToCurrentUser = true;
+        if(todo._id.toString() === req.params.todoId.toString()) {
+          if (todo.user.toString() === req.user.id.toString()) isAssignedToCurrentUser = true;
         }
       })
       if(!isAssignedToCurrentUser) return res.status(400).json({ 'error': 'Server Error' });

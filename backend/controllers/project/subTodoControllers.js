@@ -39,7 +39,7 @@ const editSubTodo = async(req, res) => {
       let subTodoRequested = await todos.todos[0].subTodos.filter(subTodo =>
           subTodo._id.toString() === req.params.subTodoId.toString());
       subTodoRequested = subTodoRequested[0]; //as return array
-      let isAssignedToCurrentUser = subTodoRequested.user.toString() === req.user.id;
+      let isAssignedToCurrentUser = subTodoRequested.user.toString() === req.user.id.toString();
       if(!isAssignedToCurrentUser)
         return res.status(400).json({ 'error': 'This sub todo does not assign to you.' });
 
@@ -79,7 +79,7 @@ const toggleIsSubTodoDone = async(req, res) => {
       let subTodoRequested = await todos.todos[0].subTodos.filter(subTodo =>
           subTodo._id.toString() === req.params.subTodoId.toString());
       subTodoRequested = subTodoRequested[0]; //as return array
-      let isAssignedToCurrentUser = subTodoRequested.user.toString() === req.user.id;
+      let isAssignedToCurrentUser = subTodoRequested.user.toString() === req.user.id.toString();
       if(!isAssignedToCurrentUser)
         return res.status(400).json({ 'error': 'This sub todo does not assign to you.' });
 
@@ -124,7 +124,7 @@ const deleteSubTodo = async(req, res) => {
           subTodo._id.toString() === req.params.subTodoId.toString());
       if(subTodoRequested.length <= 0) return res.status(400).json({ 'error': 'No sub todo there' });
       subTodoRequested = subTodoRequested[0]; //as return array
-      let isAssignedToCurrentUser = subTodoRequested.user.toString() === req.user.id;
+      let isAssignedToCurrentUser = subTodoRequested.user.toString() === req.user.id.toString();
       if(!isAssignedToCurrentUser)
         return res.status(400).json({ 'error': 'This sub todo does not assign to you.' });
 

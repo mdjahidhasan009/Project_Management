@@ -25,7 +25,7 @@ const App = () => {
                     <Navbar />
                     <Switch>
                         <Route exact path="/" component={ Auth }  />
-                        <Route exact component={ Routes } />
+                        <Route exact component= { Routes } />
                     </Switch>
                 </Fragment>
             </Router>

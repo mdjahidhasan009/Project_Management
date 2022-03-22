@@ -10,18 +10,17 @@ const ChartItem = ({ chartData }) => {
           loader={<div>Loading Chart</div>}
           data={chartData}
           options={{
-            legend: { position : "bottom"},
+            legend: { position : "bottom" },
             hAxis: {
-              title: 'Todo done and bug fixed',
-            },
-            vAxis: {
               title: 'Time',
             },
+            vAxis: {
+              title: 'Finished todo and fixed bug count',
+            },
             series: {
-              1: { curveType: 'function' },
+              1: { curveType: 'none' },
             },
           }}
-          rootProps={{ 'data-testid': '2' }}
       />
   )
 }

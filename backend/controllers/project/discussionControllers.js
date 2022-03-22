@@ -35,8 +35,8 @@ const editDiscussion = async(req, res) => {
     const discussion = project.discussion;
     let isThisDiscussionAddedByCurrentUser = false;
     discussion.map(discussion => {
-      if(discussion._id.toString() === req.params.discussionId) {
-        if (discussion.user.toString() === req.user.id) isThisDiscussionAddedByCurrentUser = true;
+      if(discussion._id.toString() === req.params.discussionId.toString()) {
+        if (discussion.user.toString() === req.user.id.toString()) isThisDiscussionAddedByCurrentUser = true;
       }
     })
     if(!isThisDiscussionAddedByCurrentUser) return res.status(400).json({ 'error': 'Server Error' });
@@ -64,8 +64,8 @@ const deleteDiscussion = async(req, res) => {
       const discussion = project.discussion;
       let isThisDiscussionAddedByCurrentUser = false;
       discussion.map(discuss => {
-        if(discuss._id.toString() === req.params.discussionId) {
-          if (discuss.user.toString() === req.user.id) isThisDiscussionAddedByCurrentUser = true;
+        if(discuss._id.toString() === req.params.discussionId.toString()) {
+          if (discuss.user.toString() === req.user.id.toString()) isThisDiscussionAddedByCurrentUser = true;
         }
       })
       if(!isThisDiscussionAddedByCurrentUser) return res.status(400).json({ 'error': 'Server Error' });
