@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { prepareActivity } from "../../../actions/project-action";
 import ActivitiesInADay from "./ActivitiesInADay";
 
-
 const Activities = ({ project, activities, prepareActivity }) => {
     useEffect(() => {
         if(project) {
@@ -14,7 +13,7 @@ const Activities = ({ project, activities, prepareActivity }) => {
     }, [project]);
 
     return (
-        <>
+        <div className="row activities">
             {/*Activities Row*/}
             {activities && activities.length > 0
                 ? activities.map(activity => (
@@ -22,7 +21,7 @@ const Activities = ({ project, activities, prepareActivity }) => {
                 ))
                 : <h5 className="center-align">No Activity in this project yet!!</h5>
             }
-        </>
+        </div>
     )
 }
 

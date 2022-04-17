@@ -68,6 +68,10 @@ code {
   margin: 0 auto;
 }
 
+.modal-content .form-control {
+  min-width: 100%;
+}
+
 /* For todo(not completed) and bug(fixed bug) */
 .subTodo {
   padding-left: 20px;

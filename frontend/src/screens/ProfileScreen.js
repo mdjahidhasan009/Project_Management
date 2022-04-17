@@ -147,7 +147,7 @@ const ProfileScreen = ({ match, loadedUser, getUserByUserName, auth: { user } })
                 {loadedUser
                     ? (loadedUser.skills && loadedUser.skills.length > 0 && (
                         <div className="row profile-skills">
-                            <h5>Skill Set</h5>
+                            <h5 className="center-align">Skill Set</h5>
                             <div className="skills">
                                 {loadedUser.skills.map((skill, index) => (
                                     <div key={index} className="skill">
@@ -159,8 +159,8 @@ const ProfileScreen = ({ match, loadedUser, getUserByUserName, auth: { user } })
                     ))
                     : (user && user.skills && user.skills.length > 0 && (
                         <div className="row profile-skills">
-                            <h5>Skill Set</h5>
-                            <div className="skills wrapper">
+                            <h5 className="center-align">Skill Set</h5>
+                            <div className="skills">
                                 {user.skills.map((skill, index) => (
                                     <div key={index} className="skill">
                                         <i className="fas fa-check" /> {skill}

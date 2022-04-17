@@ -48,45 +48,42 @@ const UploadImage = ({ uploadProfileImage, profileImageUrl }) => {
 
     return (
         <div className="uploadImage">
+            {/* Profile Image */}
+            {!previewSource && (
+                <img
+                    className="previewImage"
+                    src={profileImageUrl}
+                    alt="Add Profile Image"
+                />
+            )}
 
-            <div className="uploadImage__div">
-                {/* Profile Image */}
-                {!previewSource && (
-                    <img
-                        className="previewImage"
-                        src={profileImageUrl}
-                        alt="Add Profile Image"
+            {/* ProfileScreen Image */}
+            {previewSource && (
+                <img
+                    className="previewImage"
+                    src={previewSource}
+                    alt="chosen"
+                />
+            )}
+
+            <form onSubmit={handleSubmitFile} className="form">
+                <div className="image-selection">
+                    <label htmlFor="fileInput">Change Profile Picture</label>
+                    <input
+                        id="fileInput"
+                        type="file"
+                        name="image"
+                        onChange={handleFileInputChange}
+                        value={fileInputState}
+                        className="form-input"
                     />
-                )}
-
-                {/* ProfileScreen Image */}
-                {previewSource && (
-                    <img
-                        className="previewImage"
-                        src={previewSource}
-                        alt="chosen"
-                    />
-                )}
-                <form onSubmit={handleSubmitFile} className="form">
-                    <div className="image-selection">
-                        <label htmlFor="fileInput">Change Profile Picture</label>
-                        <input
-                            id="fileInput"
-                            type="file"
-                            name="image"
-                            onChange={handleFileInputChange}
-                            value={fileInputState}
-                            className="form-input"
-                        />
-                    </div>
-                    <button className="btn" type="submit">
-                        {loading && <i className="fas fa-spinner fa-pulse" />}
-                        {loading && ' Uploading Image'}
-                        {!loading && 'Upload ProfileScreen Image'}
-                    </button>
-                </form>
-
-            </div>
+                </div>
+                <button className="btn" type="submit">
+                    {loading && <i className="fas fa-spinner fa-pulse" />}
+                    {loading && ' Uploading Image'}
+                    {!loading && 'Upload ProfileScreen Image'}
+                </button>
+            </form>
         </div>
     );
 };

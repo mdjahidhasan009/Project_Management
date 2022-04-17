@@ -74,7 +74,7 @@ const ProjectsScreen = ({ addProject, getAllProjects, projects }) => {
             {/*Modal Structure(Add project modal)*/}
             <div id="add-project-modal" className="modal">
                 <div className="modal-content">
-                    <h5>Add New ProjectScreen</h5>
+                    <h5>Add New Project</h5>
                     <Input
                         element="input"
                         elementTitle="projectName"

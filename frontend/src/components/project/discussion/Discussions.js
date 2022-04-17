@@ -81,7 +81,7 @@ const Discussions = ({ project, addDiscussion, editDiscussion, isMemberOfThisPro
     }
 
     return (
-        <div className="row discussion">
+        <div className="row discussions">
             {/*Add discussion Modal Structure*/}
             <div id="add-discussion-modal" className="modal">
                 <div className="modal-content">
