@@ -35,15 +35,15 @@ function Home(props) {
                 </p>
 
                 <span id="socialMediaLink" className="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
-                    <a className="text-gray-400">
+                    <a href="https://github.com/mdjahidhasan009/Project_Management/fork" className="text-gray-400">
                       <img alt="GitHub forks" src="https://img.shields.io/github/forks/mdjahidhasan009/Project_Management?style=social"/>
                     </a>
 
-                    <a className="ml-3 text-gray-400">
+                    <a href="https://github.com/mdjahidhasan009/Project_Management/stargazers" className="ml-3 text-gray-400">
                       <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/mdjahidhasan009/Project_Management?style=social"/>
                     </a>
 
-                    <a className="ml-3 text-gray-400">
+                    <a href="https://github.com/mdjahidhasan009/Project_Management" className="ml-3 text-gray-400">
                       <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/mdjahidhasan009/Project_Management"/>
                     </a>
                 </span>
