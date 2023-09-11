@@ -38,8 +38,8 @@ const App = () => {
                     <Switch>
                         <Route exact path="/" component={HomeScreen} />
                         <Route exact path="/login" component={Login} />
-                        <Route path="/auth" component={Auth} />
-                        <Route path="/routes" component={Routes} />
+                        <Route exact path="/auth" component={Auth} />
+                        <Route exact component={Routes} />
                         <Route path="*" component={NotFoundScreen} />
                     </Switch>
                 </Fragment>
