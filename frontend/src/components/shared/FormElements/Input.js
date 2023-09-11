@@ -1,7 +1,6 @@
 import React, { useReducer, useEffect } from 'react';
 
 import { validate } from '../../../utils/validators';
-import './Input.css';
 
 const inputReducer = (state, action) => {
     switch (action.type) {
@@ -54,6 +53,7 @@ const Input = props => {
     if(props.element === 'input')
         element =
             <input
+            className={props?.styleClass || ''}
             id={props.elementTitle}
             type={props.type}
             placeholder={props.placeholder}
@@ -64,6 +64,7 @@ const Input = props => {
     else if(props.element === 'select')
         element =
             <select
+                className={props?.styleClass || ''}
                 id={props.elementTitle}
                 onChange={changeHandler}
                 onBlur={clickHandler}
@@ -79,6 +80,7 @@ const Input = props => {
             </select>
     else element =
             <textarea
+                className={props?.styleClass || ''}
                 id={props.elementTitle}
                 cols={props.cols || 30}
                 rows={props.rows || 10}
