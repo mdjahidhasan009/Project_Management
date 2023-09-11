@@ -11,7 +11,6 @@ module.exports = {
       backgroundColor: {
         'default': '#030712',
         'white-light': '#e5e7eb',
-        'orange': '#f97316',
       },
       textColor: {
         'white-light': '#e5e7eb',
