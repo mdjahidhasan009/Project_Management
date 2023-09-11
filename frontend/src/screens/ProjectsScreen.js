@@ -120,7 +120,7 @@ const ProjectsScreen = ({ addProject, getAllProjects, projects }) => {
             </div>
 
             {/*Project type selection (as all, active or finished)*/}
-            <section className="flex items-center justify-center  gap-12 text-white-light">
+            <section className="flex items-center justify-center gap-12 text-white-light">
                 <button
                     className={`flex items-center justify-between gap-4 w-48 h-20 bg-[#1f2937] rounded-2xl px-4 py-2 ${selectedProjectType === 'all' && 'selected'}`}
                     onClick={ ()=> {setSelectedProjectType('all')}}
