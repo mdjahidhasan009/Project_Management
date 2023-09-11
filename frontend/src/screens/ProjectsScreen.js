@@ -9,7 +9,7 @@ import { VALIDATOR_REQUIRE } from "../utils/validators";
 import Input from "../components/shared/FormElements/Input";
 import ProjectItem from "../components/ProjectCard.js";
 import { initAllModal } from "../utils/helper";
-import './stylesheets/ProjectsScreen.css';
+import '../assets/stylesheets/ProjectsScreen.css';
 
 const ProjectsScreen = ({ addProject, getAllProjects, projects }) => {
     const { sendRequest } = useHttpClient();

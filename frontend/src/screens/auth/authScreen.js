@@ -13,7 +13,7 @@ import {
     VALIDATOR_MINLENGTH,
     VALIDATOR_REQUIRE
 } from "../../utils/validators";
-import '../stylesheets/authScreen.css';
+import '../../assets/stylesheets/authScreen.css';
 import M from "materialize-css";
 
 const AuthScreen = ({ login, register , isAuthenticated , loadUser, user, token }) => {

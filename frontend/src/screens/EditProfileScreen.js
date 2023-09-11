@@ -15,7 +15,7 @@ import {
   VALIDATOR_LINK
 } from "../utils/validators";
 import M from 'materialize-css';
-import './stylesheets/EditProfileScreen.css';
+import '../assets/stylesheets/EditProfileScreen.css';
 
 const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
   const history = useHistory();

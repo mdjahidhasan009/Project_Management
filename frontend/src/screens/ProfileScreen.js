@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { getUserByUserName } from "../actions/auth-action";
 import { useHttpClient } from "../hooks/http-hook";
 import { getUserRoleString } from "../utils/helper";
-import './stylesheets/ProfileScreen.css';
+import '../assets/stylesheets/ProfileScreen.css';
 
 const ProfileScreen = ({ match, loadedUser, getUserByUserName, auth: { user } }) => {
     const { sendRequest } = useHttpClient();

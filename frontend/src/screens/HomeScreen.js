@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Home(props) {
+function HomeScreen(props) {
     const currentYear = new Date().getFullYear();
 
     return (
@@ -52,4 +52,4 @@ function Home(props) {
     );
 }
 
-export default Home;
+export default HomeScreen;

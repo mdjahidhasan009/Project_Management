@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import notFoundAnimation from '../assets/gif/404.json';
 import LottieAnimation from '../components/LottieAnimation';
 
-function NotFound(props) {
+function NotFoundScreen(props) {
     const history = useHistory();
 
     useEffect(() => {
@@ -30,4 +30,4 @@ function NotFound(props) {
     );
 }
 
-export default NotFound;
+export default NotFoundScreen;

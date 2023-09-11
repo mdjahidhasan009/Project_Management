@@ -6,7 +6,7 @@ import { prepareTodoAndBugForPreview } from "../actions/project-action";
 import { getAllProjects } from "../actions/projects-action";
 import { loadUser } from "../actions/auth-action";
 import { useHttpClient } from "../hooks/http-hook";
-import './stylesheets/DashboardScreen.css';
+import '../assets/stylesheets/DashboardScreen.css';
 import ChartItem from "../components/ChartItem";
 
 const DashboardScreen = ({ projects, auth, getAllProjects, prepareTodoAndBugForPreview }) => {
