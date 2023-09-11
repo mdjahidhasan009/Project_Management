@@ -180,7 +180,7 @@ const AuthScreen = ({ login, register , isAuthenticated , loadUser, user, token 
                             {isLoginMode && (
                                 <div className="form-container sign-in-container">
                                     <form onSubmit={authSubmitHandler}>
-                                        <h3>Sign in</h3>
+                                        <h3 className="font-bold underline"> Sign in </h3>
                                         {emailInput}
                                         {passwordInput}
                                         <a href="#">Forgot your password?</a>
