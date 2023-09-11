@@ -11,6 +11,7 @@ import HomeScreen from './screens/HomeScreen';
 import Navbar from './components/shared/nav/nav';
 import Routes from './routing/Routes';
 import NotFoundScreen from './screens/NotFoundScreen';
+import Login from "./screens/auth/Login";
 
 const App = () => {
     const { sendRequest } = useHttpClient();
@@ -36,6 +37,7 @@ const App = () => {
                     {/*/>*/}
                     <Switch>
                         <Route exact path="/" component={HomeScreen} />
+                        <Route exact path="/login" component={Login} />
                         <Route path="/auth" component={Auth} />
                         <Route path="/routes" component={Routes} />
                         <Route path="*" component={NotFoundScreen} />
