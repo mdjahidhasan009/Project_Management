@@ -82,7 +82,7 @@ const DashboardScreen = ({ projects, auth, getAllProjects, prepareTodoAndBugForP
 
                             <div className="flex justify-between gap-8">
                                 {(project?.notCompletedTodo?.length > 0) && (
-                                    <div className="w-[40vw]">
+                                    <div className="w-[30vw]">
                                         <div className="bg-orange-500 rounded-xl mb-4 px-8 py-1 font-semibold">
                                             Todo have to complete
                                         </div>
@@ -98,7 +98,7 @@ const DashboardScreen = ({ projects, auth, getAllProjects, prepareTodoAndBugForP
                                 )}
 
                                 {(project.notFixedBug.length > 0) && (
-                                    <div className="w-[40vw]">
+                                    <div className="w-[30vw]">
                                         <div className="bg-red-500 rounded-xl mb-4 px-8 py-1 font-semibold">
                                             Bug have to fix
                                         </div>
@@ -130,7 +130,7 @@ const DashboardScreen = ({ projects, auth, getAllProjects, prepareTodoAndBugForP
 
                             <div className="flex justify-between gap-8">
                                 {(project?.completedTodo?.length > 0) && (
-                                    <div className="w-[40vw]">
+                                    <div className="w-[30vw]">
                                         <div className="bg-orange-500 rounded-xl mb-4 px-8 py-1 font-semibold">
                                             Todo done
                                         </div>
@@ -147,7 +147,7 @@ const DashboardScreen = ({ projects, auth, getAllProjects, prepareTodoAndBugForP
 
 
                                 {(project.fixedBug.length > 0) && (
-                                    <div className="w-[40vw]">
+                                    <div className="w-[30vw]">
                                         <div className="bg-red-500 rounded-xl mb-4 px-8 py-1 font-semibold">
                                             Bug fixed
                                         </div>
