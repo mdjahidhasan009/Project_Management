@@ -17,7 +17,7 @@ function NotFoundScreen(props) {
     }, [history]);
 
     return (
-        <div className="bg-default min-h-screen p-6 flex flex-col items-center justify-center lg:space-y-10 md:space-y-8 space-y-4 text-indigo-100 overscroll-none">
+        <div className="w-full bg-default min-h-screen p-6 flex flex-col items-center justify-center lg:space-y-10 md:space-y-8 space-y-4 text-indigo-100 overscroll-none">
             <LottieAnimation animationData={notFoundAnimation} />
 
             <Link

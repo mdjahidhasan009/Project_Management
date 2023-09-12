@@ -112,7 +112,7 @@ export const logout = () => async dispatch => {
     dispatch({ type: LOGOUT });
 }
 
-//Get all user
+//Get all users
 export const getAllUser = (method) => async dispatch => {
     try {
         const responseData = await method(

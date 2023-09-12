@@ -68,7 +68,7 @@ const ProjectsScreen = ({ addProject, getAllProjects, projects }) => {
     }
 
     return (
-        <div className="bg-default text-white-light flex flex-col gap-8">
+        <div className="w-full bg-default text-white-light flex flex-col gap-8">
             {/*Modal Structure(Add project modal)*/}
             <div id="add-project-modal" className="modal">
                 <div className="modal-content">

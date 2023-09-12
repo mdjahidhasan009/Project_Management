@@ -15,7 +15,6 @@ import {
   VALIDATOR_LINK
 } from "../utils/validators";
 import M from 'materialize-css';
-import '../assets/stylesheets/EditProfileScreen.css';
 
 const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
   const history = useHistory();
@@ -116,7 +115,7 @@ const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
   }
 
   return(
-      <div className="main">
+      <div className="w-full main">
         {isAuthenticated
         && (
             <>
