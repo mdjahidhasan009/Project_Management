@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Link, useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import {getUserRoleString} from "../utils/helper";
 import defaultUserImage from "../assets/images/default_user.jpg";
 
@@ -13,19 +13,13 @@ const Member = ({ user }) => {
         clickedOnEmail = false;
     }
 
-    const toggleIsClickedOnEmail = () => {
-        clickedOnEmail = !clickedOnEmail;
-    }
-
     useEffect( () => {
         setUserRole(getUserRoleString(user.role));
         // eslint-disable-next-line
     }, [user.role]);
 
     return (
-        <div
-            className="relative block overflow-hidden rounded-lg border border-gray-100 p-4 sm:p-6 lg:p-6"
-        >
+        <div onClick={openMemberDetails} className="relative block overflow-hidden rounded-lg border border-gray-100 p-4 sm:p-6 lg:p-6 cursor-pointer" title={'Click to see ' + user.name + '\'s details'}>
             <div className="sm:flex sm:justify-between sm:gap-4">
                 <div>
                     <h3 className="text-lg font-bold text-white-light sm:text-xl"> {user.name} </h3>
