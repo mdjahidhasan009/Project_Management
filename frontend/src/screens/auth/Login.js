@@ -1,15 +1,18 @@
-import React from 'react';
-import {Link} from "react-router-dom";
+import React, {useEffect} from 'react';
+import {Link, useHistory} from "react-router-dom";
 import loginAnimation from "../../assets/gif/login.json";
 import LottieAnimation from "../../components/LottieAnimation";
-import M from "materialize-css";
 import {VALIDATOR_EMAIL, VALIDATOR_MINLENGTH} from "../../utils/validators";
 import {useForm} from "../../hooks/form-hook";
 import {useHttpClient} from "../../hooks/http-hook";
 import Input from "../../components/shared/FormElements/Input";
+import {PropTypes} from "prop-types";
+import { login, register, loadUser } from "../../actions/auth-action";
+import {connect} from "react-redux";
 
 function Login({ login, register , isAuthenticated , loadUser, user, token }) {
     const { sendRequest } = useHttpClient();
+    const history = useHistory();
     const [ formState, inputHandler, setFormData ] = useForm(
         {
             email: {
@@ -34,6 +37,13 @@ function Login({ login, register , isAuthenticated , loadUser, user, token }) {
             console.error(error);
         }
     };
+
+    useEffect(() => {
+        if(user) {
+            history.push('/dashboard');
+        }
+    }, [user])
+
     return (
         <section className="bg-default min-h-screen text-white-light flex items-center justify-between px-24 lg:overflow-hidden md:overflow-hidden overflow-y-auto">
             <div>
@@ -80,12 +90,12 @@ function Login({ login, register , isAuthenticated , loadUser, user, token }) {
                         <div className="w-full flex flex-col gap-1 px-1">
                             <div className="w-full flex items-center justify-between gap-4 px-1">
                                 <p>New to our site?</p>
-                                <Link to="/auth/get-started" class="hover:text-orange-500 hover:underline decoration-orange-500">Sign up</Link>
+                                <Link to="/auth/get-started" className="hover:text-orange-500 hover:underline decoration-orange-500">Sign up</Link>
                             </div>
 
                             <div className="w-full flex items-center justify-between gap-4 px-1">
                                 <p>Forgot password?</p>
-                                <Link to="/auth/reset-password" class="hover:text-orange-500 hover:underline decoration-orange-500">Reset password</Link>
+                                <Link to="/auth/reset-password" className="hover:text-orange-500 hover:underline decoration-orange-500">Reset password</Link>
                             </div>
                         </div>
                     </form>
@@ -99,4 +109,15 @@ function Login({ login, register , isAuthenticated , loadUser, user, token }) {
     );
 }
 
-export default Login;
+Login.propTypes = {
+    login: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired
+}
+
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    user: state.auth.user,
+    token: state.auth.token
+})
+
+export default connect(mapStateToProps, { login, register, loadUser })(Login);

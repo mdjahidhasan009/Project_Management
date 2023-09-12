@@ -22,7 +22,7 @@ function HomeScreen(props) {
                         Get Started
                     </Link>
 
-                    <Link to="/auth/login" className="flex items-center justify-center lg:w-40 md:w-32 w-28 lg:h-12 md:h-10 h-8 lg:text-xl md:text-l text-m ring-2 ring-orange-500 rounded-full hover:bg-orange-500 transition-all duration-200 hover:px-5 cursor-pointer">
+                    <Link to="/login" className="flex items-center justify-center lg:w-40 md:w-32 w-28 lg:h-12 md:h-10 h-8 lg:text-xl md:text-l text-m ring-2 ring-orange-500 rounded-full hover:bg-orange-500 transition-all duration-200 hover:px-5 cursor-pointer">
                         Login
                     </Link>
                 </div>
