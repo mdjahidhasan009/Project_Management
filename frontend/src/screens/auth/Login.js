@@ -49,7 +49,7 @@ function Login({ login, register , isAuthenticated , loadUser, user, token }) {
             <div>
                 <div>
                     <h2 className="text-3xl font-medium font-sans">
-                        <span className="text-orange-500">Sign up or login</span> to continue
+                        <span className="text-orange-500">Login</span> to continue
                     </h2>
 
                     <p className="mt-3">
@@ -58,7 +58,7 @@ function Login({ login, register , isAuthenticated , loadUser, user, token }) {
                 </div>
 
                 <main className="mt-10 mx-0">
-                    <form onSubmit={authSubmitHandler} className="flex flex-col items-center justify-center gap-3">
+                    <form onSubmit={authSubmitHandler} className="flex flex-col items-center justify-center gap-5">
                         <Input
                             element="input"
                             elementTitle="email"
@@ -66,7 +66,7 @@ function Login({ login, register , isAuthenticated , loadUser, user, token }) {
                             placeholder="Email"
                             validators={[VALIDATOR_EMAIL()]}
                             errorText="Please enter a valid email address."
-                            styleClass="w-96 h-12 rounded-lg border-2 border-orange-500 active:border-orange-500 focus:border-orange-500 p-4 pr-12 text-gray-700 text-sm shadow-sm"
+                            styleClass="w-96 h-12 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-4 pr-12 text-gray-700 text-sm shadow-sm"
                             onInput={inputHandler}
                         />
 
@@ -77,17 +77,17 @@ function Login({ login, register , isAuthenticated , loadUser, user, token }) {
                             type="password"
                             validators={[VALIDATOR_MINLENGTH(6)]}
                             errorText="Please enter at least 6 character."
-                            styleClass="w-96 h-12 rounded-lg border-2 border-orange-500 active:border-orange-500 focus:border-orange-500 p-4 pr-12 text-gray-700 text-sm shadow-sm"
+                            styleClass="w-96 h-12 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-4 pr-12 text-gray-700 text-sm shadow-sm"
                             onInput={inputHandler}
                         />
 
                         <button
                             type="submit"
-                            className="w-96 h-12 rounded-lg bg-orange-500">
+                            className="w-96 h-12 rounded-[4px] bg-orange-500">
                             Login
                         </button>
 
-                        <div className="w-full flex flex-col gap-1 px-1">
+                        <div className="w-full flex flex-col gap-1 px-1 text-sm">
                             <div className="w-full flex items-center justify-between gap-4 px-1">
                                 <p>New to our site?</p>
                                 <Link to="/auth/get-started" className="hover:text-orange-500 hover:underline decoration-orange-500">Sign up</Link>

@@ -35,7 +35,7 @@ const DashboardScreen = ({ projects, auth, getAllProjects, prepareTodoAndBugForP
                             Remaining Todo
                         </dt>
 
-                        <dd className="text-4xl font-extrabold text-white-light md:text-5xl">
+                        <dd className="text-4xl font-extrabold text-orange-500 md:text-5xl">
                             {todoBugCountSummary && todoBugCountSummary.todoNotDone}
                         </dd>
                     </div>
@@ -45,7 +45,7 @@ const DashboardScreen = ({ projects, auth, getAllProjects, prepareTodoAndBugForP
                             Remaining Bug
                         </dt>
 
-                        <dd className="text-4xl font-extrabold text-white-light md:text-5xl">{todoBugCountSummary && todoBugCountSummary.notFixedBug}</dd>
+                        <dd className="text-4xl font-extrabold text-orange-500 md:text-5xl">{todoBugCountSummary && todoBugCountSummary.notFixedBug}</dd>
                     </div>
 
                     <div className="flex flex-col rounded-lg bg-[#1f2937] px-4 py-8 text-center">
@@ -53,7 +53,7 @@ const DashboardScreen = ({ projects, auth, getAllProjects, prepareTodoAndBugForP
                             Finished Todo
                         </dt>
 
-                        <dd className="text-4xl font-extrabold text-white-light md:text-5xl">{todoBugCountSummary && todoBugCountSummary.todoDone}</dd>
+                        <dd className="text-4xl font-extrabold text-orange-500 md:text-5xl">{todoBugCountSummary && todoBugCountSummary.todoDone}</dd>
                     </div>
 
                     <div className="flex flex-col rounded-lg bg-[#1f2937] px-4 py-8 text-center">
@@ -61,7 +61,7 @@ const DashboardScreen = ({ projects, auth, getAllProjects, prepareTodoAndBugForP
                             Fixed Bug
                         </dt>
 
-                        <dd className="text-4xl font-extrabold text-white-light md:text-5xl">{todoBugCountSummary && todoBugCountSummary.fixedBug}</dd>
+                        <dd className="text-4xl font-extrabold text-orange-500 md:text-5xl">{todoBugCountSummary && todoBugCountSummary.fixedBug}</dd>
                     </div>
                 </dl>
             </div>
@@ -83,7 +83,7 @@ const DashboardScreen = ({ projects, auth, getAllProjects, prepareTodoAndBugForP
                             <div className="flex justify-between gap-8">
                                 {(project?.notCompletedTodo?.length > 0) && (
                                     <div className="w-[30vw]">
-                                        <div className="bg-orange-500 rounded-xl mb-4 px-8 py-1 font-semibold">
+                                        <div className="bg-orange-500 rounded-[4px] mb-4 px-8 py-1 font-semibold">
                                             Todo have to complete
                                         </div>
 
@@ -99,7 +99,7 @@ const DashboardScreen = ({ projects, auth, getAllProjects, prepareTodoAndBugForP
 
                                 {(project.notFixedBug.length > 0) && (
                                     <div className="w-[30vw]">
-                                        <div className="bg-red-500 rounded-xl mb-4 px-8 py-1 font-semibold">
+                                        <div className="bg-red-500 rounded-[4px] mb-4 px-8 py-1 font-semibold">
                                             Bug have to fix
                                         </div>
 
@@ -131,7 +131,7 @@ const DashboardScreen = ({ projects, auth, getAllProjects, prepareTodoAndBugForP
                             <div className="flex justify-between gap-8">
                                 {(project?.completedTodo?.length > 0) && (
                                     <div className="w-[30vw]">
-                                        <div className="bg-orange-500 rounded-xl mb-4 px-8 py-1 font-semibold">
+                                        <div className="bg-orange-500 rounded-[4px] mb-4 px-8 py-1 font-semibold">
                                             Todo done
                                         </div>
 
@@ -148,7 +148,7 @@ const DashboardScreen = ({ projects, auth, getAllProjects, prepareTodoAndBugForP
 
                                 {(project.fixedBug.length > 0) && (
                                     <div className="w-[30vw]">
-                                        <div className="bg-red-500 rounded-xl mb-4 px-8 py-1 font-semibold">
+                                        <div className="bg-red-500 rounded-[4px] mb-4 px-8 py-1 font-semibold">
                                             Bug fixed
                                         </div>
 

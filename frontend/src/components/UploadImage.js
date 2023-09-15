@@ -5,7 +5,6 @@ import { useHistory } from "react-router-dom";
 import { uploadProfileImage } from '../actions/user-action';
 import { useHttpClient } from "../hooks/http-hook";
 import M from "materialize-css";
-import './stylesheets/UploadImage.css';
 
 const UploadImage = ({ uploadProfileImage, profileImageUrl }) => {
     const history = useHistory();
@@ -47,11 +46,11 @@ const UploadImage = ({ uploadProfileImage, profileImageUrl }) => {
     };
 
     return (
-        <div className="uploadImage">
+        <div className="flex items-center justify-between">
             {/* Profile Image */}
             {!previewSource && (
                 <img
-                    className="previewImage"
+                    className="h-96 object-contain rounded-full "
                     src={profileImageUrl}
                     alt="Add Profile Image"
                 />

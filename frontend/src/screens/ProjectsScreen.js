@@ -68,7 +68,7 @@ const ProjectsScreen = ({ addProject, getAllProjects, projects }) => {
     }
 
     return (
-        <div className="w-full bg-default text-white-light flex flex-col gap-8">
+        <div className="w-full bg-default text-white-light flex flex-col gap-8 p-6">
             {/*Modal Structure(Add project modal)*/}
             <div id="add-project-modal" className="modal">
                 <div className="modal-content">
@@ -139,7 +139,7 @@ const ProjectsScreen = ({ addProject, getAllProjects, projects }) => {
                         </svg>
                     </div>
 
-                    <h1 className="text-5xl font-bold">{projects.length}</h1>
+                    <h1 className="text-5xl font-bold text-orange-500">{projects.length}</h1>
                 </button>
 
                 <button
@@ -160,7 +160,7 @@ const ProjectsScreen = ({ addProject, getAllProjects, projects }) => {
                         </svg>
                     </div>
 
-                    <h1 className="text-5xl font-bold">{inCompletedProjectCount}</h1>
+                    <h1 className="text-5xl font-bold text-orange-500">{inCompletedProjectCount}</h1>
                 </button>
 
                 <button
@@ -181,12 +181,12 @@ const ProjectsScreen = ({ addProject, getAllProjects, projects }) => {
                         </svg>
                     </div>
 
-                    <h1 className="text-5xl font-bold">{completedProjectCount}</h1>
+                    <h1 className="text-5xl font-bold text-orange-500">{completedProjectCount}</h1>
                 </button>
             </section>
 
             {/*Modal Trigger(Add project modal)*/}
-            <button data-target="add-project-modal" className="flex items-center justify-between w-52 h-10 bg-[#1f2937] text-white-light rounded-2xl px-4 py-2">
+            <button data-target="add-project-modal" className="flex items-center justify-between w-52 h-10 bg-[#1f2937] hover:bg-orange-500 text-white-light rounded-2xl px-4 py-2">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
@@ -201,7 +201,7 @@ const ProjectsScreen = ({ addProject, getAllProjects, projects }) => {
             </button>
 
             {/*ProjectScreen List*/}
-            <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 px-4">
+            <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
                 {selectedProjectType === 'all' && projects.length > 0 && projects.map(project => (
                     <ProjectItem key={project._id} project={project} type={selectedProjectType}/>
                 ))

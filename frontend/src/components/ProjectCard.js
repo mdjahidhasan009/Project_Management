@@ -14,10 +14,10 @@ const ProjectCard = ({ project, noImage, noMember }) => {
         <Link
             onClick={openProject}
             to="#"
-            className="relative block overflow-hidden rounded-lg border border-gray-100 p-4 sm:p-6 lg:p-8"
+            className="relative bg-[#1f2937] block overflow-hidden rounded-lg p-4 sm:p-6 lg:p-8"
         >
             <div>
-                <h3 className="text-lg font-bold text-white-light sm:text-xl overflow-hidden text-ellipsis"> {project?.name} </h3>
+                <h3 className="text-lg font-bold text-orange-500 sm:text-xl overflow-hidden text-ellipsis"> {project?.name} </h3>
 
                 <p className="mt-1 text-xs font-medium text-white-light"> {project?.createdBy?.username} </p>
             </div>

@@ -49,8 +49,8 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout, history, children }) 
     return (
         <section className="bg-[#1f2937]">
             {/*Top Navbar*/}
-            <div className="navbar-fixed h-14 flex items-center justify-center text-xl font-semibold text-white-light">
-                    <Link to="/" className="brand-logo uppercase">Project Tracker</Link>
+            <div className="navbar-fixed h-14 flex items-center pl-8 text-2xl font-semibold text-white-light">
+                    <Link to="/" className="brand-logo uppercase"><span className="text-orange-500">Project</span> Tracker</Link>
             </div>
 
             <div className="flex">

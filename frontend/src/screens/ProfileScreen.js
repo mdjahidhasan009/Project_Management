@@ -22,16 +22,18 @@ const ProfileScreen = ({ match, loadedUser, getUserByUserName, auth: { user } })
     }, [loadedUser]);
     return (
         <section className="w-full bg-default min-h-screen px-12 py-20">
-            <div className="bg-[#1f2937] text-white-light rounded-xl p-4 ring ring-indigo-50 sm:p-6 lg:p-8 flex items-start sm:gap-8">
-                <div
-                    className="border-2 rounded-full border-orange-500 p-2"
-                    aria-hidden="true"
-                >
-                    <img
-                        alt={user?.name + 's profile picture'}
-                        src={loadedUser?.profileImage?.imageUrl ? loadedUser?.profileImage?.imageUrl : defaultUserImage}
-                        className="w-96 h-60 rounded-full max-w-96 object-cover shadow-sm"
-                    />
+            <div className="bg-[#1f2937] text-white-light rounded-xl p-4 sm:p-6 lg:p-8 flex gap-8">
+                <div className="w-1/3">
+                    <div
+                        className="border-2 rounded-full border-orange-500 p-2 max-w-max"
+                        aria-hidden="true"
+                    >
+                        <img
+                            alt={user?.name + 's profile picture'}
+                            src={loadedUser?.profileImage?.imageUrl ? loadedUser?.profileImage?.imageUrl : defaultUserImage}
+                            className="w-96 h-60 rounded-full max-w-96 object-cover shadow-sm"
+                        />
+                    </div>
                 </div>
 
                 <div>
@@ -42,7 +44,7 @@ const ProfileScreen = ({ match, loadedUser, getUserByUserName, auth: { user } })
                     </strong>
 
                     <h3 className="mt-4 text-lg font-medium sm:text-xl">
-                        <a href="" className="hover:underline"> {loadedUser?.name ? loadedUser?.name : 'Name not found!'} </a>
+                        <a href="/edit-profile" className="hover:underline"> {loadedUser?.name ? loadedUser?.name : 'Name not found!'} </a>
                     </h3>
 
                     <p className="mt-1 text-sm text-white-light">

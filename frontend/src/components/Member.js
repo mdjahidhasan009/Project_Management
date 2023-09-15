@@ -19,10 +19,10 @@ const Member = ({ user }) => {
     }, [user.role]);
 
     return (
-        <div onClick={openMemberDetails} className="relative block overflow-hidden rounded-lg border border-gray-100 p-4 sm:p-6 lg:p-6 cursor-pointer" title={'Click to see ' + user.name + '\'s details'}>
+        <div onClick={openMemberDetails} className="relative bg-[#1f2937] block overflow-hidden rounded-lg p-4 sm:p-6 lg:p-6 cursor-pointer" title={'Click to see ' + user.name + '\'s details'}>
             <div className="sm:flex sm:justify-between sm:gap-4">
                 <div>
-                    <h3 className="text-lg font-bold text-white-light sm:text-xl"> {user.name} </h3>
+                    <h3 className="text-lg font-bold text-orange-500 sm:text-xl"> {user.name} </h3>
 
                     <p className="mt-1 text-xs font-medium text-white-light">{userRole ? userRole : 'Not Defined'}</p>
                 </div>
