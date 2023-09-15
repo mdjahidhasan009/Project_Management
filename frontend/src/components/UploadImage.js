@@ -46,7 +46,7 @@ const UploadImage = ({ uploadProfileImage, profileImageUrl }) => {
     };
 
     return (
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col items-start gap-16">
             {/* Profile Image */}
             {!previewSource && (
                 <img
