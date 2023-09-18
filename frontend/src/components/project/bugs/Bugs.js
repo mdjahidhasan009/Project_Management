@@ -18,6 +18,8 @@ const Bugs = ({ project, bugs, addBug, editBug, isMemberOfThisProject, isCreated
     const [ bugId, setBugId ] = useState();
     const [ hasNotFixedBug, setHasNotFixedBug ] = useState(false);
     const [ hasFixedBug, setHasFixedBug ] = useState(false);
+    const [ showAddNewBugModal, setShowAddNewBugModal ] = useState(false);
+    const [ showEditBugModal, setShowEditBugModal ] = useState(false);
 
     const [ formState, inputHandler, setFormData ] = useForm(
         {
@@ -46,11 +48,15 @@ const Bugs = ({ project, bugs, addBug, editBug, isMemberOfThisProject, isCreated
     const addBugHandler = async (event) => {
         await addBug(formState.inputs.bugText.value, projectId, sendRequest);
         await setAddBugData();
+
+        setShowAddNewBugModal(false)
     }
 
     const editBugHandler = async (event) => {
         await editBug(project._id, bugId, formState.inputs.bugEditText.value, sendRequest);
         await setAddBugData();
+
+        setShowEditBugModal(false)
     }
 
     const setEditBugData = async (bugText) => {
@@ -70,9 +76,8 @@ const Bugs = ({ project, bugs, addBug, editBug, isMemberOfThisProject, isCreated
     const handleClickOnEdit = async (bugId, bugText) => {
         await setEditBugData(bugText);
         await setBugId(bugId);
-        document.getElementById("bugEditText").value = bugText;
-        initModalAndOpen('#edit-bug-modal');
-        document.getElementById("bugEditText").value = bugText;
+
+        setShowEditBugModal(true)
     }
 
     const doesHaveCompletedOrNotFixedBugs = () => {
@@ -95,72 +100,144 @@ const Bugs = ({ project, bugs, addBug, editBug, isMemberOfThisProject, isCreated
     }, []);
 
     return (
-            <div className="bg-[#1f2937] p-8 rounded-2xl">
+            <div className="bg-[#1f2937] lg:p-8 md:p-6 p-4 rounded-2xl flex flex-col lg:gap-8 md:gap-6 gap-4">
                 {/*Add bug modal structure*/}
-                <div id="add-bug-modal" className="modal">
-                    <div className="modal-content">
-                        <h5>Add New Bug</h5>
-                        <Input
-                            element="input"
-                            elementTitle="bugText"
-                            type="text"
-                            placeholder="Enter A Bug"
-                            validators={[VALIDATOR_REQUIRE()]}
-                            errorText="Please enter todo text."
-                            onInput={inputHandler}
-                        />
-                    </div>
-                    <div className="modal-footer">
-                        <button disabled={!formState.isValid} onClick={addBugHandler}
-                                className="modal-close btn-flat"
+                {showAddNewBugModal ? (
+                    <>
+                        <div
+                            className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
                         >
-                            Add New Bug
-                        </button>
-                    </div>
-                </div>
+                            <div className="relative w-[40vw] my-6 mx-auto max-w-5xl">
+                                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-default outline-none focus:outline-none">
+                                    <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                                        <h3 className="text-2xl text-orange-500 font-semibold uppercase">
+                                            Add New Bug
+                                        </h3>
+                                    </div>
+                                    <div className="relative p-6 flex-auto">
+                                        <Input
+                                            element="input"
+                                            placeholder="Enter A Bug"
+                                            elementTitle="bugText"
+                                            type="text"
+                                            validators={[VALIDATOR_REQUIRE()]}
+                                            errorText="Please enter bug text."
+                                            styleClass="w-96 h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm mb-4"
+                                            onInput={inputHandler}
+                                        />
+
+                                        <div className="flex items-center justify-end gap-4">
+                                            <button
+                                                className="text-red-500 bg-[#1f2937] hover:bg-red-500 hover:text-white-light rounded-[4px] font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                                type="button"
+                                                onClick={() => setShowAddNewBugModal(false)}
+                                            >
+                                                Cancel
+                                            </button>
+
+                                            <button
+                                                className="modal-close waves-effect btn-flat bg-[#1f2937] hover:bg-orange-500 rounded-[4px] font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                                type="button"
+                                                disabled={!formState.isValid}
+                                                onClick={addBugHandler}
+                                            >
+                                                Add Bug
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                    </>
+                ) : null}
 
                 {/*Edit bug modal structure*/}
-                <div id="edit-bug-modal" className="modal">
-                    <div className="modal-content">
-                        <h5>Edit Bug</h5>
-                        <Input
-                            element="input"
-                            elementTitle="bugEditText"
-                            type="text"
-                            placeholder="Enter A Bug"
-                            validators={[VALIDATOR_REQUIRE()]}
-                            errorText="Please enter bug text."
-                            onInput={inputHandler}
-                            initialValue={editBugText}
-                            initialValidity={true}
-                        />
-                    </div>
-                    <div className="modal-footer">
-                        <button onClick={editBugHandler}
-                                disabled={!formState.isValid}  className="modal-close btn-flat">Edit Bug</button>
-                    </div>
-                </div>
+                {showEditBugModal ? (
+                    <>
+                        <div
+                            className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+                        >
+                            <div className="relative w-[40vw] my-6 mx-auto max-w-5xl">
+                                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-default outline-none focus:outline-none">
+                                    <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                                        <h3 className="text-2xl text-orange-500 font-semibold uppercase">
+                                            Edit Bug
+                                        </h3>
+                                    </div>
+                                    <div className="relative p-6 flex-auto">
+                                        <Input
+                                            element="input"
+                                            placeholder="Enter A Bug"
+                                            elementTitle="bugEditText"
+                                            type="text"
+                                            validators={[VALIDATOR_REQUIRE()]}
+                                            errorText="Please enter bug text."
+                                            styleClass="w-96 h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm mb-4"
+                                            onInput={inputHandler}
+                                            initialValue={editBugText}
+                                            initialValidity={true}
+                                        />
+
+                                        <div className="flex items-center justify-end gap-4">
+                                            <button
+                                                className="text-red-500 bg-[#1f2937] hover:bg-red-500 hover:text-white-light rounded-[4px] font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                                type="button"
+                                                onClick={() => setShowEditBugModal(false)}
+                                            >
+                                                Cancel
+                                            </button>
+
+                                            <button
+                                                className="modal-close waves-effect btn-flat bg-[#1f2937] hover:bg-orange-500 rounded-[4px] font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                                type="button"
+                                                disabled={!formState.isValid}
+                                                onClick={editBugHandler}
+                                            >
+                                                Edit Bug
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                    </>
+                ) : null}
                 <>
                     {(isMemberOfThisProject || isCreatedByUser) && (
                         //Add bug button of add bug modal
-                        <button data-target="add-bug-modal" className="flex items-center justify-center gap-4 w-52 h-10 bg-default hover:bg-orange-500 text-white-light rounded-2xl px-4 py-2">
+                        <button
+                            type="button"
+                            onClick={() => setShowAddNewBugModal(true)}
+                            className="flex items-center justify-center gap-4 w-52 h-10 bg-default hover:bg-orange-500 text-white-light rounded-2xl px-4 py-2"
+                        >
                             <i className="fas fa-plus-circle" />
-                            ADD NEW BUG
+                            ADD TODO
                         </button>
                     )}
 
                     {bugs?.length === 0 && <h5 className="center-align">Great News, no bug in this project yet!!</h5>}
-                    {hasNotFixedBug && <h5 className="text-2xl text-orange-500 mt-16 mb-8">Not Fixed Bug List</h5>}
+                    {hasNotFixedBug && <h5 className="text-2xl text-orange-500">Not Fixed Bug List</h5>}
                     <div className="flex flex-col gap-8">
-                        {bugs && bugs.map(bug => (
-                            <NotFixedBugRow key={bug._id} bug={bug} projectId={projectId} handleClickOnEdit={handleClickOnEdit}/>
+                        {bugs && bugs?.map(bug => (
+                            <NotFixedBugRow
+                                key={bug._id}
+                                bug={bug}
+                                projectId={projectId}
+                                handleClickOnEdit={handleClickOnEdit}
+                            />
                         ))
                         }
                     </div>
-                    {hasFixedBug && <h5 className="text-2xl text-orange-500 mt-16 mb-8">Fixed Bug List</h5>}
+                    {hasFixedBug && <h5 className="text-2xl text-orange-500">Fixed Bug List</h5>}
                     <div className="flex flex-col gap-8">
-                        {bugs && bugs.map(bug => (
-                            <FixedBugRow key={bug._id} bug={bug} projectId={projectId}/>
+                        {bugs && bugs?.map(bug => (
+                            <FixedBugRow
+                                key={bug._id}
+                                bug={bug}
+                                projectId={projectId}
+                            />
                         ))
                         }
                     </div>

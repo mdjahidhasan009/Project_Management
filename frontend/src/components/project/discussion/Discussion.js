@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import { useHttpClient } from "../../../hooks/http-hook";
 import { deleteDiscussion } from "../../../actions/project-action";
-import './Discussion.css';
 
 const Discussion = ({ discussion, username, handleClickOnEdit, projectId, deleteDiscussion }) => {
     const { sendRequest } = useHttpClient();
@@ -25,25 +24,28 @@ const Discussion = ({ discussion, username, handleClickOnEdit, projectId, delete
     }, [])
 
     return (
-        <div className={`bg-default flex items-center justify-between gap-8 p-8 rounded-2xl cursor-pointer ${isMobile ? '' : 'showElementOnHover'}`} id="discussion-row">
-            <div className="w-1/12">
+        <div className={`bg-default flex lg:flex-row md:flex-row flex-col items-center justify-between lg:gap-8 md:gap-6 gap-4 lg:p-8 md:p-6 p-4 lg:rounded-2xl md:rounded-xl rounded-lg cursor-pointer ${isMobile ? '' : 'showElementOnHover'}`} id="discussion-row">
+            <div className="lg:w-2/12 md:w-3/12 w-full flex lg:justify-start md:justify-start justify-center">
                 <img
                     src={discussion?.user?.profileImage?.imageUrl}
                     alt=" "
-                    className="w-32 h-28 rounded-full object-cover"
+                    className="w-40 h-32 rounded-full object-cover"
                 />
             </div>
-            <div className="group w-11/12">
-                <p>{discussion.text}</p>
-                <p>by
-                    <a className="text-orange-500" href={`/member/${discussion.user.username}`}> {discussion.user.username}</a>
+            <div className="group lg:w-10/12 md:w-9/12 w-full">
+                <p className="text-justify">{discussion.text}</p>
+                <div className="lg:mt-6 md:mt-4 mt-2 flex lg:flex-row md:flex-row flex-col-reverse items-center justify-between gap-4">
                     {username && (username === discussion.user.username) && (
-                        <>
-                            <span id='edit' className="hidden group-hover:block" onClick={handleEditClick}>Edit</span>
-                            <span id='delete' className={`delete ${isMobile ? 'showDelete' : ''}`} onClick={handleDeleteClick}>Delete</span>
-                        </>
+                        <div className="flex items-center gap-4">
+                            <button id='edit' className={`w-20 h-8 bg-[#1f2937] hover:bg-orange-500 text-white-light font-semibold rounded-2xl edit ${isMobile ? 'showEdit' : ''}`} onClick={handleEditClick}>Edit</button>
+                            <button id='delete' className={`w-20 h-8 bg-red-400 hover:bg-red-500 text-white-light font-semibold rounded-2xl ${isMobile ? 'showDelete' : ''}`} onClick={handleDeleteClick}>Delete</button>
+                        </div>
                     )}
-                </p>
+
+                    <span>
+                        - <a className="text-orange-400 hover:text-orange-500" href={`/member/${discussion.user.username}`}> {discussion.user.username}</a>
+                    </span>
+                </div>
             </div>
         </div>
     )

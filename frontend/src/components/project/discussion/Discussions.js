@@ -83,15 +83,15 @@ const Discussions = ({ project, addDiscussion, editDiscussion, isMemberOfThisPro
     }
 
     return (
-        <div className="bg-[#1f2937] p-8 rounded-2xl">
+        <div className="bg-[#1f2937] lg:p-8 md:p-6 p-4 lg:rounded-2xl md:rounded-xl rounded-lg">
             {/*Add discussion Modal Structure*/}
             {showAddDiscussionModal ? (
                 <>
                     <div
-                        className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+                        className="flex items-center justify-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
                     >
                         <div className="relative w-[40vw] my-6 mx-auto max-w-5xl">
-                            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-default outline-none focus:outline-none">
+                            <div className="border-0 rounded-lg shadow-lg relative flex flex-col lg:justify-start md:justify-start justify-center w-full bg-default outline-none focus:outline-none">
                                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                                     <h3 className="text-2xl text-orange-500 font-semibold uppercase">
                                         Add New Discussions

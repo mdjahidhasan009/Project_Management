@@ -14,9 +14,12 @@ const FixedBug = ({ bug, projectId, toggleIsFixed, noImage }) => {
     return (
         <>
             {bug.fixed && (
-                <div className="bg-default flex items-center justify-between gap-8 p-8 rounded-2xl" onClick={handleIsFixed}>
-                    <p className="w-9/12">{bug.text}</p>
-                    <div className="w-1/12">
+                <div
+                    onClick={handleIsFixed}
+                    className="bg-default flex lg:flex-row md:flex-row flex-col items-center justify-between lg:gap-8 md:gap-6 gap-4 lg:p-8 md:p-6 p-4 lg:rounded-2xl md:rounded-xl rounded-lg cursor-pointer"
+                    id="discussion-row"
+                >
+                    <div className="lg:w-2/12 md:w-3/12 w-full flex lg:justify-start md:justify-start justify-center">
                         <img
                             src = {
                                 bug.user?.profileImage?.imageUrl === undefined
@@ -24,8 +27,11 @@ const FixedBug = ({ bug, projectId, toggleIsFixed, noImage }) => {
                                     : bug.user?.profileImage?.imageUrl
                             }
                             alt=" "
-                            className="w-60 rounded-full object-contain"
+                            className="w-40 h-32 rounded-full object-cover"
                         />
+                    </div>
+                    <div className="group lg:w-10/12 md:w-9/12 w-full">
+                        <p className="text-justify">{bug.text}</p>
                     </div>
                 </div>
             )}
