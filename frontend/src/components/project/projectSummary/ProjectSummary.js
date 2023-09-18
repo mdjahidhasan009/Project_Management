@@ -19,7 +19,7 @@ const ProjectSummary = ({ project, projectId, selectedItem, user, name, descript
             </div>
 
             {/*Project Summary Row*/}
-            <div className="flex items-center justify-evenly">
+            <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4">
                 <Link to={`/project/${projectId}`} className={`w-48 h-10 rounded-[4px] bg-default hover:bg-orange-500 flex items-center justify-center gap-4 ${selectedItem === 'overview' && 'selected'}`}>
                     <span className="iconCircle">
                         <i className="fas fa-info" />

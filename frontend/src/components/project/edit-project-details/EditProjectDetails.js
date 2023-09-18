@@ -6,7 +6,6 @@ import { editProjectDetails, getProjectById } from "../../../actions/project-act
 import { useHttpClient } from "../../../hooks/http-hook";
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from "../../../utils/validators";
 import Input from "../../shared/FormElements/Input";
-import './EditProjectDetails.css';
 
 const EditProjectDetails = ({ project, editProjectDetails, isAuthenticated, getProjectById }) => {
     const { sendRequest } = useHttpClient();
@@ -68,63 +67,84 @@ const EditProjectDetails = ({ project, editProjectDetails, isAuthenticated, getP
     }
 
     return (
-            <div className="row white">
+            <div className="bg-[#1f2937] p-8 rounded-2xl">
 
                 {project && isAuthenticated && (
-                    <div className="project_details">
-                        <Input
-                            label="Project Name"
-                            element="input"
-                            placeholder="ProjectScreen Name"
-                            elementTitle="projectName"
-                            type="text"
-                            validators={[VALIDATOR_MINLENGTH(5)]}
-                            errorText="Please enter at least 5 character."
-                            onInput={inputHandler}
-                            initialValue={project.name}
-                            initialValidity={true}
-                        />
-                        <Input
-                            label="Project Details"
-                            element="textarea"
-                            placeholder="ProjectScreen Details"
-                            elementTitle="projectDetails"
-                            type="text"
-                            validators={[VALIDATOR_MINLENGTH(5)]}
-                            errorText="Please enter at least 5 character."
-                            onInput={inputHandler}
-                            initialValue={project.description}
-                            initialValidity={true}
-                        />
-                        <Input
-                            label="Project Category"
-                            element="input"
-                            placeholder="ProjectScreen Category"
-                            elementTitle="projectCategory"
-                            type="text"
-                            validators={[VALIDATOR_MINLENGTH(2)]}
-                            errorText="Please enter at least 2 character."
-                            onInput={inputHandler}
-                            initialValue={project.category}
-                            initialValidity={true}
-                        />
-                        <Input
-                            element="input"
-                            elementTitle="projectDeadline"
-                            type="date"
-                            label="Project Deadline"
-                            validators={[VALIDATOR_REQUIRE()]}
-                            errorText="Please enter project deadline."
-                            onInput={inputHandler}
-                            initialValue={project.deadline}
-                            initialValidity={true}
-                        />
-                        <a className="waves-effect btn"
-                           onClick={saveProjectDetails}>
-                           {loading && <i className="fas fa-spinner fa-pulse" />}
-                           {loading && ' Saving Project Details'}
-                           {!loading && 'Save Project Details'}
-                        </a>
+                    <div className="flex flex-col justify-evenly gap-5 lg:w-4/6 md:5/6 w-full">
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
+                            <h3>Project Name</h3>
+
+                            <Input
+                                element="input"
+                                placeholder="ProjectScreen Name"
+                                elementTitle="projectName"
+                                type="text"
+                                validators={[VALIDATOR_MINLENGTH(5)]}
+                                errorText="Please enter at least 5 character."
+                                styleClass="lg:w-96 md:w-80 w-full h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                onInput={inputHandler}
+                                initialValue={project.name}
+                                initialValidity={true}
+                            />
+                        </div>
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
+                            <h3>Project Details</h3>
+
+                            <Input
+                                element="textarea"
+                                placeholder="ProjectScreen Details"
+                                elementTitle="projectDetails"
+                                type="text"
+                                validators={[VALIDATOR_MINLENGTH(5)]}
+                                errorText="Please enter at least 5 character."
+                                styleClass="lg:w-96 md:w-80 w-full h-32 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                onInput={inputHandler}
+                                initialValue={project.description}
+                                initialValidity={true}
+                            />
+                        </div>
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
+                            <h3>Project Category</h3>
+
+                            <Input
+                                element="input"
+                                placeholder="ProjectScreen Category"
+                                elementTitle="projectCategory"
+                                type="text"
+                                validators={[VALIDATOR_MINLENGTH(2)]}
+                                errorText="Please enter at least 2 character."
+                                styleClass="lg:w-96 md:w-80 w-full h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                onInput={inputHandler}
+                                initialValue={project.category}
+                                initialValidity={true}
+                            />
+                        </div>
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
+                            <h3>Project Deadline</h3>
+
+                            <Input
+                                element="input"
+                                elementTitle="projectDeadline"
+                                type="date"
+                                validators={[VALIDATOR_REQUIRE()]}
+                                errorText="Please enter project deadline."
+                                styleClass="lg:w-96 md:w-80 w-full h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                onInput={inputHandler}
+                                initialValue={project.deadline}
+                                initialValidity={true}
+                            />
+                        </div>
+                        <div className="flex justify-end">
+                            <button
+                                onClick={saveProjectDetails}
+                                disabled={!formState.isValid}
+                                className="mt-10 flex items-center justify-center gap-4 w-60 h-10 bg-default hover:bg-orange-500 text-white-light rounded-2xl px-4 py-2"
+                            >
+                                {loading && <i className="fas fa-spinner fa-pulse" />}
+                                {loading && ' Saving Project Details'}
+                                {!loading && 'Save Project Details'}
+                            </button>
+                        </div>
                     </div>
                 )}
             </div>
