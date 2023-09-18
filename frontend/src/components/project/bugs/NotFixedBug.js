@@ -36,17 +36,19 @@ const NotFixedBug = ({username, bug, projectId, toggleIsFixed, deleteBug, handle
     return (
         <>
             {!bug.fixed && (
-                <div className={`white col s12 not-fixed-bug ${isMobile ? '' : 'showElementOnHover'}`} onClick={handleIsFixed}>
-                    <p className="not-fixed-bug__text">{bug.text}</p>
-                    <img
-                        src = {
-                            bug.user?.profileImage?.imageUrl === undefined
-                                ? noImage
-                                : bug.user?.profileImage?.imageUrl
-                        }
-                        alt=" "
-                        className="avatar"
-                    />
+                <div className={`bg-default flex items-center justify-between gap-8 p-8 rounded-2xl ${isMobile ? '' : 'showElementOnHover'}`} onClick={handleIsFixed}>
+                    <p className="w-9/12">{bug.text}</p>
+                    <div className="w-1/12">
+                        <img
+                            src = {
+                                bug.user?.profileImage?.imageUrl === undefined
+                                    ? noImage
+                                    : bug.user?.profileImage?.imageUrl
+                            }
+                            alt=" "
+                            className="w-60 rounded-full object-contain"
+                        />
+                    </div>
                     {/*If current user add this bug then edit and delete will be appears while hover*/}
                     {username && (username === bug.user.username) && (
                         <>

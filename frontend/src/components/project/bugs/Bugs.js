@@ -95,7 +95,7 @@ const Bugs = ({ project, bugs, addBug, editBug, isMemberOfThisProject, isCreated
     }, []);
 
     return (
-            <div className="row bugs">
+            <div className="bg-[#1f2937] p-8 rounded-2xl">
                 {/*Add bug modal structure*/}
                 <div id="add-bug-modal" className="modal">
                     <div className="modal-content">
@@ -143,21 +143,22 @@ const Bugs = ({ project, bugs, addBug, editBug, isMemberOfThisProject, isCreated
                 <>
                     {(isMemberOfThisProject || isCreatedByUser) && (
                         //Add bug button of add bug modal
-                        <button data-target="add-bug-modal" className="light-blue lighten-1 modal-trigger add-btn">
-                            <i className="fas fa-plus-circle" />      ADD NEW BUG
+                        <button data-target="add-bug-modal" className="flex items-center justify-center gap-4 w-52 h-10 bg-default hover:bg-orange-500 text-white-light rounded-2xl px-4 py-2">
+                            <i className="fas fa-plus-circle" />
+                            ADD NEW BUG
                         </button>
                     )}
 
                     {bugs?.length === 0 && <h5 className="center-align">Great News, no bug in this project yet!!</h5>}
-                    {hasNotFixedBug && <h5>Not Fixed Bug List</h5>}
-                    <div className=" ">
+                    {hasNotFixedBug && <h5 className="text-2xl text-orange-500 mt-16 mb-8">Not Fixed Bug List</h5>}
+                    <div className="flex flex-col gap-8">
                         {bugs && bugs.map(bug => (
                             <NotFixedBugRow key={bug._id} bug={bug} projectId={projectId} handleClickOnEdit={handleClickOnEdit}/>
                         ))
                         }
                     </div>
-                    {hasFixedBug && <h5>Fixed Bug List</h5>}
-                    <div className=" ">
+                    {hasFixedBug && <h5 className="text-2xl text-orange-500 mt-16 mb-8">Fixed Bug List</h5>}
+                    <div className="flex flex-col gap-8">
                         {bugs && bugs.map(bug => (
                             <FixedBugRow key={bug._id} bug={bug} projectId={projectId}/>
                         ))

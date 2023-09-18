@@ -25,21 +25,21 @@ const Discussion = ({ discussion, username, handleClickOnEdit, projectId, delete
     }, [])
 
     return (
-        <div className={`row white discussion-row ${isMobile ? '' : 'showElementOnHover'}`} id="discussion-row">
-            <div className="col s1 discussion-row__image">
+        <div className={`bg-default flex items-center justify-between gap-8 p-8 rounded-2xl cursor-pointer ${isMobile ? '' : 'showElementOnHover'}`} id="discussion-row">
+            <div className="w-1/12">
                 <img
                     src={discussion?.user?.profileImage?.imageUrl}
                     alt=" "
-                    className="avatar "
+                    className="w-32 h-28 rounded-full object-cover"
                 />
             </div>
-            <div className="col s11 discussion-row__text">
+            <div className="group w-11/12">
                 <p>{discussion.text}</p>
                 <p>by
-                    <a href={`/member/${discussion.user.username}`}> {discussion.user.username}</a>
+                    <a className="text-orange-500" href={`/member/${discussion.user.username}`}> {discussion.user.username}</a>
                     {username && (username === discussion.user.username) && (
                         <>
-                            <span id='edit' className={`edit ${isMobile ? 'showEdit' : ''}`} onClick={handleEditClick}>Edit</span>
+                            <span id='edit' className="hidden group-hover:block" onClick={handleEditClick}>Edit</span>
                             <span id='delete' className={`delete ${isMobile ? 'showDelete' : ''}`} onClick={handleDeleteClick}>Delete</span>
                         </>
                     )}

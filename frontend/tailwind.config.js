@@ -5,6 +5,7 @@ module.exports = {
   ],
   theme: {
     extend: {
+      display: ["group-hover"],
       fontFamily: {
         'custom': ['Roboto', 'Roboto'],
       },

@@ -3,74 +3,63 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { getProjectById, getNotAssignedMember } from "../../../actions/project-action";
-import './ProjectSummary.css';
 
 
 const ProjectSummary = ({ project, projectId, selectedItem, user, name, description, category, deadline }) => {
 
     return (
-        <div className="row white project-summary">
+        <div className="w-full p-8 bg-[#1f2937] rounded-2xl text-white-light flex flex-col gap-8">
         <>
-            <h4>{name && name}</h4>
-            <h6>{description && description}</h6>
-            <h6>{category && category}</h6>
-            <h6>{deadline && deadline}</h6>
-            <div className="divider" />
+            <div className="text-lg font-normal flex flex-col gap-2">
+                <h4 className="text-3xl text-orange-500 font-semibold mb-4">Name: {name && name}</h4>
+                <h6>Description: {description && description}</h6>
+                <h6>Category: {category && category}</h6>
+                <h6>Deadline: {deadline && deadline}</h6>
+                <div className="divider" />
+            </div>
 
             {/*Project Summary Row*/}
-            <div className="row project-summary__navigation">
-                <div className={`project__navigation-button ${selectedItem === 'overview' && 'selected'}`}>
-                    <Link to={`/project/${projectId}`}>
-                        <span className="iconCircle">
-                            <i className="fas fa-info" />
-                        </span>
-                        <span>Overview</span>
-                    </Link>
-                </div>
-                <div className={`project__navigation-button ${selectedItem === 'activities' && 'selected'}`}>
-                    <Link to={`/activities/${projectId}`}>
-                        <span className="iconCircle">
-                            <i className="fas fa-clipboard-list" />
-                        </span>
-                        <span>Activities</span>
-                    </Link>
-                </div>
-                <div className={`project__navigation-button ${selectedItem === 'discussion' && 'selected'}`}>
-                    <Link to={`/discussion/${projectId}`}>
-                        <span className="iconCircle">
-                            <i className="fas fa-comments" />
-                        </span>
-                        <span>Discussion</span>
-                        <span className="numberCircle">{(project && project?.discussion?.length) || 0}</span>
-                    </Link>
-                </div>
-                <div className={`project__navigation-button ${selectedItem === 'todolist' && 'selected'}`}>
-                    <Link to={`/todolist/${projectId}`}>
-                        <span className="iconCircle">
-                            <i className="fas fa-check-circle" />
-                        </span>
-                        <span>To-Do-List</span>
-                        <span className="numberCircle">{(project && project?.todos?.length) || 0}</span>
-                    </Link>
-                </div>
-                <div className={`project__navigation-button ${selectedItem === 'bugs' && 'selected'}`}>
-                    <Link to={`/bugs/${projectId}`}>
-                        <span className="iconCircle">
-                            <i className="fas fa-bug" />
-                        </span>
-                        <span>Bugs</span>
-                        <span className="numberCircle">{(project && project?.bugs?.length) || 0}</span>
-                    </Link>
-                </div>
+            <div className="flex items-center justify-evenly">
+                <Link to={`/project/${projectId}`} className={`w-48 h-10 rounded-[4px] bg-default hover:bg-orange-500 flex items-center justify-center gap-4 ${selectedItem === 'overview' && 'selected'}`}>
+                    <span className="iconCircle">
+                        <i className="fas fa-info" />
+                    </span>
+                    <span>Overview</span>
+                </Link>
+                <Link to={`/activities/${projectId}`} className={`w-48 h-10 rounded-[4px] bg-default hover:bg-orange-500 flex items-center justify-center gap-4 ${selectedItem === 'activities' && 'selected'}`}>
+                    <span className="iconCircle">
+                        <i className="fas fa-clipboard-list" />
+                    </span>
+                    <span>Activities</span>
+                </Link>
+                <Link to={`/discussion/${projectId}`} className={`w-48 h-10 rounded-[4px] bg-default hover:bg-orange-500 flex items-center justify-center gap-4 ${selectedItem === 'discussion' && 'selected'}`}>
+                     <span className="iconCircle">
+                        <i className="fas fa-comments" />
+                    </span>
+                    <span>Discussion</span>
+                    <span className="numberCircle">{(project && project?.discussion?.length) || 0}</span>
+                </Link>
+                <Link to={`/todolist/${projectId}`} className={`w-48 h-10 rounded-[4px] bg-default hover:bg-orange-500 flex items-center justify-center gap-4 ${selectedItem === 'todolist' && 'selected'}`}>
+                    <span className="iconCircle">
+                        <i className="fas fa-check-circle" />
+                    </span>
+                    <span>To-Do-List</span>
+                    <span className="numberCircle">{(project && project?.todos?.length) || 0}</span>
+                </Link>
+                <Link to={`/bugs/${projectId}`} className={`w-48 h-10 rounded-[4px] bg-default hover:bg-orange-500 flex items-center justify-center gap-4 ${selectedItem === 'bugs' && 'selected'}`}>
+                    <span className="iconCircle">
+                        <i className="fas fa-bug" />
+                    </span>
+                    <span>Bugs</span>
+                    <span className="numberCircle">{(project && project?.bugs?.length) || 0}</span>
+                </Link>
                 {project?.createdBy?.username === user?.username && (
-                    <div className={`project__navigation-button ${selectedItem === 'edit-project' && 'selected'}`}>
-                        <Link to={`/edit-project/${projectId}`}>
+                    <Link to={`/edit-project/${projectId}`} className={`w-48 h-10 rounded-[4px] bg-default hover:bg-orange-500 flex items-center justify-center gap-4 ${selectedItem === 'edit-project' && 'selected'}`}>
                         <span className="iconCircle">
                             <i className="fas fa-cog" />
                         </span>
-                            <span>Edit</span>
-                        </Link>
-                    </div>
+                        <span>Edit</span>
+                    </Link>
                 )}
             </div>
         </>

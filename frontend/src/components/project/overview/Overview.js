@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Chart } from "react-google-charts";
 import { connect } from "react-redux";
 import { useHistory } from 'react-router-dom';
 
@@ -11,10 +10,8 @@ import {
     deleteProject,
     getNotAssignedMember
 } from '../../../actions/project-action';
-import M from 'materialize-css';
 import MemberRow from './Member';
 import './Overview.css';
-import {initAllModal} from "../../../utils/helper";
 import ChartItem from "../../ChartItem";
 
 const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThisProject, isCreatedByUser,
@@ -22,22 +19,19 @@ const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThis
                       getNotAssignedMember
 }) => {
     const { sendRequest } = useHttpClient();
+    const [selectOptions, setSelectOptions] = useState([]);
     const [ addMember, setAddMember ] = useState('');
+    const [showModal, setShowModal] = useState(false);
     const history = useHistory();
 
-    useEffect(() =>  {
-        let selectList = document.getElementById("member_list");
+    useEffect(() => {
         if (notAssignMembers) {
-            notAssignMembers.map(member => {
-                let selectObject = document.createElement("option");
-                selectObject.text = member;
-                selectObject.value = member;
-                selectList.appendChild(selectObject);
-            })
-            M.FormSelect.init(selectList);
-            initAllModal();
+            const options = notAssignMembers?.map((member) => ({
+                text: member,
+                value: member,
+            }));
+            setSelectOptions(options);
         }
-        // eslint-disable-next-line
     }, [notAssignMembers]);
 
     const handleIsDoneClick = async () => {
@@ -53,51 +47,84 @@ const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThis
     }
 
     const handleAddMember = async () => {
-        let selectList = document.getElementById("member_list");
-        if(selectList.options.length > 1) {
-            let i, length = selectList.options.length - 1;
-            for(i = length; i > 0; i--) {
-                selectList.remove(i);
-            }
-        }
-        await assignAnMemberToAProject(project._id, addMember ,sendRequest);
-        await getNotAssignedMember(project._id, sendRequest);
+        setSelectOptions([]);
+
+        await assignAnMemberToAProject(project?._id, addMember, sendRequest);
+        await getNotAssignedMember(project?._id, sendRequest);
+
+        setShowModal(false)
     }
 
     const handleProjectDelete = async () => {
         if(window.confirm("Do you want to delete this project? There is no recovery method!!")) {
-            await deleteProject(project._id, sendRequest);
+            await deleteProject(project?._id, sendRequest);
             history.push('/projects');
         }
     }
 
     return (
-        <div className="row overview">
+        <div className="bg-[#1f2937] p-8 rounded-2xl flex justify-between gap-8">
 
             {/* Modal Structure of Add Member */}
-            <div id="add-member-modal" className="modal">
-                <div className="modal-content">
-                    <h5>Add member to this project</h5>
-                    <label>
-                        Select an member
-                        <select id="member_list" value={addMember} onChange={handleSetAddMember}>
-                            <option selected defaultValue = '' />
-                        </select>
-                    </label>
-                </div>
-                <div className="modal-footer">
-                    <button className="modal-close waves-effect btn-flat"
-                            onClick={handleAddMember}>Add Member</button>
-                </div>
-            </div>
+            {showModal ? (
+                <>
+                    <div
+                        className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+                    >
+                        <div className="relative w-[40vw] my-6 mx-auto max-w-5xl">
+                            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-default outline-none focus:outline-none">
+                                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                                    <h3 className="text-2xl text-orange-500 font-semibold uppercase">
+                                        Add member to this project
+                                    </h3>
+                                </div>
+                                <div className="relative p-6 flex-auto">
+                                    <select
+                                        className="w-96 h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                        id="member_list"
+                                        value={addMember}
+                                        onChange={handleSetAddMember}
+                                    >
+                                        <option value="">Select a member</option>
+                                        {selectOptions.map((option, index) => (
+                                            <option key={index} value={option.value}>
+                                                {option.text}
+                                            </option>
+                                        ))}
+                                    </select>
+
+                                    <div className="flex items-center justify-end gap-4">
+                                        <button
+                                            className="text-red-500 bg-[#1f2937] hover:bg-red-500 hover:text-white-light rounded-[4px] font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                            type="button"
+                                            onClick={() => setShowModal(false)}
+                                        >
+                                            Cancel
+                                        </button>
+
+                                        <button
+                                            className="modal-close waves-effect btn-flat bg-[#1f2937] hover:bg-orange-500 rounded-[4px] font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                            type="button"
+                                            onClick={handleAddMember}
+                                        >
+                                            Add Member
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                </>
+            ) : null}
 
             {isAuthenticated && (
                 <>
-                    <div className=" row overview__showChartAndMember">
+                    <div className="w-full flex justify-between gap-8">
                         <div className={
                             (isCreatedByUser || isMemberOfThisProject)
-                                ? "col s12 m12 l10 chart"
-                                : "col s12 m12 l12 chart"
+                                ? "col s12 m12 l10 chart w-10/12"
+                                : "col s12 m12 l12 chart w-10/12"
                         }
                         >
                             {/*Todo done and bug fixed summary chart*/}
@@ -106,24 +133,30 @@ const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThis
 
 
                         {(isCreatedByUser || isMemberOfThisProject) && (
-                            <div className="col s5 m5 l2 member">
+                            <div className="flex flex-col items-start gap-4 w-2/12">
                                 <div className="row member__add-member">
-                                    <div className="col s12">
-                                        <button data-target="add-member-modal"
-                                                className="light-blue lighten-1 modal-trigger add-btn">
-                                            <i className="fas fa-plus-circle" />    ADD MEMBER
+                                    <div className="row member__add-member">
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowModal(true)}
+                                            className="flex items-center justify-center gap-4 w-52 h-10 bg-default hover:bg-orange-500 text-white-light rounded-2xl px-4 py-2"
+                                        >
+                                            <i className="fas fa-plus-circle" />
+                                            ADD MEMBER
                                         </button>
                                     </div>
                                 </div>
 
                                 {/*Member list of this project*/}
-                                {project && (project.members.length > 0) && (
-                                    <div className="member__team-member white row">
-                                        <p>Team Members</p>
+                                {project && (project?.members?.length > 0) && (
+                                    <div className="overflow-y-auto">
+                                        <p className="text-2xl text-orange-500 mb-4">Team Members</p>
                                         <div className="divider"/>
-                                        {project.members.map(member => (
-                                            <MemberRow key={member._id} member={member}/>
-                                        ))}
+                                        <div className="flex flex-col gap-2">
+                                            {project?.members?.map(member => (
+                                                <MemberRow key={member?._id} member={member}/>
+                                            ))}
+                                        </div>
                                     </div>
                                 )}
                             </div>

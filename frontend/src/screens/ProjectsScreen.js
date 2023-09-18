@@ -68,7 +68,7 @@ const ProjectsScreen = ({ addProject, getAllProjects, projects }) => {
     }
 
     return (
-        <div className="w-full bg-default text-white-light flex flex-col gap-8 p-6">
+        <div className="w-full bg-default text-white-light flex flex-col gap-8 p-8">
             {/*Modal Structure(Add project modal)*/}
             <div id="add-project-modal" className="modal">
                 <div className="modal-content">
@@ -201,7 +201,7 @@ const ProjectsScreen = ({ addProject, getAllProjects, projects }) => {
             </button>
 
             {/*ProjectScreen List*/}
-            <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
+            <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
                 {selectedProjectType === 'all' && projects.length > 0 && projects.map(project => (
                     <ProjectItem key={project._id} project={project} type={selectedProjectType}/>
                 ))

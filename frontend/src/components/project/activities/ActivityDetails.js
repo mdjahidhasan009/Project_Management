@@ -23,7 +23,7 @@ const ActivityDetails = ({ activityDetail }) => {
                     </span>
                     {activityDetail.text + " "}
                     by {" "}
-                    <a href={`/member/${activityDetail.user}`}>{activityDetail.user}</a>
+                    <a href={`/member/${activityDetail.user}`} className="text-orange-500 hover:underline">{activityDetail.user}</a>
                     {" "}
                     at - {new Date(activityDetail.time).toUTCString()}
                 </p>

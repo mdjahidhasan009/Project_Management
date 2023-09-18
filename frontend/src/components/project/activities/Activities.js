@@ -13,7 +13,7 @@ const Activities = ({ project, activities, prepareActivity }) => {
     }, [project]);
 
     return (
-        <div className="row activities">
+        <div className="bg-[#1f2937] p-8 rounded-2xl flex flex-col gap-8">
             {/*Activities Row*/}
             {activities && activities.length > 0
                 ? activities.map(activity => (

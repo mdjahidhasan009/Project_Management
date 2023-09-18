@@ -27,8 +27,8 @@ const DashboardScreen = ({ projects, auth, getAllProjects, prepareTodoAndBugForP
     }, [projects, user]);
 
     return (
-        <section className="w-full bg-default text-white-light min-h-screen flex flex-col gap-28 px-4">
-            <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 pt-10">
+        <section className="w-full bg-default text-white-light min-h-screen flex flex-col gap-28 p-8">
+            <div className="mx-auto max-w-screen-xl">
                 <dl className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4">
                     <div className="flex flex-col rounded-lg bg-[#1f2937] px-4 py-8 text-center">
                         <dt className="order-last text-lg font-medium text-white-light">

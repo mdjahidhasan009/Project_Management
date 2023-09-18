@@ -12,7 +12,7 @@ const MembersScreen = ({ auth: { users }, getAllUser }) => {
     }, []);
 
     return (
-        <div className="w-full bg-default text-white-light grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 p-8">
+        <div className="w-full bg-default text-white-light grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 p-8">
             {users && (
                 users.map(user => (
                     <Member key={user.username} user={user}/>

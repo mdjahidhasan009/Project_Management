@@ -7,7 +7,7 @@ import { useHttpClient } from "../../../hooks/http-hook";
 import { addDiscussion, editDiscussion } from "../../../actions/project-action";
 import DiscussionRow from "./Discussion";
 import Input from "../../shared/FormElements/Input";
-import { VALIDATOR_REQUIRE } from "../../../utils/validators";
+import {VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE} from "../../../utils/validators";
 import {initAllModal, initModalAndOpen} from "../../../utils/helper";
 
 const Discussions = ({ project, addDiscussion, editDiscussion, isMemberOfThisProject, isCreatedByUser }) => {
@@ -15,6 +15,8 @@ const Discussions = ({ project, addDiscussion, editDiscussion, isMemberOfThisPro
     const projectId = useParams().projectId;
     const [ editDiscussionText, setEditDiscussionText ] = useState('');
     const [ discussionId, setDiscussionId ] = useState();
+    const [showAddDiscussionModal, setShowAddDiscussionModal] = useState(false);
+    const [showEditDiscussionModal, setShowEditDiscussionModal] = useState(false);
 
     const [ formState, inputHandler, setFormData ] = useForm(
         {
@@ -81,67 +83,137 @@ const Discussions = ({ project, addDiscussion, editDiscussion, isMemberOfThisPro
     }
 
     return (
-        <div className="row discussions">
+        <div className="bg-[#1f2937] p-8 rounded-2xl">
             {/*Add discussion Modal Structure*/}
-            <div id="add-discussion-modal" className="modal">
-                <div className="modal-content">
-                    <h5>Add New Discussions</h5>
-                    <Input
-                        element="input"
-                        elementTitle="discussionText"
-                        type="text"
-                        placeholder="Enter Discussions"
-                        validators={[VALIDATOR_REQUIRE()]}
-                        errorText="Please enter discussion text."
-                        onInput={inputHandler}
-                    />
-                </div>
-                <div className="modal-footer">
-                    <button disabled={!formState.isValid} onClick={addDiscussionHandler} className="modal-close waves-effect waves-light btn-flat">Add New Project</button>
-                </div>
-            </div>
+            {showAddDiscussionModal ? (
+                <>
+                    <div
+                        className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+                    >
+                        <div className="relative w-[40vw] my-6 mx-auto max-w-5xl">
+                            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-default outline-none focus:outline-none">
+                                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                                    <h3 className="text-2xl text-orange-500 font-semibold uppercase">
+                                        Add New Discussions
+                                    </h3>
+                                </div>
+                                <div className="relative p-6 flex-auto">
+                                    <Input
+                                        element="input"
+                                        placeholder="Enter Discussions"
+                                        elementTitle="discussionText"
+                                        type="text"
+                                        validators={[VALIDATOR_REQUIRE()]}
+                                        errorText="Please enter discussion text."
+                                        styleClass="w-96 h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                        onInput={inputHandler}
+                                    />
+
+                                    <div className="flex items-center justify-end gap-4">
+                                        <button
+                                            className="text-red-500 bg-[#1f2937] hover:bg-red-500 hover:text-white-light rounded-[4px] font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                            type="button"
+                                            onClick={() => setShowAddDiscussionModal(false)}
+                                        >
+                                            Cancel
+                                        </button>
+
+                                        <button
+                                            className="modal-close waves-effect btn-flat bg-[#1f2937] hover:bg-orange-500 rounded-[4px] font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                            type="button"
+                                            disabled={!formState.isValid}
+                                            onClick={addDiscussionHandler}
+                                        >
+                                            Add Project
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                </>
+            ) : null}
 
             {/*Edit Discussions Modal*/}
-            <div id="edit-discussion-modal" className="modal">
-                <div className="modal-content">
-                    <h5>Edit Discussions</h5>
-                    <Input
-                        element="input"
-                        elementTitle="discussionEditText"
-                        type="text"
-                        placeholder="Enter a discussion"
-                        validators={[VALIDATOR_REQUIRE()]}
-                        errorText="Please enter discussion text."
-                        onInput={inputHandler}
-                        initialValue={editDiscussionText}
-                        initialValidity={true}
-                    />
-                </div>
-                <div className="modal-footer">
-                    <button onClick={editDiscussionHandler}
-                            disabled={!formState.isValid}  className="modal-close waves-effect waves-light btn-flat">Edit Discussions</button>
-                </div>
-            </div>
+            {showEditDiscussionModal ? (
+                <>
+                    <div
+                        className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+                    >
+                        <div className="relative w-[40vw] my-6 mx-auto max-w-5xl">
+                            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-default outline-none focus:outline-none">
+                                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                                    <h3 className="text-2xl text-orange-500 font-semibold uppercase">
+                                        Edit Discussions
+                                    </h3>
+                                </div>
+                                <div className="relative p-6 flex-auto">
+                                    <Input
+                                        element="input"
+                                        placeholder="Enter a discussion"
+                                        elementTitle="discussionEditText"
+                                        type="text"
+                                        validators={[VALIDATOR_REQUIRE()]}
+                                        errorText="Please enter discussion text"
+                                        styleClass="w-96 h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                        onInput={inputHandler}
+                                        initialValue={editDiscussionText}
+                                        initialValidity={true}
+                                    />
+
+                                    <div className="flex items-center justify-end gap-4">
+                                        <button
+                                            className="text-red-500 bg-[#1f2937] hover:bg-red-500 hover:text-white-light rounded-[4px] font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                            type="button"
+                                            onClick={() => setShowEditDiscussionModal(false)}
+                                        >
+                                            Cancel
+                                        </button>
+
+                                        <button
+                                            className="modal-close waves-effect btn-flat bg-[#1f2937] hover:bg-orange-500 rounded-[4px] font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                            type="button"
+                                            disabled={!formState.isValid}
+                                            onClick={editDiscussionHandler}
+                                        >
+                                            Confirm
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                </>
+            ) : null}
 
             <>
                 {/*Add Discussions Modal Button*/}
                 {(isMemberOfThisProject || isCreatedByUser) && (
-                    <button data-target="add-discussion-modal" className="light-blue lighten-1 modal-trigger add-btn">
-                    <i className="fas fa-plus-circle" />      ADD NEW DISCUSSION
+                    <button
+                        type="button"
+                        onClick={() => setShowAddDiscussionModal(true)}
+                        className="flex items-center justify-center gap-4 w-52 h-10 bg-default hover:bg-orange-500 text-white-light rounded-2xl px-4 py-2"
+                    >
+                        <i className="fas fa-plus-circle" />
+                        ADD DISCUSSION
                     </button>
                 )}
 
-
                 {project && project.discussion.length > 0
                     ?   <>
-                            <h5>Discussion List</h5>
-                            {project.discussion.map(discussion => (
-                                <DiscussionRow key={discussion._id}
-                                    discussion={discussion}
-                                    handleClickOnEdit={handleClickOnEdit}
-                                    projectId={projectId}
-                                />
-                            ))}
+                            <h5 className="text-2xl text-orange-500 mt-16 mb-8">Discussion List</h5>
+                            <div className="flex flex-col gap-8">
+                                {project.discussion.map(discussion => (
+                                    <DiscussionRow
+                                        key={discussion._id}
+                                        discussion={discussion}
+                                        handleClickOnEdit={handleClickOnEdit}
+                                        projectId={projectId}
+                                    />
+                                ))}
+                            </div>
                         </>
                     :   <h5 className="center-align">No Discussion Yet!!</h5>
                 }

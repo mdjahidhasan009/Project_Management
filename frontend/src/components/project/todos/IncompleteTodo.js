@@ -45,15 +45,17 @@ const IncompleteTodo = ({ todo, projectId, toggleIsDone, username, deleteTodo,
         <>
              {!todo.done && (
              <>
-                 <div className={`white col s12 incomplete-todo ${isMobile ? '' : 'showElementOnHover'}`}
+                 <div className={`bg-default flex items-center justify-between gap-8 p-8 rounded-2xl ${isMobile ? '' : 'showElementOnHover'}`}
                       onClick={handleTodoDone}
                  >
-                     <p className="incomplete-todo__text">{todo.text}</p>
-                     <img
-                         src={todo.user?.profileImage?.imageUrl}
-                         alt=" "
-                         className="avatar "
-                     />
+                     <p className="w-9/12">{todo.text}</p>
+                     <div className="w-1/12">
+                         <img
+                             src={todo.user?.profileImage?.imageUrl}
+                             alt=" "
+                             className="w-60 rounded-full object-contain"
+                         />
+                     </div>
                      {username && (username === todo.user.username) && (
                          <>
                              <p className={`edit ${isMobile ? 'showEdit' : ''}`} onClick={handleEdit}>Edit</p>
@@ -66,8 +68,8 @@ const IncompleteTodo = ({ todo, projectId, toggleIsDone, username, deleteTodo,
                  </div>
 
                  {/*Sub Todo*/}
-                 {todo?.subTodos.length > 0 && todo.subTodos.map(subTodo => (
-                     <SubInCompleteTodoRow projectId={projectId} todoId={todo._id} subTodo={subTodo} key={subTodo._id}
+                 {todo?.subTodos?.length > 0 && todo?.subTodos?.map(subTodo => (
+                     <SubInCompleteTodoRow projectId={projectId} todoId={todo?._id} subTodo={subTodo} key={subTodo?._id}
                          handleClickOnEditSubTodo={handleClickOnEditSubTodo}
                      />
                  ))}

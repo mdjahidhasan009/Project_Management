@@ -21,7 +21,7 @@ const ProfileScreen = ({ match, loadedUser, getUserByUserName, auth: { user } })
         // eslint-disable-next-line
     }, [loadedUser]);
     return (
-        <section className="w-full bg-default min-h-screen px-12 py-20">
+        <section className="w-full bg-default min-h-screen p-8">
             <div className="bg-[#1f2937] text-white-light rounded-xl p-4 sm:p-6 lg:p-8 flex gap-8">
                 <div className="w-1/3">
                     <div
