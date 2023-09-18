@@ -33,7 +33,7 @@ const Discussions = ({ project, addDiscussion, editDiscussion, isMemberOfThisPro
         // eslint-disable-next-line
     }, []);
 
-    //initialization(set discussionText to '' and validation to false)
+    //initialization (set discussionText to '' and validation to false)
     const setAddDiscussionData = () => {
         setFormData(
             {
@@ -78,8 +78,6 @@ const Discussions = ({ project, addDiscussion, editDiscussion, isMemberOfThisPro
     const handleClickOnEdit = async (discussionId, discussionText) => {
         await initEditDiscussionData(discussionText);
         await setDiscussionId(discussionId);
-        document.getElementById("discussionEditText").value = discussionText;
-        initModalAndOpen('#edit-discussion-modal')
     }
 
     return (
@@ -109,7 +107,7 @@ const Discussions = ({ project, addDiscussion, editDiscussion, isMemberOfThisPro
                                         onInput={inputHandler}
                                     />
 
-                                    <div className="flex items-center justify-end gap-4">
+                                    <div className="flex items-center justify-end gap-4 mt-6">
                                         <button
                                             className="text-red-500 bg-[#1f2937] hover:bg-red-500 hover:text-white-light rounded-[4px] font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                             type="button"

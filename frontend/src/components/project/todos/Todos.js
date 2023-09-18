@@ -73,23 +73,22 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
         await initAddTodoData();
         await setAssignMember("");
         await prepareJuniorMemberList();
-        document.getElementById("todoText").value = "";
 
-        setShowAddToDoModal(false)
+        setShowAddToDoModal(false);
     }
 
     const handleOnClickEditTodo = async (todoId, todoText) => {
         await setEditTodoData(todoText);
         await setTodoId(todoId);
-        document.getElementById("todoEditText").value = todoText;
-        initModalAndOpen('#edit-todo-modal');
+
+        setShowEditToDoModal(true);
     }
 
     const editTodoHandler = async (event) => {
         await editTodo(project._id, todoId, formState.inputs.todoEditText.value, sendRequest);
         await initAddTodoData();
 
-        setShowEditToDoModal(false)
+        setShowEditToDoModal(false);
     }
 
     const initSubTodoData = async () => {
@@ -103,8 +102,8 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
             },
             false
         )
-        document.getElementById("subTodoText").value = "";
-        setAssignMember("");
+
+        setShowAddSubToDoModal(true);
     };
 
     const setEditSubTodoData = (subTodoText) => {
@@ -125,7 +124,7 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
         await addSubTodo(formState.inputs.subTodoText.value, projectId, todoId, sendRequest);
         await initAddTodoData();
 
-        setShowAddSubToDoModal(false)
+        setShowAddSubToDoModal(false);
     }
 
     const editSubTodoHandler = async (event) => {
@@ -133,31 +132,23 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
         await initAddTodoData();
         await initSubTodoData();
 
-        setShowEditSubToDoModal(false)
+        setShowEditSubToDoModal(true);
     }
 
     const handleOnClickEditSubTodo = async (todoId, subTodoId, subTodoText) => {
         await setEditSubTodoData(subTodoText);
         await setTodoId(todoId);
         await setSubTodoId(subTodoId);
-        document.getElementById("subTodoEditText").value = subTodoText;
-        initModalAndOpen("#edit-sub-todo-modal")
+
+        setShowEditSubToDoModal(true);
     }
 
     const handleOnClickAddSubTodo = async (todoId) => {
         await initSubTodoData();
         await setTodoId(todoId);
-        document.getElementById("subTodoText").value = '';
-        initModalAndOpen('#add-sub-todo-modal');
     }
 
     const prepareJuniorMemberList = () => {
-        const selectList = document.getElementById("member_list");
-
-        // Remove this line to remove Materialize CSS initialization
-        // M.FormSelect.init(selectList);
-
-        // Assuming you have a state variable selectOptions to manage the options
         const newSelectOptions = [];
 
         if (project?.members) {
@@ -170,7 +161,6 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
                 }
             });
 
-            // Update the state variable with the new options
             setSelectOptions(newSelectOptions);
         }
     };
@@ -241,8 +231,7 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
                                         ))}
                                     </select>
 
-
-                                    <div className="flex items-center justify-end gap-4">
+                                    <div className="flex items-center justify-end gap-4 mt-6">
                                         <button
                                             className="text-red-500 bg-[#1f2937] hover:bg-red-500 hover:text-white-light rounded-[4px] font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                             type="button"
@@ -293,7 +282,7 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
                                         onInput={inputHandler}
                                     />
 
-                                    <div className="flex items-center justify-end gap-4">
+                                    <div className="flex items-center justify-end gap-4 mt-6">
                                         <button
                                             className="text-red-500 bg-[#1f2937] hover:bg-red-500 hover:text-white-light rounded-[4px] font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                             type="button"
@@ -346,7 +335,7 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
                                         initialValidity={true}
                                     />
 
-                                    <div className="flex items-center justify-end gap-4">
+                                    <div className="flex items-center justify-end gap-4 mt-6">
                                         <button
                                             className="text-red-500 bg-[#1f2937] hover:bg-red-500 hover:text-white-light rounded-[4px] font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                             type="button"
@@ -399,7 +388,7 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
                                         initialValidity={true}
                                     />
 
-                                    <div className="flex items-center justify-end gap-4">
+                                    <div className="flex items-center justify-end gap-4 mt-6">
                                         <button
                                             className="text-red-500 bg-[#1f2937] hover:bg-red-500 hover:text-white-light rounded-[4px] font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                             type="button"
@@ -446,8 +435,8 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
                     <div className="flex flex-col gap-8">
                         {todos && todos?.map(todo => (
                             <IncompleteTodoRow key={todo._id} todo={todo} projectId={projectId}
-                                handleClickOnEdit={handleOnClickEditTodo}
                                 handleClickOnAddSubTodo={handleOnClickAddSubTodo}
+                                handleClickOnEdit={handleOnClickEditTodo}
                                 handleClickOnEditSubTodo={handleOnClickEditSubTodo}
                             />
                         ))

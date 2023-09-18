@@ -123,8 +123,8 @@ const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
                 <UploadImage profileImageUrl={profileImage} />
 
                 {user && (
-                    <div className="flex flex-col justify-evenly gap-5 w-1/2">
-                        <div className="flex items-center justify-between">
+                    <div className="flex flex-col justify-evenly gap-5 lg:w-4/6 md:5/6 w-full">
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
                             <h3>Full Name</h3>
 
                             <Input
@@ -134,13 +134,13 @@ const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
                                 type="text"
                                 validators={[VALIDATOR_MINLENGTH(5)]}
                                 errorText="Please enter at least 5 character."
-                                styleClass="w-96 h-12 rounded-[4px] p-4 pr-12 text-gray-700 text-sm shadow-sm"
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
                                 onInput={inputHandler}
                                 initialValue={user.name}
                                 initialValidity={true}
                             />
                         </div>
-                        <div className="flex items-center justify-between">
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
                             <h3>Username</h3>
 
                             <Input
@@ -150,13 +150,13 @@ const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
                                 type="text"
                                 validators={[VALIDATOR_MINLENGTH(5)]}
                                 errorText="Please enter at least 5 character."
-                                styleClass="w-96 h-12 rounded-[4px] p-4 pr-12 text-gray-700 text-sm shadow-sm"
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
                                 onInput={inputHandler}
                                 initialValue={user.username}
                                 initialValidity={true}
                             />
                         </div>
-                        <div className="flex items-center justify-between">
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
                             <h3>Email</h3>
 
                             <Input
@@ -166,13 +166,13 @@ const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
                                 type="email"
                                 validators={[VALIDATOR_EMAIL()]}
                                 errorText="Please enter an valid email."
-                                styleClass="w-96 h-12 rounded-[4px] p-4 pr-12 text-gray-700 text-sm shadow-sm"
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
                                 onInput={inputHandler}
                                 initialValue={user.email}
                                 initialValidity={true}
                             />
                         </div>
-                        <div className="flex items-center justify-between">
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
                             <h3>Role</h3>
 
                             <Input
@@ -182,13 +182,13 @@ const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
                                 type="select"
                                 validators={[VALIDATOR_REQUIRE()]}
                                 errorText="Please select type of role"
-                                styleClass="w-96 h-12 rounded-[4px] p-4 pr-12 text-gray-700 text-sm shadow-sm"
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
                                 onInput={inputHandler}
                                 initialValue={user.role}
                                 initialValidity={true}
                             />
                         </div>
-                        <div className="flex items-center justify-between">
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
                             <h3>Skills</h3>
 
                             <Input
@@ -198,13 +198,13 @@ const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
                                 type="text"
                                 validators={[VALIDATOR_MINLENGTH(2)]}
                                 errorText="Please enter at least 2 character."
-                                styleClass="w-96 h-12 rounded-[4px] p-4 pr-12 text-gray-700 text-sm shadow-sm"
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
                                 onInput={inputHandler}
                                 initialValue={user.skills}
                                 initialValidity={true}
                             />
                         </div>
-                        <div className="flex items-center justify-between">
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
                             <h3>Bio</h3>
 
                             <Input
@@ -220,7 +220,7 @@ const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
                                 initialValidity={true}
                             />
                         </div>
-                        <div className="flex items-center justify-between">
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
                             <h3>Github</h3>
 
                             <Input
@@ -230,13 +230,13 @@ const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
                                 type="text"
                                 validators={[VALIDATOR_LINK(user?.social?.github), VALIDATOR_NOT_REQUIRE()]}
                                 errorText="Please enter your github profile link"
-                                styleClass="w-96 h-12 rounded-[4px] p-4 pr-12 text-gray-700 text-sm shadow-sm"
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
                                 onInput={inputHandler}
                                 initialValue={user.social && user.social.github}
                                 initialValidity={true}
                             />
                         </div>
-                        <div className="flex items-center justify-between">
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
                             <h3>Twitter</h3>
 
                             <Input
@@ -246,13 +246,13 @@ const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
                                 type="text"
                                 validators={[VALIDATOR_LINK(user?.social?.twitter), VALIDATOR_NOT_REQUIRE()]}
                                 errorText="Please enter your github profile link"
-                                styleClass="w-96 h-12 rounded-[4px] p-4 pr-12 text-gray-700 text-sm shadow-sm"
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
                                 onInput={inputHandler}
                                 initialValue={user.social && user.social.twitter}
                                 initialValidity={true}
                             />
                         </div>
-                        <div className="flex items-center justify-between">
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
                             <h3>Stackoverflow</h3>
 
                             <Input
@@ -262,13 +262,13 @@ const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
                                 type="text"
                                 validators={[VALIDATOR_LINK(user?.social?.stackoverflow), VALIDATOR_NOT_REQUIRE()]}
                                 errorText="Please enter your stackoverflow profile link"
-                                styleClass="w-96 h-12 rounded-[4px] p-4 pr-12 text-gray-700 text-sm shadow-sm"
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
                                 onInput={inputHandler}
                                 initialValue={user.social && user.social.stackoverflow}
                                 initialValidity={true}
                             />
                         </div>
-                        <div className="flex items-center justify-between">
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
                             <h3>Facebook</h3>
 
                             <Input
@@ -278,13 +278,13 @@ const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
                                 type="text"
                                 validators={[VALIDATOR_LINK(user?.social?.facebook), VALIDATOR_NOT_REQUIRE()]}
                                 errorText="Please enter your facebook profile link"
-                                styleClass="w-96 h-12 rounded-[4px] p-4 pr-12 text-gray-700 text-sm shadow-sm"
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
                                 onInput={inputHandler}
                                 initialValue={user.social && user.social.facebook}
                                 initialValidity={true}
                             />
                         </div>
-                        <div className="flex items-center justify-between">
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
                             <h3>LinkedIn</h3>
 
                             <Input
@@ -294,13 +294,13 @@ const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
                                 type="text"
                                 validators={[VALIDATOR_LINK(user?.social?.linkedIn), VALIDATOR_NOT_REQUIRE()]}
                                 errorText="Please enter your linkedIn profile link"
-                                styleClass="w-96 h-12 rounded-[4px] p-4 pr-12 text-gray-700 text-sm shadow-sm"
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
                                 onInput={inputHandler}
                                 initialValue={user.social && user.social.linkedIn}
                                 initialValidity={true}
                             />
                         </div>
-                        <div className="flex items-center justify-between">
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
                             <h3>Instagram</h3>
 
                             <Input
@@ -310,13 +310,13 @@ const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
                                 type="text"
                                 validators={[VALIDATOR_LINK(user?.social?.instagram), VALIDATOR_NOT_REQUIRE()]}
                                 errorText="Please enter your instagram profile link"
-                                styleClass="w-96 h-12 rounded-[4px] p-4 pr-12 text-gray-700 text-sm shadow-sm"
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
                                 onInput={inputHandler}
                                 initialValue={user.social && user.social.instagram}
                                 initialValidity={true}
                             />
                         </div>
-                        <div className="flex items-center justify-between">
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
                             <h3>Youtube</h3>
 
                             <Input
@@ -326,13 +326,13 @@ const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
                                 type="text"
                                 validators={[VALIDATOR_LINK(user?.social?.youtube), VALIDATOR_NOT_REQUIRE()]}
                                 errorText="Please enter your youtube profile link"
-                                styleClass="w-96 h-12 rounded-[4px] p-4 pr-12 text-gray-700 text-sm shadow-sm"
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
                                 onInput={inputHandler}
                                 initialValue={user.social && user.social.youtube}
                                 initialValidity={true}
                             />
                         </div>
-                        <div className="flex items-center justify-between">
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
                             <h3>New Password</h3>
 
                             <Input
@@ -342,11 +342,11 @@ const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
                                 type="password"
                                 validators={[VALIDATOR_MINLENGTH(6)]}
                                 errorText="Please enter at least 6 character."
-                                styleClass="w-96 h-12 rounded-[4px] p-4 pr-12 text-gray-700 text-sm shadow-sm"
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
                                 onInput={inputHandler}
                             />
                         </div>
-                        <div className="flex items-center justify-between">
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
                             <h3>Confirm New Password</h3>
 
                             <Input
@@ -356,11 +356,11 @@ const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
                                 type="password"
                                 validators={[VALIDATOR_MINLENGTH(6)]}
                                 errorText="Please enter at least 6 character."
-                                styleClass="w-96 h-12 rounded-[4px] p-4 pr-12 text-gray-700 text-sm shadow-sm"
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
                                 onInput={inputHandler}
                             />
                         </div>
-                        <div className="flex items-center justify-between">
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
                             <h3>Current Password</h3>
 
                             <Input
@@ -370,30 +370,21 @@ const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
                                 type="password"
                                 validators={[VALIDATOR_MINLENGTH(6)]}
                                 errorText="Please enter current password."
-                                styleClass="w-96 h-12 rounded-[4px] p-4 pr-12 text-gray-700 text-sm shadow-sm"
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
                                 onInput={inputHandler}
                             />
                         </div>
-                        <button
-                            onClick={saveProfile}
-                            disabled={!formState.isValid}
-                            className="mt-14 flex items-center justify-between w-60 h-10 bg-[#1f2937] hover:bg-orange-500 text-white-light rounded-2xl px-4 py-2 uppercase"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="currentColor"
-                                className="w-5 h-5"
-                                viewBox="0 0 16 16"
+                        <div className="flex justify-end mt-8">
+                            <button
+                                onClick={saveProfile}
+                                disabled={!formState.isValid}
+                                className="flex items-center justify-center w-48 h-10 bg-[#1f2937] hover:bg-orange-500 font-semibold text-white-light rounded-[4px] px-4 py-2"
                             >
-                                <path
-                                    d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
-                                />
-                            </svg>
-
-                            {loading && <i className="fas fa-spinner fa-pulse" />}
-                            {loading && ' Saving Profile Details'}
-                            {!loading && 'Save Profile Details'}
-                        </button>
+                                {loading && <i className="fas fa-spinner fa-pulse" />}
+                                {loading && ' Saving Profile Details'}
+                                {!loading && 'Save Profile Details'}
+                            </button>
+                        </div>
                         </div>
                 )}
               </div>

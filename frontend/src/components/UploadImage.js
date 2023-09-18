@@ -49,11 +49,13 @@ const UploadImage = ({ uploadProfileImage, profileImageUrl }) => {
         <div className="flex flex-col items-start gap-16">
             {/* Profile Image */}
             {!previewSource && (
-                <img
-                    className="h-96 object-contain rounded-full "
-                    src={profileImageUrl}
-                    alt="Add Profile Image"
-                />
+                <div className="lg:w-3/12 md:w-3/12 w-full flex lg:justify-start md:justify-start justify-center">
+                    <img
+                        src={profileImageUrl}
+                        alt="Add Profile Image"
+                        className="w-60 h-full rounded-full object-cover"
+                    />
+                </div>
             )}
 
             {/* ProfileScreen Image */}

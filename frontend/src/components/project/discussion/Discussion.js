@@ -33,12 +33,24 @@ const Discussion = ({ discussion, username, handleClickOnEdit, projectId, delete
                 />
             </div>
             <div className="group lg:w-10/12 md:w-9/12 w-full">
-                <p className="text-justify">{discussion.text}</p>
+                <p className="text-justify">{discussion?.text}</p>
                 <div className="lg:mt-6 md:mt-4 mt-2 flex lg:flex-row md:flex-row flex-col-reverse items-center justify-between gap-4">
-                    {username && (username === discussion.user.username) && (
+                    {username && (username === discussion?.user?.username) && (
                         <div className="flex items-center gap-4">
-                            <button id='edit' className={`w-20 h-8 bg-[#1f2937] hover:bg-orange-500 text-white-light font-semibold rounded-2xl edit ${isMobile ? 'showEdit' : ''}`} onClick={handleEditClick}>Edit</button>
-                            <button id='delete' className={`w-20 h-8 bg-red-400 hover:bg-red-500 text-white-light font-semibold rounded-2xl ${isMobile ? 'showDelete' : ''}`} onClick={handleDeleteClick}>Delete</button>
+                            <button
+                                id='edit'
+                                className="w-20 h-8 bg-[#1f2937] hover:bg-orange-500 text-white-light font-semibold rounded-2xl"
+                                onClick={handleEditClick}
+                            >
+                                Edit
+                            </button>
+                            <button
+                                id='delete'
+                                className="w-20 h-8 bg-red-400 hover:bg-red-500 text-white-light font-semibold rounded-2xl"
+                                onClick={handleDeleteClick}
+                            >
+                                Delete
+                            </button>
                         </div>
                     )}
 
