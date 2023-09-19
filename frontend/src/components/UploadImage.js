@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 
 import { uploadProfileImage } from '../actions/user-action';
 import { useHttpClient } from "../hooks/http-hook";
-import M from "materialize-css";
+// import M from "materialize-css";
 
 const UploadImage = ({ uploadProfileImage, profileImageUrl }) => {
     const history = useHistory();
@@ -28,7 +28,8 @@ const UploadImage = ({ uploadProfileImage, profileImageUrl }) => {
             setPreviewSource(reader.result);
         };
         reader.onerror = () => {
-            M.toast({html: 'Image upload failed, Please try again', classes: 'red'});
+            //TODO: HAVE TO FIX
+            // M.toast({html: 'Image upload failed, Please try again', classes: 'red'});
         };
     };
 

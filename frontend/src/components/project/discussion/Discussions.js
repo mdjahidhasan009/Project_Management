@@ -8,7 +8,7 @@ import { addDiscussion, editDiscussion } from "../../../actions/project-action";
 import DiscussionRow from "./Discussion";
 import Input from "../../shared/FormElements/Input";
 import {VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE} from "../../../utils/validators";
-import {initAllModal, initModalAndOpen} from "../../../utils/helper";
+// import {initAllModal, initModalAndOpen} from "../../../utils/helper";
 
 const Discussions = ({ project, addDiscussion, editDiscussion, isMemberOfThisProject, isCreatedByUser }) => {
     const { sendRequest } = useHttpClient();
@@ -29,7 +29,7 @@ const Discussions = ({ project, addDiscussion, editDiscussion, isMemberOfThisPro
     );
 
     useEffect(() => {
-        initAllModal();
+        // initAllModal();
         // eslint-disable-next-line
     }, []);
 

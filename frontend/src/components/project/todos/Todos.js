@@ -9,8 +9,8 @@ import { VALIDATOR_REQUIRE } from "../../../utils/validators";
 import Input from "../../shared/FormElements/Input";
 import IncompleteTodoRow from "./IncompleteTodo";
 import CompletedTodoRow from "./CompletedTodo";
-import M from "materialize-css";
-import { initAllModal, initModalAndOpen } from "../../../utils/helper";
+// import M from "materialize-css";
+// import { initAllModal, initModalAndOpen } from "../../../utils/helper";
 
 const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo, editSubTodo, isMemberOfThisProject, isCreatedByUser, isAuthenticated, currentUser }) => {
     const { sendRequest } = useHttpClient();
@@ -185,7 +185,7 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
         //which cause always false for overall form validation at start
         prepareJuniorMemberList();
         initAddTodoData();
-        initAllModal();
+        // initAllModal();
         // eslint-disable-next-line
     }, [project?.members, currentUser])
 

@@ -14,7 +14,7 @@ import {
   VALIDATOR_NOT_REQUIRE,
   VALIDATOR_LINK
 } from "../utils/validators";
-import M from 'materialize-css';
+// import M from 'materialize-css';
 
 const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
   const history = useHistory();
@@ -25,7 +25,7 @@ const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
 
   useEffect(  () => {
     let elems = document.querySelectorAll('select');
-    M.FormSelect.init(elems);
+    // M.FormSelect.init(elems);
     if(user) {
       setFormData(
           {
@@ -105,7 +105,8 @@ const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
 
   const saveProfile = async () => {
     if(formState.inputs.newPassword.value !== formState.inputs.confirmNewPassword.value) {
-      M.toast({ html: 'Confirm password and Confirm new password have to be same', classes: 'red' });
+      //TODO: HAVE TO FIX
+      // M.toast({ html: 'Confirm password and Confirm new password have to be same', classes: 'red' });
     } else {
       setIsLoading(true);
       await updateUser(formState, sendRequest);

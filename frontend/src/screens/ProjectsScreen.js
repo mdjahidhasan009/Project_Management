@@ -8,7 +8,7 @@ import { addProject, getAllProjects } from "../actions/projects-action";
 import { VALIDATOR_REQUIRE } from "../utils/validators";
 import Input from "../components/shared/FormElements/Input";
 import ProjectItem from "../components/ProjectCard.js";
-import { initAllModal } from "../utils/helper";
+// import { initAllModal } from "../utils/helper";
 
 const ProjectsScreen = ({ addProject, getAllProjects, projects }) => {
     const { sendRequest } = useHttpClient();
@@ -19,7 +19,7 @@ const ProjectsScreen = ({ addProject, getAllProjects, projects }) => {
 
     useEffect( () => {
         getAllProjects(sendRequest);
-        initAllModal();
+        // initAllModal();
         // eslint-disable-next-line
     }, []);
 

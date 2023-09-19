@@ -6,7 +6,7 @@ import { useHttpClient } from "../../../hooks/http-hook";
 import { useForm } from "../../../hooks/form-hook";
 import { addBug, editBug } from "../../../actions/project-action";
 import { VALIDATOR_REQUIRE } from "../../../utils/validators";
-import { initAllModal } from "../../../utils/helper";
+// import { initAllModal } from "../../../utils/helper";
 import Input from "../../shared/FormElements/Input";
 import NotFixedBugRow from "./NotFixedBug";
 import FixedBugRow from "./FixedBug";
@@ -99,7 +99,7 @@ const Bugs = ({ project, bugs, addBug, editBug, isMemberOfThisProject, isCreated
     }, [bugs]);
 
     useEffect( () => {
-        initAllModal();
+        // initAllModal();
         // eslint-disable-next-line
     }, []);
 

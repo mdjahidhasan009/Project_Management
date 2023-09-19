@@ -2,7 +2,7 @@ import {
     ALL_USER_LOADED,         AUTH_ERROR,             LOGIN_SUCCESS,               LOGOUT,              REGISTER_SUCCESS,
     USER_LOADED,             LOADED_SELECTED_USER
 } from './types'
-import M from "materialize-css";
+// import M from "materialize-css";
 
 //Load user form token
 export const loadUser = (method) => async dispatch => {
@@ -100,7 +100,8 @@ export const updateUser = (formState, method) => async dispatch => {
                 type: USER_LOADED,
                 payload: responseData
             })
-            M.toast({ html: 'User Details Updated', classes: 'green' });
+            ////TODO: Have to fix
+            // M.toast({ html: 'User Details Updated', classes: 'green' });
         }
     } catch (error) {
         console.error(error);

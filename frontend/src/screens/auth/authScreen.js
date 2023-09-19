@@ -14,7 +14,7 @@ import {
     VALIDATOR_REQUIRE
 } from "../../utils/validators";
 import '../../assets/stylesheets/authScreen.css';
-import M from "materialize-css";
+// import M from "materialize-css";
 
 const AuthScreen = ({ login, register , isAuthenticated , loadUser, user, token }) => {
     const [ isLoginMode, setIsLoginMode ] = useState(true);
@@ -96,7 +96,8 @@ const AuthScreen = ({ login, register , isAuthenticated , loadUser, user, token 
         } else {
             try {
                 if(formState.inputs.password.value !== formState.inputs.confirmPassword.value) {
-                    M.toast({html: 'Confirm password and Confirm new password have to be same', classes: 'red'});
+                    //TODO: HAVE TO FIX
+                    // M.toast({html: 'Confirm password and Confirm new password have to be same', classes: 'red'});
                 } else {
                     try {
                         await register(formState.inputs.name.value, formState.inputs.username.value,
