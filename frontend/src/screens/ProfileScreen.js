@@ -4,6 +4,7 @@ import { getUserByUserName } from "../actions/auth-action";
 import { useHttpClient } from "../hooks/http-hook";
 import { getUserRoleString } from "../utils/helper";
 import defaultUserImage from "../assets/images/default_user.jpg";
+import {Link} from "react-router-dom";
 
 const ProfileScreen = ({ match, loadedUser, getUserByUserName, auth: { user } }) => {
     const { sendRequest } = useHttpClient();
@@ -44,7 +45,12 @@ const ProfileScreen = ({ match, loadedUser, getUserByUserName, auth: { user } })
                     </strong>
 
                     <h3 className="mt-4 text-lg font-medium sm:text-xl">
-                        <a href="/edit-profile" className="hover:underline"> {loadedUser?.name ? loadedUser?.name : 'Name not found!'} </a>
+                        <Link
+                            to="/edit-profile"
+                            className="hover:underline"
+                        >
+                            {loadedUser?.name ? loadedUser?.name : 'Name not found!'}
+                        </Link>
                     </h3>
 
                     <p className="mt-1 text-sm text-white-light">

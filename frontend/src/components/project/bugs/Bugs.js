@@ -213,7 +213,7 @@ const Bugs = ({ project, bugs, addBug, editBug, isMemberOfThisProject, isCreated
                             className="flex items-center justify-center gap-4 w-52 h-10 bg-default hover:bg-orange-500 text-white-light rounded-2xl px-4 py-2"
                         >
                             <i className="fas fa-plus-circle" />
-                            ADD TODO
+                            ADD BUG
                         </button>
                     )}
 

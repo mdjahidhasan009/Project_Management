@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import { useHttpClient } from "../../../hooks/http-hook";
 import { deleteDiscussion } from "../../../actions/project-action";
+import {Link} from "react-router-dom";
 
 const Discussion = ({ discussion, username, handleClickOnEdit, projectId, deleteDiscussion }) => {
     const { sendRequest } = useHttpClient();
@@ -55,7 +56,12 @@ const Discussion = ({ discussion, username, handleClickOnEdit, projectId, delete
                     )}
 
                     <span>
-                        - <a className="text-orange-400 hover:text-orange-500" href={`/member/${discussion.user.username}`}> {discussion.user.username}</a>
+                        - <Link
+                            to={`/member/${discussion.user.username}`}
+                            className="text-orange-400 hover:text-orange-500"
+                        >
+                        {discussion.user.username}
+                    </Link>
                     </span>
                 </div>
             </div>
