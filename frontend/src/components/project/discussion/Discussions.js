@@ -78,6 +78,8 @@ const Discussions = ({ project, addDiscussion, editDiscussion, isMemberOfThisPro
     const handleClickOnEdit = async (discussionId, discussionText) => {
         await initEditDiscussionData(discussionText);
         await setDiscussionId(discussionId);
+
+        setShowEditDiscussionModal(true);
     }
 
     return (

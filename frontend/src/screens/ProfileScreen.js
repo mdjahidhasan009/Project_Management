@@ -102,42 +102,42 @@ const ProfileScreen = ({ match, loadedUser, getUserByUserName, auth: { user } })
                     <dl className="mt-6 flex gap-4 sm:gap-6">
                         {user && user?.social && user?.social?.linkedIn && (
                             <a href={user?.social?.linkedIn} target="_blank" rel="noopener noreferrer">
-                                <i className="fab fa-linkedin fa-2x" />
+                                <i className="fab fa-linkedin lg:text-3xl md:text-2xl text-xl" />
                             </a>
                         )}
                         {user && user?.email && (
                             <a href={'mailto:' + user?.email}>
-                                <i className="fas fa-envelope fa-2x" />
+                                <i className="fas fa-envelope lg:text-3xl md:text-2xl text-xl" />
                             </a>
                         )}
                         {user && user?.social && user?.social?.github && (
                             <a href={user?.social?.github} target="_blank" rel="noopener noreferrer">
-                                <i className="fab fa-github fa-2x" />
+                                <i className="fab fa-github lg:text-3xl md:text-2xl text-xl" />
                             </a>
                         )}
                         {user && user?.social && user?.social?.stackoverflow && (
                             <a href={user?.social?.stackoverflow} target="_blank" rel="noopener noreferrer">
-                                <i className="fab fa-stack-overflow fa-2x" />
+                                <i className="fab fa-stack-overflow lg:text-3xl md:text-2xl text-xl" />
                             </a>
                         )}
                         {user && user?.social && user?.social?.twitter && (
                             <a href={user?.social?.twitter} target="_blank" rel="noopener noreferrer">
-                                <i className="fab fa-twitter fa-2x" />
+                                <i className="fab fa-twitter lg:text-3xl md:text-2xl text-xl" />
                             </a>
                         )}
                         {user && user?.social && user?.social?.facebook && (
                             <a href={user?.social?.facebook} target="_blank" rel="noopener noreferrer">
-                                <i className="fab fa-facebook fa-2x"/>
+                                <i className="fab fa-facebook lg:text-3xl md:text-2xl text-xl"/>
                             </a>
                         )}
                         {user && user?.social && user?.social?.youtube && (
                             <a href={user?.social?.youtube} target="_blank" rel="noopener noreferrer">
-                                <i className="fab fa-youtube fa-2x" />
+                                <i className="fab fa-youtube lg:text-3xl md:text-2xl text-xl" />
                             </a>
                         )}
                         {user && user?.social && user?.social?.instagram && (
                             <a href={user?.social?.instagram} target="_blank" rel="noopener noreferrer">
-                                <i className="fab fa-instagram fa-2x" />
+                                <i className="fab fa-instagram lg:text-3xl md:text-2xl text-xl" />
                             </a>
                         )}
                     </dl>

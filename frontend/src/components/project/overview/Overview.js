@@ -127,23 +127,31 @@ const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThis
                                 : "col s12 m12 l12 chart w-10/12"
                         }
                         >
+                            <ChartItem chartData={chartData} />
 
                             {/*Mark as done or not done button*/}
                             {isCreatedByUser && (
-                                <>
-                                    <button className="overview__project-done green accent-4 add-btn" onClick={handleIsDoneClick}>Mark Project as
+                                <div className="flex items-center justify-center gap-4 mt-8">
+                                    <button
+                                        className="w-48 h-10 rounded-[4px] bg-default hover:bg-orange-500 flex items-center justify-center gap-4"
+                                        onClick={handleIsDoneClick}
+                                    >
+                                        Mark Project as
                                         {project?.isDone
                                             ? ' Not Done'
                                             : ' Done'
                                         }
                                     </button>
 
-                                    <button className="overview__project-delete red lighten-1 add-btn" onClick={handleProjectDelete}
-                                    >Delete Project</button>
-                                </>
+                                    <button
+                                        className="w-48 h-10 rounded-[4px] bg-default hover:bg-red-500 flex items-center justify-center gap-4"
+                                        onClick={handleProjectDelete}
+                                    >
+                                        Delete Project
+                                    </button>
+                                </div>
                             )}
                             {/*Todo done and bug fixed summary chart*/}
-                            <ChartItem chartData={chartData} />
                         </div>
 
 
