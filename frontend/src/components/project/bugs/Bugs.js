@@ -6,7 +6,7 @@ import { useHttpClient } from "../../../hooks/http-hook";
 import { useForm } from "../../../hooks/form-hook";
 import { addBug, editBug } from "../../../actions/project-action";
 import { VALIDATOR_REQUIRE } from "../../../utils/validators";
-import { initAllModal, initModalAndOpen } from "../../../utils/helper";
+import { initAllModal } from "../../../utils/helper";
 import Input from "../../shared/FormElements/Input";
 import NotFixedBugRow from "./NotFixedBug";
 import FixedBugRow from "./FixedBug";
@@ -46,17 +46,21 @@ const Bugs = ({ project, bugs, addBug, editBug, isMemberOfThisProject, isCreated
     }
 
     const addBugHandler = async (event) => {
+        event.preventDefault();
+
         await addBug(formState.inputs.bugText.value, projectId, sendRequest);
         await setAddBugData();
 
-        setShowAddNewBugModal(false)
+        setShowAddNewBugModal(false);
     }
 
     const editBugHandler = async (event) => {
+        event.preventDefault();
+
         await editBug(project._id, bugId, formState.inputs.bugEditText.value, sendRequest);
         await setAddBugData();
 
-        setShowEditBugModal(false)
+        setShowEditBugModal(false);
     }
 
     const setEditBugData = async (bugText) => {
