@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -13,7 +13,7 @@ import {
     VALIDATOR_MINLENGTH,
     VALIDATOR_REQUIRE
 } from "../../utils/validators";
-import '../stylesheets/authScreen.css';
+import '../../assets/stylesheets/authScreen.css';
 import M from "materialize-css";
 
 const AuthScreen = ({ login, register , isAuthenticated , loadUser, user, token }) => {
@@ -180,10 +180,10 @@ const AuthScreen = ({ login, register , isAuthenticated , loadUser, user, token 
                             {isLoginMode && (
                                 <div className="form-container sign-in-container">
                                     <form onSubmit={authSubmitHandler}>
-                                        <h3>Sign in</h3>
+                                        <h3 className="font-bold underline"> Sign in </h3>
                                         {emailInput}
                                         {passwordInput}
-                                        <a href="#">Forgot your password?</a>
+                                        <Link to="/auth/forgot-password">Forgot your password?</Link>
                                         <button disabled={!formState.isValid}>Sign In</button>
                                     </form>
                                 </div>
@@ -260,7 +260,7 @@ const AuthScreen = ({ login, register , isAuthenticated , loadUser, user, token 
                                             <h3>Sign in</h3>
                                             {emailInput}
                                             {passwordInput}
-                                            <a href="#">Forgot your password?</a>
+                                            <Link to="/auth/forgot-password">Forgot your password?</Link>
                                             <button disabled={!formState.isValid}>Sign In</button>
                                             <button id="switchButtonForMobile"
                                                     onClick={() => switchModeHandler()}>

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { useHttpClient } from "../../../hooks/http-hook";
 import { deleteDiscussion } from "../../../actions/project-action";
-import './Discussion.css';
+import {Link} from "react-router-dom";
 
 const Discussion = ({ discussion, username, handleClickOnEdit, projectId, deleteDiscussion }) => {
     const { sendRequest } = useHttpClient();
@@ -25,25 +25,45 @@ const Discussion = ({ discussion, username, handleClickOnEdit, projectId, delete
     }, [])
 
     return (
-        <div className={`row white discussion-row ${isMobile ? '' : 'showElementOnHover'}`} id="discussion-row">
-            <div className="col s1 discussion-row__image">
+        <div className={`bg-default flex lg:flex-row md:flex-row flex-col items-center justify-between lg:gap-8 md:gap-6 gap-4 lg:p-8 md:p-6 p-4 lg:rounded-2xl md:rounded-xl rounded-lg cursor-pointer ${isMobile ? '' : 'showElementOnHover'}`} id="discussion-row">
+            <div className="lg:w-2/12 md:w-3/12 w-full flex lg:justify-start md:justify-start justify-center">
                 <img
                     src={discussion?.user?.profileImage?.imageUrl}
                     alt=" "
-                    className="avatar "
+                    className="w-40 h-32 rounded-full object-cover"
                 />
             </div>
-            <div className="col s11 discussion-row__text">
-                <p>{discussion.text}</p>
-                <p>by
-                    <a href={`/member/${discussion.user.username}`}> {discussion.user.username}</a>
-                    {username && (username === discussion.user.username) && (
-                        <>
-                            <span id='edit' className={`edit ${isMobile ? 'showEdit' : ''}`} onClick={handleEditClick}>Edit</span>
-                            <span id='delete' className={`delete ${isMobile ? 'showDelete' : ''}`} onClick={handleDeleteClick}>Delete</span>
-                        </>
+            <div className="group lg:w-10/12 md:w-9/12 w-full">
+                <p className="text-justify">{discussion?.text}</p>
+                <div className="lg:mt-6 md:mt-4 mt-2 flex lg:flex-row md:flex-row flex-col-reverse items-center justify-between gap-4">
+                    {username && (username === discussion?.user?.username) && (
+                        <div className="flex items-center gap-4">
+                            <button
+                                id='edit'
+                                className="w-20 h-8 bg-[#1f2937] hover:bg-orange-500 text-white-light font-semibold rounded-2xl"
+                                onClick={handleEditClick}
+                            >
+                                Edit
+                            </button>
+                            <button
+                                id='delete'
+                                className="w-20 h-8 bg-red-400 hover:bg-red-500 text-white-light font-semibold rounded-2xl"
+                                onClick={handleDeleteClick}
+                            >
+                                Delete
+                            </button>
+                        </div>
                     )}
-                </p>
+
+                    <span>
+                        - <Link
+                            to={`/member/${discussion.user.username}`}
+                            className="text-orange-400 hover:text-orange-500"
+                        >
+                        {discussion.user.username}
+                    </Link>
+                    </span>
+                </div>
             </div>
         </div>
     )

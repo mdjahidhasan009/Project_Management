@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import { logout } from "../../../actions/auth-action";
-import M from "materialize-css";
-import "./nav.css";
 
-const Navbar = ({ auth: { isAuthenticated, user }, logout, history }) => {
+const Navbar = ({ auth: { isAuthenticated, user }, logout, history, children }) => {
     const [ profileImage, setProfileImage ] = useState("");
     const [ currentPath, setCurrentPath ] = useState("");
     const location = useLocation();
+    const activeClass = "bg-orange-500 h-10 p-4 rounded-[4px] flex items-center justify-start"
+    const normalClass = "hover:bg-orange-500 cursor-pointer w-full h-10 p-4 rounded-[4px] flex items-center justify-start"
 
     useEffect(() => {
         if(user?.profileImage?.imageUrl) {
             setProfileImage(user.profileImage.imageUrl);
         }
         let elems = document.querySelectorAll('.sidenav');
-        M.Sidenav.init(elems);
     }, [user]);
 
     useEffect(() => {
@@ -25,83 +24,81 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout, history }) => {
     }, [location]);
 
 
-
     const handleLogout = async () => {
         setProfileImage('');
         await logout();
     }
 
-    //NavLink for user at sidebar
+    //Link for user at sidebar
     const authSidebarLinks = (
         <li>
-            <NavLink className="waves-effect" to="#" onClick={handleLogout}
-            >
+            <Link className={normalClass} to="/" onClick={handleLogout}>
                 Logout
-            </NavLink>
+            </Link>
         </li>
     )
 
     const guestSidebarLinks = (
-        <React.Fragment>
-            <li><NavLink className="waves-effect authentication" to="/">Sign In / Up</NavLink></li>
-        </React.Fragment>
+        <li>
+            <Link className={normalClass} to="/">Sign In / Up</Link>
+        </li>
     )
 
     return (
-        <section>
+        <section className="bg-[#1f2937]">
             {/*Top Navbar*/}
-            <div className="navbar-fixed">
-                <nav className="light-blue" role="navigation">
-                    <div className="nav-wrapper">
-                        <NavLink id="logo-container" to="/" className="brand-logo">Project Tracker</NavLink>
-                        <NavLink to="#" data-target="slide-out" className="sidenav-trigger">
-                            <i className="material-icons">menu</i>
-                        </NavLink>
-                    </div>
-                </nav>
+            <div className="navbar-fixed h-14 flex items-center pl-8 text-2xl font-semibold text-white-light">
+                <Link to="/" className="brand-logo uppercase"><span className="text-orange-500">Project</span> Tracker</Link>
             </div>
 
-            {/* Side Navbar */}
-            <ul className="sidenav sidenav-fixed" id="slide-out">
-                <li>
-                    <div className="user-view light-blue lighten-2">
-                        <NavLink to="/profile">
-                            <img className="image_navbar" src={profileImage}/>
-                        </NavLink>
-                        <NavLink to="/profile">
-                            <span className="black-text name">{user ? user.name : 'Login First'}</span>
-                        </NavLink>
-                        <NavLink to="/profile">
-                            <span className="black-text name">{user ? user.username : ''}</span>
-                        </NavLink>
-                        <NavLink to="/profile">
-                            <span className="black-text email">{user ? user.email : ''}</span>
-                        </NavLink>
-                    </div>
-                </li>
-                {isAuthenticated && (
+            <div className="flex">
+                {/* Side Navbar */}
+                <ul className="bg-[#1f2937] text-white-light text-lg min-h-screen px-4 py-14" id="slide-out">
                     <>
-                        <li className={currentPath === "/dashboard" ? "active" : ""}>
-                            <NavLink to="/dashboard">Dashboard</NavLink>
-                        </li>
-                        <li className={currentPath === "/edit-profile" ? "active" : ""}>
-                            <NavLink to="/edit-profile">Edit Profile</NavLink>
-                        </li>
-                        <li className={currentPath === "/profile" ? "active" : ""}>
-                            <NavLink to="/profile">Profile</NavLink>
-                        </li>
-                        <li className={currentPath === "/members" ? "active" : ""}>
-                            <NavLink to="/members">Members</NavLink>
-                        </li>
-                        <li className={currentPath === "/projects" ? "active" : ""}>
-                            <NavLink to="/projects">Projects</NavLink>
-                        </li>
-                        <li>
-                            <div className="divider"/></li>
+                        {user && (
+                            <>
+                                <li
+                                    className="w-full flex lg:justify-start md:justify-start justify-center mb-6 p-4"
+                                >
+                                    <img
+                                        className="w-60 h-full rounded-full object-cover"
+                                        src={profileImage}
+                                        alt={user.name + '\s profile picture'}
+                                    />
+                                </li>
+                                <li className="px-4 text-xl text-orange-500"> <Link to="/profile"> {user ? user.name : 'Login First'} </Link> </li>
+                                <li className="px-4 my-2 text-sm"> <Link to="/profile"> {user ? user.username : ''} </Link> </li>
+                                <li className="mb-8 px-4 text-sm"> <Link to="/profile"> {user ? user.email : ''} </Link> </li>
+                            </>
+                        )}
                     </>
-                )}
-                {isAuthenticated ? authSidebarLinks : guestSidebarLinks }
-            </ul>
+                    {isAuthenticated && (
+                        <>
+                            <li className={currentPath === "/dashboard" ? activeClass : normalClass}>
+                                <Link to="/dashboard">Dashboard</Link>
+                            </li>
+                            <li className={currentPath === "/edit-profile" ? activeClass : normalClass}>
+                                <Link to="/edit-profile">Edit Profile</Link>
+                            </li>
+                            <li className={currentPath === "/profile" ? activeClass : normalClass}>
+                                <Link to="/profile">Profile</Link>
+                            </li>
+                            <li className={currentPath === "/members" ? activeClass : normalClass}>
+                                <Link to="/members">Members</Link>
+                            </li>
+                            <li className={currentPath === "/projects" ? activeClass : normalClass}>
+                                <Link to="/projects">Projects</Link>
+                            </li>
+                            <li>
+                                <div className="divider"/>
+                            </li>
+                        </>
+                    )}
+                    {isAuthenticated ? authSidebarLinks : guestSidebarLinks }
+                </ul>
+
+                {children}
+            </div>
         </section>
     );
 };

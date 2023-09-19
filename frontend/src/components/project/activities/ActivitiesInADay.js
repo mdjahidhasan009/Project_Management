@@ -9,17 +9,19 @@ const ActivitiesInADay = ({ activity }) => {
     const year = new Date(activity[0].time).getFullYear();
 
     return (
-        <div className="row activity">
+        <div className="bg-default flex items-start justify-between gap-4 p-8 rounded-2xl">
             {/*Date section*/}
-            <div className="col s12 m1 l1 time_section white">
-                <p className="date">{day}</p>
-                <p className="month">{month}</p>
-                <p className="year">{year}</p>
+            <div className="flex flex-col items-center justify-center gap-4 bg-[#1f2937] w-40 p-4 rounded-[4px]">
+                <p className="text-3xl text-orange-500 font-bold">{day}</p>
+                <p className="text-2xl font-semibold">{month}</p>
+                <p className="text-2xl font-semibold">{year}</p>
             </div>
             {/*Activity of current date*/}
-            {activity.map((activityDetail, index) => (
-                <ActivityDetails key={index} activityDetail={activityDetail} />
-            ))}
+            <div className="flex flex-col gap-4 w-10/12">
+                {activity.map((activityDetail, index) => (
+                    <ActivityDetails key={index} activityDetail={activityDetail} />
+                ))}
+            </div>
         </div>
     )
 }

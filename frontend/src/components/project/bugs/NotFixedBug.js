@@ -36,24 +36,46 @@ const NotFixedBug = ({username, bug, projectId, toggleIsFixed, deleteBug, handle
     return (
         <>
             {!bug.fixed && (
-                <div className={`white col s12 not-fixed-bug ${isMobile ? '' : 'showElementOnHover'}`} onClick={handleIsFixed}>
-                    <p className="not-fixed-bug__text">{bug.text}</p>
-                    <img
-                        src = {
-                            bug.user?.profileImage?.imageUrl === undefined
-                                ? noImage
-                                : bug.user?.profileImage?.imageUrl
-                        }
-                        alt=" "
-                        className="avatar"
-                    />
-                    {/*If current user add this bug then edit and delete will be appears while hover*/}
-                    {username && (username === bug.user.username) && (
-                        <>
-                            <p id='edit' className={`edit ${isMobile ? 'showEdit' : ''}`} onClick={handleEditClick}>Edit</p>
-                            <p id='delete' className={`delete ${isMobile ? 'showDelete' : ''}`} onClick={handleDeleteClick}>Delete</p>
-                        </>
-                    )}
+                <div
+                    onClick={handleIsFixed}
+                    className={`bg-default flex lg:flex-row md:flex-row flex-col items-center justify-between lg:gap-8 md:gap-6 gap-4 lg:p-8 md:p-6 p-4 lg:rounded-2xl md:rounded-xl rounded-lg cursor-pointer ${isMobile ? '' : 'showElementOnHover'}`}
+                    id="discussion-row"
+                >
+                    <div className="lg:w-2/12 md:w-3/12 w-full flex lg:justify-start md:justify-start justify-center">
+                        <img
+                            src = {
+                                bug?.user?.profileImage?.imageUrl === undefined
+                                    ? noImage
+                                    : bug?.user?.profileImage?.imageUrl
+                            }
+                            alt=" "
+                            className="w-40 h-32 rounded-full object-cover"
+                        />
+                    </div>
+                    <div className="group lg:w-10/12 md:w-9/12 w-full">
+                        <p className="text-justify">{bug?.text}</p>
+                        <div className="lg:mt-6 md:mt-4 mt-2 flex lg:flex-row md:flex-row flex-col-reverse items-center justify-between gap-4">
+                            {/*If current user add this bug then edit and delete will be appears while hover*/}
+                            {username && (username === bug?.user?.username) && (
+                                <div className="flex items-center gap-4">
+                                    <button
+                                        id='edit'
+                                        className="w-20 h-8 bg-[#1f2937] hover:bg-orange-500 text-white-light font-semibold rounded-2xl"
+                                        onClick={handleEditClick}
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        id='delete'
+                                        className="w-20 h-8 bg-red-400 hover:bg-red-500 text-white-light font-semibold rounded-2xl"
+                                        onClick={handleDeleteClick}
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
             )}
         </>

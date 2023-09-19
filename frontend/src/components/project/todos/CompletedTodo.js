@@ -8,34 +8,31 @@ const CompletedTodo = ({ todo, projectId, toggleIsDone }) => {
     const { sendRequest } = useHttpClient();
 
     const handleToggleIsDone = () => {
-        toggleIsDone(projectId, todo._id, 'false', sendRequest);
+        toggleIsDone(projectId, todo?._id, 'false', sendRequest);
     }
     return (
         <>
-             {todo.done && (
+             {todo?.done && (
              <>
-                 <div className="white col s12 completed-todo" onClick={handleToggleIsDone}>
-                         <p className="completed-todo__text">{todo.text}</p>
+                 <div className="bg-default flex items-center justify-between gap-8 p-8 rounded-2xl cursor-pointer" onClick={handleToggleIsDone}>
+                     <p className="w-9/12">{todo?.text}</p>
+                     <div className="lg:w-2/12 md:w-3/12 w-full flex lg:justify-start md:justify-start justify-center">
                          <img
-                             src={todo.user?.profileImage?.imageUrl}
-                             alt=" "
-                            className="avatar "
+                             src={todo?.user?.profileImage?.imageUrl}
+                             alt=""
+                             className="w-40 h-32 rounded-full object-cover"
                          />
+                     </div>
                  </div>
 
-                 {todo?.subTodos.length > 0 && todo.subTodos.map(subTodo => (
-                     <div className="subTodo" key={subTodo._id}>
-                         <div className={`white subTodo col s12 completed-todo`}>
-                             {/*<p className="incomplete-todo__text">{subTodo.text}</p>*/}
-                             <p className={subTodo.done
-                                 ? "completed-todo__text" : "incomplete-todo__text"}
-                             >
-                                 {subTodo.text}
-                             </p>
+                 {todo?.subTodos?.length > 0 && todo?.subTodos.map(subTodo => (
+                     <div className="bg-default flex items-center justify-between gap-8 p-8 rounded-2xl" onClick={handleToggleIsDone}>
+                         <p className="w-9/12">{subTodo?.text}</p>
+                         <div className="lg:w-2/12 md:w-3/12 w-full flex lg:justify-start md:justify-start justify-center">
                              <img
-                                 src={subTodo.user?.profileImage?.imageUrl}
-                                 alt=" "
-                                 className="avatar "
+                                 src={subTodo?.user?.profileImage?.imageUrl}
+                                 alt=""
+                                 className="w-40 h-32 rounded-full object-cover"
                              />
                          </div>
                      </div>

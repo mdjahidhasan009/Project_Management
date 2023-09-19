@@ -35,7 +35,7 @@ const ProjectScreen = ({ project, getProjectById ,selectedItem, getNotAssignedMe
     }, [project])
 
     return (
-        <div className="main">
+        <div className="w-full bg-default text-white-light p-8 flex flex-col gap-8">
             <>
                 <ProjectSummaryRow projectId={projectId} selectedItem={selectedItem} />
                 {selectedItem === 'overview' && <Overview />}

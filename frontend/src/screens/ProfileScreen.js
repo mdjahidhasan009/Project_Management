@@ -1,178 +1,149 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-
 import { getUserByUserName } from "../actions/auth-action";
 import { useHttpClient } from "../hooks/http-hook";
 import { getUserRoleString } from "../utils/helper";
-import './stylesheets/ProfileScreen.css';
+import defaultUserImage from "../assets/images/default_user.jpg";
+import {Link} from "react-router-dom";
 
 const ProfileScreen = ({ match, loadedUser, getUserByUserName, auth: { user } }) => {
     const { sendRequest } = useHttpClient();
     const [ userRole, setUserRole ] = useState('');
     useEffect(() => {
-        if(match.params && match.params.username) {
-            getUserByUserName(match.params.username, sendRequest);
+        if(match?.params && match?.params.username) {
+            getUserByUserName(match?.params?.username, sendRequest);
         }
         // eslint-disable-next-line
     }, []);
 
     useEffect(() => {
-        if(loadedUser && loadedUser.role) setUserRole(getUserRoleString(loadedUser.role));
-        else if(user && user.role) setUserRole(getUserRoleString(user.role));
+        if(loadedUser && loadedUser?.role) setUserRole(getUserRoleString(loadedUser?.role));
+        else if(user && user?.role) setUserRole(getUserRoleString(user?.role));
         // eslint-disable-next-line
     }, [loadedUser]);
     return (
-        <div className="main">
-            <div className="row profile">
-                <img className="profile_avatar"
-                     src= {loadedUser
-                         ? (loadedUser?.profileImage?.imageUrl)
-                         : (user?.profileImage?.imageUrl)
-                     }
-                     alt="no image"/>
-                <h4>
-                    {loadedUser
-                        ? (loadedUser.name)
-                        : (user && user.name)
-                    }
-                </h4>
-                <h6>
-                    {loadedUser
-                        ? (loadedUser.username)
-                        : (user && user.username)
-                    }
-                </h6>
-                <p className="lead">
-                    {userRole}
-                </p>
-                <p className="lead">{loadedUser
-                    ? (loadedUser.email)
-                    : (user && user.email)
-                } </p>
-                <div className="icons">
-                    {user && user.social && user.social.twitter && (
-                        <a href={user.social.twitter} target="_blank" rel="noopener noreferrer">
-                            <i className="fab fa-twitter fa-2x" />
-                        </a>
-                    )}
-                    {loadedUser
-                        ? (loadedUser && loadedUser.social && loadedUser.social.github && (
-                            <a href={loadedUser.social.github} target="_blank" rel="noopener noreferrer">
-                                <i className="fab fa-github fa-2x" />
-                            </a>
-                        ))
-                        : (user && user.social && user.social.github && (
-                            <a href={user.social.github} target="_blank" rel="noopener noreferrer">
-                                <i className="fab fa-github fa-2x" />
-                            </a>
-                        ))
-                    }
-                    {loadedUser
-                        ? (loadedUser && loadedUser.social && loadedUser.social.facebook && (
-                            <a href={loadedUser.social.facebook} target="_blank" rel="noopener noreferrer">
-                                <i className="fab fa-facebook-f fa-2x" />
-                            </a>
-                        ))
-                        : (user && user.social && user.social.facebook && (
-                            <a href={user.social.facebook} target="_blank" rel="noopener noreferrer">
-                                <i className="fab fa-facebook-f fa-2x" />
-                            </a>
-                        ))
-                    }
-                    {loadedUser
-                        ? (loadedUser && loadedUser.social && loadedUser.social.linkedIn && (
-                            <a href={loadedUser.social.linkedIn} target="_blank" rel="noopener noreferrer">
-                                <i className="fab fa-linkedin fa-2x" />
-                            </a>
-                        ))
-                        : (user && user.social && user.social.linkedIn && (
-                            <a href={user.social.linkedIn} target="_blank" rel="noopener noreferrer">
-                                <i className="fab fa-linkedin fa-2x" />
-                            </a>
-                        ))
-                    }
-                    {loadedUser
-                        ? (loadedUser && loadedUser.social && loadedUser.social.stackoverflow && (
-                            <a href={loadedUser.social.stackoverflow} target="_blank" rel="noopener noreferrer">
-                                <i className="fab fa-stack-overflow fa-2x" />
-                            </a>
-                        ))
-                        : (user && user.social && user.social.stackoverflow && (
-                            <a href={user.social.stackoverflow} target="_blank" rel="noopener noreferrer">
-                                <i className="fab fa-stack-overflow fa-2x" />
-                            </a>
-                        ))
-                    }
-                    {loadedUser
-                        ? (loadedUser && loadedUser.social && loadedUser.social.youtube && (
-                            <a href={loadedUser.social.youtube} target="_blank" rel="noopener noreferrer">
-                                <i className="fab fa-youtube fa-2x" />
-                            </a>
-                        ))
-                        : (user && user.social && user.social.youtube && (
-                            <a href={user.social.youtube} target="_blank" rel="noopener noreferrer">
-                                <i className="fab fa-youtube fa-2x" />
-                            </a>
-                        ))
-                    }
-                    {loadedUser
-                        ? (loadedUser && loadedUser.social && loadedUser.social.instagram && (
-                            <a href={loadedUser.social.instagram} target="_blank" rel="noopener noreferrer">
-                                <i className="fab fa-instagram fa-2x" />
-                            </a>
-                        ))
-                        : (user && user.social && user.social.instagram && (
-                            <a href={user.social.instagram} target="_blank" rel="noopener noreferrer">
-                                <i className="fab fa-instagram fa-2x" />
-                            </a>
-                        ))
-                    }
+        <section className="w-full bg-default min-h-screen p-8">
+            <div className="bg-[#1f2937] text-white-light rounded-xl p-4 sm:p-6 lg:p-8 flex gap-8">
+                <div className="w-1/3">
+                    <div
+                        className="border-2 rounded-full border-orange-500 p-2 max-w-max"
+                        aria-hidden="true"
+                    >
+                        <img
+                            alt={user?.name + 's profile picture'}
+                            src={loadedUser?.profileImage?.imageUrl ? loadedUser?.profileImage?.imageUrl : defaultUserImage}
+                            className="w-96 h-60 rounded-full max-w-96 object-cover shadow-sm"
+                        />
+                    </div>
                 </div>
 
-                {loadedUser
-                    ? (loadedUser.bio && (
-                        <div className="row profile-bio">
-                            <h4>{loadedUser && loadedUser.name}'s Bio</h4>
-                            <p>{loadedUser?.bio}</p>
-                        </div>
-                    ))
-                    : (user && user.bio && (
-                        <div className="row profile-bio">
-                            <h5>{user && user.name}'s Bio</h5>
-                            <p>{user.bio}</p>
-                        </div>
-                    ))
-                }
+                <div>
+                    <strong
+                        className="rounded border border-orange-500 bg-orange-500 px-3 py-1.5 text-[12?px] font-medium text-white-light"
+                    >
+                        {userRole}
+                    </strong>
 
-                {loadedUser
-                    ? (loadedUser.skills && loadedUser.skills.length > 0 && (
-                        <div className="row profile-skills">
-                            <h5 className="center-align">Skill Set</h5>
-                            <div className="skills">
-                                {loadedUser.skills.map((skill, index) => (
-                                    <div key={index} className="skill">
-                                        <i className="fas fa-check" /> {skill}
+                    <h3 className="mt-4 text-lg font-medium sm:text-xl">
+                        <Link
+                            to="/edit-profile"
+                            className="hover:underline"
+                        >
+                            {loadedUser?.name ? loadedUser?.name : 'Name not found!'}
+                        </Link>
+                    </h3>
+
+                    <p className="mt-1 text-sm text-white-light">
+                        {loadedUser
+                            ? (loadedUser?.bio && (
+                                <div className="row profile-bio">
+                                    <p>{loadedUser?.bio}</p>
+                                </div>
+                            ))
+                            : (user && user?.bio && (
+                                <div className="row profile-bio">
+                                    <p>{user?.bio}</p>
+                                </div>
+                            ))
+                        }
+                    </p>
+
+                    <div className="my-8">
+                        {loadedUser
+                            ? (loadedUser?.skills && loadedUser?.skills?.length > 0 && (
+                                <>
+                                    <h4 className="font-medium text-l mb-1">Skills</h4>
+
+                                    <div className="flex items-center gap-4">
+                                        {loadedUser?.skills.map((skill, index) => (
+                                            <div key={index} className="skill">
+                                                <i className="fas fa-check" /> {skill}
+                                            </div>
+                                        ))}
                                     </div>
-                                ))}
-                            </div>
-                        </div>
-                    ))
-                    : (user && user.skills && user.skills.length > 0 && (
-                        <div className="row profile-skills">
-                            <h5 className="center-align">Skill Set</h5>
-                            <div className="skills">
-                                {user.skills.map((skill, index) => (
-                                    <div key={index} className="skill">
-                                        <i className="fas fa-check" /> {skill}
+                                </>
+                            ))
+                            : (user && user?.skills && user?.skills?.length > 0 && (
+                                <>
+                                    <h4 className="font-medium text-l mb-1">Skills</h4>
+
+                                    <div className="flex items-center gap-4">
+                                        {user?.skills.map((skill, index) => (
+                                            <div key={index} className="skill">
+                                                <i className="fas fa-check" /> {skill}
+                                            </div>
+                                        ))}
                                     </div>
-                                ))}
-                            </div>
-                        </div>
-                    ))
-                }
+                                </>
+                            ))
+                        }
+                    </div>
+
+                    <dl className="mt-6 flex gap-4 sm:gap-6">
+                        {user && user?.social && user?.social?.linkedIn && (
+                            <a href={user?.social?.linkedIn} target="_blank" rel="noopener noreferrer">
+                                <i className="fab fa-linkedin lg:text-3xl md:text-2xl text-xl" />
+                            </a>
+                        )}
+                        {user && user?.email && (
+                            <a href={'mailto:' + user?.email}>
+                                <i className="fas fa-envelope lg:text-3xl md:text-2xl text-xl" />
+                            </a>
+                        )}
+                        {user && user?.social && user?.social?.github && (
+                            <a href={user?.social?.github} target="_blank" rel="noopener noreferrer">
+                                <i className="fab fa-github lg:text-3xl md:text-2xl text-xl" />
+                            </a>
+                        )}
+                        {user && user?.social && user?.social?.stackoverflow && (
+                            <a href={user?.social?.stackoverflow} target="_blank" rel="noopener noreferrer">
+                                <i className="fab fa-stack-overflow lg:text-3xl md:text-2xl text-xl" />
+                            </a>
+                        )}
+                        {user && user?.social && user?.social?.twitter && (
+                            <a href={user?.social?.twitter} target="_blank" rel="noopener noreferrer">
+                                <i className="fab fa-twitter lg:text-3xl md:text-2xl text-xl" />
+                            </a>
+                        )}
+                        {user && user?.social && user?.social?.facebook && (
+                            <a href={user?.social?.facebook} target="_blank" rel="noopener noreferrer">
+                                <i className="fab fa-facebook lg:text-3xl md:text-2xl text-xl"/>
+                            </a>
+                        )}
+                        {user && user?.social && user?.social?.youtube && (
+                            <a href={user?.social?.youtube} target="_blank" rel="noopener noreferrer">
+                                <i className="fab fa-youtube lg:text-3xl md:text-2xl text-xl" />
+                            </a>
+                        )}
+                        {user && user?.social && user?.social?.instagram && (
+                            <a href={user?.social?.instagram} target="_blank" rel="noopener noreferrer">
+                                <i className="fab fa-instagram lg:text-3xl md:text-2xl text-xl" />
+                            </a>
+                        )}
+                    </dl>
+                </div>
             </div>
-
-        </div>
+        </section>
     );
 };
 

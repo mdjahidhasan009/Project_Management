@@ -6,7 +6,6 @@ import { prepareTodoAndBugForPreview } from "../actions/project-action";
 import { getAllProjects } from "../actions/projects-action";
 import { loadUser } from "../actions/auth-action";
 import { useHttpClient } from "../hooks/http-hook";
-import './stylesheets/DashboardScreen.css';
 import ChartItem from "../components/ChartItem";
 
 const DashboardScreen = ({ projects, auth, getAllProjects, prepareTodoAndBugForPreview }) => {
@@ -28,163 +27,146 @@ const DashboardScreen = ({ projects, auth, getAllProjects, prepareTodoAndBugForP
     }, [projects, user]);
 
     return (
-        <div className="main dashboard">
-            {/*Work summary such as remaining todo, not fixed bug, finished todo, fixed bug count*/}
-            <div className="row dashboard__work-summary">
-                <div className="col s6 m3 l3">
-                    <div className="card blue-grey darken-1">
-                        <div className="card-content white-text">
-                            <span className="card-title center">{todoBugCountSummary && todoBugCountSummary.todoNotDone}</span>
-                            <p className="center">Remaining</p>
-                            <p className="center">Todo</p>
-                        </div>
-                    </div>
-                </div>
+        <section className="w-full bg-default text-white-light min-h-screen flex flex-col gap-28 p-8">
+            <div className="mx-auto max-w-screen-xl">
+                <dl className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4">
+                    <div className="flex flex-col rounded-lg bg-[#1f2937] px-4 py-8 text-center">
+                        <dt className="order-last text-lg font-medium text-white-light">
+                            Remaining Todo
+                        </dt>
 
-                <div className="col s6 m3 l3">
-                    <div className="card blue-grey darken-1">
-                        <div className="card-content white-text">
-                            <span className="card-title center">{todoBugCountSummary && todoBugCountSummary.notFixedBug}</span>
-                            <p className="center">Remaining</p>
-                            <p className="center">Bug</p>
-                        </div>
+                        <dd className="text-4xl font-extrabold text-orange-500 md:text-5xl">
+                            {todoBugCountSummary && todoBugCountSummary.todoNotDone}
+                        </dd>
                     </div>
-                </div>
 
-                <div className="col s6 m3 l3">
-                    <div className="card blue-grey darken-1">
-                        <div className="card-content white-text">
-                            <span className="card-title center">{todoBugCountSummary && todoBugCountSummary.todoDone}</span>
-                            <p className="center">Finished</p>
-                            <p className="center">Todo</p>
-                        </div>
-                    </div>
-                </div>
+                    <div className="flex flex-col rounded-lg bg-[#1f2937] px-4 py-8 text-center">
+                        <dt className="order-last text-lg font-medium text-white-light">
+                            Remaining Bug
+                        </dt>
 
-                <div className="col s6 m3 l3">
-                    <div className="card blue-grey darken-1">
-                        <div className="card-content white-text">
-                            <span className="card-title center">{todoBugCountSummary && todoBugCountSummary.fixedBug}</span>
-                            <p className="center">Fixed</p>
-                            <p className="center">Bug</p>
-                        </div>
+                        <dd className="text-4xl font-extrabold text-orange-500 md:text-5xl">{todoBugCountSummary && todoBugCountSummary.notFixedBug}</dd>
                     </div>
-                </div>
+
+                    <div className="flex flex-col rounded-lg bg-[#1f2937] px-4 py-8 text-center">
+                        <dt className="order-last text-lg font-medium text-white-light">
+                            Finished Todo
+                        </dt>
+
+                        <dd className="text-4xl font-extrabold text-orange-500 md:text-5xl">{todoBugCountSummary && todoBugCountSummary.todoDone}</dd>
+                    </div>
+
+                    <div className="flex flex-col rounded-lg bg-[#1f2937] px-4 py-8 text-center">
+                        <dt className="order-last text-lg font-medium text-white-light">
+                            Fixed Bug
+                        </dt>
+
+                        <dd className="text-4xl font-extrabold text-orange-500 md:text-5xl">{todoBugCountSummary && todoBugCountSummary.fixedBug}</dd>
+                    </div>
+                </dl>
             </div>
 
             {/*Chart for showing fixed bug and finished todo*/}
-            <div className="row s12 dashboard__chart">
+            <div>
                 <ChartItem chartData={chartData}/>
             </div>
 
-            {(activitySummary && activitySummary.notCompletedActivity.length > 0) && (
-                <div className="row white dashboard__work-summary">
+            {(activitySummary && activitySummary.notCompletedActivity?.length > 0) && (
+                <div className="rounded-2xl bg-[#1f2937]">
+                    {/*Remaining Tasks*/}
+                    <h5 className="my-12 text-3xl font-semibold text-orange-500 underline text-center">Remaining Tasks</h5>
 
-                    {/*Work not finished*/}
-                    <h5>Remaining Tasks</h5>
-                    {activitySummary.notCompletedActivity.map(project => (
-                        <div className="project_summary" key={project.projectName}>
-                            <h6 className="project_summary__project-name white-text">Project name : {project.projectName}</h6>
-                            <div className="row">
-                                <div className="col s12 m6 l6">
-                                    {(project.notCompletedTodo.length > 0) && (
-                                        <table>
-                                            <thead className="grey darken-1">
-                                            <tr>
-                                                <th>Todo have to complete</th>
-                                            </tr>
-                                            </thead>
+                    {activitySummary?.notCompletedActivity.map(project => (
+                        <div className="mx-8 bg-default rounded-2xl mb-6 px-8 py-4" key={project?.projectName}>
+                            <h6 className="text-2xl font-semibold mb-8">Project name : {project?.projectName}</h6>
 
-                                            <tbody>
-                                            {project.notCompletedTodo.map(todo => (
-                                                <tr key={todo._id}>
-                                                    <td key={todo._id}>{todo.text}</td>
-                                                </tr>
+                            <div className="flex justify-between gap-8">
+                                {(project?.notCompletedTodo?.length > 0) && (
+                                    <div className="w-[30vw]">
+                                        <div className="bg-orange-500 rounded-[4px] mb-4 px-8 py-1 font-semibold">
+                                            Todo have to complete
+                                        </div>
+
+                                        <div className="ml-8">
+                                            {project?.notCompletedTodo?.map(todo => (
+                                                <ol key={todo?._id}>
+                                                    <li key={todo?._id} className="overflow-hidden text-ellipsis mb-2">{todo?.text?.length > 55 ? todo?.text?.substring(0, 55) + '...' : todo?.text}</li>
+                                                </ol>
                                             ))}
-                                            </tbody>
-                                        </table>
-                                    )}
+                                        </div>
+                                    </div>
+                                )}
 
-                                </div>
-                                <div className="col s12 m6 l6">
-                                    {(project.notFixedBug.length > 0) && (
-                                        <table>
-                                            <thead className="red lighten-1">
-                                            <tr>
-                                                <th>Bug have to fix</th>
-                                            </tr>
-                                            </thead>
+                                {(project.notFixedBug.length > 0) && (
+                                    <div className="w-[30vw]">
+                                        <div className="bg-red-500 rounded-[4px] mb-4 px-8 py-1 font-semibold">
+                                            Bug have to fix
+                                        </div>
 
-                                            <tbody>
+                                        <div className="ml-8">
                                             {project.notFixedBug.map(bug => (
-                                                <tr key={bug._id}>
-                                                    <td key={bug._id}>{bug.text}</td>
-                                                </tr>
+                                                <ol key={bug._id}>
+                                                    <li key={bug._id} className="overflow-hidden text-ellipsis mb-2">{bug?.text?.length > 55 ? bug?.text?.substring(0, 55) + '...' : bug?.text}</li>
+                                                </ol>
                                             ))}
-                                            </tbody>
-                                        </table>
-                                    )}
-                                </div>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     ))}
                 </div>
             )}
-
 
             {/*Finished Work*/}
             {(activitySummary && activitySummary.completedActivity.length > 0) && (
-                <div className="row white dashboard__work-summary">
-                    <h5>Completed Tasks</h5>
-                    {activitySummary.completedActivity.map(project => (
-                        <div className="project_summary" key={project.projectName}>
-                            <h6 className="project_summary__project-name white-text">Project Name : {project.projectName}</h6>
-                            <div className="row">
-                                <div className="col s12 m6 l6">
-                                    {(project.completedTodo.length > 0) && (
-                                        <table>
-                                            <thead className="grey darken-1">
-                                            <tr>
-                                                <th>Todo done</th>
-                                            </tr>
-                                            </thead>
+                <div className="rounded-2xl bg-[#1f2937]">
+                    {/*Remaining Tasks*/}
+                    <h5 className="my-12 text-3xl font-semibold text-orange-500 underline text-center">Completed Tasks</h5>
 
-                                            <tbody>
-                                            {project.completedTodo.map(todo => (
-                                                <tr key={todo._id}>
-                                                    <td key={todo._id}>{todo.text}</td>
-                                                </tr>
+                    {activitySummary?.completedActivity.map(project => (
+                        <div className="mx-8 bg-default rounded-2xl mb-6 px-8 py-4" key={project?.projectName}>
+                            <h6 className="text-2xl font-semibold mb-8">Project name : {project?.projectName}</h6>
+
+                            <div className="flex justify-between gap-8">
+                                {(project?.completedTodo?.length > 0) && (
+                                    <div className="w-[30vw]">
+                                        <div className="bg-orange-500 rounded-[4px] mb-4 px-8 py-1 font-semibold">
+                                            Todo done
+                                        </div>
+
+                                        <div className="ml-8">
+                                            {project?.completedTodo?.map(todo => (
+                                                <ol key={todo?._id}>
+                                                    <li key={todo?._id} className="overflow-hidden text-ellipsis mb-2">{todo?.text?.length > 55 ? todo?.text?.substring(0, 55) + '...' : todo?.text}</li>
+                                                </ol>
                                             ))}
-                                            </tbody>
-                                        </table>
-                                    )}
+                                        </div>
+                                    </div>
+                                )}
 
-                                </div>
-                                <div className="col s12 m6 l6">
-                                    {(project.fixedBug.length > 0) && (
-                                        <table>
-                                            <thead className="red lighten-1">
-                                            <tr>
-                                                <th>Bug fixed</th>
-                                            </tr>
-                                            </thead>
 
-                                            <tbody>
+                                {(project.fixedBug.length > 0) && (
+                                    <div className="w-[30vw]">
+                                        <div className="bg-red-500 rounded-[4px] mb-4 px-8 py-1 font-semibold">
+                                            Bug fixed
+                                        </div>
+
+                                        <div className="ml-8">
                                             {project.fixedBug.map(bug => (
-                                                <tr key={bug._id}>
-                                                    <td key={bug._id}>{bug.text}</td>
-                                                </tr>
+                                                <ol key={bug._id}>
+                                                    <li key={bug._id} className="overflow-hidden text-ellipsis mb-2">{bug?.text?.length > 55 ? bug?.text?.substring(0, 55) + '...' : bug?.text}</li>
+                                                </ol>
                                             ))}
-                                            </tbody>
-                                        </table>
-                                    )}
-                                </div>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     ))}
                 </div>
             )}
-        </div>
+        </section>
     );
 };
 

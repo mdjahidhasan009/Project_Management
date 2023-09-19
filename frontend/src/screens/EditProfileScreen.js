@@ -15,7 +15,6 @@ import {
   VALIDATOR_LINK
 } from "../utils/validators";
 import M from 'materialize-css';
-import './stylesheets/EditProfileScreen.css';
 
 const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
   const history = useHistory();
@@ -116,210 +115,277 @@ const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
   }
 
   return(
-      <div className="main">
+      <div className="bg-default text-white-light p-8 w-full">
         {isAuthenticated
         && (
             <>
-              <div className="row edit_profile">
+              <div className="row flex flex-col gap-20">
                 <UploadImage profileImageUrl={profileImage} />
-                {user && (
-                    <div className="details">
-                      <Input
-                          label="*Full Name"
-                          element="input"
-                          placeholder="Full Name"
-                          elementTitle="fullName"
-                          type="text"
-                          validators={[VALIDATOR_MINLENGTH(5)]}
-                          errorText="Please enter at least 5 character."
-                          onInput={inputHandler}
-                          initialValue={user.name}
-                          initialValidity={true}
-                      />
-                      <Input
-                          label="*Username"
-                          element="input"
-                          placeholder="Username"
-                          elementTitle="username"
-                          type="text"
-                          validators={[VALIDATOR_MINLENGTH(5)]}
-                          errorText="Please enter at least 5 character."
-                          onInput={inputHandler}
-                          initialValue={user.username}
-                          initialValidity={true}
-                      />
-                      <Input
-                          label="*Email"
-                          element="input"
-                          placeholder="Email"
-                          elementTitle="email"
-                          type="email"
-                          validators={[VALIDATOR_EMAIL()]}
-                          errorText="Please enter an valid email."
-                          onInput={inputHandler}
-                          initialValue={user.email}
-                          initialValidity={true}
-                      />
-                      <Input
-                          label="*Role"
-                          element="select"
-                          placeholder="Role"
-                          elementTitle="role"
-                          type="text"
-                          validators={[VALIDATOR_REQUIRE()]}
-                          errorText="Please select type of role"
-                          onInput={inputHandler}
-                          initialValue={user.role}
-                          initialValidity={true}
-                      />
-                      <Input
-                          label="*Skills"
-                          element="input"
-                          placeholder="Use comma to separate skills such as(HTML, CSS, JavaScript)"
-                          elementTitle="skills"
-                          type="text"
-                          validators={[VALIDATOR_MINLENGTH(2)]}
-                          errorText="Please enter at least 2 character."
-                          onInput={inputHandler}
-                          initialValue={user.skills}
-                          initialValidity={true}
-                      />
-                      <Input
-                          label="*Bio"
-                          element="textarea"
-                          placeholder="Bio"
-                          elementTitle="bio"
-                          type="textarea"
-                          validators={[VALIDATOR_MINLENGTH(10)]}
-                          errorText="Please enter at least 10 character."
-                          onInput={inputHandler}
-                          initialValue={user.bio}
-                          initialValidity={true}
-                      />
-                      <Input
-                          label="Github"
-                          element="input"
-                          placeholder="Github profile url"
-                          elementTitle="github"
-                          type="text"
-                          validators={[VALIDATOR_LINK(user?.social?.github), VALIDATOR_NOT_REQUIRE()]}
-                          errorText="Please enter your github profile link"
-                          onInput={inputHandler}
-                          initialValue={user.social && user.social.github}
-                          initialValidity={true}
-                      />
-                      <Input
-                          label="Twitter"
-                          element="input"
-                          placeholder="Twitter profile url"
-                          elementTitle="twitter"
-                          type="text"
-                          validators={[VALIDATOR_NOT_REQUIRE(), VALIDATOR_LINK(user?.social?.twitter)]}
-                          errorText="Please enter your github profile link"
-                          onInput={inputHandler}
-                          initialValue={user.social && user.social.twitter}
-                          initialValidity={true}
-                      />
-                      <Input
-                          label="Stackoverflow"
-                          element="input"
-                          placeholder="Stackoverflow profile url"
-                          elementTitle="stackoverflow"
-                          type="text"
-                          validators={[VALIDATOR_NOT_REQUIRE(), VALIDATOR_LINK(user?.social?.stackoverflow)]}
-                          errorText="Please enter your stackoverflow profile link"
-                          onInput={inputHandler}
-                          initialValue={user.social && user.social.stackoverflow}
-                          initialValidity={true}
-                      />
-                      <Input
-                          label="Facebook"
-                          element="input"
-                          placeholder="Facebook profile url"
-                          elementTitle="facebook"
-                          type="text"
-                          validators={[VALIDATOR_NOT_REQUIRE(), VALIDATOR_LINK(user?.social?.facebook)]}
-                          errorText="Please enter your github profile link"
-                          onInput={inputHandler}
-                          initialValue={user.social && user.facebook}
-                          initialValidity={true}
-                      />
-                      <Input
-                          label="LinkedIn"
-                          element="input"
-                          placeholder="LinkedIn profile url"
-                          elementTitle="linkedIn"
-                          type="text"
-                          validators={[VALIDATOR_NOT_REQUIRE(), VALIDATOR_LINK(user?.social?.linkedIn)]}
-                          errorText="Please enter your github profile link"
-                          onInput={inputHandler}
-                          initialValue={user.social && user.social.linkedIn}
-                          initialValidity={true}
-                      />
-                      <Input
-                          label="Instagram"
-                          element="input"
-                          placeholder="Instagram profile url"
-                          elementTitle="instagram"
-                          type="text"
-                          validators={[VALIDATOR_NOT_REQUIRE(), VALIDATOR_LINK(user?.social?.instagram)]}
-                          errorText="Please enter your github profile link"
-                          onInput={inputHandler}
-                          initialValue={user.social && user.social.instagram}
-                          initialValidity={true}
-                      />
-                      <Input
-                          label="Youtube"
-                          element="input"
-                          placeholder="Youtube channel url"
-                          elementTitle="youtube"
-                          type="text"
-                          validators={[VALIDATOR_NOT_REQUIRE(), VALIDATOR_LINK(user?.social?.youtube)]}
-                          errorText="Please enter your github profile link"
-                          onInput={inputHandler}
-                          initialValue={user.social && user.social.youtube}
-                          initialValidity={true}
-                      />
 
-                      <Input
-                          label="New Password"
-                          element="input"
-                          placeholder="New Password"
-                          elementTitle="newPassword"
-                          type="password"
-                          validators={[VALIDATOR_MINLENGTH(6)]}
-                          errorText="Please enter at least 6 character."
-                          onInput={inputHandler}
-                      />
-                      <Input
-                          label="Confirm New Password"
-                          element="input"
-                          placeholder="Confirm New Password"
-                          elementTitle="confirmNewPassword"
-                          type="password"
-                          validators={[VALIDATOR_MINLENGTH(6)]}
-                          errorText="Please enter at least 6 character."
-                          onInput={inputHandler}
-                      />
-                      <Input
-                          label="Current Password"
-                          element="input"
-                          placeholder="Current Password(To save edit)"
-                          elementTitle="currentPassword"
-                          type="password"
-                          validators={[VALIDATOR_MINLENGTH(6)]}
-                          errorText="Please enter current password."
-                          onInput={inputHandler}
-                      />
-                      <button className="blue btn"
-                              onClick={saveProfile}
-                              disabled={!formState.isValid}
-                      >
-                        {loading && <i className="fas fa-spinner fa-pulse" />}
-                        {loading && ' Saving Profile Details'}
-                        {!loading && 'Save Profile Details'}
-                      </button>
-                    </div>
+                {user && (
+                    <div className="flex flex-col justify-evenly gap-5 lg:w-3/6 md:5/6 w-full">
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
+                            <h3>Full Name</h3>
+
+                            <Input
+                                element="input"
+                                placeholder="Full Name"
+                                elementTitle="fullName"
+                                type="text"
+                                validators={[VALIDATOR_MINLENGTH(5)]}
+                                errorText="Please enter at least 5 character."
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                onInput={inputHandler}
+                                initialValue={user.name}
+                                initialValidity={true}
+                            />
+                        </div>
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
+                            <h3>Username</h3>
+
+                            <Input
+                                element="input"
+                                placeholder="Username"
+                                elementTitle="username"
+                                type="text"
+                                validators={[VALIDATOR_MINLENGTH(5)]}
+                                errorText="Please enter at least 5 character."
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                onInput={inputHandler}
+                                initialValue={user.username}
+                                initialValidity={true}
+                            />
+                        </div>
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
+                            <h3>Email</h3>
+
+                            <Input
+                                element="input"
+                                placeholder="Email"
+                                elementTitle="email"
+                                type="email"
+                                validators={[VALIDATOR_EMAIL()]}
+                                errorText="Please enter an valid email."
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                onInput={inputHandler}
+                                initialValue={user.email}
+                                initialValidity={true}
+                            />
+                        </div>
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
+                            <h3>Role</h3>
+
+                            <Input
+                                element="select"
+                                placeholder="Role"
+                                elementTitle="role"
+                                type="select"
+                                validators={[VALIDATOR_REQUIRE()]}
+                                errorText="Please select type of role"
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                onInput={inputHandler}
+                                initialValue={user.role}
+                                initialValidity={true}
+                            />
+                        </div>
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
+                            <h3>Skills</h3>
+
+                            <Input
+                                element="input"
+                                placeholder="Use comma to separate skills such as(HTML, CSS, JavaScript)"
+                                elementTitle="skills"
+                                type="text"
+                                validators={[VALIDATOR_MINLENGTH(2)]}
+                                errorText="Please enter at least 2 character."
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                onInput={inputHandler}
+                                initialValue={user.skills}
+                                initialValidity={true}
+                            />
+                        </div>
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
+                            <h3>Bio</h3>
+
+                            <Input
+                                element="textarea"
+                                placeholder="Bio"
+                                elementTitle="bio"
+                                type="textarea"
+                                validators={[VALIDATOR_MINLENGTH(10)]}
+                                errorText="Please enter at least 10 character."
+                                styleClass="w-96 h-32 rounded-[4px] p-4 pr-12 text-gray-700 text-sm shadow-sm"
+                                onInput={inputHandler}
+                                initialValue={user.bio}
+                                initialValidity={true}
+                            />
+                        </div>
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
+                            <h3>Github</h3>
+
+                            <Input
+                                element="input"
+                                placeholder="Github profile url"
+                                elementTitle="github"
+                                type="text"
+                                validators={[VALIDATOR_LINK(user?.social?.github), VALIDATOR_NOT_REQUIRE()]}
+                                errorText="Please enter your github profile link"
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                onInput={inputHandler}
+                                initialValue={user.social && user.social.github}
+                                initialValidity={true}
+                            />
+                        </div>
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
+                            <h3>Twitter</h3>
+
+                            <Input
+                                element="input"
+                                placeholder="Twitter profile url"
+                                elementTitle="twitter"
+                                type="text"
+                                validators={[VALIDATOR_LINK(user?.social?.twitter), VALIDATOR_NOT_REQUIRE()]}
+                                errorText="Please enter your github profile link"
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                onInput={inputHandler}
+                                initialValue={user.social && user.social.twitter}
+                                initialValidity={true}
+                            />
+                        </div>
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
+                            <h3>Stackoverflow</h3>
+
+                            <Input
+                                element="input"
+                                placeholder="Stackoverflow profile url"
+                                elementTitle="stackoverflow"
+                                type="text"
+                                validators={[VALIDATOR_LINK(user?.social?.stackoverflow), VALIDATOR_NOT_REQUIRE()]}
+                                errorText="Please enter your stackoverflow profile link"
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                onInput={inputHandler}
+                                initialValue={user.social && user.social.stackoverflow}
+                                initialValidity={true}
+                            />
+                        </div>
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
+                            <h3>Facebook</h3>
+
+                            <Input
+                                element="input"
+                                placeholder="Facebook profile url"
+                                elementTitle="facebook"
+                                type="text"
+                                validators={[VALIDATOR_LINK(user?.social?.facebook), VALIDATOR_NOT_REQUIRE()]}
+                                errorText="Please enter your facebook profile link"
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                onInput={inputHandler}
+                                initialValue={user.social && user.social.facebook}
+                                initialValidity={true}
+                            />
+                        </div>
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
+                            <h3>LinkedIn</h3>
+
+                            <Input
+                                element="input"
+                                placeholder="LinkedIn profile url"
+                                elementTitle="linkedIn"
+                                type="text"
+                                validators={[VALIDATOR_LINK(user?.social?.linkedIn), VALIDATOR_NOT_REQUIRE()]}
+                                errorText="Please enter your linkedIn profile link"
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                onInput={inputHandler}
+                                initialValue={user.social && user.social.linkedIn}
+                                initialValidity={true}
+                            />
+                        </div>
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
+                            <h3>Instagram</h3>
+
+                            <Input
+                                element="input"
+                                placeholder="Instagram profile url"
+                                elementTitle="instagram"
+                                type="text"
+                                validators={[VALIDATOR_LINK(user?.social?.instagram), VALIDATOR_NOT_REQUIRE()]}
+                                errorText="Please enter your instagram profile link"
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                onInput={inputHandler}
+                                initialValue={user.social && user.social.instagram}
+                                initialValidity={true}
+                            />
+                        </div>
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
+                            <h3>Youtube</h3>
+
+                            <Input
+                                element="input"
+                                placeholder="Youtube channel url"
+                                elementTitle="youtube"
+                                type="text"
+                                validators={[VALIDATOR_LINK(user?.social?.youtube), VALIDATOR_NOT_REQUIRE()]}
+                                errorText="Please enter your youtube profile link"
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                onInput={inputHandler}
+                                initialValue={user.social && user.social.youtube}
+                                initialValidity={true}
+                            />
+                        </div>
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
+                            <h3>New Password</h3>
+
+                            <Input
+                                element="input"
+                                placeholder="New Password"
+                                elementTitle="newPassword"
+                                type="password"
+                                validators={[VALIDATOR_MINLENGTH(6)]}
+                                errorText="Please enter at least 6 character."
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                onInput={inputHandler}
+                            />
+                        </div>
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
+                            <h3>Confirm New Password</h3>
+
+                            <Input
+                                element="input"
+                                placeholder="Confirm New Password"
+                                elementTitle="confirmNewPassword"
+                                type="password"
+                                validators={[VALIDATOR_MINLENGTH(6)]}
+                                errorText="Please enter at least 6 character."
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                onInput={inputHandler}
+                            />
+                        </div>
+                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
+                            <h3>Current Password</h3>
+
+                            <Input
+                                element="input"
+                                placeholder="Current Password(To save edit)"
+                                elementTitle="currentPassword"
+                                type="password"
+                                validators={[VALIDATOR_MINLENGTH(6)]}
+                                errorText="Please enter current password."
+                                styleClass="w-96 h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                onInput={inputHandler}
+                            />
+                        </div>
+                        <div className="flex justify-end mt-8">
+                            <button
+                                onClick={saveProfile}
+                                disabled={!formState.isValid}
+                                className="flex items-center justify-center w-48 h-10 bg-[#1f2937] hover:bg-orange-500 font-semibold text-white-light rounded-[4px] px-4 py-2"
+                            >
+                                {loading && <i className="fas fa-spinner fa-pulse" />}
+                                {loading && ' Saving Profile Details'}
+                                {!loading && 'Save Profile Details'}
+                            </button>
+                        </div>
+                        </div>
                 )}
               </div>
             </>

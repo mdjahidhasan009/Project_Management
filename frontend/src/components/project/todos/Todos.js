@@ -23,6 +23,11 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
     const [ juniorMembers, setJuniorMembers ] = useState([]);
     const [ hasCompletedTodos, setHasCompletedTodos ] = useState(false);
     const [ hasUncompletedTodos, setHasUncompletedTodos] = useState(false);
+    const [showAddToDoModal, setShowAddToDoModal] = useState(false);
+    const [showAddSubToDoModal, setShowAddSubToDoModal] = useState(false);
+    const [showEditToDoModal, setShowEditToDoModal] = useState(false);
+    const [showEditSubToDoModal, setShowEditSubToDoModal] = useState(false);
+    const [selectOptions, setSelectOptions] = useState([]);
 
     const [ formState, inputHandler, setFormData ] = useForm(
         {
@@ -68,19 +73,22 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
         await initAddTodoData();
         await setAssignMember("");
         await prepareJuniorMemberList();
-        document.getElementById("todoText").value = "";
+
+        setShowAddToDoModal(false);
     }
 
     const handleOnClickEditTodo = async (todoId, todoText) => {
         await setEditTodoData(todoText);
         await setTodoId(todoId);
-        document.getElementById("todoEditText").value = todoText;
-        initModalAndOpen('#edit-todo-modal');
+
+        setShowEditToDoModal(true);
     }
 
     const editTodoHandler = async (event) => {
         await editTodo(project._id, todoId, formState.inputs.todoEditText.value, sendRequest);
         await initAddTodoData();
+
+        setShowEditToDoModal(false);
     }
 
     const initSubTodoData = async () => {
@@ -94,8 +102,8 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
             },
             false
         )
-        document.getElementById("subTodoText").value = "";
-        setAssignMember("");
+
+        setShowAddSubToDoModal(true);
     };
 
     const setEditSubTodoData = (subTodoText) => {
@@ -115,46 +123,48 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
         event.preventDefault();
         await addSubTodo(formState.inputs.subTodoText.value, projectId, todoId, sendRequest);
         await initAddTodoData();
+
+        setShowAddSubToDoModal(false);
     }
 
     const editSubTodoHandler = async (event) => {
         await editSubTodo(project._id, todoId, subTodoId, formState.inputs.subTodoEditText.value, sendRequest);
         await initAddTodoData();
         await initSubTodoData();
+
+        setShowEditSubToDoModal(true);
     }
 
     const handleOnClickEditSubTodo = async (todoId, subTodoId, subTodoText) => {
         await setEditSubTodoData(subTodoText);
         await setTodoId(todoId);
         await setSubTodoId(subTodoId);
-        document.getElementById("subTodoEditText").value = subTodoText;
-        initModalAndOpen("#edit-sub-todo-modal")
+
+        setShowEditSubToDoModal(true);
     }
 
     const handleOnClickAddSubTodo = async (todoId) => {
         await initSubTodoData();
         await setTodoId(todoId);
-        document.getElementById("subTodoText").value = '';
-        initModalAndOpen('#add-sub-todo-modal');
     }
 
     const prepareJuniorMemberList = () => {
-        let selectList = document.getElementById("member_list");
-        selectList.innerHTML = `<option selected defaultValue = ''>Select one member</option>`;
-        if(project?.members) {
-            project.members.map(member => {
-                if(parseInt(currentUser.role) <= member.user.role && currentUser.username !== member.user.username) {
-                    juniorMembers.push(member.user.username);
-                    let selectObject = document.createElement("option");
-                    selectObject.text = member.user.username;
-                    selectObject.value = member.user.username;
-                    selectList.appendChild(selectObject);
+        const newSelectOptions = [];
+
+        if (project?.members) {
+            project?.members?.forEach((member) => {
+                if (parseInt(currentUser?.role) <= member?.user?.role && currentUser?.username !== member?.user?.username) {
+                    newSelectOptions.push({
+                        value: member?.user?.username,
+                        text: member?.user?.username,
+                    });
                 }
-            })
-            setJuniorMembers([juniorMembers]);
-            M.FormSelect.init(selectList);
+            });
+
+            setSelectOptions(newSelectOptions);
         }
-    }
+    };
+
 
     const doesHaveCompletedOrUncompletedTodos = () => {
         let flagHasCompletedTodo = false, flagHasUncompletedTodo = false;
@@ -180,138 +190,262 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
     }, [project?.members, currentUser])
 
     return (
-        <div className="row todos">
+        <div className="bg-[#1f2937] p-8 rounded-2xl flex flex-col">
 
             {/*Add todo modal structure*/}
-            <div id="add-todo-modal" className="modal">
-                <div className="modal-content">
-                    <h5>Add New Todos</h5>
-                    <Input
-                        element="input"
-                        elementTitle="todoText"
-                        type="text"
-                        placeholder="Enter A Todos"
-                        validators={[VALIDATOR_REQUIRE()]}
-                        errorText="Please enter todo text."
-                        onInput={inputHandler}
-                    />
-
-                    <label>
-                        Select an member to assign todo
-                        <select id="member_list" value={assignMember} onChange={(e)=> setAssignMember(e.target.value)}>
-                            <option selected defaultValue = ''>Select one member</option>
-                        </select>
-                    </label>
-
-                </div>
-                <div className="modal-footer">
-                    <button disabled={!formState.isValid} onClick={addTodoHandler}
-                            className="modal-close waves-effect btn-flat"
+            {showAddToDoModal ? (
+                <>
+                    <div
+                        className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
                     >
-                        Add New Todos
-                    </button>
-                </div>
-            </div>
+                        <div className="relative w-[40vw] my-6 mx-auto max-w-5xl">
+                            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-default outline-none focus:outline-none">
+                                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                                    <h3 className="text-2xl text-orange-500 font-semibold uppercase">
+                                        Add New Todos
+                                    </h3>
+                                </div>
+                                <div className="relative p-6 flex-auto">
+                                    <Input
+                                        element="input"
+                                        placeholder="Enter A Todos"
+                                        elementTitle="todoText"
+                                        type="text"
+                                        validators={[VALIDATOR_REQUIRE()]}
+                                        errorText="Please enter todo text."
+                                        styleClass="w-96 h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm mb-4"
+                                        onInput={inputHandler}
+                                    />
+
+                                    <select
+                                        className="w-96 h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                        id="member_list"
+                                        value={assignMember}
+                                        onChange={(e) => setAssignMember(e.target.value)}
+                                    >
+                                        <option value="">Select one member</option>
+                                        {selectOptions.map((option, index) => (
+                                            <option key={index} value={option.value}>
+                                                {option.text}
+                                            </option>
+                                        ))}
+                                    </select>
+
+                                    <div className="flex items-center justify-end gap-4 mt-6">
+                                        <button
+                                            className="text-red-500 bg-[#1f2937] hover:bg-red-500 hover:text-white-light rounded-[4px] font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                            type="button"
+                                            onClick={() => setShowAddToDoModal(false)}
+                                        >
+                                            Cancel
+                                        </button>
+
+                                        <button
+                                            className="modal-close waves-effect btn-flat bg-[#1f2937] hover:bg-orange-500 rounded-[4px] font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                            type="button"
+                                            disabled={!formState.isValid}
+                                            onClick={addTodoHandler}
+                                        >
+                                            Add Todos
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                </>
+            ) : null}
 
             {/*Add sub todo modal structure*/}
-            <div id="add-sub-todo-modal" className="modal">
-                <div className="modal-content">
-                    <h5>Add New Sub Todos</h5>
-                    <Input
-                        element="input"
-                        elementTitle="subTodoText"
-                        type="text"
-                        placeholder="Enter Sub Todos Text"
-                        validators={[VALIDATOR_REQUIRE()]}
-                        errorText="Please enter sub todo text."
-                        onInput={inputHandler}
-                    />
-                </div>
-                <div className="modal-footer">
-                    <button disabled={!formState.isValid} onClick={addSubTodoHandler}
-                            className="modal-close waves-effect btn-flat"
+            {showAddSubToDoModal ? (
+                <>
+                    <div
+                        className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
                     >
-                        Add New Sub Todos
-                    </button>
-                </div>
-            </div>
+                        <div className="relative w-[40vw] my-6 mx-auto max-w-5xl">
+                            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-default outline-none focus:outline-none">
+                                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                                    <h3 className="text-2xl text-orange-500 font-semibold uppercase">
+                                        Add Sub Todos
+                                    </h3>
+                                </div>
+                                <div className="relative p-6 flex-auto">
+                                    <Input
+                                        element="input"
+                                        placeholder="Enter Sub Todos Text"
+                                        elementTitle="subTodoText"
+                                        type="text"
+                                        validators={[VALIDATOR_REQUIRE()]}
+                                        errorText="Please enter sub todo text."
+                                        styleClass="w-96 h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                        onInput={inputHandler}
+                                    />
+
+                                    <div className="flex items-center justify-end gap-4 mt-6">
+                                        <button
+                                            className="text-red-500 bg-[#1f2937] hover:bg-red-500 hover:text-white-light rounded-[4px] font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                            type="button"
+                                            onClick={() => setShowAddSubToDoModal(false)}
+                                        >
+                                            Cancel
+                                        </button>
+
+                                        <button
+                                            className="modal-close waves-effect btn-flat bg-[#1f2937] hover:bg-orange-500 rounded-[4px] font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                            type="button"
+                                            disabled={!formState.isValid}
+                                            onClick={addSubTodoHandler}
+                                        >
+                                            Add Sub Todos
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                </>
+            ) : null}
 
             {/*Edit todo modal structure*/}
-            <div id="edit-todo-modal" className="modal">
-                <div className="modal-content">
-                    <h5>Edit Todo</h5>
-                    <Input
-                        element="input"
-                        elementTitle="todoEditText"
-                        type="text"
-                        placeholder="Enter A Todos"
-                        validators={[VALIDATOR_REQUIRE()]}
-                        errorText="Please enter todo text."
-                        onInput={inputHandler}
-                        initialValue={editTodoText}
-                        initialValidity={true}
-                    />
-                </div>
-                <div className="modal-footer">
-                    <button onClick={editTodoHandler}
-                        disabled={!formState.isValid}
-                        className="modal-close waves-effect waves-light btn-flat"
+            {showEditToDoModal ? (
+                <>
+                    <div
+                        className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
                     >
-                        Edit Todos
-                    </button>
-                </div>
-            </div>
+                        <div className="relative w-[40vw] my-6 mx-auto max-w-5xl">
+                            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-default outline-none focus:outline-none">
+                                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                                    <h3 className="text-2xl text-orange-500 font-semibold uppercase">
+                                        Edit Todos
+                                    </h3>
+                                </div>
+                                <div className="relative p-6 flex-auto">
+                                    <Input
+                                        element="input"
+                                        placeholder="Enter A Todos"
+                                        elementTitle="todoEditText"
+                                        type="text"
+                                        validators={[VALIDATOR_REQUIRE()]}
+                                        errorText="Please enter todo text."
+                                        styleClass="w-96 h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                        onInput={inputHandler}
+                                        initialValue={editTodoText}
+                                        initialValidity={true}
+                                    />
+
+                                    <div className="flex items-center justify-end gap-4 mt-6">
+                                        <button
+                                            className="text-red-500 bg-[#1f2937] hover:bg-red-500 hover:text-white-light rounded-[4px] font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                            type="button"
+                                            onClick={() => setShowEditToDoModal(false)}
+                                        >
+                                            Cancel
+                                        </button>
+
+                                        <button
+                                            className="modal-close waves-effect btn-flat bg-[#1f2937] hover:bg-orange-500 rounded-[4px] font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                            type="button"
+                                            disabled={!formState.isValid}
+                                            onClick={editTodoHandler}
+                                        >
+                                            Edit Todos
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                </>
+            ) : null}
 
             {/*Edit todo modal structure*/}
-            <div id="edit-sub-todo-modal" className="modal">
-                <div className="modal-content">
-                    <h5>Edit Sub Todo</h5>
-                    <Input
-                        element="input"
-                        elementTitle="subTodoEditText"
-                        type="text"
-                        placeholder="Enter A Todos"
-                        validators={[VALIDATOR_REQUIRE()]}
-                        errorText="Please enter sub todo text."
-                        onInput={inputHandler}
-                        initialValue={subTodoEditText}
-                        initialValidity={true}
-                    />
-                </div>
-                <div className="modal-footer">
-                    <button onClick={editSubTodoHandler}
-                            disabled={!formState.isValid}
-                            className="modal-close waves-effect waves-light btn-flat"
+            {showEditSubToDoModal ? (
+                <>
+                    <div
+                        className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
                     >
-                        Edit Sub Todos
-                    </button>
-                </div>
-            </div>
+                        <div className="relative w-[40vw] my-6 mx-auto max-w-5xl">
+                            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-default outline-none focus:outline-none">
+                                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                                    <h3 className="text-2xl text-orange-500 font-semibold uppercase">
+                                        Edit Sub Todo
+                                    </h3>
+                                </div>
+                                <div className="relative p-6 flex-auto">
+                                    <Input
+                                        element="input"
+                                        placeholder="Enter A Sub Todos"
+                                        elementTitle="subTodoEditText"
+                                        type="text"
+                                        validators={[VALIDATOR_REQUIRE()]}
+                                        errorText="Please enter sub todo text."
+                                        styleClass="w-96 h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                        onInput={inputHandler}
+                                        initialValue={subTodoEditText}
+                                        initialValidity={true}
+                                    />
+
+                                    <div className="flex items-center justify-end gap-4 mt-6">
+                                        <button
+                                            className="text-red-500 bg-[#1f2937] hover:bg-red-500 hover:text-white-light rounded-[4px] font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                            type="button"
+                                            onClick={() => setShowEditSubToDoModal(false)}
+                                        >
+                                            Cancel
+                                        </button>
+
+                                        <button
+                                            className="modal-close waves-effect btn-flat bg-[#1f2937] hover:bg-orange-500 rounded-[4px] font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                            type="button"
+                                            disabled={!formState.isValid}
+                                            onClick={editSubTodoHandler}
+                                        >
+                                            Edit Sub Todos
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                </>
+            ) : null}
 
             {isAuthenticated && (
                 <>
                     {/*Add todo modal trigger button */}
                     {(isMemberOfThisProject || isCreatedByUser) && (
-                        <button data-target="add-todo-modal" className="light-blue lighten-1 modal-trigger add-btn">
-                            <i className="fas fa-plus-circle"/>      ADD NEW TODO
+                        <button
+                            type="button"
+                            onClick={() => setShowAddToDoModal(true)}
+                            className="flex items-center justify-center gap-4 w-52 h-10 bg-default hover:bg-orange-500 text-white-light rounded-2xl px-4 py-2"
+                        >
+                            <i className="fas fa-plus-circle" />
+                            ADD TODO
                         </button>
                     )}
+
                     {project?.todos?.length === 0 && <h5 className="center-align">No Todo added yet!!</h5>}
-                    {hasUncompletedTodos && <h5>Incomplete Todos</h5>}
-                    <div className="todo__details">
-                        {todos && todos.map(todo => (
+
+                    {hasUncompletedTodos && <h5 className="text-2xl text-orange-500 mt-16 mb-8">Incomplete Todos</h5>}
+
+                    <div className="flex flex-col gap-8">
+                        {todos && todos?.map(todo => (
                             <IncompleteTodoRow key={todo._id} todo={todo} projectId={projectId}
-                                handleClickOnEdit={handleOnClickEditTodo}
                                 handleClickOnAddSubTodo={handleOnClickAddSubTodo}
+                                handleClickOnEdit={handleOnClickEditTodo}
                                 handleClickOnEditSubTodo={handleOnClickEditSubTodo}
                             />
                         ))
                         }
                     </div>
 
-                    {hasCompletedTodos && <h5>Completed Todos</h5>}
-                    <div>
-                        {todos && todos.map(todo => (
+                    {hasCompletedTodos && <h5 className="text-2xl text-orange-500 mt-16 mb-8">Completed Todos</h5>}
+                    <div className="flex flex-col gap-8">
+                        {todos && todos?.map(todo => (
                             <CompletedTodoRow key={todo._id} todo={todo} projectId={projectId}/>
                             ))
                         }

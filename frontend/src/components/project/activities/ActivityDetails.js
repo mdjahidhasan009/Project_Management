@@ -1,6 +1,7 @@
 import React from "react";
 
 import './ActivityDetails.css';
+import {Link} from "react-router-dom";
 
 const ActivityDetails = ({ activityDetail }) => {
      let type;
@@ -23,7 +24,7 @@ const ActivityDetails = ({ activityDetail }) => {
                     </span>
                     {activityDetail.text + " "}
                     by {" "}
-                    <a href={`/member/${activityDetail.user}`}>{activityDetail.user}</a>
+                    <Link to={`/member/${activityDetail.user}`} className="text-orange-500 hover:underline">{activityDetail.user}</Link>
                     {" "}
                     at - {new Date(activityDetail.time).toUTCString()}
                 </p>

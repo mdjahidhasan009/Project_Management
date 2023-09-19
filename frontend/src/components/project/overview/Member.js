@@ -16,19 +16,19 @@ const Member = ({ project, member, isCreatedByUser, deleteMemberFromProject, noI
     }
 
     return (
-        <div className="row team-member">
-            <div className="col s3 team-member__image">
+        <div className="bg-default flex items-start p-2 rounded-[4px]">
+            <div className="h-14 w-20">
                 <img
                     src={member.user?.profileImage?.imageUrl === undefined
                         ?  noImage
                         :  member.user?.profileImage?.imageUrl
                     }
                     alt=" "
-                    className="avatar "
+                    className="w-14 h-14 rounded-full object-cover"
                 />
             </div>
             <div className="col s9 team-member__details">
-                <p className="name">{member.user.username}</p>
+                <p className="text-lg text-orange-500">{member.user.username}</p>
                 <p className="role">
                     {getUserRoleString(member.user?.role)}
                     {/*{member.user?.role}*/}
