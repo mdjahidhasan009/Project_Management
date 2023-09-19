@@ -127,6 +127,21 @@ const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThis
                                 : "col s12 m12 l12 chart w-10/12"
                         }
                         >
+
+                            {/*Mark as done or not done button*/}
+                            {isCreatedByUser && (
+                                <>
+                                    <button className="overview__project-done green accent-4 add-btn" onClick={handleIsDoneClick}>Mark Project as
+                                        {project?.isDone
+                                            ? ' Not Done'
+                                            : ' Done'
+                                        }
+                                    </button>
+
+                                    <button className="overview__project-delete red lighten-1 add-btn" onClick={handleProjectDelete}
+                                    >Delete Project</button>
+                                </>
+                            )}
                             {/*Todo done and bug fixed summary chart*/}
                             <ChartItem chartData={chartData} />
                         </div>
@@ -162,21 +177,6 @@ const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThis
                             </div>
                         )}
                     </div>
-
-                    {/*Mark as done or not done button*/}
-                    {isCreatedByUser && (
-                        <>
-                            <button className="overview__project-done green accent-4 add-btn" onClick={handleIsDoneClick}>Mark Project as
-                                {project?.isDone
-                                    ? ' Not Done'
-                                    : ' Done'
-                                }
-                            </button>
-
-                            <button className="overview__project-delete red lighten-1 add-btn" onClick={handleProjectDelete}
-                            >Delete Project</button>
-                        </>
-                    )}
                 </>
             )}
         </div>

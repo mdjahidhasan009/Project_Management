@@ -123,7 +123,7 @@ const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
                 <UploadImage profileImageUrl={profileImage} />
 
                 {user && (
-                    <div className="flex flex-col justify-evenly gap-5 lg:w-4/6 md:5/6 w-full">
+                    <div className="flex flex-col justify-evenly gap-5 lg:w-3/6 md:5/6 w-full">
                         <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
                             <h3>Full Name</h3>
 
