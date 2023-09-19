@@ -1,4 +1,6 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Project Management
+
+Project management system for software developers with task management. Track project's task, bug and discuss with team also can see project progress.
 
 ## Available Scripts
 
