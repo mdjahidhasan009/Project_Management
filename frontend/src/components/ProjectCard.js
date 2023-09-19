@@ -53,8 +53,8 @@ const ProjectCard = ({ project, noImage, noMember }) => {
                 </div>
             </dl>
 
-            <div className="flex items-center justify-between mt-7">
-                <ul className="flex items-center">
+            <div className="flex items-center justify-between mt-7 w-full">
+                <ul className="flex items-center w-3/4">
                     {project?.members?.length > 0 && project?.members?.slice(0, 5).map(userItem => (
                         <li key={userItem?.user?.username+project._id} className="m-[-8px]">
                             {userItem.user && userItem.user.profileImage &&
