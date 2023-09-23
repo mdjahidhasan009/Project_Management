@@ -9,8 +9,8 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout, history, children }) 
     const [ profileImage, setProfileImage ] = useState("");
     const [ currentPath, setCurrentPath ] = useState("");
     const location = useLocation();
-    const activeClass = "bg-orange-500 h-10 p-4 rounded-[4px] flex items-center justify-start"
-    const normalClass = "hover:bg-orange-500 cursor-pointer w-full h-10 p-4 rounded-[4px] flex items-center justify-start"
+    const activeClass = "bg-orange-500 h-8 p-4 rounded-[4px] flex items-center justify-start"
+    const normalClass = "hover:bg-orange-500 cursor-pointer w-full h-8 p-4 rounded-[4px] flex items-center justify-start"
 
     useEffect(() => {
         if(user?.profileImage?.imageUrl) {
