@@ -38,7 +38,6 @@ const App = () => {
                         <Route exact path="/auth/login" component={LoginScreen} />
                         <Route exact path="/auth/get-started" component={GetStartedScreen} />
                         <Route exact path="/auth/reset-password" component={GetStartedScreen} />
-                        <Route path="*" component={NotFoundScreen} />
                     </Switch>
                 </Fragment>
             </Router>

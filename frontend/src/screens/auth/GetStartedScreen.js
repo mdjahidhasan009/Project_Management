@@ -63,13 +63,13 @@ function GetStartedScreen({ register , loadUser, user }) {
         if(user) {
             history.push('/dashboard');
         }
-    }, [user])
+    }, [user]);
 
     return (
         <section className="bg-default min-h-screen text-white-light flex flex-col lg:flex-row justify-between px-4 lg:pt-20 md:pt-20 pt-6 lg:overflow-hidden md:overflow-hidden overflow-y-auto">
             <div className="lg:w-1/2 md:w-full w-full flex flex-col">
                 <form onSubmit={authSubmitHandler} className="w-full flex flex-col md:items-center gap-5">
-                    <div>
+                    <div className="lg:mb-5 md:mb-4 mb-3">
                         <h2 className="lg:text-3xl md:text-2xl text-2xl font-medium font-sans">
                             <span className="text-orange-500">Create Account</span> to continue
                         </h2>
@@ -120,12 +120,12 @@ function GetStartedScreen({ register , loadUser, user }) {
 GetStartedScreen.propTypes = {
     login: PropTypes?.func?.isRequired,
     isAuthenticated: PropTypes?.bool?.isRequired
-}
+};
 
 const mapStateToProps = state => ({
     isAuthenticated: state?.auth?.isAuthenticated,
     user: state?.auth?.user,
     token: state?.auth?.token
-})
+});
 
 export default connect(mapStateToProps, { login, register, loadUser })(GetStartedScreen);
