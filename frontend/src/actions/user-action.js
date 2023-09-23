@@ -1,4 +1,4 @@
-import M from "materialize-css";
+// import M from "materialize-css";
 
 //Upload or change profile image
 export const uploadProfileImage = (base64EncodedImage, method) => async dispatch => {
@@ -12,7 +12,8 @@ export const uploadProfileImage = (base64EncodedImage, method) => async dispatch
                 'Authorization': 'Bearer ' + localStorage.token
             }
         );
-        M.toast({html: 'Image uploaded successfully', classes: 'green'});
+        //TODO: HAVE TO FIX
+        // M.toast({html: 'Image uploaded successfully', classes: 'green'});
     } catch (err) {
         console.error(err);
     }

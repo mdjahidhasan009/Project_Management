@@ -10,7 +10,7 @@ import {
     DELETE_DISCUSSION
 } from "./types";
 import { prepareActivityHelper } from "../utils/helper";
-import M from "materialize-css";
+// import M from "materialize-css";
 
 //Edit project EditProjectDetails(name, edit-project-details, category, deadline)
 export const editProjectDetails = (projectName, projectDetails, projectCategory, projectDeadline, projectId, method) => async dispatch => {
@@ -30,7 +30,8 @@ export const editProjectDetails = (projectName, projectDetails, projectCategory,
             }
 
         );
-        M.toast({ html: 'Project Details Updated', classes: 'green' });
+        //TODO: HAVE TO FIX
+        // M.toast({ html: 'Project Details Updated', classes: 'green' });
     } catch (error) {
         console.error(error);
     }
@@ -51,7 +52,8 @@ export const toggleIsProjectIsFinished = (isDone, projectId, method) => async di
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        M.toast({html: 'Project Updated', classes: 'green'});
+        //TODO: HAVE TO FIX
+        // M.toast({html: 'Project Updated', classes: 'green'});
     } catch (error) {
         console.error(error);
     }
@@ -68,7 +70,8 @@ export const deleteProject = (projectId, method) => async dispatch => {
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        M.toast({ html: 'Project Deleted', classes: 'green' });
+        //TODO: HAVE TO FIX
+        // M.toast({ html: 'Project Deleted', classes: 'green' });
     } catch (error) {
         console.error(error);
     }
@@ -88,7 +91,8 @@ export const addDiscussion = (discussionText, projectId ,method) => async dispat
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        M.toast({ html: 'New Discussion Added', classes: 'green' });
+        //TODO: HAVE TO FIX
+        // M.toast({ html: 'New Discussion Added', classes: 'green' });
         dispatch({
             type: ADD_DISCUSSION,
             payload: responseData
@@ -112,7 +116,8 @@ export const editDiscussion = (projectId, discussionId, discussionEditText, meth
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        M.toast({html: 'Discussion Updated', classes: 'green'});
+        //TODO: HAVE TO FIX
+        // M.toast({html: 'Discussion Updated', classes: 'green'});
         dispatch({
             type: UPDATE_DISCUSSION,
             payload: responseData
@@ -133,7 +138,8 @@ export const deleteDiscussion = (projectId, discussionId, method) => async dispa
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        M.toast({html: 'Discussion Deleted Successfully', classes: 'green'});
+        //TODO: HAVE TO FIX
+        // M.toast({html: 'Discussion Deleted Successfully', classes: 'green'});
         dispatch({
             type: DELETE_DISCUSSION,
             payload: responseData
@@ -158,7 +164,8 @@ export const addTodoToJunior = (todoText, projectId, username, method) => async 
             }
         );
 
-        M.toast({html: 'New Todo Added', classes: 'green'});
+        //TODO: HAVE TO FIX
+        // M.toast({html: 'New Todo Added', classes: 'green'});
         dispatch({
             type: ADD_TODO,
             payload: responseData
@@ -182,7 +189,8 @@ export const addTodo = (todoText, projectId ,method) => async dispatch => {
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        M.toast({ html: 'New Todo Added', classes: 'green' });
+        //TODO: HAVE TO FIX
+        // M.toast({ html: 'New Todo Added', classes: 'green' });
         dispatch({
             type: ADD_TODO,
             payload: responseData
@@ -207,7 +215,8 @@ export const toggleIsDone = (projectId, todoId, isDone, method) => async dispatc
             }
         );
         if(responseData) {
-            M.toast({html: 'Todo Updated', classes: 'green'});
+            //TODO: HAVE TO FIX
+            // M.toast({html: 'Todo Updated', classes: 'green'});
             dispatch({
                 type: UPDATE_TODO,
                 payload: responseData
@@ -232,7 +241,8 @@ export const editTodo = (projectId, todoId, todoEditText, method) => async dispa
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        M.toast({html: 'Todo Updated', classes: 'green'});
+        //TODO: HAVE TO FIX
+        // M.toast({html: 'Todo Updated', classes: 'green'});
         dispatch({
             type: UPDATE_TODO,
             payload: responseData
@@ -253,7 +263,8 @@ export const deleteTodo = (projectId, todoId, method) => async dispatch => {
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        M.toast({html: 'Todo Deleted', classes: 'green'});
+        //TODO: HAVE TO FIX
+        // M.toast({html: 'Todo Deleted', classes: 'green'});
         dispatch({
             type: DELETE_TODO,
             payload: responseData
@@ -279,7 +290,8 @@ export const addSubTodo = (todoText, projectId, todoId, method) => async dispatc
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        M.toast({html: 'New Sub Todo Added', classes: 'green'});
+        //TODO: HAVE TO FIX
+        // M.toast({html: 'New Sub Todo Added', classes: 'green'});
         dispatch({
             type: UPDATE_TODO,
             payload: responseData
@@ -304,7 +316,8 @@ export const toggleSubTodoIsDone = (projectId, todoId, subTodoId, isDone, method
             }
         );
         if(responseData) {
-            M.toast({html: 'Sub Todo Updated', classes: 'green'});
+            //TODO: HAVE TO FIX
+            // M.toast({html: 'Sub Todo Updated', classes: 'green'});
             dispatch({
                 type: UPDATE_TODO,
                 payload: responseData
@@ -329,7 +342,8 @@ export const editSubTodo = (projectId, todoId, subTodoId, subTodoEditText, metho
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        M.toast({html: 'Sub Todo Updated', classes: 'green'});
+        //TODO: HAVE TO FIX
+        // M.toast({html: 'Sub Todo Updated', classes: 'green'});
         dispatch({
             type: UPDATE_TODO,
             payload: responseData
@@ -350,7 +364,8 @@ export const deleteSubTodo = (projectId, todoId, subTodoId, method) => async dis
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        M.toast({html: 'Sub Todo Deleted', classes: 'green'});
+        //TODO: HAVE TO FIX
+        // M.toast({html: 'Sub Todo Deleted', classes: 'green'});
         dispatch({
             type: DELETE_TODO,
             payload: responseData
@@ -376,7 +391,8 @@ export const toggleIsFixed = (projectId, bugId, isFixed, method) => async dispat
             }
         );
         if(responseData) {
-            M.toast({ html: 'Bug Updated', classes: 'green' });
+            //TODO: HAVE TO FIX
+            // M.toast({ html: 'Bug Updated', classes: 'green' });
             dispatch({
                 type: UPDATE_BUG,
                 payload: responseData
@@ -401,7 +417,8 @@ export const editBug = (projectId, bugId, bugEditText, method) => async dispatch
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        M.toast({html: 'Bug Updated', classes: 'green'});
+        //TODO: HAVE TO FIX
+        // M.toast({html: 'Bug Updated', classes: 'green'});
         dispatch({
             type: UPDATE_BUG,
             payload: responseData
@@ -425,7 +442,8 @@ export const addBug = (bugText, projectId ,method) => async dispatch => {
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        M.toast({html: 'New Bug Added', classes: 'green'});
+        //TODO: HAVE TO FIX
+        // M.toast({html: 'New Bug Added', classes: 'green'});
         dispatch({
             type: ADD_BUG,
             payload: responseData
@@ -446,7 +464,8 @@ export const deleteBug = (projectId, bugId, method) => async dispatch => {
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        M.toast({html: 'Bug Deleted', classes: 'green'});
+        //TODO: HAVE TO FIX
+        // M.toast({html: 'Bug Deleted', classes: 'green'});
         dispatch({
             type: DELETE_BUG,
             payload: responseData
@@ -511,7 +530,8 @@ export const assignAMemberToAProject = (projectId, username, method) => async di
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        M.toast({html: 'New Member Added', classes: 'green'});
+        //TODO: HAVE TO FIX
+        // M.toast({html: 'New Member Added', classes: 'green'});
         dispatch({
             type: ADD_MEMBER_AT_PROJECT,
             payload: responseData
@@ -535,7 +555,8 @@ export const deleteMemberFromProject = (projectId, username,  method) => async d
                 Authorization: 'Bearer ' + localStorage.token
             }
         );
-        M.toast({html: 'Member Deleted', classes: 'green'});
+        //TODO: HAVE TO FIX
+        // M.toast({html: 'Member Deleted', classes: 'green'});
         dispatch({
             type: DELETE_MEMBER_FROM_PROJECT,
             payload: responseData

@@ -1,5 +1,5 @@
 //Add new project
-import M from "materialize-css";
+// import M from "materialize-css";
 import {ADD_PROJECT, GET_PROJECTS} from "./types";
 
 export const addProject = (projectName, projectCategory, projectDescription, projectDeadline, method) => async dispatch =>{
@@ -18,7 +18,8 @@ export const addProject = (projectName, projectCategory, projectDescription, pro
           Authorization: 'Bearer ' + localStorage.token
         }
     )
-    M.toast({html: 'New Project Added', classes: 'green'});
+    //TODO: HAVE TO FIX
+    // M.toast({html: 'New Project Added', classes: 'green'});
     dispatch({
       type: ADD_PROJECT,
       payload: responseData
