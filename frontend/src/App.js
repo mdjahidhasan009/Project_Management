@@ -7,12 +7,13 @@ import { useHttpClient } from './hooks/http-hook';
 import HomeScreen from './screens/HomeScreen';
 import Routes from './routing/Routes';
 import NotFoundScreen from './screens/NotFoundScreen';
-import Login from "./screens/auth/Login";
+import LoginScreen from "./screens/auth/LoginScreen";
 import Navbar from "./components/shared/nav/nav";
+import GetStartedScreen from "./screens/auth/GetStartedScreen";
 
 const App = () => {
     const { sendRequest } = useHttpClient();
-    const hideNavbarRoutes = ["/", "/login", "*"];
+    const hideNavbarRoutes = ["/", "/login", "/get-started", "*"];
     const displayNavbar = <Navbar>
         <Switch>
             <Route exact component={Routes} />
@@ -34,7 +35,9 @@ const App = () => {
                     />
                     <Switch>
                         <Route exact path="/" component={HomeScreen} />
-                        <Route exact path="/login" component={Login} />
+                        <Route exact path="/login" component={LoginScreen} />
+                        <Route exact path="/get-started" component={GetStartedScreen} />
+                        <Route path="*" component={NotFoundScreen} />
                     </Switch>
                 </Fragment>
             </Router>

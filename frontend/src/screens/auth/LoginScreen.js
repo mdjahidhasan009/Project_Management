@@ -10,7 +10,7 @@ import {PropTypes} from "prop-types";
 import { login, register, loadUser } from "../../actions/auth-action";
 import {connect} from "react-redux";
 
-function Login({ login, register , isAuthenticated , loadUser, user, token }) {
+function LoginScreen({ login, register , isAuthenticated , loadUser, user, token }) {
     const { sendRequest } = useHttpClient();
     const history = useHistory();
     const [ formState, inputHandler, setFormData ] = useForm(
@@ -109,7 +109,7 @@ function Login({ login, register , isAuthenticated , loadUser, user, token }) {
     );
 }
 
-Login.propTypes = {
+LoginScreen.propTypes = {
     login: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired
 }
@@ -120,4 +120,4 @@ const mapStateToProps = state => ({
     token: state.auth.token
 })
 
-export default connect(mapStateToProps, { login, register, loadUser })(Login);
+export default connect(mapStateToProps, { login, register, loadUser })(LoginScreen);

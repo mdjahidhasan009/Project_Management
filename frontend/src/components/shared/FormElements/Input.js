@@ -91,7 +91,7 @@ const Input = props => {
     return <div className={`form-control ${!inputState.isValid && inputState.isClicked && 'form-control--invalid'}`}>
         {props.label && <label htmlFor={props.elementTitle}>{props.label}</label>}
         {element}
-        {!inputState.isValid && inputState.isClicked && <p>{props.errorText}</p>}
+        {!inputState.isValid && inputState.isClicked && <p className="mt-2 text-red-500">{props.errorText}</p>}
     </div>
 }
 
