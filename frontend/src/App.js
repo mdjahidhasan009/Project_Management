@@ -13,7 +13,7 @@ import GetStartedScreen from "./screens/auth/GetStartedScreen";
 
 const App = () => {
     const { sendRequest } = useHttpClient();
-    const hideNavbarRoutes = ["/", "/login", "/get-started", "*"];
+    const hideNavbarRoutes = ["/", "/auth/login", "/auth/get-started", "/auth/reset-password", "*"];
     const displayNavbar = <Navbar>
         <Switch>
             <Route exact component={Routes} />
@@ -35,8 +35,9 @@ const App = () => {
                     />
                     <Switch>
                         <Route exact path="/" component={HomeScreen} />
-                        <Route exact path="/login" component={LoginScreen} />
-                        <Route exact path="/get-started" component={GetStartedScreen} />
+                        <Route exact path="/auth/login" component={LoginScreen} />
+                        <Route exact path="/auth/get-started" component={GetStartedScreen} />
+                        <Route exact path="/auth/reset-password" component={GetStartedScreen} />
                         <Route path="*" component={NotFoundScreen} />
                     </Switch>
                 </Fragment>
