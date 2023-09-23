@@ -13,7 +13,7 @@ const Activities = ({ project, activities, prepareActivity }) => {
     }, [project]);
 
     return (
-        <div className="bg-[#1f2937] p-8 rounded-2xl flex flex-col gap-8">
+        <div className="bg-[#1f2937] lg:p-8 md:p-6 p-4 lg:rounded-2xl md:rounded-xl rounded-lg flex flex-col lg:gap-8 md:gap-6 gap-4">
             {/*Activities Row*/}
             {activities && activities.length > 0
                 ? activities.map(activity => (
