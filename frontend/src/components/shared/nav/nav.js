@@ -53,7 +53,7 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout, history, children }) 
 
             <div className="flex">
                 {/* Side Navbar */}
-                <ul className="bg-[#1f2937] text-white-light text-lg min-h-screen px-4 py-14" id="slide-out">
+                <ul className="bg-[#1f2937] text-white-light text-lg min-h-screen px-4 py-14 lg:block md:hidden hidden">
                     <>
                         {user && (
                             <>
