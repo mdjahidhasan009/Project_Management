@@ -67,11 +67,10 @@ const EditProjectDetails = ({ project, editProjectDetails, isAuthenticated, getP
     }
 
     return (
-            <div className="bg-[#1f2937] p-8 rounded-2xl">
-
+            <div className="bg-[#1f2937] lg:p-8 md:p-6 p-4 lg:rounded-2xl md:rounded-xl rounded-lg">
                 {project && isAuthenticated && (
-                    <div className="flex flex-col justify-evenly gap-5 lg:w-3/6 md:5/6 w-full">
-                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
+                    <div className="flex flex-col justify-evenly gap-5 lg:w-4/6 md:5/6 w-full">
+                        <div className="w-full flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
                             <h3>Project Name</h3>
 
                             <Input
@@ -81,13 +80,13 @@ const EditProjectDetails = ({ project, editProjectDetails, isAuthenticated, getP
                                 type="text"
                                 validators={[VALIDATOR_MINLENGTH(5)]}
                                 errorText="Please enter at least 5 character."
-                                styleClass="lg:w-96 md:w-80 w-full h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                styleClass="lg:w-96 md:w-96 w-full lg:h-10 md:h-8 h-6 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-4 pr-12 text-gray-700 text-sm shadow-sm"
                                 onInput={inputHandler}
                                 initialValue={project.name}
                                 initialValidity={true}
                             />
                         </div>
-                        <div className="flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
+                        <div className="w-full flex lg:flex-row md:flex-row flex-col lg:items-center md:items-center items-start gap-4 justify-between">
                             <h3>Project Details</h3>
 
                             <Input
@@ -97,7 +96,7 @@ const EditProjectDetails = ({ project, editProjectDetails, isAuthenticated, getP
                                 type="text"
                                 validators={[VALIDATOR_MINLENGTH(5)]}
                                 errorText="Please enter at least 5 character."
-                                styleClass="lg:w-96 md:w-80 w-full h-32 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                styleClass="lg:w-96 md:w-96 w-full h-32 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-4 pr-12 text-gray-700 text-sm shadow-sm"
                                 onInput={inputHandler}
                                 initialValue={project.description}
                                 initialValidity={true}
@@ -113,7 +112,7 @@ const EditProjectDetails = ({ project, editProjectDetails, isAuthenticated, getP
                                 type="text"
                                 validators={[VALIDATOR_MINLENGTH(2)]}
                                 errorText="Please enter at least 2 character."
-                                styleClass="lg:w-96 md:w-80 w-full h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                styleClass="lg:w-96 md:w-96 w-full lg:h-10 md:h-8 h-6 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-4 pr-12 text-gray-700 text-sm shadow-sm"
                                 onInput={inputHandler}
                                 initialValue={project.category}
                                 initialValidity={true}
@@ -128,7 +127,7 @@ const EditProjectDetails = ({ project, editProjectDetails, isAuthenticated, getP
                                 type="date"
                                 validators={[VALIDATOR_REQUIRE()]}
                                 errorText="Please enter project deadline."
-                                styleClass="lg:w-96 md:w-80 w-full h-10 rounded-[4px] p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                styleClass="lg:w-96 md:w-96 w-full lg:h-10 md:h-8 h-6 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-4 pr-12 text-gray-700 text-sm shadow-sm"
                                 onInput={inputHandler}
                                 initialValue={project.deadline}
                                 initialValidity={true}
@@ -138,7 +137,7 @@ const EditProjectDetails = ({ project, editProjectDetails, isAuthenticated, getP
                             <button
                                 onClick={saveProjectDetails}
                                 disabled={!formState.isValid}
-                                className="mt-10 flex items-center justify-center gap-4 w-60 h-10 bg-default hover:bg-orange-500 text-white-light rounded-2xl px-4 py-2"
+                                className="mt-10 flex items-center justify-center gap-4 lg:w-60 md:w-50 w-48 lg:h-10 md:h-8 h-7 bg-default hover:bg-orange-500 text-white-light rounded-2xl px-4 py-2"
                             >
                                 {loading && <i className="fas fa-spinner fa-pulse" />}
                                 {loading && ' Saving Project Details'}

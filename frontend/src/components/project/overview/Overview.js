@@ -77,7 +77,7 @@ const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThis
                                 </div>
                                 <div className="relative p-6 flex-auto">
                                     <select
-                                        className="w-full lg:h-10 md:h-8 h-6 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-4 pr-12 text-gray-700 text-sm shadow-sm"
+                                        className="w-full h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm"
                                         id="member_list"
                                         value={addMember}
                                         onChange={handleSetAddMember}
