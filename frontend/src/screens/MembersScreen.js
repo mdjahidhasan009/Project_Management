@@ -12,10 +12,10 @@ const MembersScreen = ({ auth: { users }, getAllUser }) => {
     }, []);
 
     return (
-        <div className="w-full bg-default text-white-light grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 p-8">
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 lg:gap-8 md:gap-6 gap-4">
             {users && (
-                users.map(user => (
-                    <Member key={user.username} user={user}/>
+                users?.map(user => (
+                    <Member key={user?.username} user={user}/>
                 ))
             )}
         </div>
