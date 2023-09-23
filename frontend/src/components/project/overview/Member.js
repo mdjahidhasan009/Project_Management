@@ -16,14 +16,14 @@ const Member = ({ project, member, isCreatedByUser, deleteMemberFromProject, noI
     }
 
     return (
-        <div className="bg-default flex items-start p-2 rounded-[4px]">
+        <div className="bg-default flex items-start p-2 lg:rounded-[4px] md:rounded-[3px] rounded-[2px]">
             <div className="h-14 w-20">
                 <img
                     src={member.user?.profileImage?.imageUrl === undefined
                         ?  noImage
                         :  member.user?.profileImage?.imageUrl
                     }
-                    alt=" "
+                    alt=""
                     className="w-14 h-14 rounded-full object-cover"
                 />
             </div>

@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from "react-redux";
 import { useParams } from 'react-router-dom';
-
 import ProjectSummaryRow from "../components/project/projectSummary/ProjectSummary";
 import Overview from "../components/project/overview/Overview";
 import Discussion from "../components/project/discussion/Discussions";
@@ -35,7 +34,7 @@ const ProjectScreen = ({ project, getProjectById ,selectedItem, getNotAssignedMe
     }, [project])
 
     return (
-        <div className="w-full bg-default text-white-light p-8 flex flex-col gap-8">
+        <div className="flex flex-col lg:gap-8 md:gap-6 gap-4">
             <>
                 <ProjectSummaryRow projectId={projectId} selectedItem={selectedItem} />
                 {selectedItem === 'overview' && <Overview />}
@@ -52,7 +51,7 @@ const ProjectScreen = ({ project, getProjectById ,selectedItem, getNotAssignedMe
 const mapStateToProps = state => ({
     auth: state.auth,
     project: state.project.project
-})
+});
 
 export default connect(mapStateToProps,
     { getProjectById, getNotAssignedMember, prepareWorkDonePreview, getIsMemberAndCreatorOfProject})

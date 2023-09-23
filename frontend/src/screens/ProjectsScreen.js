@@ -81,7 +81,7 @@ const ProjectsScreen = ({ addProject, getAllProjects, projects }) => {
                     <div
                         className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
                     >
-                        <div className="relative w-[40vw] my-6 mx-auto max-w-5xl">
+                        <div className="relative lg:w-[40vw] md:w-[35vw] w-30vw lg:my-6 md:my-5 my-4 mx-auto max-w-5xl">
                             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-default outline-none focus:outline-none">
                                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                                     <h3 className="text-2xl text-orange-500 font-semibold uppercase">
@@ -136,7 +136,7 @@ const ProjectsScreen = ({ addProject, getAllProjects, projects }) => {
                     >
                         <h4 className="lg:text-3xl md:text-2xl text-lg font-medium">All</h4>
 
-                        <h1 className="lg:text-5xl md:text-4xl text-4xl font-bold text-orange-500">{projects.length}</h1>
+                        <h1 className="lg:text-5xl md:text-4xl text-4xl font-bold text-orange-500">{projects?.length}</h1>
                     </button>
 
                     <button
@@ -171,18 +171,18 @@ const ProjectsScreen = ({ addProject, getAllProjects, projects }) => {
 
             {/*ProjectScreen List*/}
             <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
-                {selectedProjectType === 'all' && projects.length > 0 && projects.map(project => (
-                    <ProjectItem key={project._id} project={project} type={selectedProjectType}/>
+                {selectedProjectType === 'all' && projects?.length > 0 && projects?.map(project => (
+                    <ProjectItem key={project?._id} project={project} type={selectedProjectType}/>
                 ))
                 }
-                {selectedProjectType === 'completed' && projects.length > 0 && projects.map(project => (
-                    project.isDone && (
-                        <ProjectItem key={project._id} project={project} type={selectedProjectType}/>
+                {selectedProjectType === 'completed' && projects?.length > 0 && projects?.map(project => (
+                    project?.isDone && (
+                        <ProjectItem key={project?._id} project={project} type={selectedProjectType}/>
                     )
                 ))}
-                {selectedProjectType === 'incomplete' && projects.length > 0 && projects.map(project => (
-                    !project.isDone && (
-                        <ProjectItem key={project._id} project={project} type={selectedProjectType}/>
+                {selectedProjectType === 'incomplete' && projects?.length > 0 && projects?.map(project => (
+                    !project?.isDone && (
+                        <ProjectItem key={project?._id} project={project} type={selectedProjectType}/>
                     )
                 ))}
             </div>
@@ -191,13 +191,13 @@ const ProjectsScreen = ({ addProject, getAllProjects, projects }) => {
 };
 
 ProjectsScreen.propTypes = {
-    addProject: PropTypes.func.isRequired,
-    getAllProjects: PropTypes.func.isRequired,
-    projects: PropTypes.array.isRequired
+    addProject: PropTypes?.func?.isRequired,
+    getAllProjects: PropTypes?.func?.isRequired,
+    projects: PropTypes?.array?.isRequired
 };
 
 const mapStateToProps = state => ({
-    projects: state.projects
+    projects: state?.projects
 });
 
 export default connect(mapStateToProps, { addProject, getAllProjects })(ProjectsScreen);
