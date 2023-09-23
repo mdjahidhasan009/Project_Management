@@ -60,6 +60,7 @@ const EditProjectDetails = ({ project, editProjectDetails, isAuthenticated, getP
 
     const saveProjectDetails = async() => {
         setIsLoading(true);
+
         await editProjectDetails(formState.inputs.projectName.value, formState.inputs.projectDetails.value,
             formState.inputs.projectCategory.value, formState.inputs.projectDeadline.value, project._id, sendRequest);
         await getProjectById(project._id, sendRequest);
@@ -133,7 +134,7 @@ const EditProjectDetails = ({ project, editProjectDetails, isAuthenticated, getP
                                 initialValidity={true}
                             />
                         </div>
-                        <div className="flex justify-end">
+                        <div className="flex justify-end lg:w-96 md:w-96 w-full">
                             <button
                                 onClick={saveProjectDetails}
                                 disabled={!formState.isValid}

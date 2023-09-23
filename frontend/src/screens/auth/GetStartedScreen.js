@@ -9,6 +9,7 @@ import Input from "../../components/shared/FormElements/Input";
 import {PropTypes} from "prop-types";
 import { login, register, loadUser } from "../../actions/auth-action";
 import {connect} from "react-redux";
+import Swal from "sweetalert2";
 
 function GetStartedScreen({ register , loadUser, user }) {
     const { sendRequest } = useHttpClient();
@@ -43,6 +44,11 @@ function GetStartedScreen({ register , loadUser, user }) {
             if(formState?.inputs?.password?.value !== formState?.inputs?.confirmPassword?.value) {
                 //TODO: HAVE TO FIX
                 // M.toast({html: 'Confirm password and Confirm new password have to be same', classes: 'red'});
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Confirm password and Confirm new password have to be same',
+                    icon: 'error',
+                });
             } else {
                 try {
                     await register(formState?.inputs?.name?.value, formState?.inputs?.username?.value,

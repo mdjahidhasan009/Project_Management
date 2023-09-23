@@ -14,6 +14,7 @@ import {
     VALIDATOR_REQUIRE
 } from "../../utils/validators";
 import '../../assets/stylesheets/authScreen.css';
+import Swal from "sweetalert2";
 // import M from "materialize-css";
 
 const AuthScreen = ({ login, register , isAuthenticated , loadUser, user, token }) => {
@@ -98,6 +99,11 @@ const AuthScreen = ({ login, register , isAuthenticated , loadUser, user, token 
                 if(formState.inputs.password.value !== formState.inputs.confirmPassword.value) {
                     //TODO: HAVE TO FIX
                     // M.toast({html: 'Confirm password and Confirm new password have to be same', classes: 'red'});
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Confirm password and Confirm new password have to be same',
+                        icon: 'error',
+                    });
                 } else {
                     try {
                         await register(formState.inputs.name.value, formState.inputs.username.value,

@@ -30,6 +30,11 @@ const UploadImage = ({ uploadProfileImage, profileImageUrl }) => {
         reader.onerror = () => {
             //TODO: HAVE TO FIX
             // M.toast({html: 'Image upload failed, Please try again', classes: 'red'});
+            Swal.fire({
+                title: 'Error!',
+                text: 'Image upload failed',
+                icon: 'error',
+            });
         };
     };
 
