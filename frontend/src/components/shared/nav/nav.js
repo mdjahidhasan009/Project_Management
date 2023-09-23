@@ -97,7 +97,7 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout, history, children }) 
                     {isAuthenticated ? authSidebarLinks : guestSidebarLinks }
                 </ul>
 
-                <div className="bg-default text-white-light w-full lg:p-8 md:p-6 p-4">
+                <div className="w-full min-h-screen bg-default text-white-light lg:p-8 md:p-6 p-4">
                     {children}
                 </div>
             </div>
