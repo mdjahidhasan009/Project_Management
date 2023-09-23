@@ -33,11 +33,6 @@ function LoginScreen({ login, loadUser, user }) {
         { elementTitle: 'password', placeholder: 'Password', type: 'password', validators: [VALIDATOR_MINLENGTH(6)], errorText: 'Please enter at least 6 characters.' },
     ];
 
-    const formFooterElements = [
-        { to: '/auth/get-started', leftText: 'New to our site?', rightText: 'Sign up' },
-        { to: '/auth/reset-password', leftText: 'Forgot password?', rightText: 'Reset password' }
-    ];
-
     const authSubmitHandler = async (event) => {
         event.preventDefault();
 
@@ -87,12 +82,10 @@ function LoginScreen({ login, loadUser, user }) {
                     </button>
 
                     <div className="lg:w-96 md:w-96 w-full flex flex-col gap-1 px-1 text-sm">
-                        {formFooterElements?.map((linkProps, index) => (
-                            <div key={index} className="w-full flex items-center justify-between gap-4 px-1">
-                                <p>{linkProps?.leftText}</p>
-                                <Link to={linkProps?.to} className="hover:text-orange-500 hover:underline decoration-orange-500">{linkProps?.rightText}</Link>
-                            </div>
-                        ))}
+                        <div className="w-full flex items-center justify-between gap-4 px-1">
+                            <p>New to our site?</p>
+                            <Link to="/auth/get-started" className="hover:text-orange-500 hover:underline decoration-orange-500">Sign up</Link>
+                        </div>
                     </div>
                 </form>
             </div>

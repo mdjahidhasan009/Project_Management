@@ -97,15 +97,10 @@ function GetStartedScreen({ register , loadUser, user }) {
                     </button>
 
                     <div className="lg:w-96 md:w-96 w-full flex flex-col gap-1 px-1 text-sm">
-                        {[
-                            { to: '/auth/login', text: 'Login' },
-                            { to: '/auth/reset-password', text: 'Reset password' }
-                        ].map((linkProps, index) => (
-                            <div key={index} className="w-full flex items-center justify-between gap-4 px-1">
-                                <p>{linkProps?.text}</p>
-                                <Link to={linkProps?.to} className="hover:text-orange-500 hover:underline decoration-orange-500">{linkProps?.text}</Link>
-                            </div>
-                        ))}
+                        <div className="w-full flex items-center justify-between gap-4 px-1">
+                            <p>Already a member?</p>
+                            <Link to="/auth/login" className="hover:text-orange-500 hover:underline decoration-orange-500">Login</Link>
+                        </div>
                     </div>
                 </form>
             </div>
