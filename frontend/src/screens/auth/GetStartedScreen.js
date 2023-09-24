@@ -73,8 +73,8 @@ function GetStartedScreen({ register , loadUser, user }) {
 
     return (
         <section className="bg-default min-h-screen text-white-light flex flex-col lg:flex-row justify-between px-4 lg:pt-20 md:pt-20 pt-6 lg:overflow-hidden md:overflow-hidden overflow-y-auto">
-            <div className="lg:w-1/2 md:w-full w-full flex flex-col">
-                <form onSubmit={authSubmitHandler} className="w-full flex flex-col md:items-center gap-5">
+            <div className="lg:w-1/2 md:w-full w-full flex flex-col items-center">
+                <form onSubmit={authSubmitHandler} className="lg:w-96 md:w-96 w-full flex flex-col md:items-center gap-5">
                     <div className="lg:mb-5 md:mb-4 mb-3">
                         <h2 className="lg:text-3xl md:text-2xl text-2xl font-medium font-sans">
                             <span className="text-orange-500">Create Account</span> to continue
@@ -111,7 +111,7 @@ function GetStartedScreen({ register , loadUser, user }) {
                 </form>
             </div>
 
-            <div className="lg:w-1/2 lg:block md:hidden hidden">
+            <div className="lg:w-1/3 h-[80vh] lg:block md:hidden hidden">
                 <LottieAnimation animationData={signupAnimation} />
             </div>
         </section>

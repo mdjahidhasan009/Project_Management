@@ -29,25 +29,17 @@ function HomeScreen(props) {
             </section>
 
             <footer className="flex lg:flex-row md:flex-row flex-col items-center justify-center gap-3 lg:pt-40 md:pt-28 pt-20">
-                <p className="text-sm text-gray-300 lg:text-center md:text-center text-center">© {currentYear} —
-                    <a href="https://github.com/montasim" className="text-[#2fffdc] ml-1" rel="noopener noreferrer" target="_blank">@montasim</a>
-                    <span> & </span>
-                    <a href="https://github.com/mdjahidhasan009" className="text-[#2fffdc] ml-1" rel="noopener noreferrer" target="_blank">@mdjahidhasan009</a>
-                </p>
+                <a href="https://github.com/mdjahidhasan009/Project_Management/fork" className="text-gray-400">
+                  <img alt="GitHub forks" src="https://img.shields.io/github/forks/mdjahidhasan009/Project_Management?style=social"/>
+                </a>
 
-                <span id="socialMediaLink" className="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
-                    <a href="https://github.com/mdjahidhasan009/Project_Management/fork" className="text-gray-400">
-                      <img alt="GitHub forks" src="https://img.shields.io/github/forks/mdjahidhasan009/Project_Management?style=social"/>
-                    </a>
+                <a href="https://github.com/mdjahidhasan009/Project_Management/stargazers" className="ml-3 text-gray-400">
+                  <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/mdjahidhasan009/Project_Management?style=social"/>
+                </a>
 
-                    <a href="https://github.com/mdjahidhasan009/Project_Management/stargazers" className="ml-3 text-gray-400">
-                      <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/mdjahidhasan009/Project_Management?style=social"/>
-                    </a>
-
-                    <a href="https://github.com/mdjahidhasan009/Project_Management" className="ml-3 text-gray-400">
-                      <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/mdjahidhasan009/Project_Management"/>
-                    </a>
-                </span>
+                <a href="https://github.com/mdjahidhasan009/Project_Management" className="ml-3 text-gray-400">
+                  <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/mdjahidhasan009/Project_Management"/>
+                </a>
             </footer>
         </div>
     );

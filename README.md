@@ -159,11 +159,18 @@ height="400" title="Completed Todo" />
 
 #### Login In
 <p align="center">
-  <img src="screenshots/" 
+  <img src="screenshots/login.png" 
        height="400" title="Dashboard" />
 </p>
 
+#### Get Started
 <p align="center">
-  <img src="screenshots/Project_Management-SignUp.png" 
+  <img src="screenshots/signup.png" 
+       height="400" title="Dashboard" />
+</p>
+
+#### Home
+<p align="center">
+  <img src="screenshots/home.png" 
        height="400" title="Dashboard" />
 </p>
