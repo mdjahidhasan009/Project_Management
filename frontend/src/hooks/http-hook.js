@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
+import Swal from "sweetalert2";
 // import M from "materialize-css";
 
 export const useHttpClient = () => {
@@ -42,6 +43,11 @@ export const useHttpClient = () => {
              ) {
                 //TODO: HAVE TO FIX
             //    M.toast({ html: error.message, classes: 'red' });
+                 Swal.fire({
+                     title: 'Error!',
+                     text: error.message,
+                     icon: 'error',
+                 });
              }
         }
     }, []);

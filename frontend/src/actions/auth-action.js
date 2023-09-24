@@ -2,6 +2,7 @@ import {
     ALL_USER_LOADED,         AUTH_ERROR,             LOGIN_SUCCESS,               LOGOUT,              REGISTER_SUCCESS,
     USER_LOADED,             LOADED_SELECTED_USER
 } from './types'
+import Swal from "sweetalert2";
 // import M from "materialize-css";
 
 //Load user form token
@@ -102,6 +103,11 @@ export const updateUser = (formState, method) => async dispatch => {
             })
             ////TODO: Have to fix
             // M.toast({ html: 'User Details Updated', classes: 'green' });
+            Swal.fire({
+                title: 'Success',
+                text: 'User Details Updated',
+                icon: 'success',
+            });
         }
     } catch (error) {
         console.error(error);

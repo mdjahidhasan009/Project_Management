@@ -10,7 +10,7 @@ import {
     DELETE_DISCUSSION
 } from "./types";
 import { prepareActivityHelper } from "../utils/helper";
-// import M from "materialize-css";
+import Swal from 'sweetalert2'
 
 //Edit project EditProjectDetails(name, edit-project-details, category, deadline)
 export const editProjectDetails = (projectName, projectDetails, projectCategory, projectDeadline, projectId, method) => async dispatch => {
@@ -32,6 +32,11 @@ export const editProjectDetails = (projectName, projectDetails, projectCategory,
         );
         //TODO: HAVE TO FIX
         // M.toast({ html: 'Project Details Updated', classes: 'green' });
+        Swal.fire({
+            title: 'Success',
+            text: 'Project Details Updated',
+            icon: 'success',
+        });
     } catch (error) {
         console.error(error);
     }
@@ -54,6 +59,11 @@ export const toggleIsProjectIsFinished = (isDone, projectId, method) => async di
         );
         //TODO: HAVE TO FIX
         // M.toast({html: 'Project Updated', classes: 'green'});
+        Swal.fire({
+            title: 'Success',
+            text: 'Project Updated',
+            icon: 'success',
+        });
     } catch (error) {
         console.error(error);
     }
@@ -72,6 +82,11 @@ export const deleteProject = (projectId, method) => async dispatch => {
         );
         //TODO: HAVE TO FIX
         // M.toast({ html: 'Project Deleted', classes: 'green' });
+        Swal.fire({
+            title: 'Success',
+            text: 'Project Deleted',
+            icon: 'success',
+        });
     } catch (error) {
         console.error(error);
     }
@@ -93,6 +108,11 @@ export const addDiscussion = (discussionText, projectId ,method) => async dispat
         );
         //TODO: HAVE TO FIX
         // M.toast({ html: 'New Discussion Added', classes: 'green' });
+        Swal.fire({
+            title: 'Success',
+            text: 'New Discussion Added',
+            icon: 'success',
+        });
         dispatch({
             type: ADD_DISCUSSION,
             payload: responseData
@@ -118,6 +138,11 @@ export const editDiscussion = (projectId, discussionId, discussionEditText, meth
         );
         //TODO: HAVE TO FIX
         // M.toast({html: 'Discussion Updated', classes: 'green'});
+        Swal.fire({
+            title: 'Success',
+            text: 'Discussion Updated',
+            icon: 'success',
+        });
         dispatch({
             type: UPDATE_DISCUSSION,
             payload: responseData
@@ -140,6 +165,11 @@ export const deleteDiscussion = (projectId, discussionId, method) => async dispa
         );
         //TODO: HAVE TO FIX
         // M.toast({html: 'Discussion Deleted Successfully', classes: 'green'});
+        Swal.fire({
+            title: 'Success',
+            text: 'Discussion Deleted Successfully',
+            icon: 'success',
+        });
         dispatch({
             type: DELETE_DISCUSSION,
             payload: responseData
@@ -166,6 +196,11 @@ export const addTodoToJunior = (todoText, projectId, username, method) => async 
 
         //TODO: HAVE TO FIX
         // M.toast({html: 'New Todo Added', classes: 'green'});
+        Swal.fire({
+            title: 'Success',
+            text: 'New Todo Added',
+            icon: 'success',
+        });
         dispatch({
             type: ADD_TODO,
             payload: responseData
@@ -191,6 +226,11 @@ export const addTodo = (todoText, projectId ,method) => async dispatch => {
         );
         //TODO: HAVE TO FIX
         // M.toast({ html: 'New Todo Added', classes: 'green' });
+        Swal.fire({
+            title: 'Success',
+            text: 'New Todo Added',
+            icon: 'success',
+        });
         dispatch({
             type: ADD_TODO,
             payload: responseData
@@ -217,6 +257,11 @@ export const toggleIsDone = (projectId, todoId, isDone, method) => async dispatc
         if(responseData) {
             //TODO: HAVE TO FIX
             // M.toast({html: 'Todo Updated', classes: 'green'});
+            Swal.fire({
+                title: 'Success',
+                text: 'Todo Updated',
+                icon: 'success',
+            });
             dispatch({
                 type: UPDATE_TODO,
                 payload: responseData
@@ -243,6 +288,11 @@ export const editTodo = (projectId, todoId, todoEditText, method) => async dispa
         );
         //TODO: HAVE TO FIX
         // M.toast({html: 'Todo Updated', classes: 'green'});
+        Swal.fire({
+            title: 'Success',
+            text: 'Todo Updated',
+            icon: 'success',
+        });
         dispatch({
             type: UPDATE_TODO,
             payload: responseData
@@ -265,6 +315,11 @@ export const deleteTodo = (projectId, todoId, method) => async dispatch => {
         );
         //TODO: HAVE TO FIX
         // M.toast({html: 'Todo Deleted', classes: 'green'});
+        Swal.fire({
+            title: 'Success',
+            text: 'Todo Deleted',
+            icon: 'success',
+        });
         dispatch({
             type: DELETE_TODO,
             payload: responseData
@@ -292,6 +347,11 @@ export const addSubTodo = (todoText, projectId, todoId, method) => async dispatc
         );
         //TODO: HAVE TO FIX
         // M.toast({html: 'New Sub Todo Added', classes: 'green'});
+        Swal.fire({
+            title: 'Success',
+            text: 'New Sub Todo Added',
+            icon: 'success',
+        });
         dispatch({
             type: UPDATE_TODO,
             payload: responseData
@@ -318,6 +378,11 @@ export const toggleSubTodoIsDone = (projectId, todoId, subTodoId, isDone, method
         if(responseData) {
             //TODO: HAVE TO FIX
             // M.toast({html: 'Sub Todo Updated', classes: 'green'});
+            Swal.fire({
+                title: 'Success',
+                text: 'Sub Todo Updated',
+                icon: 'success',
+            });
             dispatch({
                 type: UPDATE_TODO,
                 payload: responseData
@@ -344,6 +409,11 @@ export const editSubTodo = (projectId, todoId, subTodoId, subTodoEditText, metho
         );
         //TODO: HAVE TO FIX
         // M.toast({html: 'Sub Todo Updated', classes: 'green'});
+        Swal.fire({
+            title: 'Success',
+            text: 'Sub Todo Updated',
+            icon: 'success',
+        });
         dispatch({
             type: UPDATE_TODO,
             payload: responseData
@@ -366,6 +436,11 @@ export const deleteSubTodo = (projectId, todoId, subTodoId, method) => async dis
         );
         //TODO: HAVE TO FIX
         // M.toast({html: 'Sub Todo Deleted', classes: 'green'});
+        Swal.fire({
+            title: 'Success',
+            text: 'Sub Todo Deleted',
+            icon: 'success',
+        });
         dispatch({
             type: DELETE_TODO,
             payload: responseData
@@ -393,6 +468,11 @@ export const toggleIsFixed = (projectId, bugId, isFixed, method) => async dispat
         if(responseData) {
             //TODO: HAVE TO FIX
             // M.toast({ html: 'Bug Updated', classes: 'green' });
+            Swal.fire({
+                title: 'Success',
+                text: 'Bug Updated',
+                icon: 'success',
+            });
             dispatch({
                 type: UPDATE_BUG,
                 payload: responseData
@@ -419,6 +499,11 @@ export const editBug = (projectId, bugId, bugEditText, method) => async dispatch
         );
         //TODO: HAVE TO FIX
         // M.toast({html: 'Bug Updated', classes: 'green'});
+        Swal.fire({
+            title: 'Success',
+            text: 'Bug Updated',
+            icon: 'success',
+        });
         dispatch({
             type: UPDATE_BUG,
             payload: responseData
@@ -444,6 +529,11 @@ export const addBug = (bugText, projectId ,method) => async dispatch => {
         );
         //TODO: HAVE TO FIX
         // M.toast({html: 'New Bug Added', classes: 'green'});
+        Swal.fire({
+            title: 'Success',
+            text: 'New Bug Added',
+            icon: 'success',
+        });
         dispatch({
             type: ADD_BUG,
             payload: responseData
@@ -466,6 +556,11 @@ export const deleteBug = (projectId, bugId, method) => async dispatch => {
         );
         //TODO: HAVE TO FIX
         // M.toast({html: 'Bug Deleted', classes: 'green'});
+        Swal.fire({
+            title: 'Success',
+            text: 'Bug Deleted',
+            icon: 'success',
+        });
         dispatch({
             type: DELETE_BUG,
             payload: responseData
@@ -532,6 +627,11 @@ export const assignAMemberToAProject = (projectId, username, method) => async di
         );
         //TODO: HAVE TO FIX
         // M.toast({html: 'New Member Added', classes: 'green'});
+        Swal.fire({
+            title: 'Success',
+            text: 'New Member Added',
+            icon: 'success',
+        });
         dispatch({
             type: ADD_MEMBER_AT_PROJECT,
             payload: responseData
@@ -557,6 +657,11 @@ export const deleteMemberFromProject = (projectId, username,  method) => async d
         );
         //TODO: HAVE TO FIX
         // M.toast({html: 'Member Deleted', classes: 'green'});
+        Swal.fire({
+            title: 'Success',
+            text: 'Member Deleted',
+            icon: 'success',
+        });
         dispatch({
             type: DELETE_MEMBER_FROM_PROJECT,
             payload: responseData

@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 
 import { uploadProfileImage } from '../actions/user-action';
 import { useHttpClient } from "../hooks/http-hook";
+import Swal from "sweetalert2";
 // import M from "materialize-css";
 
 const UploadImage = ({ uploadProfileImage, profileImageUrl }) => {
@@ -30,6 +31,11 @@ const UploadImage = ({ uploadProfileImage, profileImageUrl }) => {
         reader.onerror = () => {
             //TODO: HAVE TO FIX
             // M.toast({html: 'Image upload failed, Please try again', classes: 'red'});
+            Swal.fire({
+                title: 'Error!',
+                text: 'Image upload failed',
+                icon: 'error',
+            });
         };
     };
 
@@ -47,14 +53,14 @@ const UploadImage = ({ uploadProfileImage, profileImageUrl }) => {
     };
 
     return (
-        <div className="flex flex-col items-start gap-16">
+        <>
             {/* Profile Image */}
             {!previewSource && (
-                <div className="lg:w-3/12 md:w-3/12 w-full flex lg:justify-start md:justify-start justify-center">
+                <div className="w-60 mb-10">
                     <img
                         src={profileImageUrl}
                         alt="Add Profile Image"
-                        className="w-60 h-full rounded-full object-cover"
+                        className="w-full h-full rounded-full object-cover"
                     />
                 </div>
             )}
@@ -70,23 +76,21 @@ const UploadImage = ({ uploadProfileImage, profileImageUrl }) => {
 
             <form onSubmit={handleSubmitFile} className="form">
                 <div className="image-selection">
-                    <label htmlFor="fileInput">Change Profile Picture</label>
                     <input
                         id="fileInput"
                         type="file"
                         name="image"
                         onChange={handleFileInputChange}
                         value={fileInputState}
-                        className="form-input"
+                        className="form-input mt-2 p-2 rounded-lg"
                     />
                 </div>
-                <button className="btn" type="submit">
-                    {loading && <i className="fas fa-spinner fa-pulse" />}
-                    {loading && ' Uploading Image'}
-                    {!loading && 'Upload ProfileScreen Image'}
+                <button className="btn mt-4">
+                    {loading && <i className="fas fa-spinner fa-pulse mr-2" />}
+                    {loading ? 'Uploading Image' : 'Upload ProfileScreen Image'}
                 </button>
             </form>
-        </div>
+        </>
     );
 };
 

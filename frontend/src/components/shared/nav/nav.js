@@ -9,8 +9,8 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout, history, children }) 
     const [ profileImage, setProfileImage ] = useState("");
     const [ currentPath, setCurrentPath ] = useState("");
     const location = useLocation();
-    const activeClass = "bg-orange-500 h-10 p-4 rounded-[4px] flex items-center justify-start"
-    const normalClass = "hover:bg-orange-500 cursor-pointer w-full h-10 p-4 rounded-[4px] flex items-center justify-start"
+    const activeClass = "bg-orange-500 h-8 p-4 rounded-[4px] flex items-center justify-start"
+    const normalClass = "hover:bg-orange-500 cursor-pointer w-full h-8 p-4 rounded-[4px] flex items-center justify-start"
 
     useEffect(() => {
         if(user?.profileImage?.imageUrl) {
@@ -53,7 +53,7 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout, history, children }) 
 
             <div className="flex">
                 {/* Side Navbar */}
-                <ul className="bg-[#1f2937] text-white-light text-lg min-h-screen px-4 py-14" id="slide-out">
+                <ul className="bg-[#1f2937] text-white-light text-lg min-h-screen px-4 py-14 lg:block md:hidden hidden">
                     <>
                         {user && (
                             <>
@@ -97,7 +97,9 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout, history, children }) 
                     {isAuthenticated ? authSidebarLinks : guestSidebarLinks }
                 </ul>
 
-                {children}
+                <div className="w-full min-h-screen bg-default text-white-light lg:p-8 md:p-6 p-4">
+                    {children}
+                </div>
             </div>
         </section>
     );

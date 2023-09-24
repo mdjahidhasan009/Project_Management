@@ -1,6 +1,7 @@
 //Add new project
 // import M from "materialize-css";
 import {ADD_PROJECT, GET_PROJECTS} from "./types";
+import Swal from "sweetalert2";
 
 export const addProject = (projectName, projectCategory, projectDescription, projectDeadline, method) => async dispatch =>{
   try {
@@ -20,6 +21,11 @@ export const addProject = (projectName, projectCategory, projectDescription, pro
     )
     //TODO: HAVE TO FIX
     // M.toast({html: 'New Project Added', classes: 'green'});
+      Swal.fire({
+          title: 'Success',
+          text: 'New Project Added',
+          icon: 'success',
+      });
     dispatch({
       type: ADD_PROJECT,
       payload: responseData

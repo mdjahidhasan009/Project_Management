@@ -190,7 +190,7 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
     }, [project?.members, currentUser])
 
     return (
-        <div className="bg-[#1f2937] p-8 rounded-2xl flex flex-col">
+        <div className="bg-[#1f2937] lg:p-8 md:p-6 p-4 lg:rounded-2xl md:rounded-xl rounded-lg flex flex-col">
 
             {/*Add todo modal structure*/}
             {showAddToDoModal ? (
@@ -198,14 +198,15 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
                     <div
                         className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
                     >
-                        <div className="relative w-[40vw] my-6 mx-auto max-w-5xl">
+                        <div className="relative lg:w-[40vw] md:w-3/5 w-full m-4 lg:my-6 md:my-5 my-4 mx-auto max-w-5xl">
                             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-default outline-none focus:outline-none">
-                                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                                    <h3 className="text-2xl text-orange-500 font-semibold uppercase">
+                                <div className="flex items-start justify-between lg:p-5 md:p-4 p-3 border-b border-solid border-slate-200 rounded-t">
+                                    <h3 className="lg:text-2xl md:text-xl text-lg text-orange-500 font-semibold uppercase">
                                         Add New Todos
                                     </h3>
                                 </div>
-                                <div className="relative p-6 flex-auto">
+
+                                <div className="relative lg:p-6 md:p-5 p-4 flex-auto">
                                     <Input
                                         element="input"
                                         placeholder="Enter A Todos"
@@ -213,12 +214,12 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
                                         type="text"
                                         validators={[VALIDATOR_REQUIRE()]}
                                         errorText="Please enter todo text."
-                                        styleClass="w-96 h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm mb-4"
+                                        styleClass="w-full h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm mb-4"
                                         onInput={inputHandler}
                                     />
 
                                     <select
-                                        className="w-96 h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                        className="w-full h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm"
                                         id="member_list"
                                         value={assignMember}
                                         onChange={(e) => setAssignMember(e.target.value)}
@@ -263,7 +264,7 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
                     <div
                         className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
                     >
-                        <div className="relative w-[40vw] my-6 mx-auto max-w-5xl">
+                        <div className="relative lg:w-[40vw] md:w-3/5 w-full m-4 lg:my-6 md:my-5 my-4 mx-auto max-w-5xl">
                             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-default outline-none focus:outline-none">
                                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                                     <h3 className="text-2xl text-orange-500 font-semibold uppercase">
@@ -278,7 +279,7 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
                                         type="text"
                                         validators={[VALIDATOR_REQUIRE()]}
                                         errorText="Please enter sub todo text."
-                                        styleClass="w-96 h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                        styleClass="w-full h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm"
                                         onInput={inputHandler}
                                     />
 
@@ -314,7 +315,7 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
                     <div
                         className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
                     >
-                        <div className="relative w-[40vw] my-6 mx-auto max-w-5xl">
+                        <div className="relative lg:w-[40vw] md:w-3/5 w-full m-4 lg:my-6 md:my-5 my-4 mx-auto max-w-5xl">
                             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-default outline-none focus:outline-none">
                                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                                     <h3 className="text-2xl text-orange-500 font-semibold uppercase">
@@ -329,7 +330,7 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
                                         type="text"
                                         validators={[VALIDATOR_REQUIRE()]}
                                         errorText="Please enter todo text."
-                                        styleClass="w-96 h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                        styleClass="w-full h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm"
                                         onInput={inputHandler}
                                         initialValue={editTodoText}
                                         initialValidity={true}
@@ -367,7 +368,7 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
                     <div
                         className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
                     >
-                        <div className="relative w-[40vw] my-6 mx-auto max-w-5xl">
+                        <div className="relative lg:w-[40vw] md:w-3/5 w-full m-4 lg:my-6 md:my-5 my-4 mx-auto max-w-5xl">
                             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-default outline-none focus:outline-none">
                                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                                     <h3 className="text-2xl text-orange-500 font-semibold uppercase">
@@ -382,7 +383,7 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
                                         type="text"
                                         validators={[VALIDATOR_REQUIRE()]}
                                         errorText="Please enter sub todo text."
-                                        styleClass="w-96 h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                        styleClass="w-full h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm"
                                         onInput={inputHandler}
                                         initialValue={subTodoEditText}
                                         initialValidity={true}
