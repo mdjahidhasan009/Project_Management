@@ -1,68 +1,52 @@
 [Video Preview at youtube](https://www.youtube.com/watch?v=xUIwzkTh7Ho)
 
-### 🌟 Description 🌟
-I'm thrilled to share my recent collaboration on the Project Management tool, a comprehensive solution that empowers teams to streamline their workflows and enhance productivity. I was the front-end developer in this project, utilizing Tailwind CSS to create a responsive and user-friendly design.
+# Features
+- In a particular project user can add, edit, delete to-do, sub to-do, bug and also can flag them as done or fixed by
+respective writer.
+- Discussion in a project.
+- Project details such as name, short description, deadline, type such as web, mobile.
+- Project can be marked as done and also can be deleted by respective user(who create this project).
+- Add, remove member in a project, assign todo to a junior member.
+- User profile collection of profile image, skills, social media links, email, username, bio etc.
+- Image upload for profile pic using Cloudinary.
+- User and project dashboard.
+- Can track multiple project’s progress.
 
-<br/>
-
-### 🛠️ Key Features 🛠️
-- ✅ Task Management: Seamlessly add, edit, delete, and mark tasks as done or fixed.
-- ✅ Discussion Boards: Foster collaboration through project-wide discussions.
-- ✅ Project Details: Easily manage project information like name, description, deadline, and type.
-- ✅ Project Progress: Monitor multiple projects and mark them as completed.
-- ✅ Member Management: Add or remove team members and assign tasks efficiently.
-- ✅ User Profiles: Create and personalize user profiles with skills, bio, and social media links.
-- ✅ Image Upload: Utilize Cloudinary for profile picture uploads.
-
-<br/>
-
-#### 📊 Dashboard Insights 📊
-Our project offers robust dashboards for users and projects, providing an at-a-glance view of tasks, sub-tasks, bugs, discussions, and user roles.
-
-<br/>
-
-### 🌐 Flexible Role Management 🌐
-Effortlessly manage user roles and permissions within each project, ensuring a smooth collaborative experience.
-
-<br/>
-
-### 👥 Why It Matters 👥
-Project Management simplifies complex workflows, promotes collaboration, and enhances productivity, making it an essential tool for teams and businesses alike.
 
 
 ## Screenshots
 ### Project 
 #### Project Overview
 <p align="center">
-  <img src="screenshots/project-overview.png" 
+  <img src="screenshots/Project_Management-ProjectOverview.png" 
        height="400" title="Overview" />
 </p>
 
 #### Project Activities
 <p align="center">
-  <img src="screenshots/project-activities.png" 
+  <img src="screenshots/Project_Management-ProjectActivities.png" 
        height="400" title="Activities" />
 </p>
 
 #### Project Discussions
 <p align="center">
-  <img src="screenshots/project-discussions.png" 
+  <img src="screenshots/Project_Management-ProjectDiscussions.png" 
        height="400" title="Activities" />
 </p>
 
 #### Project Discussions & Edit
 <p align="center">
-  <img src="screenshots/project-add-discussion-modal.png" 
+  <img src="screenshots/Project_Management-ProjectDiscussionAdding.png" 
        height="400" title="Discussion Add" />
 </p>
 <p align="center">
-<img src="screenshots/project-edit-discussion-modal.png"
+<img src="screenshots/Project_Management-ProjectDiscussionEdit.png"
 height="400" title="Discussion Edit" />
 </p>
 
 #### Project Todo SubTodo InComplete & Completed
 <p align="center">
-  <img src="screenshots/" 
+  <img src="screenshots/Project_Management-ProjectTodoIncomplete.png" 
        height="400" title="Incomplete Todo" />
 </p>
 <p align="center">
@@ -72,11 +56,11 @@ height="400" title="Completed Todo" />
 
 #### Project Todo/SubTodo Add & Edit
 <p align="center">
-  <img src="screenshots/project-add-new-todo-modal.png" 
+  <img src="screenshots/Project_Management-ProjectTodoAddNew.png" 
        height="400" title="Incomplete Todo" />
 </p>
 <p align="center">
-<img src="screenshots/project-edit-todo-modal.png"
+<img src="screenshots/Project_Management-ProjectTodoEdit.png"
 height="400" title="Completed Todo" />
 </p>
 
@@ -88,23 +72,23 @@ height="400" title="Completed Todo" />
 
 #### Project Bug Add & Edit
 <p align="center">
-  <img src="screenshots/project-add-new-bug-modal.png" 
+  <img src="screenshots/Project_Management-ProjectBugAdd.png" 
        height="400" title="Incomplete Todo" />
 </p>
 <p align="center">
-<img src="screenshots/project-edit-bug-modal.png"
+<img src="screenshots/Project_Management-ProjectBugEdit.png"
 height="400" title="Completed Todo" />
 </p>
 
 #### Project Details Edit
 <p align="center">
-<img src="screenshots/project-edit.png"
+<img src="screenshots/Project_Management-ProjectDetailsEdit.png"
 height="400" title="Completed Todo" />
 </p>
 
 #### Project List
 <p align="center">
-<img src="screenshots/projects.png"
+<img src="screenshots/Project_Management-ProjectList.png"
 height="400" title="Completed Todo" />
 </p>
 
@@ -126,7 +110,7 @@ height="400" title="Completed Todo" />
 
 #### Edit User Profile
 <p align="center">
-  <img src="screenshots/edit-profile.png" 
+  <img src="screenshots/Project_Management-EditProfile-1.png" 
        height="400" title="Dashboard" />
 </p>
 
@@ -142,7 +126,7 @@ height="400" title="Completed Todo" />
 
 #### User Profile
 <p align="center">
-  <img src="screenshots/profile.png" 
+  <img src="screenshots/Project_Management-Profile-1.png" 
        height="400" title="Dashboard" />
 </p>
 
@@ -153,13 +137,13 @@ height="400" title="Completed Todo" />
 
 #### Members List
 <p align="center">
-  <img src="screenshots/members.png" 
+  <img src="screenshots/Project_Management-MemberList.png" 
        height="400" title="Dashboard" />
 </p>
 
-#### Login In
+#### Sign In, Sign Up
 <p align="center">
-  <img src="screenshots/" 
+  <img src="screenshots/Project_Management-SignIn.png" 
        height="400" title="Dashboard" />
 </p>
 
