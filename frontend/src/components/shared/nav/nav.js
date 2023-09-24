@@ -74,24 +74,11 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout, history, children }) 
                     </>
                     {isAuthenticated && (
                         <>
-                            <li className={currentPath === "/dashboard" ? activeClass : normalClass}>
-                                <Link to="/dashboard">Dashboard</Link>
-                            </li>
-                            <li className={currentPath === "/edit-profile" ? activeClass : normalClass}>
-                                <Link to="/edit-profile">Edit Profile</Link>
-                            </li>
-                            <li className={currentPath === "/profile" ? activeClass : normalClass}>
-                                <Link to="/profile">Profile</Link>
-                            </li>
-                            <li className={currentPath === "/members" ? activeClass : normalClass}>
-                                <Link to="/members">Members</Link>
-                            </li>
-                            <li className={currentPath === "/projects" ? activeClass : normalClass}>
-                                <Link to="/projects">Projects</Link>
-                            </li>
-                            <li>
-                                <div className="divider"/>
-                            </li>
+                            <Link to="/dashboard" className={currentPath === "/dashboard" ? activeClass : normalClass}>Dashboard</Link>
+                            <Link to="/edit-profile" className={currentPath === "/edit-profile" ? activeClass : normalClass}>Edit Profile</Link>
+                            <Link to="/profile" className={currentPath === "/profile" ? activeClass : normalClass}>Profile</Link>
+                            <Link to="/members" className={currentPath === "/members" ? activeClass : normalClass}>Members</Link>
+                            <Link to="/projects" className={currentPath === "/projects" ? activeClass : normalClass}>Projects</Link>
                         </>
                     )}
                     {isAuthenticated ? authSidebarLinks : guestSidebarLinks }

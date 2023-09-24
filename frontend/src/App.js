@@ -12,16 +12,19 @@ import GetStartedScreen from "./screens/auth/GetStartedScreen";
 
 const App = () => {
     const { sendRequest } = useHttpClient();
+
     const hideNavbarRoutes = ["/", "/auth/login", "/auth/get-started", "*"];
+
+    useEffect(() => {
+        store.dispatch(loadUser(sendRequest));
+    }, []);
+
     const displayNavbar = <Navbar>
         <Switch>
             <Route exact component={Routes} />
         </Switch>
     </Navbar>
 
-    useEffect(() => {
-        store.dispatch(loadUser(sendRequest));
-    }, []);
 
     return (
         <Provider store={store}>
