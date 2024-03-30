@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - mongodb-data:/data/db
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongoadmin
+      MONGO_INITDB_ROOT_PASSWORD: mongopassword
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - CLOUDINARY_API_KEY=your_cloudinary_api_key
+      - CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+      - CLOUDINARY_NAME=your_cloudinary_name
+      - CLOUDINARY_UPLOAD_PRESET=your_cloudinary_upload_preset
+      - MONGOURL=mongodb://mongoadmin:mongopassword@mongodb:27017/yourdbname?authSource=admin
+      - JWTSCERET=your_jwt_secret
+    depends_on:
+      - mongodb
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    environment:
+        REACT_APP_BACKEND_URL: http://localhost:5000/api/
+        REACT_APP_ASSET_URL: http://localhost:5000
+    ports:
+      - "3000:3000"
+#    environment:
+#      - REACT_APP_BACKEND_URL=http://localhost:5000/api/
+#      - REACT_APP_ASSET_URL=http://localhost:3000
+
+volumes:
+  mongodb-data:
