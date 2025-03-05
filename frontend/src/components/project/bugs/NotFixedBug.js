@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from "react-redux";
 
 import { useHttpClient } from "../../../hooks/http-hook";
-import { toggleIsFixed, deleteBug} from "../../../actions/project-action";
+import { toggleIsFixed, deleteBug} from "../../../redux/thunks/project-thunks";
 
 const NotFixedBug = ({username, bug, projectId, toggleIsFixed, deleteBug, handleClickOnEdit, noImage }) => {
     const { sendRequest } = useHttpClient();

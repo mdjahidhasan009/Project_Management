@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
-import { deleteSubTodo, toggleSubTodoIsDone } from "../../../actions/project-action";
+import { deleteSubTodo, toggleSubTodoIsDone } from "../../../redux/thunks/project-thunks";
 import { useHttpClient } from "../../../hooks/http-hook";
 
 const SubInCompleteTodo = ({ subTodo, projectId, todoId, toggleSubTodoIsDone, username, deleteSubTodo,

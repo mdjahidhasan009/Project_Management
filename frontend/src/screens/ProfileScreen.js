@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { getUserByUserName } from "../actions/auth-action";
+import { getUserByUserName } from "../redux/thunks/auth-thunks";
 import { useHttpClient } from "../hooks/http-hook";
 import { getUserRoleString } from "../utils/helper";
 import defaultUserImage from "../assets/images/default_user.jpg";

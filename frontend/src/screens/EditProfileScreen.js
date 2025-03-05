@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { connect } from 'react-redux';
 
 import UploadImage from '../components/UploadImage';
-import { updateUser } from "../actions/auth-action";
+import { updateUser } from "../redux/thunks/auth-thunks";
 import { useHttpClient } from "../hooks/http-hook";
 import { useForm } from "../hooks/form-hook";
 import Input from "../components/shared/FormElements/Input";

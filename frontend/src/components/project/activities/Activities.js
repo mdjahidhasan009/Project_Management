@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { prepareActivity } from "../../../actions/project-action";
+import { prepareActivity } from "../../../redux/thunks/project-thunks";
 import ActivitiesInADay from "./ActivitiesInADay";
 
 const Activities = ({ project, activities, prepareActivity }) => {

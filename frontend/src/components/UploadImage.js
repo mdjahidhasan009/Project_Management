@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from "react-router-dom";
 
-import { uploadProfileImage } from '../actions/user-action';
+import { uploadProfileImage } from '../redux/thunks/user-action';
 import { useHttpClient } from "../hooks/http-hook";
 import Swal from "sweetalert2";
 // import M from "materialize-css";

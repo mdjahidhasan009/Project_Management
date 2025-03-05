@@ -11,7 +11,7 @@ import Bugs from "../components/project/bugs/Bugs";
 import { useHttpClient } from "../hooks/http-hook";
 import {
     getProjectById, getNotAssignedMember, prepareWorkDonePreview, getIsMemberAndCreatorOfProject
-} from "../actions/project-action";
+} from "../redux/thunks/project-thunks";
 
 const ProjectScreen = ({ project, getProjectById ,selectedItem, getNotAssignedMember, prepareWorkDonePreview,
                      getIsMemberAndCreatorOfProject

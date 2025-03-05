@@ -3,7 +3,7 @@ import {Link, useLocation} from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { logout } from "../../../actions/auth-action";
+import { logout } from "../../../redux/thunks/auth-thunks";
 
 const Navbar = ({ auth: { isAuthenticated, user }, logout, history, children }) => {
     const [ profileImage, setProfileImage ] = useState("");

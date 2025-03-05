@@ -7,7 +7,7 @@ import {useForm} from "../../hooks/form-hook";
 import {useHttpClient} from "../../hooks/http-hook";
 import Input from "../../components/shared/FormElements/Input";
 import {PropTypes} from "prop-types";
-import { login, register, loadUser } from "../../actions/auth-action";
+import { login, register, loadUser } from "../../redux/thunks/auth-thunks";
 import {connect} from "react-redux";
 
 function LoginScreen({ login, loadUser, user }) {

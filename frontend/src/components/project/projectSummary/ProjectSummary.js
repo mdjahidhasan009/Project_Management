@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { getProjectById, getNotAssignedMember } from "../../../actions/project-action";
+import { getProjectById, getNotAssignedMember } from "../../../redux/thunks/project-thunks";
 
 const ProjectSummary = ({ project, projectId, selectedItem, user, name, description, category, deadline }) => {
     return (

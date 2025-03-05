@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { useForm } from "../../hooks/form-hook";
 import { useHttpClient } from "../../hooks/http-hook";
-import { login, register, loadUser } from "../../actions/auth-action";
+import { login, register, loadUser } from "../../redux/thunks/auth-thunks";
 import { initSwitchLayout } from "./initSwitchLayout";
 import Input from "../../components/shared/FormElements/Input";
 import {

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 
-import { deleteMemberFromProject } from "../../../actions/project-action";
+import { deleteMemberFromProject } from "../../../redux/thunks/project-thunks";
 import { useHttpClient } from "../../../hooks/http-hook";
 import './Member.css';
 import {getUserRoleString} from "../../../utils/helper";

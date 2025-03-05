@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getAllUser } from "../actions/auth-action";
+import { getAllUser } from "../redux/thunks/auth-thunks";
 import { useHttpClient } from "../hooks/http-hook";
 import Member from "../components/Member";
 

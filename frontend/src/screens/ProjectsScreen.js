@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { PropTypes } from 'prop-types';
 import { useForm } from "../hooks/form-hook";
 import { useHttpClient } from "../hooks/http-hook";
-import { addProject, getAllProjects } from "../actions/projects-action";
+import { addProject, getAllProjects } from "../redux/thunks/projects-thunks";
 import {VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE} from "../utils/validators";
 import Input from "../components/shared/FormElements/Input";
 import ProjectItem from "../components/ProjectCard.js";

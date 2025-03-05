@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { toggleIsDone } from "../../../actions/project-action";
+import { toggleIsDone } from "../../../redux/thunks/project-thunks";
 import {useHttpClient} from "../../../hooks/http-hook";
 
 const CompletedTodo = ({ todo, projectId, toggleIsDone }) => {

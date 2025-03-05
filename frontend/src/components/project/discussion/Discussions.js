@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { useForm } from "../../../hooks/form-hook";
 import { useHttpClient } from "../../../hooks/http-hook";
-import { addDiscussion, editDiscussion } from "../../../actions/project-action";
+import { addDiscussion, editDiscussion } from "../../../redux/thunks/project-thunks";
 import DiscussionRow from "./Discussion";
 import Input from "../../shared/FormElements/Input";
 import {VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE} from "../../../utils/validators";

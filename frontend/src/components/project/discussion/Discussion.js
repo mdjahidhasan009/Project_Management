@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { connect } from 'react-redux';
 
 import { useHttpClient } from "../../../hooks/http-hook";
-import { deleteDiscussion } from "../../../actions/project-action";
+import { deleteDiscussion } from "../../../redux/thunks/project-thunks";
 import {Link} from "react-router-dom";
 
 const Discussion = ({ discussion, username, handleClickOnEdit, projectId, deleteDiscussion }) => {

@@ -8,7 +8,7 @@ import {
     getProjectById,
     deleteProject,
     getNotAssignedMember
-} from '../../../actions/project-action';
+} from '../../../redux/thunks/project-thunks';
 import MemberRow from './Member';
 import ChartItem from "../../ChartItem";
 

@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { prepareTodoAndBugForPreview } from "../actions/project-action";
-import { getAllProjects } from "../actions/projects-action";
-import { loadUser } from "../actions/auth-action";
+import { prepareTodoAndBugForPreview } from "../redux/thunks/project-thunks";
+import { getAllProjects } from "../redux/thunks/projects-thunks";
+import { loadUser } from "../redux/thunks/auth-thunks";
 import { useHttpClient } from "../hooks/http-hook";
 import ChartItem from "../components/ChartItem";
 

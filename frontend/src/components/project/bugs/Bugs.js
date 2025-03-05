@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 
 import { useHttpClient } from "../../../hooks/http-hook";
 import { useForm } from "../../../hooks/form-hook";
-import { addBug, editBug } from "../../../actions/project-action";
+import { addBug, editBug } from "../../../redux/thunks/project-thunks";
 import { VALIDATOR_REQUIRE } from "../../../utils/validators";
 // import { initAllModal } from "../../../utils/helper";
 import Input from "../../shared/FormElements/Input";

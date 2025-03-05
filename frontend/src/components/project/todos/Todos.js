@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import {addTodo, editTodo, addSubTodo, editSubTodo, addTodoToJunior} from "../../../actions/project-action";
+import {addTodo, editTodo, addSubTodo, editSubTodo, addTodoToJunior} from "../../../redux/thunks/project-thunks";
 import { useHttpClient } from "../../../hooks/http-hook";
 import { useForm } from "../../../hooks/form-hook";
 import { VALIDATOR_REQUIRE } from "../../../utils/validators";
