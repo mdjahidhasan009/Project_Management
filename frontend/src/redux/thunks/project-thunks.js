@@ -865,6 +865,8 @@
 // }
 
 import {createAsyncThunk} from "@reduxjs/toolkit";
+import Swal from 'sweetalert2';
+
 import {prepareActivityHelper} from "../../utils/helper";
 
 const initialState = {
@@ -1426,17 +1428,17 @@ export const getIsMemberAndCreatorOfProject = createAsyncThunk(
     }
 );
 
-export const prepareActivity = createAsyncThunk(
-    'project/prepareActivity',
-    async (project, { rejectWithValue }) => {
-        try {
-            const preparedActivities = prepareActivityHelper(project);
-            return preparedActivities;
-        } catch (error) {
-            return rejectWithValue(error.message);
-        }
-    }
-);
+// export const prepareActivity = createAsyncThunk(
+//     'project/prepareActivity',
+//     async (project, { rejectWithValue }) => {
+//         try {
+//             const preparedActivities = prepareActivityHelper(project);
+//             return preparedActivities;
+//         } catch (error) {
+//             return rejectWithValue(error.message);
+//         }
+//     }
+// );
 
 export const prepareWorkDonePreview = createAsyncThunk(
     'project/prepareWorkDonePreview',

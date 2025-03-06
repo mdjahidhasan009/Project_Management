@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { connect } from "react-redux";
+import {connect, useDispatch, useSelector} from "react-redux";
 import { useParams } from "react-router-dom";
 
 import { useHttpClient } from "../../../hooks/http-hook";
@@ -11,8 +11,16 @@ import Input from "../../shared/FormElements/Input";
 import NotFixedBugRow from "./NotFixedBug";
 import FixedBugRow from "./FixedBug";
 
-const Bugs = ({ project, bugs, addBug, editBug, isMemberOfThisProject, isCreatedByUser }) => {
+const Bugs = () => {
     const { sendRequest } = useHttpClient();
+    const dispatch = useDispatch();
+    const projectSlice = useSelector(state => state.project);
+
+    const project = projectSlice.project || {};
+    const bugs = project.bugs || [];
+    const isMemberOfThisProject = projectSlice.isMemberOfThisProject || false;
+    const isCreatedByUser = projectSlice.isCreatedByUser || false;
+
     const projectId = useParams().projectId;
     const [ editBugText, setEditBugText ] = useState('');
     const [ bugId, setBugId ] = useState();
@@ -48,7 +56,8 @@ const Bugs = ({ project, bugs, addBug, editBug, isMemberOfThisProject, isCreated
     const addBugHandler = async (event) => {
         event.preventDefault();
 
-        await addBug(formState.inputs.bugText.value, projectId, sendRequest);
+        // await addBug(formState.inputs.bugText.value, projectId, sendRequest);
+        dispatch(addBug({ bugText: formState.inputs.bugText.value, projectId: projectId, method: sendRequest }));
         await setAddBugData();
 
         setShowAddNewBugModal(false);
@@ -57,7 +66,9 @@ const Bugs = ({ project, bugs, addBug, editBug, isMemberOfThisProject, isCreated
     const editBugHandler = async (event) => {
         event.preventDefault();
 
-        await editBug(project._id, bugId, formState.inputs.bugEditText.value, sendRequest);
+        // await editBug(project._id, bugId, formState.inputs.bugEditText.value, sendRequest);
+        // projectId, bugId, bugEditText, method
+        dispatch(editBug({ projectId: project._id, bugId: bugId, bugEditText: formState.inputs.bugEditText.value, method: sendRequest }));
         await setAddBugData();
 
         setShowEditBugModal(false);
@@ -250,11 +261,12 @@ const Bugs = ({ project, bugs, addBug, editBug, isMemberOfThisProject, isCreated
     )
 }
 
-const mapStateToProps = state => ({
-    project: state.project.project,
-    bugs: state.project?.project?.bugs,
-    isMemberOfThisProject: state.project.isMemberOfThisProject,
-    isCreatedByUser: state.project.isCreatedByUser
-});
+// const mapStateToProps = state => ({
+//     project: state.project.project,
+//     bugs: state.project?.project?.bugs,
+//     isMemberOfThisProject: state.project.isMemberOfThisProject,
+//     isCreatedByUser: state.project.isCreatedByUser
+// });
 
-export default connect(mapStateToProps, { addBug, editBug })(Bugs);
+export default Bugs;
+// export default connect(mapStateToProps, { addBug, editBug })(Bugs);

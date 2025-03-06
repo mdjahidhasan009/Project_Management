@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from "react-redux";
+import {connect, useDispatch, useSelector} from "react-redux";
 
 import { useHttpClient } from "../../../hooks/http-hook";
 import { toggleIsFixed, deleteBug} from "../../../redux/thunks/project-thunks";
 
-const NotFixedBug = ({username, bug, projectId, toggleIsFixed, deleteBug, handleClickOnEdit, noImage }) => {
+const NotFixedBug = ({ bug, projectId, handleClickOnEdit }) => {
     const { sendRequest } = useHttpClient();
+    const dispatch = useDispatch();
+    const authSlice = useSelector(state => state.auth);
+    const username = authSlice.user.username || "";
+    const noImage = authSlice.noImage || "";
+
     const [ isMobile, setIsMobile ] = useState(false);
     let clicked = false;
 
     const handleIsFixed = async () => {
         if(!clicked) {
-            await toggleIsFixed(projectId, bug._id, 'true', sendRequest);
+            dispatch(toggleIsFixed({ projectId: projectId, bugId: bug._id, isFixed: 'true', method: sendRequest }));
         }
         clicked = false;
     }
@@ -24,7 +29,7 @@ const NotFixedBug = ({username, bug, projectId, toggleIsFixed, deleteBug, handle
     const handleDeleteClick = async () => {
         clicked = true;
         if(window.confirm('Do you want to delete this todo?')) {
-            deleteBug(projectId, bug._id, sendRequest);
+            dispatch(deleteBug({ projectId: projectId, bugId: bug._id, method: sendRequest }));
         }
     }
 
@@ -82,9 +87,10 @@ const NotFixedBug = ({username, bug, projectId, toggleIsFixed, deleteBug, handle
     )
 }
 
-const mapStateToProps = state => ({
-    username: state?.auth?.user?.username,
-    noImage: state.auth.noImage
-})
+// const mapStateToProps = state => ({
+//     username: state?.auth?.user?.username,
+//     noImage: state.auth.noImage
+// })
 
-export default connect(mapStateToProps, { toggleIsFixed, deleteBug })(NotFixedBug);
+export default NotFixedBug;
+// export default connect(mapStateToProps, { toggleIsFixed, deleteBug })(NotFixedBug);

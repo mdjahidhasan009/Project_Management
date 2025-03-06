@@ -133,6 +133,7 @@ import {
     getNotAssignedMember,
     getProjectById, prepareActivity, prepareTodoAndBugForPreview, prepareWorkDonePreview
 } from "../thunks/project-thunks";
+import {prepareActivityHelper} from "../../utils/helper";
 
 const initialState = {
     project: null,
@@ -150,8 +151,16 @@ const initialState = {
 const projectSlice = createSlice({
     name: 'project',
     initialState,
+
+    // .addCase(prepareActivity.fulfilled, (state, action) => {
+    //     state.status = 'succeeded';
+    //     state.activities = action.payload;
+    // })
     reducers: {
-        // Non-async actions can go here
+        prepareActivity: (state, action) => {
+            state.status = 'succeeded';
+            state.activities = prepareActivityHelper(action.payload);
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -212,10 +221,10 @@ const projectSlice = createSlice({
                 state.isMemberOfThisProject = action.payload.isMemberOfThisProject;
                 state.isCreatedByUser = action.payload.isCreatedByUser;
             })
-            .addCase(prepareActivity.fulfilled, (state, action) => {
-                state.status = 'succeeded';
-                state.activities = action.payload;
-            })
+            // .addCase(prepareActivity.fulfilled, (state, action) => {
+            //     state.status = 'succeeded';
+            //     state.activities = action.payload;
+            // })
             .addCase(prepareWorkDonePreview.fulfilled, (state, action) => {
                 state.status = 'succeeded';
                 state.chartData = action.payload;
@@ -241,6 +250,5 @@ const projectSlice = createSlice({
     }
 });
 
-
-// Export Slice reducer
+export const { prepareActivity } = projectSlice.actions;
 export default projectSlice.reducer;

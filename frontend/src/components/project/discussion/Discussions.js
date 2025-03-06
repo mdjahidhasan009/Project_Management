@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
+import {connect, useDispatch, useSelector} from 'react-redux';
 
 import { useForm } from "../../../hooks/form-hook";
 import { useHttpClient } from "../../../hooks/http-hook";
@@ -10,13 +10,20 @@ import Input from "../../shared/FormElements/Input";
 import {VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE} from "../../../utils/validators";
 // import {initAllModal, initModalAndOpen} from "../../../utils/helper";
 
-const Discussions = ({ project, addDiscussion, editDiscussion, isMemberOfThisProject, isCreatedByUser }) => {
+const Discussions = () => {
     const { sendRequest } = useHttpClient();
+    const dispatch = useDispatch();
+    const projectSlice = useSelector(state => state.project);
+
     const projectId = useParams().projectId;
     const [ editDiscussionText, setEditDiscussionText ] = useState('');
     const [ discussionId, setDiscussionId ] = useState();
     const [showAddDiscussionModal, setShowAddDiscussionModal] = useState(false);
     const [showEditDiscussionModal, setShowEditDiscussionModal] = useState(false);
+
+    const project = projectSlice.project || {};
+    const isMemberOfThisProject = projectSlice.isMemberOfThisProject || false;
+    const isCreatedByUser = projectSlice.isCreatedByUser || false;
 
     const [ formState, inputHandler, setFormData ] = useForm(
         {
@@ -50,7 +57,7 @@ const Discussions = ({ project, addDiscussion, editDiscussion, isMemberOfThisPro
     const addDiscussionHandler = async (event) => {
         event.preventDefault();
         try {
-            await addDiscussion(formState.inputs.discussionText.value, projectId, sendRequest);
+            dispatch(addDiscussion({ discussionText: formState.inputs.discussionText.value, projectId: projectId, method: sendRequest }));
             await setAddDiscussionData();
         } catch (error) {
             console.error(error);
@@ -58,7 +65,7 @@ const Discussions = ({ project, addDiscussion, editDiscussion, isMemberOfThisPro
     }
 
     const editDiscussionHandler = async (event) => {
-        await editDiscussion(project._id, discussionId, formState.inputs.discussionEditText.value, sendRequest);
+        dispatch(editDiscussion({ projectId: project._id, discussionId: discussionId, discussionEditText: formState.inputs.discussionEditText.value, method: sendRequest }));
         await setAddDiscussionData();
     }
 
@@ -222,10 +229,11 @@ const Discussions = ({ project, addDiscussion, editDiscussion, isMemberOfThisPro
     );
 };
 
-const mapStateToProps = state => ({
-    project: state.project.project,
-    isMemberOfThisProject: state.project.isMemberOfThisProject,
-    isCreatedByUser: state.project.isCreatedByUser,
-});
+// const mapStateToProps = state => ({
+//     project: state.project.project,
+//     isMemberOfThisProject: state.project.isMemberOfThisProject,
+//     isCreatedByUser: state.project.isCreatedByUser,
+// });
 
-export default connect(mapStateToProps, { addDiscussion, editDiscussion })(Discussions);
+export default Discussions;
+// export default connect(mapStateToProps, { addDiscussion, editDiscussion })(Discussions);
