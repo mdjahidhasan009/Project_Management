@@ -157,7 +157,7 @@ export const authSlice = createSlice({
                 state.users = action.payload;
             })
             .addCase(getUserByUserName.fulfilled, (state, action) => {
-                state.selectedUser = action.payload;
+                state.loadedUser = action.payload;
             })
             .addMatcher((action) => action.type.endsWith('/rejected'), (state) => {
                 state.loading = false;

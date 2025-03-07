@@ -89,7 +89,7 @@ export const addProject = createAsyncThunk(
 // Async thunk to get all projects
 export const getAllProjects = createAsyncThunk(
     "projects/getAllProjects",
-    async (method, { rejectWithValue }) => {
+    async ({ method }, { rejectWithValue }) => {
         try {
             const responseData = await method(
                 process.env.REACT_APP_ASSET_URL + "/api/project",

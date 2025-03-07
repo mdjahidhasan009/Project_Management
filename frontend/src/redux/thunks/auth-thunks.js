@@ -162,7 +162,7 @@ import Swal from "sweetalert2";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 
 // Async Thunks
-export const loadUser = createAsyncThunk("auth/loadUser", async (method, { rejectWithValue }) => {
+export const loadUser = createAsyncThunk("auth/loadUser", async ({ method }, { rejectWithValue }) => {
     try {
         const responseData = await method(
             process.env.REACT_APP_ASSET_URL + '/api/auth',
@@ -220,7 +220,7 @@ export const updateUser = createAsyncThunk("auth/updateUser", async ({ formState
 });
 
 // TODO: will make getAllUsers
-export const getAllUser = createAsyncThunk("auth/getAllUsers", async (method, { rejectWithValue }) => {
+export const getAllUser = createAsyncThunk("auth/getAllUsers", async ({ method }, { rejectWithValue }) => {
     try {
         const responseData = await method(
             process.env.REACT_APP_ASSET_URL + '/api/user',

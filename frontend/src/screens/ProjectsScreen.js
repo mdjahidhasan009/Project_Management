@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from "react-redux";
-import { PropTypes } from 'prop-types';
+import {useDispatch, useSelector} from "react-redux";
 import { useForm } from "../hooks/form-hook";
 import { useHttpClient } from "../hooks/http-hook";
 import { addProject, getAllProjects } from "../redux/thunks/projects-thunks";
@@ -8,8 +7,12 @@ import {VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE} from "../utils/validators";
 import Input from "../components/shared/FormElements/Input";
 import ProjectItem from "../components/ProjectCard.js";
 
-const ProjectsScreen = ({ addProject, getAllProjects, projects }) => {
+const ProjectsScreen = () => {
     const { sendRequest } = useHttpClient();
+    const dispatch = useDispatch();
+    const projectsSlice = useSelector(state => state.projects);
+    const projects = projectsSlice;
+
     const [ selectedProjectType, setSelectedProjectType ] = useState('all');
     const [ completedProjectCount, setCompletedProjectCount] = useState(0);
     const [ inCompletedProjectCount, setInCompletedProjectCount] = useState(0);
@@ -22,7 +25,7 @@ const ProjectsScreen = ({ addProject, getAllProjects, projects }) => {
     ];
 
     useEffect( () => {
-        getAllProjects(sendRequest);
+        dispatch(getAllProjects({ method: sendRequest }));
     }, []);
 
     useEffect(() => {
@@ -64,10 +67,11 @@ const ProjectsScreen = ({ addProject, getAllProjects, projects }) => {
         event.preventDefault();
 
         try {
-             addProject(formState.inputs.projectName.value, formState.inputs.projectCategory.value,
-                formState.inputs.projectDescription.value, formState.inputs.projectDeadline.value,
-                sendRequest
-            );
+             dispatch(addProject({
+                 projectName: formState.inputs.projectName.value, projectCategory: formState.inputs.projectCategory.value,
+                 projectDescription: formState.inputs.projectDescription.value, projectDeadline: formState.inputs.projectDeadline.value,
+                 method: sendRequest
+             }));
         } catch (error) {
             console.error(error);
         }
@@ -190,14 +194,15 @@ const ProjectsScreen = ({ addProject, getAllProjects, projects }) => {
     );
 };
 
-ProjectsScreen.propTypes = {
-    addProject: PropTypes?.func?.isRequired,
-    getAllProjects: PropTypes?.func?.isRequired,
-    projects: PropTypes?.array?.isRequired
-};
+// ProjectsScreen.propTypes = {
+//     addProject: PropTypes?.func?.isRequired,
+//     getAllProjects: PropTypes?.func?.isRequired,
+//     projects: PropTypes?.array?.isRequired
+// };
 
-const mapStateToProps = state => ({
-    projects: state?.projects
-});
+// const mapStateToProps = state => ({
+//     projects: state?.projects
+// });
 
-export default connect(mapStateToProps, { addProject, getAllProjects })(ProjectsScreen);
+export default ProjectsScreen;
+// export default connect(mapStateToProps, { addProject, getAllProjects })(ProjectsScreen);

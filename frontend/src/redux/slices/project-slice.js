@@ -131,7 +131,7 @@ import {
     deleteDiscussion, deleteMemberFromProject, deleteTodo, editBug,
     editDiscussion, editTodo, getIsMemberAndCreatorOfProject,
     getNotAssignedMember,
-    getProjectById, prepareActivity, prepareTodoAndBugForPreview, prepareWorkDonePreview
+    getProjectById, prepareTodoAndBugForPreview, prepareWorkDonePreview
 } from "../thunks/project-thunks";
 import {prepareActivityHelper} from "../../utils/helper";
 

@@ -6,13 +6,16 @@ import {VALIDATOR_EMAIL, VALIDATOR_MINLENGTH} from "../../utils/validators";
 import {useForm} from "../../hooks/form-hook";
 import {useHttpClient} from "../../hooks/http-hook";
 import Input from "../../components/shared/FormElements/Input";
-import {PropTypes} from "prop-types";
-import { login, register, loadUser } from "../../redux/thunks/auth-thunks";
-import {connect} from "react-redux";
+import { login, loadUser } from "../../redux/thunks/auth-thunks";
+import {useDispatch, useSelector} from "react-redux";
 
-function LoginScreen({ login, loadUser, user }) {
+function LoginScreen() {
     const { sendRequest } = useHttpClient();
     const history = useHistory();
+    const dispatch = useDispatch();
+    const authSlice = useSelector(state => state.auth);
+
+    const user = authSlice.user || {};
 
     const [ formState, inputHandler ] = useForm(
         {
@@ -37,8 +40,8 @@ function LoginScreen({ login, loadUser, user }) {
         event.preventDefault();
 
         try {
-            await login(formState.inputs.email.value, formState.inputs.password.value, sendRequest);
-            await loadUser(sendRequest);
+            dispatch(login({ email: formState.inputs.email.value, password: formState.inputs.password.value, method: sendRequest }));
+            dispatch(loadUser({ method: sendRequest }));
         } catch (error) {
             console.error(error);
         }
@@ -97,15 +100,13 @@ function LoginScreen({ login, loadUser, user }) {
     );
 }
 
-LoginScreen.propTypes = {
-    login: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool.isRequired
-};
+// LoginScreen.propTypes = {
+//     login: PropTypes.func.isRequired,
+// };
+//
+// const mapStateToProps = state => ({
+//     user: state.auth.user,
+// });
 
-const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated,
-    user: state.auth.user,
-    token: state.auth.token
-});
-
-export default connect(mapStateToProps, { login, register, loadUser })(LoginScreen);
+export default LoginScreen;
+// export default connect(mapStateToProps, { login, register, loadUser })(LoginScreen);
