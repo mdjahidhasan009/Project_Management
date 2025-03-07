@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { connect } from "react-redux";
+import {connect, useDispatch, useSelector} from "react-redux";
 import { useParams } from "react-router-dom";
 
 import {addTodo, editTodo, addSubTodo, editSubTodo, addTodoToJunior} from "../../../redux/thunks/project-thunks";
@@ -12,9 +12,13 @@ import CompletedTodoRow from "./CompletedTodo";
 // import M from "materialize-css";
 // import { initAllModal, initModalAndOpen } from "../../../utils/helper";
 
-const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo, editSubTodo, isMemberOfThisProject, isCreatedByUser, isAuthenticated, currentUser }) => {
+const Todos = () => {
     const { sendRequest } = useHttpClient();
     const projectId = useParams().projectId;
+    const dispatch = useDispatch();
+    const projectSlice = useSelector(state => state.project);
+    const authSlice = useSelector(state => state.auth);
+
     const [ editTodoText, setEditTodoText ] = useState('');
     const [ subTodoEditText, setSubTodoEditText ] = useState('');
     const [ todoId, setTodoId ] = useState();
@@ -28,6 +32,13 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
     const [showEditToDoModal, setShowEditToDoModal] = useState(false);
     const [showEditSubToDoModal, setShowEditSubToDoModal] = useState(false);
     const [selectOptions, setSelectOptions] = useState([]);
+
+    const project = projectSlice?.project || {};
+    const todos = project?.todos || [];
+    const isMemberOfThisProject = projectSlice.isMemberOfThisProject;
+    const isCreatedByUser = projectSlice.isCreatedByUser;
+    const isAuthenticated = authSlice.isAuthenticated;
+    const currentUser = authSlice?.user;
 
     const [ formState, inputHandler, setFormData ] = useForm(
         {
@@ -68,8 +79,8 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
 
     const addTodoHandler = async (event) => {
         event.preventDefault();
-        if(!assignMember) await addTodo(formState.inputs.todoText.value, projectId, sendRequest);
-        else await addTodoToJunior(formState.inputs.todoText.value, projectId, assignMember, sendRequest);
+        if(!assignMember) dispatch(addTodo({ todoText: formState.inputs.todoText.value, projectId: projectId, method: sendRequest }));
+        else dispatch(addTodoToJunior({ todoText: formState.inputs.todoText.value, projectId: projectId, username: assignMember, method: sendRequest }));
         await initAddTodoData();
         await setAssignMember("");
         await prepareJuniorMemberList();
@@ -85,7 +96,7 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
     }
 
     const editTodoHandler = async (event) => {
-        await editTodo(project._id, todoId, formState.inputs.todoEditText.value, sendRequest);
+        dispatch(editTodo({ projectId: project._id, todoId: todoId, todoEditText: formState.inputs.todoEditText.value, method: sendRequest }));
         await initAddTodoData();
 
         setShowEditToDoModal(false);
@@ -121,14 +132,14 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
 
     const addSubTodoHandler = async (event) => {
         event.preventDefault();
-        await addSubTodo(formState.inputs.subTodoText.value, projectId, todoId, sendRequest);
+        dispatch(addSubTodo({ todoText: formState.inputs.subTodoText.value, projectId: projectId, todoId: todoId, method: sendRequest }));
         await initAddTodoData();
 
         setShowAddSubToDoModal(false);
     }
 
     const editSubTodoHandler = async (event) => {
-        await editSubTodo(project._id, todoId, subTodoId, formState.inputs.subTodoEditText.value, sendRequest);
+        dispatch(editSubTodo({ projectId: project._id, todoId: todoId, subTodoId: subTodoId, subTodoEditText: formState.inputs.subTodoEditText.value, method: sendRequest }));
         await initAddTodoData();
         await initSubTodoData();
 
@@ -457,13 +468,14 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
     )
 }
 
-const mapStateToProps = state => ({
-    project: state.project.project,
-    todos: state.project?.project?.todos,
-    isMemberOfThisProject: state.project.isMemberOfThisProject,
-    isCreatedByUser: state.project.isCreatedByUser,
-    isAuthenticated: state.auth.isAuthenticated,
-    currentUser: state.auth?.user
-});
+// const mapStateToProps = state => ({
+//     project: state.project.project,
+//     todos: state.project?.project?.todos,
+//     isMemberOfThisProject: state.project.isMemberOfThisProject,
+//     isCreatedByUser: state.project.isCreatedByUser,
+//     isAuthenticated: state.auth.isAuthenticated,
+//     currentUser: state.auth?.user
+// });
 
-export default connect(mapStateToProps, { addTodo, editTodo, editSubTodo, addSubTodo, addTodoToJunior })(Todos);
+export default Todos;
+// export default connect(mapStateToProps, { addTodo, editTodo, editSubTodo, addSubTodo, addTodoToJunior })(Todos);

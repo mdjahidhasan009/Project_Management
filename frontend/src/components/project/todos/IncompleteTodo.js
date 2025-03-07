@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import { toggleIsDone, deleteTodo } from "../../../redux/thunks/project-thunks";
 import { useHttpClient } from "../../../hooks/http-hook";
 import SubInCompleteTodoRow from "./SubInCompleteTodo";
 
-const IncompleteTodo = ({ todo, projectId, toggleIsDone, username, deleteTodo,
+const IncompleteTodo = ({ todo, projectId,
                                handleClickOnEdit, handleClickOnAddSubTodo, handleClickOnEditSubTodo }) => {
     const { sendRequest } = useHttpClient();
+    const dispatch = useDispatch();
+    const authSlice = useSelector(state => state.auth);
+
+    const username = authSlice?.user?.username;
+
     const [ isMobile, setIsMobile ] = useState(false);
     let clicked = false; //is clicked on edit or delete
 
     const handleTodoDone = () => {
         if(!clicked) {
-            toggleIsDone(projectId, todo._id, 'true', sendRequest);
+            dispatch(toggleIsDone({ projectId: projectId, todoId: todo._id, isDone: 'true', method: sendRequest }));
         }
         clicked = false;
     }
@@ -31,7 +36,7 @@ const IncompleteTodo = ({ todo, projectId, toggleIsDone, username, deleteTodo,
     const handleDelete = () => {
         clicked = true;
         if(window.confirm('Do you want to delete this todo?')) {
-            deleteTodo(projectId, todo._id, sendRequest);
+            dispatch(deleteTodo({ projectId: projectId, todoId: todo._id, method: sendRequest }));
         }
     }
 
@@ -104,8 +109,9 @@ const IncompleteTodo = ({ todo, projectId, toggleIsDone, username, deleteTodo,
     )
 }
 
-const mapStateToProps = state => ({
-    username: state.auth?.user?.username
-})
+// const mapStateToProps = state => ({
+//     username: state.auth?.user?.username
+// })
 
-export default connect(mapStateToProps, { toggleIsDone, deleteTodo })(IncompleteTodo);
+export default IncompleteTodo;
+// export default connect(mapStateToProps, { toggleIsDone, deleteTodo })(IncompleteTodo);
