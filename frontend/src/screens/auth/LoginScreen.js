@@ -15,7 +15,8 @@ function LoginScreen() {
     const dispatch = useDispatch();
     const authSlice = useSelector(state => state.auth);
 
-    const user = authSlice.user || {};
+    ////TODO: will not use null as default value
+    const user = authSlice.user || null;
 
     const [ formState, inputHandler ] = useForm(
         {
@@ -40,8 +41,18 @@ function LoginScreen() {
         event.preventDefault();
 
         try {
-            dispatch(login({ email: formState.inputs.email.value, password: formState.inputs.password.value, method: sendRequest }));
-            dispatch(loadUser({ method: sendRequest }));
+            // dispatch(login({ email: formState.inputs.email.value, password: formState.inputs.password.value, method: sendRequest }));
+            // dispatch(loadUser({ method: sendRequest }));
+
+            const loginResult = await dispatch(login({
+                email: formState.inputs.email.value,
+                password: formState.inputs.password.value,
+                method: sendRequest
+            })).unwrap(); // Waits for login to succeed and unwraps the result
+
+            if (loginResult) {
+                dispatch(loadUser({ method: sendRequest })); // Dispatch loadUser after successful login
+            }
         } catch (error) {
             console.error(error);
         }
@@ -49,6 +60,7 @@ function LoginScreen() {
 
     useEffect(() => {
         if(user) {
+            console.log(user)
             history.push('/dashboard');
         }
     }, [user]);

@@ -59,6 +59,7 @@ const Discussions = () => {
         try {
             dispatch(addDiscussion({ discussionText: formState.inputs.discussionText.value, projectId: projectId, method: sendRequest }));
             await setAddDiscussionData();
+            setShowAddDiscussionModal(false);
         } catch (error) {
             console.error(error);
         }
@@ -131,7 +132,7 @@ const Discussions = () => {
                                             disabled={!formState.isValid}
                                             onClick={addDiscussionHandler}
                                         >
-                                            Add Project
+                                            Add Discussion
                                         </button>
                                     </div>
                                 </div>
@@ -204,11 +205,11 @@ const Discussions = () => {
                         className="flex items-center justify-center gap-4 w-52 h-10 bg-default hover:bg-orange-500 text-white-light rounded-2xl px-4 py-2"
                     >
                         <i className="fas fa-plus-circle" />
-                        ADD DISCUSSION
+                        Add Discussion
                     </button>
                 )}
 
-                {project && project.discussion.length > 0
+                {project && project?.discussion && project.discussion.length > 0
                     ?   <>
                             <h5 className="text-2xl text-orange-500 mt-16 mb-8">Discussion List</h5>
                             <div className="flex flex-col gap-8">

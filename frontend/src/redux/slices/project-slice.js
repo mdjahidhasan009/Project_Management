@@ -131,7 +131,7 @@ import {
     deleteDiscussion, deleteMemberFromProject, deleteTodo, editBug,
     editDiscussion, editTodo, getIsMemberAndCreatorOfProject,
     getNotAssignedMember,
-    getProjectById, prepareTodoAndBugForPreview, prepareWorkDonePreview
+    getProjectById, prepareWorkDonePreview
 } from "../thunks/project-thunks";
 import {prepareActivityHelper} from "../../utils/helper";
 
@@ -229,11 +229,11 @@ const projectSlice = createSlice({
                 state.status = 'succeeded';
                 state.chartData = action.payload;
             })
-            .addCase(prepareTodoAndBugForPreview.fulfilled, (state, action) => {
-                state.status = 'succeeded';
-                state.chartData = action.payload.chartData;
-                // You can add other parts of the payload to your state here
-            })
+            // .addCase(prepareTodoAndBugForPreview.fulfilled, (state, action) => {
+            //     state.status = 'succeeded';
+            //     state.chartData = action.payload.chartData;
+            //     // You can add other parts of the payload to your state here
+            // })
             .addMatcher(
                 (action) => action.type.endsWith('/pending'),
                 (state) => {

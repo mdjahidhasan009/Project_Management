@@ -16,7 +16,7 @@ const App = () => {
     const hideNavbarRoutes = ["/", "/auth/login", "/auth/get-started", "*"];
 
     useEffect(() => {
-        store.dispatch(loadUser(sendRequest));
+        store.dispatch(loadUser({ method: sendRequest }));
     }, []);
 
     const displayNavbar = <Navbar>

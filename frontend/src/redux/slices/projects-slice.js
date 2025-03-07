@@ -23,7 +23,7 @@ import {createSlice} from "@reduxjs/toolkit";
 
 const projectsSlice = createSlice({
   name: "projects",
-  initialState: [],
+  initialState: [], ////TODO: will push projects into another project property
   reducers: {},
   extraReducers: (builder) => {
     builder

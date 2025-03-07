@@ -12,7 +12,7 @@ const ProjectSummary = ({ projectId, selectedItem }) => {
     const category = project.category || '';
     const deadline = project.deadline || '';
 
-    const user = authSlice.user || {};
+    const user = authSlice.user || null;
 
     return (
         <div className="w-full lg:p-8 md:p-6 p-4 bg-[#1f2937] lg:rounded-2xl md:rounded-xl rounded-lg text-white-light flex flex-col lg:gap-8 md:gap-6 gap-4">

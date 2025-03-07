@@ -6,7 +6,7 @@ import {useSelector} from 'react-redux';
 //Unauthorized(not logged in) user can not visit this route
 const PrivateRoute = ({ component: Component, selectedItem, ...rest }) => {
     const authSlice = useSelector(state => state.auth);
-    const auth = authSlice.auth || {};
+    const auth = authSlice || {};
 
     return (
         <Route

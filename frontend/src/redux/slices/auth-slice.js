@@ -118,15 +118,130 @@ export const authSlice = createSlice({
         user: null,
         users: [],
         selectedUser: null,
+
         chartData: null,
         activitySummary: null,
         todoBugSummary: null,
+
+        noImage: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg',
+        noMember: 'https://res.cloudinary.com/store-image/image/upload/v1601440064/muswbaylzg5sjxqv7cwb.jpg'
     },
     reducers: {
         logout: (state) => {
             localStorage.removeItem("token");
             return { ...state, token: null, isAuthenticated: false, user: null, users: [], selectedUser: null };
-        }
+        },
+        prepareTodoAndBugForPreview: (state, action) => {
+        const { username, projects } = action.payload;
+
+        let allCompletedActivity = [];
+        let allNotCompletedActivity = [];
+        let projectName = null;
+        let completedTodoOfAProject = []; //completed todo of a single project of a member
+        let notCompletedTodoOfAProject = []; //not completed todo of a single project of a member
+        let notFixedBugOfAProject = []; //not fixed bug of a single project of a member
+        let fixedBugOfAProject = []; //fixed bug of a single project of a member
+        let finishedActivity = []; //finished todo and fixed bug for chart
+        let type = null, time = null;
+        //For top four card at dashboard
+        let completedTodoCount = 0, notCompletedTodoCount = 0, notFixedBugCount = 0, fixedBugCount = 0;
+        try {
+            projects.map(project => {
+                projectName = project.name;
+                completedTodoOfAProject = [];
+                notCompletedTodoOfAProject = [];
+                notFixedBugOfAProject = [];
+                fixedBugOfAProject = [];
+                if(project.todos) {
+                    project.todos.map(todo => {
+                        if(todo.user.username === username) {
+                            if(todo.doneAt) {
+                                type = 'todo-done';
+                                time = todo.doneAt;
+                                finishedActivity.push({ type, time })
+                                completedTodoCount++;
+                                completedTodoOfAProject.push(todo);
+                            } else {
+                                notCompletedTodoCount++;
+                                notCompletedTodoOfAProject.push(todo);
+                            }
+                        }
+                    })
+                }
+                if(project.bugs) {
+                    project.bugs.map(bug => {
+                        if(bug.user.username === username) {
+                            if(bug.fixedAt) {
+                                type = 'bug-fixed';
+                                time = bug.fixedAt;
+                                finishedActivity.push({ type, time });
+                                fixedBugCount++;
+                                fixedBugOfAProject.push(bug);
+                            } else {
+                                notFixedBugCount++;
+                                notFixedBugOfAProject.push(bug);
+                            }
+                        }
+                    })
+                }
+                if((completedTodoOfAProject.length > 0) || (fixedBugOfAProject.length > 0))
+                    allCompletedActivity.push(
+                        { projectName, completedTodo: completedTodoOfAProject, fixedBug: fixedBugOfAProject } );
+                if((notCompletedTodoOfAProject.length > 0) || (notFixedBugOfAProject.length > 0))
+                    allNotCompletedActivity.push(
+                        { projectName, notCompletedTodo: notCompletedTodoOfAProject, notFixedBug: notFixedBugOfAProject } );
+            })
+
+            finishedActivity.sort(function(a,b){
+                return new Date(a.time) - new Date(b.time);
+            });
+            let todo = 0, bug = 0, i = 0;
+            let activityForChart = [];
+            if(finishedActivity.length > 0) {
+                //First date of finished activity
+                let firstDate = new Date(finishedActivity[0].time);
+                firstDate = firstDate.getFullYear() + "/" + (firstDate.getMonth() + 1) + "/" + firstDate.getDate();
+                let currentDate = firstDate, previousDate = firstDate;
+
+                finishedActivity.map(activity => {
+                    currentDate = new Date(activity.time);
+                    currentDate = currentDate.getFullYear() + "/" + (currentDate.getMonth() + 1) + "/" + currentDate.getDate();
+                    if (currentDate !== previousDate) {
+                        previousDate = currentDate;
+                        if (todo > 0 || bug > 0) {
+                            i++;
+                            activityForChart.push([i, todo, bug]);
+                            todo = 0
+                            bug = 0
+                        }
+                    }
+                    if (activity.type === 'todo-done') todo++;
+                    else if (activity.type === 'bug-fixed') bug++;
+                })
+                //for last element
+                if(todo > 0 || bug > 0) {
+                    activityForChart.push([++i, todo, bug]);
+                }
+            }
+            const chartData = [
+                ['x', 'Todo done', 'Bug fixed'],
+                [0, 0, 0]
+            ].concat(activityForChart);
+            //Count of how many todos are completed or incomplete and bug fixed or not fixed yet.
+            const todoBugCountSummary = {
+                todoDone: completedTodoCount,
+                todoNotDone: notCompletedTodoCount,
+                fixedBug: fixedBugCount,
+                notFixedBug: notFixedBugCount
+            }
+            return { ...state,
+                chartData,
+                activitySummary: { completedActivity: allCompletedActivity, notCompletedActivity: allNotCompletedActivity },
+                todoBugCountSummary
+            };
+        } catch (error) {
+            console.error(error);
+        }}
     },
     extraReducers: (builder) => {
         builder
@@ -169,5 +284,5 @@ export const authSlice = createSlice({
     }
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, prepareTodoAndBugForPreview } = authSlice.actions;
 export default authSlice.reducer;

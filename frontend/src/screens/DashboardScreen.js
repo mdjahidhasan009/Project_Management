@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
-import { prepareTodoAndBugForPreview } from "../redux/thunks/project-thunks";
 import { getAllProjects } from "../redux/thunks/projects-thunks";
 import { useHttpClient } from "../hooks/http-hook";
 import ChartItem from "../components/ChartItem";
+import {prepareTodoAndBugForPreview} from "../redux/slices/auth-slice";
 
 const DashboardScreen = () => {
     const { sendRequest } = useHttpClient();
@@ -12,8 +12,9 @@ const DashboardScreen = () => {
     const projectsSlice = useSelector(state => state.projects);
     const authSlice = useSelector(state => state.auth);
 
-    const projects = projectsSlice.projects || [];
-    const auth = authSlice.auth || {};
+
+    const projects = projectsSlice || [];
+    const auth = authSlice || {};
 
     const { user,
         chartData, //for showing chart of finished todos and fixed bugs of a member

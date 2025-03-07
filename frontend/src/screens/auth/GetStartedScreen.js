@@ -15,7 +15,7 @@ function GetStartedScreen() {
     const history = useHistory();
     const dispatch = useDispatch();
     const authSlice = useSelector(state => state.auth);
-    const user = authSlice.auth || {};
+    const user = authSlice || {};
 
     const [ formState, inputHandler ] = useForm(
         {
