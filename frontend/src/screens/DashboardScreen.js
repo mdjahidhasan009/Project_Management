@@ -1,14 +1,20 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
-import { prepareTodoAndBugForPreview } from "../actions/project-action";
-import { getAllProjects } from "../actions/projects-action";
-import { loadUser } from "../actions/auth-action";
+import { getAllProjects } from "../redux/thunks/projects-thunks";
 import { useHttpClient } from "../hooks/http-hook";
 import ChartItem from "../components/ChartItem";
+import {prepareTodoAndBugForPreview} from "../redux/slices/auth-slice";
 
-const DashboardScreen = ({ projects, auth, getAllProjects, prepareTodoAndBugForPreview }) => {
+const DashboardScreen = () => {
     const { sendRequest } = useHttpClient();
+    const dispatch = useDispatch();
+    const projectsSlice = useSelector(state => state.projects);
+    const authSlice = useSelector(state => state.auth);
+
+
+    const projects = projectsSlice || [];
+    const auth = authSlice || {};
 
     const { user,
         chartData, //for showing chart of finished todos and fixed bugs of a member
@@ -24,12 +30,12 @@ const DashboardScreen = ({ projects, auth, getAllProjects, prepareTodoAndBugForP
     ];
 
     useEffect(() => {
-        if(user) getAllProjects(sendRequest);
+        if(user) dispatch(getAllProjects({ method: sendRequest }));
         // eslint-disable-next-line
     }, [user]);
 
     useEffect(() => {
-        if(projects.length > 0 && user) prepareTodoAndBugForPreview(user.username, projects);
+        if(projects.length > 0 && user) dispatch(prepareTodoAndBugForPreview({ username: user.username, projects: projects }));
         // eslint-disable-next-line
     }, [projects, user]);
 
@@ -153,9 +159,10 @@ const DashboardScreen = ({ projects, auth, getAllProjects, prepareTodoAndBugForP
     );
 };
 
-const mapStateToProps = state => ({
-    projects: state.projects,
-    auth: state.auth
-})
+// const mapStateToProps = state => ({
+//     projects: state.projects,
+//     auth: state.auth
+// })
 
-export default connect(mapStateToProps, { getAllProjects, prepareTodoAndBugForPreview, loadUser })(DashboardScreen);
+export default DashboardScreen;
+// export default connect(mapStateToProps, { getAllProjects, prepareTodoAndBugForPreview, loadUser })(DashboardScreen);

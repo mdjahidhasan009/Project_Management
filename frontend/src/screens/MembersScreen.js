@@ -1,14 +1,18 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { getAllUser } from "../actions/auth-action";
+import {useDispatch, useSelector} from 'react-redux';
+import { getAllUser } from "../redux/thunks/auth-thunks";
 import { useHttpClient } from "../hooks/http-hook";
 import Member from "../components/Member";
 
-const MembersScreen = ({ auth: { users }, getAllUser }) => {
+const MembersScreen = () => {
     const { sendRequest } = useHttpClient();
+    const dispatch = useDispatch();
+    const authSlice = useSelector(state => state.auth);
+
+    const users = authSlice.users || [];
 
     useEffect(() => {
-        getAllUser(sendRequest);
+        dispatch(getAllUser({ method: sendRequest }));
     }, []);
 
     return (
@@ -22,8 +26,10 @@ const MembersScreen = ({ auth: { users }, getAllUser }) => {
     );
 };
 
-const mapStateToProps = state => ({
-    auth: state.auth
-})
+// const mapStateToProps = state => ({
+//     auth: state.auth
+// })
 
-export default connect(mapStateToProps, { getAllUser })(MembersScreen);
+
+export default MembersScreen;
+// export default connect(mapStateToProps, { getAllUser })(MembersScreen);

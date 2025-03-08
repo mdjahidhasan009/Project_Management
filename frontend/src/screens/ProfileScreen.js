@@ -1,17 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { getUserByUserName } from "../actions/auth-action";
+import {useDispatch, useSelector} from 'react-redux';
+import { getUserByUserName } from "../redux/thunks/auth-thunks";
 import { useHttpClient } from "../hooks/http-hook";
 import { getUserRoleString } from "../utils/helper";
 import defaultUserImage from "../assets/images/default_user.jpg";
 import {Link} from "react-router-dom";
 
-const ProfileScreen = ({ match, loadedUser, getUserByUserName, auth: { user } }) => {
+const ProfileScreen = ({ match }) => {
     const { sendRequest } = useHttpClient();
+    const dispatch = useDispatch();
+
+    const authSlice = useSelector(state => state.auth);
+
+
     const [ userRole, setUserRole ] = useState('');
+    const user = authSlice.user || null;
+    const loadedUser = authSlice.loadedUser || null;
+
     useEffect(() => {
         if(match?.params && match?.params.username) {
-            getUserByUserName(match?.params?.username, sendRequest);
+            dispatch(getUserByUserName({ username: match?.params?.username, method: sendRequest }));
         }
         // eslint-disable-next-line
     }, []);
@@ -112,9 +120,10 @@ const ProfileScreen = ({ match, loadedUser, getUserByUserName, auth: { user } })
     );
 };
 
-const mapStateToProps = state => ({
-    auth: state.auth,
-    loadedUser: state.auth.loadedUser
-})
+// const mapStateToProps = state => ({
+//     auth: state.auth,
+//     loadedUser: state.auth.loadedUser
+// })
 
-export default connect(mapStateToProps, { getUserByUserName })(ProfileScreen);
+export default ProfileScreen;
+// export default connect(mapStateToProps, { getUserByUserName })(ProfileScreen);

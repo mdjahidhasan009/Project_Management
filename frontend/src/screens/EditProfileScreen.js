@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from "react-router-dom";
-import { connect } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import UploadImage from '../components/UploadImage';
-import { updateUser } from "../actions/auth-action";
+import { updateUser } from "../redux/thunks/auth-thunks";
 import { useHttpClient } from "../hooks/http-hook";
 import { useForm } from "../hooks/form-hook";
 import Input from "../components/shared/FormElements/Input";
@@ -15,12 +15,17 @@ import {
     VALIDATOR_LINK
 } from "../utils/validators";
 
-const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
+const EditProfileScreen = () => {
     const history = useHistory();
     const { sendRequest } = useHttpClient();
+    const dispatch = useDispatch();
+    const authSlice = useSelector((state) => state.auth);
+
     const [profileImage, setProfileImage] = useState("");
     const [formState, inputHandler, setFormData] = useForm();
     const [loading, setIsLoading] = useState(false);
+    const user = authSlice?.user || null;
+    const isAuthenticated = authSlice?.isAuthenticated || false;
 
     const initializeFormData = () => {
         const formData = {};
@@ -67,7 +72,7 @@ const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
             // TODO: Handle this case
         } else {
             setIsLoading(true);
-            await updateUser(formState, sendRequest);
+            dispatch(updateUser({ formState, sendRequest }));
             setIsLoading(false);
             history?.push('/profile');
         }
@@ -120,8 +125,9 @@ const EditProfileScreen = ({ auth: { user, isAuthenticated }, updateUser }) => {
     );
 };
 
-const mapStateToProps = (state) => ({
-    auth: state?.auth,
-});
+// const mapStateToProps = (state) => ({
+//     auth: state?.auth,
+// });
 
-export default connect(mapStateToProps, { updateUser })(EditProfileScreen);
+export default EditProfileScreen;
+// export default connect(mapStateToProps, { updateUser })(EditProfileScreen);

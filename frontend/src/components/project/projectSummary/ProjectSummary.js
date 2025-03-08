@@ -1,9 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { getProjectById, getNotAssignedMember } from "../../../actions/project-action";
+import {useSelector} from "react-redux";
 
-const ProjectSummary = ({ project, projectId, selectedItem, user, name, description, category, deadline }) => {
+const ProjectSummary = ({ projectId, selectedItem }) => {
+    const projectSlice = useSelector(state => state.project);
+    const authSlice = useSelector(state => state.auth);
+
+    const project = projectSlice.project || {};
+    const name = project.name || '';
+    const description = project.description || '';
+    const category = project.category || '';
+    const deadline = project.deadline || '';
+
+    const user = authSlice.user || null;
+
     return (
         <div className="w-full lg:p-8 md:p-6 p-4 bg-[#1f2937] lg:rounded-2xl md:rounded-xl rounded-lg text-white-light flex flex-col lg:gap-8 md:gap-6 gap-4">
         <>
@@ -65,13 +75,14 @@ const ProjectSummary = ({ project, projectId, selectedItem, user, name, descript
     )
 }
 
-const mapStateToProps = state => ({
-    project: state?.project?.project,
-    user: state?.auth?.user,
-    name: state?.project?.project?.name,
-    description: state.project?.project?.description,
-    category: state.project?.project?.category,
-    deadline: state.project?.project?.deadline
-});
+// const mapStateToProps = state => ({
+//     project: state?.project?.project,
+//     user: state?.auth?.user,
+//     name: state?.project?.project?.name,
+//     description: state.project?.project?.description,
+//     category: state.project?.project?.category,
+//     deadline: state.project?.project?.deadline
+// });
 
-export default connect(mapStateToProps, { getProjectById, getNotAssignedMember })(ProjectSummary);
+export default ProjectSummary;
+// export default connect(mapStateToProps, { getProjectById, getNotAssignedMember })(ProjectSummary);

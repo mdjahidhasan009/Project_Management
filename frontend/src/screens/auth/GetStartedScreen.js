@@ -6,14 +6,16 @@ import {VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE} from "../../uti
 import {useForm} from "../../hooks/form-hook";
 import {useHttpClient} from "../../hooks/http-hook";
 import Input from "../../components/shared/FormElements/Input";
-import {PropTypes} from "prop-types";
-import { login, register, loadUser } from "../../actions/auth-action";
-import {connect} from "react-redux";
+import { register, loadUser } from "../../redux/thunks/auth-thunks";
+import {useDispatch, useSelector} from "react-redux";
 import Swal from "sweetalert2";
 
-function GetStartedScreen({ register , loadUser, user }) {
+function GetStartedScreen() {
     const { sendRequest } = useHttpClient();
     const history = useHistory();
+    const dispatch = useDispatch();
+    const authSlice = useSelector(state => state.auth);
+    const user = authSlice || {};
 
     const [ formState, inputHandler ] = useForm(
         {
@@ -51,9 +53,10 @@ function GetStartedScreen({ register , loadUser, user }) {
                 });
             } else {
                 try {
-                    await register(formState?.inputs?.name?.value, formState?.inputs?.username?.value,
-                        formState?.inputs?.email?.value, formState?.inputs?.password?.value, sendRequest);
-                    await loadUser(sendRequest);
+                    // name, username, email, password, method
+                    dispatch(register({ name: formState?.inputs?.name?.value, username: formState?.inputs?.username?.value,
+                        email: formState?.inputs?.email?.value, password: formState?.inputs?.password?.value, method: sendRequest }));
+                    dispatch(loadUser({ method: sendRequest }));
 
                     console.log(formState?.inputs?.password?.value)
                 } catch (error) {
@@ -118,15 +121,10 @@ function GetStartedScreen({ register , loadUser, user }) {
     );
 }
 
-GetStartedScreen.propTypes = {
-    login: PropTypes?.func?.isRequired,
-    isAuthenticated: PropTypes?.bool?.isRequired
-};
 
-const mapStateToProps = state => ({
-    isAuthenticated: state?.auth?.isAuthenticated,
-    user: state?.auth?.user,
-    token: state?.auth?.token
-});
+// const mapStateToProps = state => ({
+//     user: state?.auth?.user
+// });
 
-export default connect(mapStateToProps, { login, register, loadUser })(GetStartedScreen);
+export default GetStartedScreen;
+// export default connect(mapStateToProps, { login, register, loadUser })(GetStartedScreen);

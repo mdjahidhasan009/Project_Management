@@ -1,13 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import { connect } from 'react-redux';
+import {connect, useDispatch, useSelector} from 'react-redux';
 
 import { useHttpClient } from "../../../hooks/http-hook";
-import { deleteDiscussion } from "../../../actions/project-action";
+import { deleteDiscussion } from "../../../redux/thunks/project-thunks";
 import {Link} from "react-router-dom";
 
-const Discussion = ({ discussion, username, handleClickOnEdit, projectId, deleteDiscussion }) => {
+const Discussion = ({ discussion, handleClickOnEdit, projectId }) => {
     const { sendRequest } = useHttpClient();
+    const dispatch = useDispatch();
+    const authSlice = useSelector(state => state.auth);
+
     const [ isMobile, setIsMobile ] = useState(false);
+    const username = authSlice.user.username || "";
 
     const handleEditClick = async () => {
         await handleClickOnEdit(discussion._id, discussion.text);
@@ -15,7 +19,7 @@ const Discussion = ({ discussion, username, handleClickOnEdit, projectId, delete
 
     const handleDeleteClick = async () => {
         if(window.confirm('Do you want to delete this discussion?')) {
-            await deleteDiscussion(projectId, discussion._id, sendRequest);
+            dispatch(deleteDiscussion({ projectId: projectId, discussionId: discussion._id, method: sendRequest }));
         }
     }
 
@@ -69,8 +73,9 @@ const Discussion = ({ discussion, username, handleClickOnEdit, projectId, delete
     )
 }
 
-const mapStateToProps = state => ({
-    username: state.auth?.user?.username
-})
+// const mapStateToProps = state => ({
+//     username: state.auth?.user?.username
+// })
 
-export default connect(mapStateToProps, { deleteDiscussion })(Discussion);
+export default Discussion;
+// export default connect(mapStateToProps, { deleteDiscussion })(Discussion);

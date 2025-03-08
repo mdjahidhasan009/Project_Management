@@ -1,14 +1,17 @@
 import React from 'react';
-import { connect } from "react-redux";
+import {connect, useDispatch, useSelector} from "react-redux";
 
 import { useHttpClient } from "../../../hooks/http-hook";
-import { toggleIsFixed } from "../../../actions/project-action";
+import { toggleIsFixed } from "../../../redux/thunks/project-thunks";
 
-const FixedBug = ({ bug, projectId, toggleIsFixed, noImage }) => {
+const FixedBug = ({ bug, projectId }) => {
     const { sendRequest } = useHttpClient();
+    const dispatch = useDispatch();
+    const authSlice = useSelector(state => state.auth);
+    const noImage = authSlice.noImage || "";
 
     const handleIsFixed = async () => {
-        await toggleIsFixed(projectId, bug._id, 'false', sendRequest);
+        dispatch(toggleIsFixed({ projectId: projectId, bugId: bug._id, isFixed: 'false', method: sendRequest }));
     }
 
     return (
@@ -39,8 +42,9 @@ const FixedBug = ({ bug, projectId, toggleIsFixed, noImage }) => {
     )
 }
 
-const mapStateToProps = state => ({
-    noImage: state.auth.noImage
-});
+// const mapStateToProps = state => ({
+//     noImage: state.auth.noImage
+// });
 
-export default connect(mapStateToProps, { toggleIsFixed })(FixedBug);
+export default FixedBug;
+// export default connect(mapStateToProps, { toggleIsFixed })(FixedBug);

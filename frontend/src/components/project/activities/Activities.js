@@ -1,13 +1,19 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
-import { prepareActivity } from "../../../actions/project-action";
 import ActivitiesInADay from "./ActivitiesInADay";
+import {prepareActivity} from "../../../redux/slices/project-slice";
 
-const Activities = ({ project, activities, prepareActivity }) => {
+const Activities = () => {
+    const dispatch = useDispatch();
+    const projectSlice = useSelector(state => state.project);
+
+    const project = projectSlice.project || null;
+    const activities = projectSlice.activities || null;
+
     useEffect(() => {
         if(project) {
-            prepareActivity(project);
+            dispatch(prepareActivity(project));
         }
         // eslint-disable-next-line
     }, [project]);
@@ -25,11 +31,14 @@ const Activities = ({ project, activities, prepareActivity }) => {
     )
 }
 
-const mapStateToProps = state => ({
-    project: state.project.project,
-    activities: state.project.activities
-})
+// const mapStateToProps = state => ({
+//     project: state.project.project,
+//     activities: state.project.activities
+// })
 
-export default connect(mapStateToProps, { prepareActivity })(Activities);
+
+
+// export default connect(mapStateToProps, { prepareActivity })(Activities);
+export default Activities;
 
 //As while not logged in activities of project state will be null nothing will show for that

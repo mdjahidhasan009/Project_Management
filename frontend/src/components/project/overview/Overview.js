@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from "react-redux";
+import {connect, useDispatch, useSelector} from "react-redux";
 import { useHistory } from 'react-router-dom';
 import {useHttpClient} from "../../../hooks/http-hook";
 import {
@@ -8,19 +8,27 @@ import {
     getProjectById,
     deleteProject,
     getNotAssignedMember
-} from '../../../actions/project-action';
+} from '../../../redux/thunks/project-thunks';
 import MemberRow from './Member';
 import ChartItem from "../../ChartItem";
 
-const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThisProject, isCreatedByUser,
-                      getProjectById, toggleIsProjectIsFinished, isAuthenticated, deleteProject, notAssignMembers,
-                      getNotAssignedMember
-}) => {
+const Overview = () => {
     const { sendRequest } = useHttpClient();
+    const dispatch = useDispatch();
+    const projectSlice = useSelector(state => state.project);
+    const authSlice = useSelector(state => state.auth);
+    const history = useHistory();
+
     const [selectOptions, setSelectOptions] = useState([]);
     const [ addMember, setAddMember ] = useState('');
     const [showModal, setShowModal] = useState(false);
-    const history = useHistory();
+    const project = projectSlice?.project || {};
+    const chartData = projectSlice?.chartData || {};
+    const isCreatedByUser = projectSlice?.isCreatedByUser || false;
+    const isMemberOfThisProject = projectSlice?.isMemberOfThisProject || false;
+    const notAssignMembers = projectSlice?.notAssignMembers || [];
+
+    const isAuthenticated = authSlice?.isAuthenticated || false;
 
     useEffect(() => {
         if (notAssignMembers) {
@@ -34,8 +42,8 @@ const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThis
 
     const handleIsDoneClick = async () => {
         if(window.confirm("Do you want to mark this project as " + (project?.isDone ? "Not Done?" : "Done?"))) {
-            await toggleIsProjectIsFinished(!project?.isDone , project?._id, sendRequest);
-            await getProjectById(project?._id, sendRequest);
+            dispatch(toggleIsProjectIsFinished({ isDone: !project?.isDone , projectId: project?._id, method: sendRequest }));
+            dispatch(getProjectById({ projectId: project?._id, method: sendRequest }));
         }
     };
 
@@ -46,16 +54,15 @@ const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThis
 
     const handleAddMember = async () => {
         setSelectOptions([]);
-
-        await assignAnMemberToAProject(project?._id, addMember, sendRequest);
-        await getNotAssignedMember(project?._id, sendRequest);
+        dispatch(assignAMemberToAProject({ projectId: project?._id, username: addMember, method: sendRequest }));
+        dispatch(getNotAssignedMember({ projectId: project?._id, method: sendRequest }));
 
         setShowModal(false)
     };
 
     const handleProjectDelete = async () => {
         if(window.confirm("Do you want to delete this project? There is no recovery method!!")) {
-            await deleteProject(project?._id, sendRequest);
+            dispatch(deleteProject({ projectId: project?._id, method: sendRequest }));
             history.push('/projects');
         }
     };
@@ -187,14 +194,15 @@ const Overview = ({ project, assignAnMemberToAProject, chartData, isMemberOfThis
     );
 };
 
-const mapStateToProps = state => ({
-    project: state?.project?.project,
-    chartData: state?.project?.chartData,
-    isCreatedByUser: state?.project?.isCreatedByUser,
-    isMemberOfThisProject: state?.project?.isMemberOfThisProject,
-    isAuthenticated: state?.auth?.isAuthenticated,
-    notAssignMembers: state?.project?.notAssignMembers
-});
+// const mapStateToProps = state => ({
+//     project: state?.project?.project,
+//     chartData: state?.project?.chartData,
+//     isCreatedByUser: state?.project?.isCreatedByUser,
+//     isMemberOfThisProject: state?.project?.isMemberOfThisProject,
+//     isAuthenticated: state?.auth?.isAuthenticated,
+//     notAssignMembers: state?.project?.notAssignMembers
+// });
 
-export default connect(mapStateToProps, { assignAnMemberToAProject: assignAMemberToAProject, toggleIsProjectIsFinished, getProjectById,
-    deleteProject, getNotAssignedMember })(Overview);
+export default Overview;
+// export default connect(mapStateToProps, { assignAnMemberToAProject: assignAMemberToAProject, toggleIsProjectIsFinished, getProjectById,
+//     deleteProject, getNotAssignedMember })(Overview);

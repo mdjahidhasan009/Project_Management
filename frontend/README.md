@@ -1,4 +1,4 @@
-# Project management
+# Project Management
 
 Project management system for software developers with task management. Track project's task, bug and discuss with team also can see project progress.
 

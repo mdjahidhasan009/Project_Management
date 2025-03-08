@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import {useDispatch} from 'react-redux';
 import { useHistory } from "react-router-dom";
 
-import { uploadProfileImage } from '../actions/user-action';
 import { useHttpClient } from "../hooks/http-hook";
 import Swal from "sweetalert2";
+import {uploadProfileImage} from "../redux/thunks/auth-thunks";
 // import M from "materialize-css";
 
-const UploadImage = ({ uploadProfileImage, profileImageUrl }) => {
+const UploadImage = ({ profileImageUrl }) => {
     const history = useHistory();
     const { sendRequest } = useHttpClient();
+    const dispatch = useDispatch();
     const [ fileInputState, setFileInputState ] = useState('');//Image url temporary(for input tag)
     const [ previewSource, setPreviewSource ] = useState('');//converted normal image to base64EncodedImage format
     const [ selectedFile, setSelectedFile ] = useState();//for check is any file selected or not before submitting
@@ -47,7 +48,7 @@ const UploadImage = ({ uploadProfileImage, profileImageUrl }) => {
 
     const uploadImage = async (base64EncodedImage) => {
         setLoading(true);
-        await uploadProfileImage(base64EncodedImage, sendRequest);
+        dispatch(uploadProfileImage({ base64EncodedImage: base64EncodedImage, method: sendRequest }));
         setLoading(false);
         await history.push('/profile/');
     };
@@ -94,4 +95,5 @@ const UploadImage = ({ uploadProfileImage, profileImageUrl }) => {
     );
 };
 
-export default connect(null, { uploadProfileImage } )(UploadImage);
+export default UploadImage;
+// export default connect(null, { uploadProfileImage } )(UploadImage);

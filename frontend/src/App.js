@@ -1,8 +1,8 @@
 import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from './store';
-import { loadUser } from './actions/auth-action';
+import store from './redux/store';
+import { loadUser } from './redux/thunks/auth-thunks';
 import { useHttpClient } from './hooks/http-hook';
 import HomeScreen from './screens/HomeScreen';
 import Routes from './routing/Routes';
@@ -16,7 +16,7 @@ const App = () => {
     const hideNavbarRoutes = ["/", "/auth/login", "/auth/get-started", "*"];
 
     useEffect(() => {
-        store.dispatch(loadUser(sendRequest));
+        store.dispatch(loadUser({ method: sendRequest }));
     }, []);
 
     const displayNavbar = <Navbar>

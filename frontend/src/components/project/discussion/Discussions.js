@@ -1,22 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
+import {connect, useDispatch, useSelector} from 'react-redux';
 
 import { useForm } from "../../../hooks/form-hook";
 import { useHttpClient } from "../../../hooks/http-hook";
-import { addDiscussion, editDiscussion } from "../../../actions/project-action";
+import { addDiscussion, editDiscussion } from "../../../redux/thunks/project-thunks";
 import DiscussionRow from "./Discussion";
 import Input from "../../shared/FormElements/Input";
 import {VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE} from "../../../utils/validators";
 // import {initAllModal, initModalAndOpen} from "../../../utils/helper";
 
-const Discussions = ({ project, addDiscussion, editDiscussion, isMemberOfThisProject, isCreatedByUser }) => {
+const Discussions = () => {
     const { sendRequest } = useHttpClient();
+    const dispatch = useDispatch();
+    const projectSlice = useSelector(state => state.project);
+
     const projectId = useParams().projectId;
     const [ editDiscussionText, setEditDiscussionText ] = useState('');
     const [ discussionId, setDiscussionId ] = useState();
     const [showAddDiscussionModal, setShowAddDiscussionModal] = useState(false);
     const [showEditDiscussionModal, setShowEditDiscussionModal] = useState(false);
+
+    const project = projectSlice.project || {};
+    const isMemberOfThisProject = projectSlice.isMemberOfThisProject || false;
+    const isCreatedByUser = projectSlice.isCreatedByUser || false;
 
     const [ formState, inputHandler, setFormData ] = useForm(
         {
@@ -50,15 +57,16 @@ const Discussions = ({ project, addDiscussion, editDiscussion, isMemberOfThisPro
     const addDiscussionHandler = async (event) => {
         event.preventDefault();
         try {
-            await addDiscussion(formState.inputs.discussionText.value, projectId, sendRequest);
+            dispatch(addDiscussion({ discussionText: formState.inputs.discussionText.value, projectId: projectId, method: sendRequest }));
             await setAddDiscussionData();
+            setShowAddDiscussionModal(false);
         } catch (error) {
             console.error(error);
         }
     }
 
     const editDiscussionHandler = async (event) => {
-        await editDiscussion(project._id, discussionId, formState.inputs.discussionEditText.value, sendRequest);
+        dispatch(editDiscussion({ projectId: project._id, discussionId: discussionId, discussionEditText: formState.inputs.discussionEditText.value, method: sendRequest }));
         await setAddDiscussionData();
     }
 
@@ -124,7 +132,7 @@ const Discussions = ({ project, addDiscussion, editDiscussion, isMemberOfThisPro
                                             disabled={!formState.isValid}
                                             onClick={addDiscussionHandler}
                                         >
-                                            Add Project
+                                            Add Discussion
                                         </button>
                                     </div>
                                 </div>
@@ -197,11 +205,11 @@ const Discussions = ({ project, addDiscussion, editDiscussion, isMemberOfThisPro
                         className="flex items-center justify-center gap-4 w-52 h-10 bg-default hover:bg-orange-500 text-white-light rounded-2xl px-4 py-2"
                     >
                         <i className="fas fa-plus-circle" />
-                        ADD DISCUSSION
+                        Add Discussion
                     </button>
                 )}
 
-                {project && project.discussion.length > 0
+                {project && project?.discussion && project.discussion.length > 0
                     ?   <>
                             <h5 className="text-2xl text-orange-500 mt-16 mb-8">Discussion List</h5>
                             <div className="flex flex-col gap-8">
@@ -222,10 +230,11 @@ const Discussions = ({ project, addDiscussion, editDiscussion, isMemberOfThisPro
     );
 };
 
-const mapStateToProps = state => ({
-    project: state.project.project,
-    isMemberOfThisProject: state.project.isMemberOfThisProject,
-    isCreatedByUser: state.project.isCreatedByUser,
-});
+// const mapStateToProps = state => ({
+//     project: state.project.project,
+//     isMemberOfThisProject: state.project.isMemberOfThisProject,
+//     isCreatedByUser: state.project.isCreatedByUser,
+// });
 
-export default connect(mapStateToProps, { addDiscussion, editDiscussion })(Discussions);
+export default Discussions;
+// export default connect(mapStateToProps, { addDiscussion, editDiscussion })(Discussions);

@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import {connect, useDispatch, useSelector} from 'react-redux';
 
 import { useForm } from "../../../hooks/form-hook";
-import { editProjectDetails, getProjectById } from "../../../actions/project-action";
+import { editProjectDetails, getProjectById } from "../../../redux/thunks/project-thunks";
 import { useHttpClient } from "../../../hooks/http-hook";
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from "../../../utils/validators";
 import Input from "../../shared/FormElements/Input";
 
-const EditProjectDetails = ({ project, editProjectDetails, isAuthenticated, getProjectById }) => {
+const EditProjectDetails = () => {
     const { sendRequest } = useHttpClient();
+    const dispatch = useDispatch();
+
+    const projectSlice = useSelector(state => state.project);
+    const authSlice = useSelector(state => state.auth);
+
+    const project = projectSlice.project || {};
+    const isAuthenticated = authSlice.isAuthenticated || false;
+
     const [ loading, setIsLoading ] = useState(false);
     const [ formState, inputHandler, setFormData ] = useForm(
         {
@@ -60,10 +68,9 @@ const EditProjectDetails = ({ project, editProjectDetails, isAuthenticated, getP
 
     const saveProjectDetails = async() => {
         setIsLoading(true);
-
-        await editProjectDetails(formState.inputs.projectName.value, formState.inputs.projectDetails.value,
-            formState.inputs.projectCategory.value, formState.inputs.projectDeadline.value, project._id, sendRequest);
-        await getProjectById(project._id, sendRequest);
+        dispatch(editProjectDetails({ projectName: formState.inputs.projectName.value, projectDetails: formState.inputs.projectDetails.value,
+            projectCategory: formState.inputs.projectCategory.value, projectDeadline: formState.inputs.projectDeadline.value, projectId: project._id, method: sendRequest }));
+        dispatch(getProjectById({ projectId: project._id, method: sendRequest }));
         setIsLoading(false);
     }
 
@@ -151,9 +158,10 @@ const EditProjectDetails = ({ project, editProjectDetails, isAuthenticated, getP
     )
 }
 
-const mapStateToProps = state => ({
-    project: state.project.project,
-    isAuthenticated: state.auth.isAuthenticated
-})
+// const mapStateToProps = state => ({
+//     project: state.project.project,
+//     isAuthenticated: state.auth.isAuthenticated
+// })
 
-export default connect(mapStateToProps, { editProjectDetails, getProjectById })(EditProjectDetails);
+export default EditProjectDetails;
+// export default connect(mapStateToProps, { editProjectDetails, getProjectById })(EditProjectDetails);

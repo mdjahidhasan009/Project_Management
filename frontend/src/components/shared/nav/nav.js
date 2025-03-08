@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
 import {Link, useLocation} from "react-router-dom";
-import { connect } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import PropTypes from "prop-types";
 
-import { logout } from "../../../actions/auth-action";
+import { logout } from "../../../redux/slices/auth-slice";
 
-const Navbar = ({ auth: { isAuthenticated, user }, logout, history, children }) => {
+const Navbar = ({ children }) => {
+    const location = useLocation();
+    const dispatch = useDispatch();
+    const authSlice = useSelector(state => state.auth);
+
+    const isAuthenticated = authSlice.isAuthenticated || false;
+    const user = authSlice.user || null;
     const [ profileImage, setProfileImage ] = useState("");
     const [ currentPath, setCurrentPath ] = useState("");
-    const location = useLocation();
+
     const activeClass = "bg-orange-500 h-8 p-4 rounded-[4px] flex items-center justify-start"
     const normalClass = "hover:bg-orange-500 cursor-pointer w-full h-8 p-4 rounded-[4px] flex items-center justify-start"
 
@@ -26,7 +32,7 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout, history, children }) 
 
     const handleLogout = async () => {
         setProfileImage('');
-        await logout();
+        dispatch(logout());
     }
 
     //Link for user at sidebar
@@ -92,13 +98,15 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout, history, children }) 
     );
 };
 
-Navbar.propTypes = {
-    logout: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired
-};
+// Navbar.propTypes = {
+    // logout: PropTypes.func.isRequired,
+    // auth: PropTypes.object.isRequired
+// };
 
-const mapStateToProps = state => ({
-    auth: state.auth
-});
+// const mapStateToProps = state => ({
+//     auth: state.auth
+// });
+//
+// export default connect(mapStateToProps, { logout })(Navbar);
 
-export default connect(mapStateToProps, { logout })(Navbar);
+export default Navbar;
