@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {useDispatch} from 'react-redux';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { useHttpClient } from "../hooks/http-hook";
 import Swal from "sweetalert2";
@@ -8,7 +8,7 @@ import {uploadProfileImage} from "../redux/thunks/auth-thunks";
 // import M from "materialize-css";
 
 const UploadImage = ({ profileImageUrl }) => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const { sendRequest } = useHttpClient();
     const dispatch = useDispatch();
     const [ fileInputState, setFileInputState ] = useState('');//Image url temporary(for input tag)
@@ -50,7 +50,7 @@ const UploadImage = ({ profileImageUrl }) => {
         setLoading(true);
         dispatch(uploadProfileImage({ base64EncodedImage: base64EncodedImage, method: sendRequest }));
         setLoading(false);
-        await history.push('/profile/');
+        navigate('/profile/');
     };
 
     return (
