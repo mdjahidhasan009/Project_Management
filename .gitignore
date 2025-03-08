@@ -5,6 +5,7 @@
 /frontend/.firebase
 /frontend/firebase.json
 /frontend/.firebaserc
+/frontend/yarn.lock
 
 /backend/node_modules
 /backend/.env

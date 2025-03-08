@@ -6,7 +6,7 @@
 // export const addProject = (projectName, projectCategory, projectDescription, projectDeadline, method) => async dispatch =>{
 //   try {
 //     const responseData = await method(
-//         process.env.REACT_APP_ASSET_URL +'/api/project',
+//         process.env.VITE_ASSET_URL +'/api/project',
 //         'POST',
 //         JSON.stringify({
 //           name: projectName,
@@ -39,7 +39,7 @@
 // export const getAllProjects = (method) => async dispatch => {
 //   try {
 //     const responseData = await method(
-//         process.env.REACT_APP_ASSET_URL +'/api/project',
+//         process.env.VITE_ASSET_URL +'/api/project',
 //         'GET',
 //         null,
 //         {
@@ -64,7 +64,7 @@ export const addProject = createAsyncThunk(
     async ({ projectName, projectCategory, projectDescription, projectDeadline, method }, { rejectWithValue }) => {
         try {
             const responseData = await method(
-                process.env.REACT_APP_ASSET_URL + "/api/project",
+                process.env.VITE_ASSET_URL + "/api/project",
                 "POST",
                 JSON.stringify({
                     name: projectName,
@@ -92,7 +92,7 @@ export const getAllProjects = createAsyncThunk(
     async ({ method }, { rejectWithValue }) => {
         try {
             const responseData = await method(
-                process.env.REACT_APP_ASSET_URL + "/api/project",
+                process.env.VITE_ASSET_URL + "/api/project",
                 "GET",
                 null,
                 {

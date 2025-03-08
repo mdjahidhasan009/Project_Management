@@ -16,7 +16,7 @@
 // export const editProjectDetails = (projectName, projectDetails, projectCategory, projectDeadline, projectId, method) => async dispatch => {
 //     try{
 //         const responseData = await method(
-//             process.env.REACT_APP_ASSET_URL +'/api/project/' + projectId,
+//             process.env.VITE_ASSET_URL +'/api/project/' + projectId,
 //             'PUT',
 //             JSON.stringify({
 //                 name: projectName,
@@ -47,7 +47,7 @@
 // export const toggleIsProjectIsFinished = (isDone, projectId, method) => async dispatch => {
 //     try {
 //         await method(
-//             process.env.REACT_APP_ASSET_URL + '/api/project/isDone/' + projectId,
+//             process.env.VITE_ASSET_URL + '/api/project/isDone/' + projectId,
 //             'PUT',
 //             JSON.stringify({
 //                 isDone
@@ -73,7 +73,7 @@
 // export const deleteProject = (projectId, method) => async dispatch => {
 //     try {
 //         await method(
-//             process.env.REACT_APP_ASSET_URL + '/api/project/' + projectId,
+//             process.env.VITE_ASSET_URL + '/api/project/' + projectId,
 //             'DELETE',
 //             null,
 //             {
@@ -96,7 +96,7 @@
 // export const addDiscussion = (discussionText, projectId ,method) => async dispatch => {
 //     try {
 //         const responseData = await method(
-//             process.env.REACT_APP_ASSET_URL +'/api/project/discussion/' + projectId,
+//             process.env.VITE_ASSET_URL +'/api/project/discussion/' + projectId,
 //             'POST',
 //             JSON.stringify({
 //                 discussion: discussionText
@@ -126,7 +126,7 @@
 // export const editDiscussion = (projectId, discussionId, discussionEditText, method) => async dispatch => {
 //     try {
 //         const responseData = await method(
-//             process.env.REACT_APP_ASSET_URL +'/api/project/discussion/' + projectId + '/' + discussionId,
+//             process.env.VITE_ASSET_URL +'/api/project/discussion/' + projectId + '/' + discussionId,
 //             'PUT',
 //             JSON.stringify({
 //                 discussionEditText
@@ -156,7 +156,7 @@
 // export const deleteDiscussion = (projectId, discussionId, method) => async dispatch => {
 //     try {
 //         const responseData = await method(
-//             process.env.REACT_APP_ASSET_URL +'/api/project/discussion/' + projectId + '/' + discussionId,
+//             process.env.VITE_ASSET_URL +'/api/project/discussion/' + projectId + '/' + discussionId,
 //             'DELETE',
 //             null,
 //             {
@@ -183,7 +183,7 @@
 // export const addTodoToJunior = (todoText, projectId, username, method) => async dispatch => {
 //     try {
 //         const responseData = await method(
-//             process.env.REACT_APP_ASSET_URL +'/api/project/assignTodo/todos/' + projectId + '/' + username,
+//             process.env.VITE_ASSET_URL +'/api/project/assignTodo/todos/' + projectId + '/' + username,
 //             'POST',
 //             JSON.stringify({
 //                 todo: todoText
@@ -214,7 +214,7 @@
 // export const addTodo = (todoText, projectId ,method) => async dispatch => {
 //     try {
 //         const responseData = await method(
-//             process.env.REACT_APP_ASSET_URL +'/api/project/todos/' + projectId,
+//             process.env.VITE_ASSET_URL +'/api/project/todos/' + projectId,
 //             'POST',
 //             JSON.stringify({
 //                 todo: todoText
@@ -244,7 +244,7 @@
 // export const toggleIsDone = (projectId, todoId, isDone, method) => async dispatch => {
 //     try {
 //         const responseData = await method(
-//             process.env.REACT_APP_ASSET_URL +'/api/project/toggle/todos/' + projectId + '/' + todoId,
+//             process.env.VITE_ASSET_URL +'/api/project/toggle/todos/' + projectId + '/' + todoId,
 //             'PUT',
 //             JSON.stringify({
 //                 isDone: isDone
@@ -276,7 +276,7 @@
 // export const editTodo = (projectId, todoId, todoEditText, method) => async dispatch => {
 //     try {
 //         const responseData = await method(
-//             process.env.REACT_APP_ASSET_URL +'/api/project/todos/' + projectId + '/' + todoId,
+//             process.env.VITE_ASSET_URL +'/api/project/todos/' + projectId + '/' + todoId,
 //             'PUT',
 //             JSON.stringify({
 //                 todoEditText
@@ -306,7 +306,7 @@
 // export const deleteTodo = (projectId, todoId, method) => async dispatch => {
 //     try {
 //         const responseData = await method(
-//             process.env.REACT_APP_ASSET_URL +'/api/project/todos/' + projectId + '/' + todoId,
+//             process.env.VITE_ASSET_URL +'/api/project/todos/' + projectId + '/' + todoId,
 //             'DELETE',
 //             null,
 //             {
@@ -334,7 +334,7 @@
 // export const addSubTodo = (todoText, projectId, todoId, method) => async dispatch => {
 //     try {
 //         const responseData = await method(
-//             process.env.REACT_APP_ASSET_URL +'/api/project/todos/' + projectId + '/todoId/' + todoId,
+//             process.env.VITE_ASSET_URL +'/api/project/todos/' + projectId + '/todoId/' + todoId,
 //             'POST',
 //             JSON.stringify({
 //                 todo: todoText,
@@ -365,7 +365,7 @@
 // export const toggleSubTodoIsDone = (projectId, todoId, subTodoId, isDone, method) => async dispatch => {
 //     try {
 //         const responseData = await method(
-//             process.env.REACT_APP_ASSET_URL +'/api/project/toggle/todos/' + projectId + '/' + todoId + '/' + subTodoId,
+//             process.env.VITE_ASSET_URL +'/api/project/toggle/todos/' + projectId + '/' + todoId + '/' + subTodoId,
 //             'PUT',
 //             JSON.stringify({
 //                 isDone: isDone
@@ -397,7 +397,7 @@
 // export const editSubTodo = (projectId, todoId, subTodoId, subTodoEditText, method) => async dispatch => {
 //     try {
 //         const responseData = await method(
-//             process.env.REACT_APP_ASSET_URL +'/api/project/todos/' + projectId + '/' + todoId + '/' + subTodoId,
+//             process.env.VITE_ASSET_URL +'/api/project/todos/' + projectId + '/' + todoId + '/' + subTodoId,
 //             'PUT',
 //             JSON.stringify({
 //                 subTodoEditText
@@ -427,7 +427,7 @@
 // export const deleteSubTodo = (projectId, todoId, subTodoId, method) => async dispatch => {
 //     try {
 //         const responseData = await method(
-//             process.env.REACT_APP_ASSET_URL +'/api/project/todos/' + projectId + '/' + todoId + '/' + subTodoId,
+//             process.env.VITE_ASSET_URL +'/api/project/todos/' + projectId + '/' + todoId + '/' + subTodoId,
 //             'DELETE',
 //             null,
 //             {
@@ -455,7 +455,7 @@
 // export const toggleIsFixed = (projectId, bugId, isFixed, method) => async dispatch => {
 //     try {
 //         const responseData = await method(
-//             process.env.REACT_APP_ASSET_URL +'/api/project/bugs/' + projectId + '/' + bugId,
+//             process.env.VITE_ASSET_URL +'/api/project/bugs/' + projectId + '/' + bugId,
 //             'POST',
 //             JSON.stringify({
 //                 isFixed: isFixed
@@ -487,7 +487,7 @@
 // export const editBug = (projectId, bugId, bugEditText, method) => async dispatch => {
 //     try {
 //         const responseData = await method(
-//             process.env.REACT_APP_ASSET_URL +'/api/project/bugs/' + projectId + '/' + bugId,
+//             process.env.VITE_ASSET_URL +'/api/project/bugs/' + projectId + '/' + bugId,
 //             'PUT',
 //             JSON.stringify({
 //                 bugEditText
@@ -517,7 +517,7 @@
 // export const addBug = (bugText, projectId ,method) => async dispatch => {
 //     try {
 //         const responseData = await method(
-//             process.env.REACT_APP_ASSET_URL +'/api/project/bugs/' + projectId,
+//             process.env.VITE_ASSET_URL +'/api/project/bugs/' + projectId,
 //             'POST',
 //             JSON.stringify({
 //                 bug: bugText
@@ -547,7 +547,7 @@
 // export const deleteBug = (projectId, bugId, method) => async dispatch => {
 //     try {
 //         const responseData = await method(
-//             process.env.REACT_APP_ASSET_URL +'/api/project/bugs/' + projectId + '/' + bugId,
+//             process.env.VITE_ASSET_URL +'/api/project/bugs/' + projectId + '/' + bugId,
 //             'DELETE',
 //             null,
 //             {
@@ -575,7 +575,7 @@
 // export const getProjectById = (projectId, method) => async dispatch => {
 //     try {
 //         const responseData = await method(
-//             process.env.REACT_APP_ASSET_URL + '/api/project/' + projectId,
+//             process.env.VITE_ASSET_URL + '/api/project/' + projectId,
 //             'GET',
 //             null,
 //             {
@@ -595,7 +595,7 @@
 // export const getNotAssignedMember = (projectId, method) => async dispatch => {
 //     try {
 //         const responseData = await method(
-//             process.env.REACT_APP_ASSET_URL + '/api/user/project/' + projectId,
+//             process.env.VITE_ASSET_URL + '/api/user/project/' + projectId,
 //             'GET',
 //             null,
 //             {
@@ -615,7 +615,7 @@
 // export const assignAMemberToAProject = (projectId, username, method) => async dispatch => {
 //     try {
 //         const responseData = await method(
-//             process.env.REACT_APP_ASSET_URL + '/api/project/member/' + projectId,
+//             process.env.VITE_ASSET_URL + '/api/project/member/' + projectId,
 //             'POST',
 //             JSON.stringify({
 //                 username
@@ -645,7 +645,7 @@
 // export const deleteMemberFromProject = (projectId, username,  method) => async dispatch => {
 //     try {
 //         const responseData = await method(
-//             process.env.REACT_APP_ASSET_URL + '/api/project/member/' + projectId,
+//             process.env.VITE_ASSET_URL + '/api/project/member/' + projectId,
 //             'DELETE',
 //             JSON.stringify({
 //                 username
@@ -675,7 +675,7 @@
 // export const getIsMemberAndCreatorOfProject = (projectId, method) => async dispatch => {
 //     try {
 //         const responseData = await method(
-//             process.env.REACT_APP_ASSET_URL + '/api/project/memberorcreator/' + projectId,
+//             process.env.VITE_ASSET_URL + '/api/project/memberorcreator/' + projectId,
 //             'GET',
 //             null,
 //             {
@@ -711,7 +711,7 @@
 //     try {
 //         let preparedActivities = [];
 //         const responseData = await method(
-//             process.env.REACT_APP_ASSET_URL + '/api/project/' + projectId,
+//             process.env.VITE_ASSET_URL + '/api/project/' + projectId,
 //             'GET',
 //             null,
 //             {
@@ -884,7 +884,7 @@ export const editProjectDetails = createAsyncThunk(
     async ({ projectName, projectDetails, projectCategory, projectDeadline, projectId, method }, { rejectWithValue }) => {
         try {
             await method(
-                process.env.REACT_APP_ASSET_URL + '/api/project/' + projectId,
+                process.env.VITE_ASSET_URL + '/api/project/' + projectId,
                 'PUT',
                 JSON.stringify({
                     name: projectName,
@@ -910,7 +910,7 @@ export const toggleIsProjectIsFinished = createAsyncThunk(
     async ({ isDone, projectId, method }, { rejectWithValue }) => {
         try {
             await method(
-                process.env.REACT_APP_ASSET_URL + '/api/project/isDone/' + projectId,
+                process.env.VITE_ASSET_URL + '/api/project/isDone/' + projectId,
                 'PUT',
                 JSON.stringify({
                     isDone
@@ -933,7 +933,7 @@ export const deleteProject = createAsyncThunk(
     async ({ projectId, method }, { rejectWithValue }) => {
         try {
             await method(
-                process.env.REACT_APP_ASSET_URL + '/api/project/' + projectId,
+                process.env.VITE_ASSET_URL + '/api/project/' + projectId,
                 'DELETE',
                 null,
                 {
@@ -953,7 +953,7 @@ export const addDiscussion = createAsyncThunk(
     async ({ discussionText, projectId, method }, { rejectWithValue }) => {
         try {
             const responseData = await method(
-                process.env.REACT_APP_ASSET_URL + '/api/project/discussion/' + projectId,
+                process.env.VITE_ASSET_URL + '/api/project/discussion/' + projectId,
                 'POST',
                 JSON.stringify({
                     discussion: discussionText
@@ -976,7 +976,7 @@ export const editDiscussion = createAsyncThunk(
     async ({ projectId, discussionId, discussionEditText, method }, { rejectWithValue }) => {
         try {
             const responseData = await method(
-                process.env.REACT_APP_ASSET_URL + '/api/project/discussion/' + projectId + '/' + discussionId,
+                process.env.VITE_ASSET_URL + '/api/project/discussion/' + projectId + '/' + discussionId,
                 'PUT',
                 JSON.stringify({
                     discussionEditText
@@ -999,7 +999,7 @@ export const deleteDiscussion = createAsyncThunk(
     async ({ projectId, discussionId, method }, { rejectWithValue }) => {
         try {
             const responseData = await method(
-                process.env.REACT_APP_ASSET_URL + '/api/project/discussion/' + projectId + '/' + discussionId,
+                process.env.VITE_ASSET_URL + '/api/project/discussion/' + projectId + '/' + discussionId,
                 'DELETE',
                 null,
                 {
@@ -1019,7 +1019,7 @@ export const addTodoToJunior = createAsyncThunk(
     async ({ todoText, projectId, username, method }, { rejectWithValue }) => {
         try {
             const responseData = await method(
-                process.env.REACT_APP_ASSET_URL + '/api/project/assignTodo/todos/' + projectId + '/' + username,
+                process.env.VITE_ASSET_URL + '/api/project/assignTodo/todos/' + projectId + '/' + username,
                 'POST',
                 JSON.stringify({
                     todo: todoText
@@ -1042,7 +1042,7 @@ export const addTodo = createAsyncThunk(
     async ({ todoText, projectId, method }, { rejectWithValue }) => {
         try {
             const responseData = await method(
-                process.env.REACT_APP_ASSET_URL + '/api/project/todos/' + projectId,
+                process.env.VITE_ASSET_URL + '/api/project/todos/' + projectId,
                 'POST',
                 JSON.stringify({
                     todo: todoText
@@ -1065,7 +1065,7 @@ export const toggleIsDone = createAsyncThunk(
     async ({ projectId, todoId, isDone, method }, { rejectWithValue }) => {
         try {
             const responseData = await method(
-                process.env.REACT_APP_ASSET_URL + '/api/project/toggle/todos/' + projectId + '/' + todoId,
+                process.env.VITE_ASSET_URL + '/api/project/toggle/todos/' + projectId + '/' + todoId,
                 'PUT',
                 JSON.stringify({
                     isDone: isDone
@@ -1091,7 +1091,7 @@ export const editTodo = createAsyncThunk(
     async ({ projectId, todoId, todoEditText, method }, { rejectWithValue }) => {
         try {
             const responseData = await method(
-                process.env.REACT_APP_ASSET_URL + '/api/project/todos/' + projectId + '/' + todoId,
+                process.env.VITE_ASSET_URL + '/api/project/todos/' + projectId + '/' + todoId,
                 'PUT',
                 JSON.stringify({
                     todoEditText
@@ -1114,7 +1114,7 @@ export const deleteTodo = createAsyncThunk(
     async ({ projectId, todoId, method }, { rejectWithValue }) => {
         try {
             const responseData = await method(
-                process.env.REACT_APP_ASSET_URL + '/api/project/todos/' + projectId + '/' + todoId,
+                process.env.VITE_ASSET_URL + '/api/project/todos/' + projectId + '/' + todoId,
                 'DELETE',
                 null,
                 {
@@ -1134,7 +1134,7 @@ export const addSubTodo = createAsyncThunk(
     async ({ todoText, projectId, todoId, method }, { rejectWithValue }) => {
         try {
             const responseData = await method(
-                process.env.REACT_APP_ASSET_URL + '/api/project/todos/' + projectId + '/todoId/' + todoId,
+                process.env.VITE_ASSET_URL + '/api/project/todos/' + projectId + '/todoId/' + todoId,
                 'POST',
                 JSON.stringify({
                     todo: todoText,
@@ -1158,7 +1158,7 @@ export const toggleSubTodoIsDone = createAsyncThunk(
     async ({ projectId, todoId, subTodoId, isDone, method }, { rejectWithValue }) => {
         try {
             const responseData = await method(
-                process.env.REACT_APP_ASSET_URL + '/api/project/toggle/todos/' + projectId + '/' + todoId + '/' + subTodoId,
+                process.env.VITE_ASSET_URL + '/api/project/toggle/todos/' + projectId + '/' + todoId + '/' + subTodoId,
                 'PUT',
                 JSON.stringify({
                     isDone: isDone
@@ -1184,7 +1184,7 @@ export const editSubTodo = createAsyncThunk(
     async ({ projectId, todoId, subTodoId, subTodoEditText, method }, { rejectWithValue }) => {
         try {
             const responseData = await method(
-                process.env.REACT_APP_ASSET_URL + '/api/project/todos/' + projectId + '/' + todoId + '/' + subTodoId,
+                process.env.VITE_ASSET_URL + '/api/project/todos/' + projectId + '/' + todoId + '/' + subTodoId,
                 'PUT',
                 JSON.stringify({
                     subTodoEditText
@@ -1207,7 +1207,7 @@ export const deleteSubTodo = createAsyncThunk(
     async ({ projectId, todoId, subTodoId, method }, { rejectWithValue }) => {
         try {
             const responseData = await method(
-                process.env.REACT_APP_ASSET_URL + '/api/project/todos/' + projectId + '/' + todoId + '/' + subTodoId,
+                process.env.VITE_ASSET_URL + '/api/project/todos/' + projectId + '/' + todoId + '/' + subTodoId,
                 'DELETE',
                 null,
                 {
@@ -1227,7 +1227,7 @@ export const toggleIsFixed = createAsyncThunk(
     async ({ projectId, bugId, isFixed, method }, { rejectWithValue }) => {
         try {
             const responseData = await method(
-                process.env.REACT_APP_ASSET_URL + '/api/project/bugs/' + projectId + '/' + bugId,
+                process.env.VITE_ASSET_URL + '/api/project/bugs/' + projectId + '/' + bugId,
                 'POST',
                 JSON.stringify({
                     isFixed: isFixed
@@ -1253,7 +1253,7 @@ export const editBug = createAsyncThunk(
     async ({ projectId, bugId, bugEditText, method }, { rejectWithValue }) => {
         try {
             const responseData = await method(
-                process.env.REACT_APP_ASSET_URL + '/api/project/bugs/' + projectId + '/' + bugId,
+                process.env.VITE_ASSET_URL + '/api/project/bugs/' + projectId + '/' + bugId,
                 'PUT',
                 JSON.stringify({
                     bugEditText
@@ -1276,7 +1276,7 @@ export const addBug = createAsyncThunk(
     async ({ bugText, projectId, method }, { rejectWithValue }) => {
         try {
             const responseData = await method(
-                process.env.REACT_APP_ASSET_URL + '/api/project/bugs/' + projectId,
+                process.env.VITE_ASSET_URL + '/api/project/bugs/' + projectId,
                 'POST',
                 JSON.stringify({
                     bug: bugText
@@ -1299,7 +1299,7 @@ export const deleteBug = createAsyncThunk(
     async ({ projectId, bugId, method }, { rejectWithValue }) => {
         try {
             const responseData = await method(
-                process.env.REACT_APP_ASSET_URL + '/api/project/bugs/' + projectId + '/' + bugId,
+                process.env.VITE_ASSET_URL + '/api/project/bugs/' + projectId + '/' + bugId,
                 'DELETE',
                 null,
                 {
@@ -1319,7 +1319,7 @@ export const getProjectById = createAsyncThunk(
     async ({ projectId, method }, { rejectWithValue }) => {
         try {
             const responseData = await method(
-                process.env.REACT_APP_ASSET_URL + '/api/project/' + projectId,
+                process.env.VITE_ASSET_URL + '/api/project/' + projectId,
                 'GET',
                 null,
                 {
@@ -1338,7 +1338,7 @@ export const getNotAssignedMember = createAsyncThunk(
     async ({ projectId, method }, { rejectWithValue }) => {
         try {
             const responseData = await method(
-                process.env.REACT_APP_ASSET_URL + '/api/user/project/' + projectId,
+                process.env.VITE_ASSET_URL + '/api/user/project/' + projectId,
                 'GET',
                 null,
                 {
@@ -1357,7 +1357,7 @@ export const assignAMemberToAProject = createAsyncThunk(
     async ({ projectId, username, method }, { rejectWithValue }) => {
         try {
             const responseData = await method(
-                process.env.REACT_APP_ASSET_URL + '/api/project/member/' + projectId,
+                process.env.VITE_ASSET_URL + '/api/project/member/' + projectId,
                 'POST',
                 JSON.stringify({
                     username
@@ -1380,7 +1380,7 @@ export const deleteMemberFromProject = createAsyncThunk(
     async ({ projectId, username, method }, { rejectWithValue }) => {
         try {
             const responseData = await method(
-                process.env.REACT_APP_ASSET_URL + '/api/project/member/' + projectId,
+                process.env.VITE_ASSET_URL + '/api/project/member/' + projectId,
                 'DELETE',
                 JSON.stringify({
                     username
@@ -1403,7 +1403,7 @@ export const getIsMemberAndCreatorOfProject = createAsyncThunk(
     async ({ projectId, method }, { rejectWithValue }) => {
         try {
             const responseData = await method(
-                process.env.REACT_APP_ASSET_URL + '/api/project/memberorcreator/' + projectId,
+                process.env.VITE_ASSET_URL + '/api/project/memberorcreator/' + projectId,
                 'GET',
                 null,
                 {
@@ -1435,7 +1435,7 @@ export const prepareWorkDonePreview = createAsyncThunk(
         try {
             let preparedActivities = [];
             const responseData = await method(
-                process.env.REACT_APP_ASSET_URL + '/api/project/' + projectId,
+                process.env.VITE_ASSET_URL + '/api/project/' + projectId,
                 'GET',
                 null,
                 {

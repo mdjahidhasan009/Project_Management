@@ -5,7 +5,7 @@ import { useHttpClient } from "../hooks/http-hook";
 import { addProject, getAllProjects } from "../redux/thunks/projects-thunks";
 import {VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE} from "../utils/validators";
 import Input from "../components/shared/FormElements/Input";
-import ProjectItem from "../components/ProjectCard.js";
+import ProjectItem from "../components/ProjectCard.jsx";
 
 const ProjectsScreen = () => {
     const { sendRequest } = useHttpClient();
