@@ -6,7 +6,7 @@
 // export const uploadProfileImage = (base64EncodedImage, method) => async dispatch => {
 //     try {
 //         await method(
-//             process.env.REACT_APP_ASSET_URL + '/api/upload',
+//             process.env.VITE_ASSET_URL + '/api/upload',
 //             'POST',
 //             JSON.stringify({ data: base64EncodedImage }),
 //             {

@@ -26,7 +26,7 @@ const store = configureStore({
         project: projectReducer,
         projects: projectsReducer,
     },
-    devTools: process.env.NODE_ENV !== "production", // Enables Redux DevTools only in development
+    // devTools: process.env.NODE_ENV !== "production", // Enables Redux DevTools only in development
 });
 
 export default store;

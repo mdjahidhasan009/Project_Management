@@ -15,15 +15,15 @@
     "react-google-charts": "^4.0.1",
     "react-redux": "^9.0.4",
     "react-router-dom": "^6.30.0",
-    "react-scripts": "^5.0.1",
     "redux": "^5.0.0",
     "sweetalert2": "^11.10.1"
   },
+  "type": "module",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "vite",
+    "build": "vite-build",
+    "build": "vite-build",
+    "test": "vite test"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -41,6 +41,10 @@
     ]
   },
   "devDependencies": {
-    "tailwindcss": "^3.3.5"
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.3.5",
+    "vite": "^6.2.1"
   }
 }
