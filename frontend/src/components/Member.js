@@ -1,16 +1,17 @@
 import React, {useEffect, useState} from 'react'
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {getUserRoleString} from "../utils/helper";
 import defaultUserImage from "../assets/images/default_user.jpg";
 
 const Member = ({ user }) => {
-    let history = useHistory();
-    let clickedOnEmail = false;
+    let navigate = useNavigate();
+    // let clickedOnEmail = false;
     let [ userRole, setUserRole ] = useState('');
 
     const openMemberDetails = async () => {
-        if(!clickedOnEmail) await history.push('/member/' + user.username);
-        clickedOnEmail = false;
+        // if(!clickedOnEmail)
+        navigate('/member/' + user.username);
+        // clickedOnEmail = false;
     }
 
     useEffect( () => {

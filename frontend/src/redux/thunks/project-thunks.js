@@ -869,17 +869,6 @@ import Swal from 'sweetalert2';
 
 import {prepareActivityHelper} from "../../utils/helper";
 
-const initialState = {
-    project: null,
-    activities: null,
-    chartData: [],
-    isMemberOfThisProject: false,
-    isCreatedByUser: false,
-    notAssignMembers: [],
-    status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
-    error: null
-};
-
 // Helper function to display success messages
 const showSuccessAlert = (text) => {
     Swal.fire({

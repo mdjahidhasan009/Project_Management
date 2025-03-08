@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {connect, useDispatch, useSelector} from "react-redux";
-import { useHistory } from 'react-router-dom';
+import {useDispatch, useSelector} from "react-redux";
+import { useNavigate } from 'react-router-dom';
 import {useHttpClient} from "../../../hooks/http-hook";
 import {
     assignAMemberToAProject,
@@ -17,7 +17,7 @@ const Overview = () => {
     const dispatch = useDispatch();
     const projectSlice = useSelector(state => state.project);
     const authSlice = useSelector(state => state.auth);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const [selectOptions, setSelectOptions] = useState([]);
     const [ addMember, setAddMember ] = useState('');
@@ -63,7 +63,7 @@ const Overview = () => {
     const handleProjectDelete = async () => {
         if(window.confirm("Do you want to delete this project? There is no recovery method!!")) {
             dispatch(deleteProject({ projectId: project?._id, method: sendRequest }));
-            history.push('/projects');
+            navigate('/projects');
         }
     };
 

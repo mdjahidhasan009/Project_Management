@@ -4,23 +4,20 @@
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^2.6.0",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "axios": "^1.5.0",
+    "@testing-library/jest-dom": "^6.1.4",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.4.3",
+    "axios": "^1.6.2",
     "lottie-web": "^5.12.2",
-    "prop-types": "^15.7.2",
-    "proxy": "^1.0.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-google-charts": "^3.0.15",
-    "react-redux": "^7.2.0",
-    "react-router-dom": "^5.2.0",
+    "prop-types": "^15.8.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-google-charts": "^4.0.1",
+    "react-redux": "^9.0.4",
+    "react-router-dom": "^6.30.0",
     "react-scripts": "^5.0.1",
-    "redux": "^4.0.5",
-    "redux-devtools-extension": "^2.13.8",
-    "redux-thunk": "^2.3.0",
-    "sweetalert2": "^11.7.28"
+    "redux": "^5.0.0",
+    "sweetalert2": "^11.10.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -44,6 +41,6 @@
     ]
   },
   "devDependencies": {
-    "tailwindcss": "^3.3.3"
+    "tailwindcss": "^3.3.5"
   }
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux';
 
 import UploadImage from '../components/UploadImage';
@@ -16,7 +16,7 @@ import {
 } from "../utils/validators";
 
 const EditProfileScreen = () => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const { sendRequest } = useHttpClient();
     const dispatch = useDispatch();
     const authSlice = useSelector((state) => state.auth);
@@ -74,7 +74,7 @@ const EditProfileScreen = () => {
             setIsLoading(true);
             dispatch(updateUser({ formState, sendRequest }));
             setIsLoading(false);
-            history?.push('/profile');
+            navigate('/profile');
         }
     };
 

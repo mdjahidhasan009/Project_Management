@@ -1,23 +1,23 @@
 import React from 'react'
-import {connect, useSelector} from 'react-redux';
-import {Link, useHistory} from 'react-router-dom';
+import {useSelector} from 'react-redux';
+import {Link, useNavigate} from 'react-router-dom';
 import { PropTypes } from "prop-types";
 
 const ProjectCard = ({ project }) => {
-    let history = useHistory();
+    let navigate = useNavigate();
     const authSlice = useSelector(state => state.auth);
 
     const noImage = authSlice.noImage || '';
     const noMember = authSlice.noMember || '';
 
     const openProject = async () => {
-        await history.push('/project/' + project._id);
+        navigate('/project/' + project._id);
     };
 
     return (
         <Link
-            onClick={openProject}
-            to="#"
+            // onClick={openProject}
+            to={`/project/${project._id}`}
             className="relative bg-[#1f2937] block overflow-hidden rounded-lg p-4 sm:p-6 lg:p-8"
         >
             <div>

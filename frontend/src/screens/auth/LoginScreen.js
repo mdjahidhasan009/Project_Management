@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Link, useHistory} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import loginAnimation from "../../assets/gif/login2.json";
 import LottieAnimation from "../../components/LottieAnimation";
 import {VALIDATOR_EMAIL, VALIDATOR_MINLENGTH} from "../../utils/validators";
@@ -11,7 +11,7 @@ import {useDispatch, useSelector} from "react-redux";
 
 function LoginScreen() {
     const { sendRequest } = useHttpClient();
-    const history = useHistory();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const authSlice = useSelector(state => state.auth);
 
@@ -61,7 +61,7 @@ function LoginScreen() {
     useEffect(() => {
         if(user) {
             console.log(user)
-            history.push('/dashboard');
+            navigate('/dashboard');
         }
     }, [user]);
 
