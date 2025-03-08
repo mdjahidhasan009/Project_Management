@@ -1,16 +1,16 @@
-import M from 'materialize-css';
+// import M from 'materialize-css';
 
 //when visit new window using history.push if came back previous window then initialization does not works
-export const initAllModal = () => {
-    let elems = document.querySelectorAll('.modal');
-    M.Modal.init(elems);
-}
+// export const initAllModal = () => {
+//     let elems = document.querySelectorAll('.modal');
+//     M.Modal.init(elems);
+// }
 
-export const initModalAndOpen = (modalId) => {
-    let Modalelem = document.querySelector(modalId);
-    let instance = M.Modal.init(Modalelem);
-    instance.open();
-}
+// export const initModalAndOpen = (modalId) => {
+//     let Modalelem = document.querySelector(modalId);
+//     let instance = M.Modal.init(Modalelem);
+//     instance.open();
+// }
 
 export const prepareActivityHelper = (responseData) => {
     let allActivities = [];

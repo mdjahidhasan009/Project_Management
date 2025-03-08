@@ -1,29 +1,36 @@
 import React from "react";
-import { connect } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
-import { deleteMemberFromProject } from "../../../actions/project-action";
+import { deleteMemberFromProject } from "../../../redux/thunks/project-thunks";
 import { useHttpClient } from "../../../hooks/http-hook";
 import './Member.css';
 import {getUserRoleString} from "../../../utils/helper";
 
-const Member = ({ project, member, isCreatedByUser, deleteMemberFromProject, noImage }) => {
+const Member = ({ member }) => {
     const { sendRequest } = useHttpClient();
+    const dispatch = useDispatch();
+    const projectSlice = useSelector((state) => state.project);
+    const authSlice = useSelector((state) => state.auth);
+
+    const project = projectSlice.project || {};
+    const isCreatedByUser = projectSlice.isCreatedByUser || false;
+    const noImage = authSlice.noImage || '';
 
     const removeMember = async () => {
         if(window.confirm('Do you want to remove this member from project?')) {
-            await deleteMemberFromProject(project._id, member.user.username, sendRequest);
+            dispatch(deleteMemberFromProject({ projectId: project._id, username: member.user.username, method: sendRequest }));
         }
     }
 
     return (
-        <div className="bg-default flex items-start p-2 rounded-[4px]">
+        <div className="bg-default flex items-start p-2 lg:rounded-[4px] md:rounded-[3px] rounded-[2px]">
             <div className="h-14 w-20">
                 <img
                     src={member.user?.profileImage?.imageUrl === undefined
                         ?  noImage
                         :  member.user?.profileImage?.imageUrl
                     }
-                    alt=" "
+                    alt=""
                     className="w-14 h-14 rounded-full object-cover"
                 />
             </div>
@@ -41,10 +48,11 @@ const Member = ({ project, member, isCreatedByUser, deleteMemberFromProject, noI
     )
 }
 
-const mapStateToProps = state => ({
-    project: state.project.project,
-    isCreatedByUser: state.project.isCreatedByUser,
-    noImage: state.auth.noImage,
-});
+// const mapStateToProps = state => ({
+//     project: state.project.project,
+//     isCreatedByUser: state.project.isCreatedByUser,
+//     noImage: state.auth.noImage,
+// });
 
-export default connect(mapStateToProps, { deleteMemberFromProject })(Member);
+export default Member;
+// export default connect(mapStateToProps, { deleteMemberFromProject })(Member);

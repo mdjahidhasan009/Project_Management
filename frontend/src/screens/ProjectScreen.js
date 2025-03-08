@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
-import { connect } from "react-redux";
+import {connect, useDispatch, useSelector} from "react-redux";
 import { useParams } from 'react-router-dom';
-
 import ProjectSummaryRow from "../components/project/projectSummary/ProjectSummary";
 import Overview from "../components/project/overview/Overview";
 import Discussion from "../components/project/discussion/Discussions";
@@ -12,30 +11,33 @@ import Bugs from "../components/project/bugs/Bugs";
 import { useHttpClient } from "../hooks/http-hook";
 import {
     getProjectById, getNotAssignedMember, prepareWorkDonePreview, getIsMemberAndCreatorOfProject
-} from "../actions/project-action";
+} from "../redux/thunks/project-thunks";
 
-const ProjectScreen = ({ project, getProjectById ,selectedItem, getNotAssignedMember, prepareWorkDonePreview,
-                     getIsMemberAndCreatorOfProject
-}) => {
+const ProjectScreen = ({selectedItem}) => {
     const { sendRequest } = useHttpClient();
     const projectId = useParams().projectId;
+    const dispatch = useDispatch();
+
+    const projectSlice = useSelector(state => state.project);
+
+    const project = projectSlice.project || null;
 
     useEffect(() => {
-        getProjectById(projectId, sendRequest);
+        dispatch(getProjectById({ projectId: projectId, method: sendRequest }));
         // eslint-disable-next-line
     }, []);
 
     useEffect(() => {
         if(!project) {
-            getIsMemberAndCreatorOfProject(projectId, sendRequest);
-            getNotAssignedMember(projectId, sendRequest);
-            prepareWorkDonePreview(projectId, sendRequest);
+            dispatch(getIsMemberAndCreatorOfProject({ projectId: projectId, method: sendRequest }));
+            dispatch(getNotAssignedMember({ projectId: projectId, method: sendRequest }));
+            dispatch(prepareWorkDonePreview({ projectId: projectId, method: sendRequest }));
         }
         // eslint-disable-next-line
     }, [project])
 
     return (
-        <div className="w-full bg-default text-white-light p-8 flex flex-col gap-8">
+        <div className="flex flex-col lg:gap-8 md:gap-6 gap-4">
             <>
                 <ProjectSummaryRow projectId={projectId} selectedItem={selectedItem} />
                 {selectedItem === 'overview' && <Overview />}
@@ -49,14 +51,14 @@ const ProjectScreen = ({ project, getProjectById ,selectedItem, getNotAssignedMe
     );
 };
 
-const mapStateToProps = state => ({
-    auth: state.auth,
-    project: state.project.project
-})
+// const mapStateToProps = state => ({
+//     project: state.project.project
+// });
 
-export default connect(mapStateToProps,
-    { getProjectById, getNotAssignedMember, prepareWorkDonePreview, getIsMemberAndCreatorOfProject})
-    (ProjectScreen);
+export default ProjectScreen;
+// export default connect(mapStateToProps,
+//     { getProjectById, getNotAssignedMember, prepareWorkDonePreview, getIsMemberAndCreatorOfProject})
+//     (ProjectScreen);
 
 //Checking isAuthenticated here casing delay html preparing and for this index.html does not get any modal for initialization
 //So I put authentication check in projectSummary and and also other file(Overview, bug etc)

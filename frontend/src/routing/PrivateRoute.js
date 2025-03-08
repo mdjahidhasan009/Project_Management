@@ -1,11 +1,13 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import {useSelector} from 'react-redux';
 
 
 //Unauthorized(not logged in) user can not visit this route
-const PrivateRoute = ({ component: Component, auth, selectedItem, ...rest }) => {
+const PrivateRoute = ({ component: Component, selectedItem, ...rest }) => {
+    const authSlice = useSelector(state => state.auth);
+    const auth = authSlice || {};
+
     return (
         <Route
             {...rest}//passing component related props
@@ -22,12 +24,13 @@ const PrivateRoute = ({ component: Component, auth, selectedItem, ...rest }) => 
     )
 }
 
-PrivateRoute.propTypes = {
-    auth: PropTypes.object.isRequired
-}
+// PrivateRoute.propTypes = {
+//     auth: PropTypes.object.isRequired
+// }
 
-const mapStateToProps = state => ({
-    auth: state.auth
-});
+// const mapStateToProps = state => ({
+//     auth: state.auth
+// });
 
-export default connect(mapStateToProps)(PrivateRoute);
+export default PrivateRoute;
+// export default connect(mapStateToProps)(PrivateRoute);

@@ -1,14 +1,15 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import {connect, useDispatch} from 'react-redux';
 
-import { toggleIsDone } from "../../../actions/project-action";
+import { toggleIsDone } from "../../../redux/thunks/project-thunks";
 import {useHttpClient} from "../../../hooks/http-hook";
 
-const CompletedTodo = ({ todo, projectId, toggleIsDone }) => {
+const CompletedTodo = ({ todo, projectId }) => {
     const { sendRequest } = useHttpClient();
+    const dispatch = useDispatch();
 
     const handleToggleIsDone = () => {
-        toggleIsDone(projectId, todo?._id, 'false', sendRequest);
+        dispatch(toggleIsDone({ projectId: projectId, todoId: todo?._id, isDone: 'false', method: sendRequest }));
     }
     return (
         <>
@@ -43,4 +44,5 @@ const CompletedTodo = ({ todo, projectId, toggleIsDone }) => {
     )
 }
 
-export default connect(null, { toggleIsDone })(CompletedTodo);
+export default CompletedTodo;
+// export default connect(null, { toggleIsDone })(CompletedTodo);

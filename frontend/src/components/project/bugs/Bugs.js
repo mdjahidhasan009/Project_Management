@@ -1,18 +1,26 @@
 import React, {useEffect, useState} from 'react';
-import { connect } from "react-redux";
+import {connect, useDispatch, useSelector} from "react-redux";
 import { useParams } from "react-router-dom";
 
 import { useHttpClient } from "../../../hooks/http-hook";
 import { useForm } from "../../../hooks/form-hook";
-import { addBug, editBug } from "../../../actions/project-action";
+import { addBug, editBug } from "../../../redux/thunks/project-thunks";
 import { VALIDATOR_REQUIRE } from "../../../utils/validators";
-import { initAllModal } from "../../../utils/helper";
+// import { initAllModal } from "../../../utils/helper";
 import Input from "../../shared/FormElements/Input";
 import NotFixedBugRow from "./NotFixedBug";
 import FixedBugRow from "./FixedBug";
 
-const Bugs = ({ project, bugs, addBug, editBug, isMemberOfThisProject, isCreatedByUser }) => {
+const Bugs = () => {
     const { sendRequest } = useHttpClient();
+    const dispatch = useDispatch();
+    const projectSlice = useSelector(state => state.project);
+
+    const project = projectSlice.project || {};
+    const bugs = project.bugs || [];
+    const isMemberOfThisProject = projectSlice.isMemberOfThisProject || false;
+    const isCreatedByUser = projectSlice.isCreatedByUser || false;
+
     const projectId = useParams().projectId;
     const [ editBugText, setEditBugText ] = useState('');
     const [ bugId, setBugId ] = useState();
@@ -48,7 +56,8 @@ const Bugs = ({ project, bugs, addBug, editBug, isMemberOfThisProject, isCreated
     const addBugHandler = async (event) => {
         event.preventDefault();
 
-        await addBug(formState.inputs.bugText.value, projectId, sendRequest);
+        // await addBug(formState.inputs.bugText.value, projectId, sendRequest);
+        dispatch(addBug({ bugText: formState.inputs.bugText.value, projectId: projectId, method: sendRequest }));
         await setAddBugData();
 
         setShowAddNewBugModal(false);
@@ -57,7 +66,9 @@ const Bugs = ({ project, bugs, addBug, editBug, isMemberOfThisProject, isCreated
     const editBugHandler = async (event) => {
         event.preventDefault();
 
-        await editBug(project._id, bugId, formState.inputs.bugEditText.value, sendRequest);
+        // await editBug(project._id, bugId, formState.inputs.bugEditText.value, sendRequest);
+        // projectId, bugId, bugEditText, method
+        dispatch(editBug({ projectId: project._id, bugId: bugId, bugEditText: formState.inputs.bugEditText.value, method: sendRequest }));
         await setAddBugData();
 
         setShowEditBugModal(false);
@@ -99,7 +110,7 @@ const Bugs = ({ project, bugs, addBug, editBug, isMemberOfThisProject, isCreated
     }, [bugs]);
 
     useEffect( () => {
-        initAllModal();
+        // initAllModal();
         // eslint-disable-next-line
     }, []);
 
@@ -111,7 +122,7 @@ const Bugs = ({ project, bugs, addBug, editBug, isMemberOfThisProject, isCreated
                         <div
                             className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
                         >
-                            <div className="relative w-[40vw] my-6 mx-auto max-w-5xl">
+                            <div className="relative lg:w-[40vw] md:w-3/5 w-full lg:my-6 md:my-5 my-4 mx-4 max-w-5xl">
                                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-default outline-none focus:outline-none">
                                     <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                                         <h3 className="text-2xl text-orange-500 font-semibold uppercase">
@@ -126,7 +137,7 @@ const Bugs = ({ project, bugs, addBug, editBug, isMemberOfThisProject, isCreated
                                             type="text"
                                             validators={[VALIDATOR_REQUIRE()]}
                                             errorText="Please enter bug text."
-                                            styleClass="w-96 h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm mb-4"
+                                            styleClass="w-full h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm mb-4"
                                             onInput={inputHandler}
                                         />
 
@@ -162,7 +173,7 @@ const Bugs = ({ project, bugs, addBug, editBug, isMemberOfThisProject, isCreated
                         <div
                             className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
                         >
-                            <div className="relative w-[40vw] my-6 mx-auto max-w-5xl">
+                            <div className="relative lg:w-[40vw] md:w-3/5 w-full lg:my-6 md:my-5 my-4 mx-4 max-w-5xl">
                                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-default outline-none focus:outline-none">
                                     <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                                         <h3 className="text-2xl text-orange-500 font-semibold uppercase">
@@ -177,7 +188,7 @@ const Bugs = ({ project, bugs, addBug, editBug, isMemberOfThisProject, isCreated
                                             type="text"
                                             validators={[VALIDATOR_REQUIRE()]}
                                             errorText="Please enter bug text."
-                                            styleClass="w-96 h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm mb-4"
+                                            styleClass="w-full h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm mb-4"
                                             onInput={inputHandler}
                                             initialValue={editBugText}
                                             initialValidity={true}
@@ -250,11 +261,12 @@ const Bugs = ({ project, bugs, addBug, editBug, isMemberOfThisProject, isCreated
     )
 }
 
-const mapStateToProps = state => ({
-    project: state.project.project,
-    bugs: state.project?.project?.bugs,
-    isMemberOfThisProject: state.project.isMemberOfThisProject,
-    isCreatedByUser: state.project.isCreatedByUser
-});
+// const mapStateToProps = state => ({
+//     project: state.project.project,
+//     bugs: state.project?.project?.bugs,
+//     isMemberOfThisProject: state.project.isMemberOfThisProject,
+//     isCreatedByUser: state.project.isCreatedByUser
+// });
 
-export default connect(mapStateToProps, { addBug, editBug })(Bugs);
+export default Bugs;
+// export default connect(mapStateToProps, { addBug, editBug })(Bugs);

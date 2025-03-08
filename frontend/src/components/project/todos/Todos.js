@@ -1,20 +1,24 @@
 import React, {useEffect, useState} from 'react';
-import { connect } from "react-redux";
+import {connect, useDispatch, useSelector} from "react-redux";
 import { useParams } from "react-router-dom";
 
-import {addTodo, editTodo, addSubTodo, editSubTodo, addTodoToJunior} from "../../../actions/project-action";
+import {addTodo, editTodo, addSubTodo, editSubTodo, addTodoToJunior} from "../../../redux/thunks/project-thunks";
 import { useHttpClient } from "../../../hooks/http-hook";
 import { useForm } from "../../../hooks/form-hook";
 import { VALIDATOR_REQUIRE } from "../../../utils/validators";
 import Input from "../../shared/FormElements/Input";
 import IncompleteTodoRow from "./IncompleteTodo";
 import CompletedTodoRow from "./CompletedTodo";
-import M from "materialize-css";
-import { initAllModal, initModalAndOpen } from "../../../utils/helper";
+// import M from "materialize-css";
+// import { initAllModal, initModalAndOpen } from "../../../utils/helper";
 
-const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo, editSubTodo, isMemberOfThisProject, isCreatedByUser, isAuthenticated, currentUser }) => {
+const Todos = () => {
     const { sendRequest } = useHttpClient();
     const projectId = useParams().projectId;
+    const dispatch = useDispatch();
+    const projectSlice = useSelector(state => state.project);
+    const authSlice = useSelector(state => state.auth);
+
     const [ editTodoText, setEditTodoText ] = useState('');
     const [ subTodoEditText, setSubTodoEditText ] = useState('');
     const [ todoId, setTodoId ] = useState();
@@ -28,6 +32,13 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
     const [showEditToDoModal, setShowEditToDoModal] = useState(false);
     const [showEditSubToDoModal, setShowEditSubToDoModal] = useState(false);
     const [selectOptions, setSelectOptions] = useState([]);
+
+    const project = projectSlice?.project || {};
+    const todos = project?.todos || [];
+    const isMemberOfThisProject = projectSlice.isMemberOfThisProject;
+    const isCreatedByUser = projectSlice.isCreatedByUser;
+    const isAuthenticated = authSlice.isAuthenticated;
+    const currentUser = authSlice?.user;
 
     const [ formState, inputHandler, setFormData ] = useForm(
         {
@@ -68,8 +79,8 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
 
     const addTodoHandler = async (event) => {
         event.preventDefault();
-        if(!assignMember) await addTodo(formState.inputs.todoText.value, projectId, sendRequest);
-        else await addTodoToJunior(formState.inputs.todoText.value, projectId, assignMember, sendRequest);
+        if(!assignMember) dispatch(addTodo({ todoText: formState.inputs.todoText.value, projectId: projectId, method: sendRequest }));
+        else dispatch(addTodoToJunior({ todoText: formState.inputs.todoText.value, projectId: projectId, username: assignMember, method: sendRequest }));
         await initAddTodoData();
         await setAssignMember("");
         await prepareJuniorMemberList();
@@ -85,7 +96,7 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
     }
 
     const editTodoHandler = async (event) => {
-        await editTodo(project._id, todoId, formState.inputs.todoEditText.value, sendRequest);
+        dispatch(editTodo({ projectId: project._id, todoId: todoId, todoEditText: formState.inputs.todoEditText.value, method: sendRequest }));
         await initAddTodoData();
 
         setShowEditToDoModal(false);
@@ -121,14 +132,14 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
 
     const addSubTodoHandler = async (event) => {
         event.preventDefault();
-        await addSubTodo(formState.inputs.subTodoText.value, projectId, todoId, sendRequest);
+        dispatch(addSubTodo({ todoText: formState.inputs.subTodoText.value, projectId: projectId, todoId: todoId, method: sendRequest }));
         await initAddTodoData();
 
         setShowAddSubToDoModal(false);
     }
 
     const editSubTodoHandler = async (event) => {
-        await editSubTodo(project._id, todoId, subTodoId, formState.inputs.subTodoEditText.value, sendRequest);
+        dispatch(editSubTodo({ projectId: project._id, todoId: todoId, subTodoId: subTodoId, subTodoEditText: formState.inputs.subTodoEditText.value, method: sendRequest }));
         await initAddTodoData();
         await initSubTodoData();
 
@@ -185,12 +196,12 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
         //which cause always false for overall form validation at start
         prepareJuniorMemberList();
         initAddTodoData();
-        initAllModal();
+        // initAllModal();
         // eslint-disable-next-line
     }, [project?.members, currentUser])
 
     return (
-        <div className="bg-[#1f2937] p-8 rounded-2xl flex flex-col">
+        <div className="bg-[#1f2937] lg:p-8 md:p-6 p-4 lg:rounded-2xl md:rounded-xl rounded-lg flex flex-col">
 
             {/*Add todo modal structure*/}
             {showAddToDoModal ? (
@@ -198,14 +209,15 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
                     <div
                         className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
                     >
-                        <div className="relative w-[40vw] my-6 mx-auto max-w-5xl">
+                        <div className="relative lg:w-[40vw] md:w-3/5 w-full m-4 lg:my-6 md:my-5 my-4 mx-auto max-w-5xl">
                             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-default outline-none focus:outline-none">
-                                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                                    <h3 className="text-2xl text-orange-500 font-semibold uppercase">
+                                <div className="flex items-start justify-between lg:p-5 md:p-4 p-3 border-b border-solid border-slate-200 rounded-t">
+                                    <h3 className="lg:text-2xl md:text-xl text-lg text-orange-500 font-semibold uppercase">
                                         Add New Todos
                                     </h3>
                                 </div>
-                                <div className="relative p-6 flex-auto">
+
+                                <div className="relative lg:p-6 md:p-5 p-4 flex-auto">
                                     <Input
                                         element="input"
                                         placeholder="Enter A Todos"
@@ -213,12 +225,12 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
                                         type="text"
                                         validators={[VALIDATOR_REQUIRE()]}
                                         errorText="Please enter todo text."
-                                        styleClass="w-96 h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm mb-4"
+                                        styleClass="w-full h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm mb-4"
                                         onInput={inputHandler}
                                     />
 
                                     <select
-                                        className="w-96 h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                        className="w-full h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm"
                                         id="member_list"
                                         value={assignMember}
                                         onChange={(e) => setAssignMember(e.target.value)}
@@ -263,7 +275,7 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
                     <div
                         className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
                     >
-                        <div className="relative w-[40vw] my-6 mx-auto max-w-5xl">
+                        <div className="relative lg:w-[40vw] md:w-3/5 w-full m-4 lg:my-6 md:my-5 my-4 mx-auto max-w-5xl">
                             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-default outline-none focus:outline-none">
                                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                                     <h3 className="text-2xl text-orange-500 font-semibold uppercase">
@@ -278,7 +290,7 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
                                         type="text"
                                         validators={[VALIDATOR_REQUIRE()]}
                                         errorText="Please enter sub todo text."
-                                        styleClass="w-96 h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                        styleClass="w-full h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm"
                                         onInput={inputHandler}
                                     />
 
@@ -314,7 +326,7 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
                     <div
                         className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
                     >
-                        <div className="relative w-[40vw] my-6 mx-auto max-w-5xl">
+                        <div className="relative lg:w-[40vw] md:w-3/5 w-full m-4 lg:my-6 md:my-5 my-4 mx-auto max-w-5xl">
                             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-default outline-none focus:outline-none">
                                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                                     <h3 className="text-2xl text-orange-500 font-semibold uppercase">
@@ -329,7 +341,7 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
                                         type="text"
                                         validators={[VALIDATOR_REQUIRE()]}
                                         errorText="Please enter todo text."
-                                        styleClass="w-96 h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                        styleClass="w-full h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm"
                                         onInput={inputHandler}
                                         initialValue={editTodoText}
                                         initialValidity={true}
@@ -367,7 +379,7 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
                     <div
                         className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
                     >
-                        <div className="relative w-[40vw] my-6 mx-auto max-w-5xl">
+                        <div className="relative lg:w-[40vw] md:w-3/5 w-full m-4 lg:my-6 md:my-5 my-4 mx-auto max-w-5xl">
                             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-default outline-none focus:outline-none">
                                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                                     <h3 className="text-2xl text-orange-500 font-semibold uppercase">
@@ -382,7 +394,7 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
                                         type="text"
                                         validators={[VALIDATOR_REQUIRE()]}
                                         errorText="Please enter sub todo text."
-                                        styleClass="w-96 h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm"
+                                        styleClass="w-full h-10 rounded-[4px] active:border-orange-500 focus:border-orange-500 p-2 pr-12 text-gray-700 text-sm shadow-sm"
                                         onInput={inputHandler}
                                         initialValue={subTodoEditText}
                                         initialValidity={true}
@@ -456,13 +468,14 @@ const Todos = ({ addTodo, addSubTodo, addTodoToJunior, project, todos, editTodo,
     )
 }
 
-const mapStateToProps = state => ({
-    project: state.project.project,
-    todos: state.project?.project?.todos,
-    isMemberOfThisProject: state.project.isMemberOfThisProject,
-    isCreatedByUser: state.project.isCreatedByUser,
-    isAuthenticated: state.auth.isAuthenticated,
-    currentUser: state.auth?.user
-});
+// const mapStateToProps = state => ({
+//     project: state.project.project,
+//     todos: state.project?.project?.todos,
+//     isMemberOfThisProject: state.project.isMemberOfThisProject,
+//     isCreatedByUser: state.project.isCreatedByUser,
+//     isAuthenticated: state.auth.isAuthenticated,
+//     currentUser: state.auth?.user
+// });
 
-export default connect(mapStateToProps, { addTodo, editTodo, editSubTodo, addSubTodo, addTodoToJunior })(Todos);
+export default Todos;
+// export default connect(mapStateToProps, { addTodo, editTodo, editSubTodo, addSubTodo, addTodoToJunior })(Todos);

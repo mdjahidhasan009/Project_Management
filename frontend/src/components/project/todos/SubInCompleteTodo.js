@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import {connect, useDispatch, useSelector} from 'react-redux';
 
-import { deleteSubTodo, toggleSubTodoIsDone } from "../../../actions/project-action";
+import { deleteSubTodo, toggleSubTodoIsDone } from "../../../redux/thunks/project-thunks";
 import { useHttpClient } from "../../../hooks/http-hook";
 
-const SubInCompleteTodo = ({ subTodo, projectId, todoId, toggleSubTodoIsDone, username, deleteSubTodo,
+const SubInCompleteTodo = ({ subTodo, projectId, todoId,
                                 handleClickOnEditSubTodo }) => {
     const { sendRequest } = useHttpClient();
+    const authSlice = useSelector(state => state.auth);
+
+    const username = authSlice?.user?.username;
+    const dispatch = useDispatch();
     const [ isMobile, setIsMobile ] = useState(false);
     let clicked = false; //is clicked on edit or delete
 
     const handleSubTodoDone = () => {
         let isDone = 'true';
         if(subTodo.done) isDone = 'false';
-        if(!clicked) toggleSubTodoIsDone(projectId, todoId, subTodo._id, isDone, sendRequest);
+        if(!clicked) {
+            dispatch(toggleSubTodoIsDone({ projectId: projectId, todoId: todoId, subTodoId: subTodo._id, isDone: isDone, method: sendRequest }));
+        }
         clicked = false;
     }
 
@@ -25,7 +31,7 @@ const SubInCompleteTodo = ({ subTodo, projectId, todoId, toggleSubTodoIsDone, us
     const handleDelete = () => {
         clicked = true;
         if(window.confirm('Do you want to delete this sub todo?')) {
-            deleteSubTodo(projectId, todoId, subTodo._id, sendRequest);
+            dispatch(deleteSubTodo({ projectId: projectId, todoId: todoId, subTodoId: subTodo._id, method: sendRequest }));
       }
     }
 
@@ -79,8 +85,9 @@ const SubInCompleteTodo = ({ subTodo, projectId, todoId, toggleSubTodoIsDone, us
   )
 }
 
-const mapStateToProps = state => ({
-  username: state.auth?.user?.username
-})
+// const mapStateToProps = state => ({
+//   username: state.auth?.user?.username
+// })
 
-export default connect(mapStateToProps, { toggleSubTodoIsDone, deleteSubTodo })(SubInCompleteTodo);
+export default SubInCompleteTodo;
+// export default connect(mapStateToProps, { toggleSubTodoIsDone, deleteSubTodo })(SubInCompleteTodo);

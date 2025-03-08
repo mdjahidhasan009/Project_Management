@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from "react";
 import {Link, useLocation} from "react-router-dom";
-import { connect } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import PropTypes from "prop-types";
 
-import { logout } from "../../../actions/auth-action";
+import { logout } from "../../../redux/slices/auth-slice";
 
-const Navbar = ({ auth: { isAuthenticated, user }, logout, history, children }) => {
+const Navbar = ({ children }) => {
+    const location = useLocation();
+    const dispatch = useDispatch();
+    const authSlice = useSelector(state => state.auth);
+
+    const isAuthenticated = authSlice.isAuthenticated || false;
+    const user = authSlice.user || null;
     const [ profileImage, setProfileImage ] = useState("");
     const [ currentPath, setCurrentPath ] = useState("");
-    const location = useLocation();
-    const activeClass = "bg-orange-500 h-10 p-4 rounded-[4px] flex items-center justify-start"
-    const normalClass = "hover:bg-orange-500 cursor-pointer w-full h-10 p-4 rounded-[4px] flex items-center justify-start"
+
+    const activeClass = "bg-orange-500 h-8 p-4 rounded-[4px] flex items-center justify-start"
+    const normalClass = "hover:bg-orange-500 cursor-pointer w-full h-8 p-4 rounded-[4px] flex items-center justify-start"
 
     useEffect(() => {
         if(user?.profileImage?.imageUrl) {
@@ -26,7 +32,7 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout, history, children }) 
 
     const handleLogout = async () => {
         setProfileImage('');
-        await logout();
+        dispatch(logout());
     }
 
     //Link for user at sidebar
@@ -53,7 +59,7 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout, history, children }) 
 
             <div className="flex">
                 {/* Side Navbar */}
-                <ul className="bg-[#1f2937] text-white-light text-lg min-h-screen px-4 py-14" id="slide-out">
+                <ul className="bg-[#1f2937] text-white-light text-lg min-h-screen px-4 py-14 lg:block md:hidden hidden">
                     <>
                         {user && (
                             <>
@@ -74,42 +80,33 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout, history, children }) 
                     </>
                     {isAuthenticated && (
                         <>
-                            <li className={currentPath === "/dashboard" ? activeClass : normalClass}>
-                                <Link to="/dashboard">Dashboard</Link>
-                            </li>
-                            <li className={currentPath === "/edit-profile" ? activeClass : normalClass}>
-                                <Link to="/edit-profile">Edit Profile</Link>
-                            </li>
-                            <li className={currentPath === "/profile" ? activeClass : normalClass}>
-                                <Link to="/profile">Profile</Link>
-                            </li>
-                            <li className={currentPath === "/members" ? activeClass : normalClass}>
-                                <Link to="/members">Members</Link>
-                            </li>
-                            <li className={currentPath === "/projects" ? activeClass : normalClass}>
-                                <Link to="/projects">Projects</Link>
-                            </li>
-                            <li>
-                                <div className="divider"/>
-                            </li>
+                            <Link to="/dashboard" className={currentPath === "/dashboard" ? activeClass : normalClass}>Dashboard</Link>
+                            <Link to="/edit-profile" className={currentPath === "/edit-profile" ? activeClass : normalClass}>Edit Profile</Link>
+                            <Link to="/profile" className={currentPath === "/profile" ? activeClass : normalClass}>Profile</Link>
+                            <Link to="/members" className={currentPath === "/members" ? activeClass : normalClass}>Members</Link>
+                            <Link to="/projects" className={currentPath === "/projects" ? activeClass : normalClass}>Projects</Link>
                         </>
                     )}
                     {isAuthenticated ? authSidebarLinks : guestSidebarLinks }
                 </ul>
 
-                {children}
+                <div className="w-full min-h-screen bg-default text-white-light lg:p-8 md:p-6 p-4">
+                    {children}
+                </div>
             </div>
         </section>
     );
 };
 
-Navbar.propTypes = {
-    logout: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired
-};
+// Navbar.propTypes = {
+    // logout: PropTypes.func.isRequired,
+    // auth: PropTypes.object.isRequired
+// };
 
-const mapStateToProps = state => ({
-    auth: state.auth
-});
+// const mapStateToProps = state => ({
+//     auth: state.auth
+// });
+//
+// export default connect(mapStateToProps, { logout })(Navbar);
 
-export default connect(mapStateToProps, { logout })(Navbar);
+export default Navbar;

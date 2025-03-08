@@ -1,6 +1,4 @@
 import React from "react";
-
-import './ActivityDetails.css';
 import {Link} from "react-router-dom";
 
 const ActivityDetails = ({ activityDetail }) => {

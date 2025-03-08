@@ -1,10 +1,14 @@
 import React from 'react'
-import { connect } from 'react-redux';
+import {connect, useSelector} from 'react-redux';
 import {Link, useHistory} from 'react-router-dom';
 import { PropTypes } from "prop-types";
 
-const ProjectCard = ({ project, noImage, noMember }) => {
+const ProjectCard = ({ project }) => {
     let history = useHistory();
+    const authSlice = useSelector(state => state.auth);
+
+    const noImage = authSlice.noImage || '';
+    const noMember = authSlice.noMember || '';
 
     const openProject = async () => {
         await history.push('/project/' + project._id);
@@ -100,13 +104,14 @@ const ProjectCard = ({ project, noImage, noMember }) => {
 
 ProjectCard.propTypes = {
     project: PropTypes.object.isRequired,
-    noImage: PropTypes.string.isRequired,
-    noMember: PropTypes.string.isRequired
+    // noImage: PropTypes.string.isRequired,
+    // noMember: PropTypes.string.isRequired
 };
 
-const mapStateToProps = state => ({
-    noImage: state.auth.noImage,
-    noMember: state.auth.noMember
-})
+// const mapStateToProps = state => ({
+//     noImage: state.auth.noImage,
+//     noMember: state.auth.noMember
+// })
 
-export default connect(mapStateToProps)(ProjectCard);
+export default ProjectCard;
+// export default connect(mapStateToProps)(ProjectCard);

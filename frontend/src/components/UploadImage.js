@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import {useDispatch} from 'react-redux';
 import { useHistory } from "react-router-dom";
 
-import { uploadProfileImage } from '../actions/user-action';
 import { useHttpClient } from "../hooks/http-hook";
-import M from "materialize-css";
+import Swal from "sweetalert2";
+import {uploadProfileImage} from "../redux/thunks/auth-thunks";
+// import M from "materialize-css";
 
-const UploadImage = ({ uploadProfileImage, profileImageUrl }) => {
+const UploadImage = ({ profileImageUrl }) => {
     const history = useHistory();
     const { sendRequest } = useHttpClient();
+    const dispatch = useDispatch();
     const [ fileInputState, setFileInputState ] = useState('');//Image url temporary(for input tag)
     const [ previewSource, setPreviewSource ] = useState('');//converted normal image to base64EncodedImage format
     const [ selectedFile, setSelectedFile ] = useState();//for check is any file selected or not before submitting
@@ -28,7 +30,13 @@ const UploadImage = ({ uploadProfileImage, profileImageUrl }) => {
             setPreviewSource(reader.result);
         };
         reader.onerror = () => {
-            M.toast({html: 'Image upload failed, Please try again', classes: 'red'});
+            //TODO: HAVE TO FIX
+            // M.toast({html: 'Image upload failed, Please try again', classes: 'red'});
+            Swal.fire({
+                title: 'Error!',
+                text: 'Image upload failed',
+                icon: 'error',
+            });
         };
     };
 
@@ -40,20 +48,20 @@ const UploadImage = ({ uploadProfileImage, profileImageUrl }) => {
 
     const uploadImage = async (base64EncodedImage) => {
         setLoading(true);
-        await uploadProfileImage(base64EncodedImage, sendRequest);
+        dispatch(uploadProfileImage({ base64EncodedImage: base64EncodedImage, method: sendRequest }));
         setLoading(false);
         await history.push('/profile/');
     };
 
     return (
-        <div className="flex flex-col items-start gap-16">
+        <>
             {/* Profile Image */}
             {!previewSource && (
-                <div className="lg:w-3/12 md:w-3/12 w-full flex lg:justify-start md:justify-start justify-center">
+                <div className="w-60 mb-10">
                     <img
                         src={profileImageUrl}
                         alt="Add Profile Image"
-                        className="w-60 h-full rounded-full object-cover"
+                        className="w-full h-full rounded-full object-cover"
                     />
                 </div>
             )}
@@ -69,24 +77,23 @@ const UploadImage = ({ uploadProfileImage, profileImageUrl }) => {
 
             <form onSubmit={handleSubmitFile} className="form">
                 <div className="image-selection">
-                    <label htmlFor="fileInput">Change Profile Picture</label>
                     <input
                         id="fileInput"
                         type="file"
                         name="image"
                         onChange={handleFileInputChange}
                         value={fileInputState}
-                        className="form-input"
+                        className="form-input mt-2 p-2 rounded-lg"
                     />
                 </div>
-                <button className="btn" type="submit">
-                    {loading && <i className="fas fa-spinner fa-pulse" />}
-                    {loading && ' Uploading Image'}
-                    {!loading && 'Upload ProfileScreen Image'}
+                <button className="btn mt-4">
+                    {loading && <i className="fas fa-spinner fa-pulse mr-2" />}
+                    {loading ? 'Uploading Image' : 'Upload ProfileScreen Image'}
                 </button>
             </form>
-        </div>
+        </>
     );
 };
 
-export default connect(null, { uploadProfileImage } )(UploadImage);
+export default UploadImage;
+// export default connect(null, { uploadProfileImage } )(UploadImage);
