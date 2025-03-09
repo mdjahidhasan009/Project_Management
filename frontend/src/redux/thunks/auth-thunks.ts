@@ -160,10 +160,17 @@
 
 import Swal from "sweetalert2";
 import {createAsyncThunk} from "@reduxjs/toolkit";
+import {TApiError} from "../../types/api.types";
 const VITE_ASSET_URL = import.meta.env.VITE_ASSET_URL;
 
 // Async Thunks
-export const loadUser = createAsyncThunk("auth/loadUser", async ({ method }, { rejectWithValue }) => {
+export const loadUser =
+    createAsyncThunk<
+        any,
+        { method: Function },
+        { rejectValue: TApiError | unknown }
+    >
+    ("auth/loadUser", async ({ method }, { rejectWithValue }) => {
     try {
         const responseData = await method(
             VITE_ASSET_URL + '/api/auth',
@@ -171,7 +178,7 @@ export const loadUser = createAsyncThunk("auth/loadUser", async ({ method }, { r
             null,
             { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
         );
-        return responseData || rejectWithValue();
+        return responseData;
     } catch (error) {
         return rejectWithValue(error);
     }
@@ -191,7 +198,12 @@ export const register = createAsyncThunk("auth/register", async ({ name, usernam
     }
 });
 
-export const login = createAsyncThunk("auth/login", async ({ email, password, method }, { rejectWithValue }) => {
+export const login = createAsyncThunk<
+    string,
+    { email: string, password: string, method: Function },
+    { rejectValue: TApiError | unknown }
+>
+("auth/login", async ({ email, password, method }, { rejectWithValue }) => {
     try {
         const responseData = await method(
             VITE_ASSET_URL + '/api/auth',

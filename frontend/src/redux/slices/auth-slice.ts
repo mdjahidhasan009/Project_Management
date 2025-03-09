@@ -98,7 +98,7 @@
 // }
 
 
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {
     loadUser,
     updateUser,
@@ -109,29 +109,65 @@ import {
     uploadProfileImage
 } from "../thunks/auth-thunks";
 
+type User = {
+    id: string;
+    username: string;
+    email: string;
+};
+
+type Project = {
+    name: string;
+    todos?: Todo[];
+    bugs?: Bug[];
+};
+
+type Todo = {
+    user: User;
+    doneAt?: string;
+};
+
+type Bug = {
+    user: User;
+    fixedAt?: string;
+};
+
+type TAuthState = {
+    token: string | null;
+    isAuthenticated: boolean;
+    loading: boolean;
+    user: User | null;
+    users: User[];
+    selectedUser: User | null;
+    chartData: any;
+    activitySummary: any;
+    todoBugSummary: any;
+    noImage: string;
+    noMember: string;
+};
+
+const initialState: TAuthState = {
+    token: localStorage.getItem("token"),
+    isAuthenticated: false,
+    loading: true,
+    user: null, ////TODO: will not use null as default value
+    users: [],
+    selectedUser: null, ////TODO: will not use null as default value
+    chartData: null,
+    activitySummary: null,
+    todoBugSummary: null,
+    noImage: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg',
+    noMember: 'https://res.cloudinary.com/store-image/image/upload/v1601440064/muswbaylzg5sjxqv7cwb.jpg'
+}
+
 export const authSlice = createSlice({
     name: "auth",
-    initialState: {
-        token: localStorage.getItem("token"),
-        isAuthenticated: false,
-        loading: true,
-        user: null,
-        users: [],
-        selectedUser: null,
-
-        chartData: null,
-        activitySummary: null,
-        todoBugSummary: null,
-
-        noImage: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg',
-        noMember: 'https://res.cloudinary.com/store-image/image/upload/v1601440064/muswbaylzg5sjxqv7cwb.jpg'
-    },
+    initialState: initialState,
     reducers: {
-        logout: (state) => {
+        logout: () => {
             localStorage.removeItem("token");
-            return { ...state, token: null, isAuthenticated: false, user: null, users: [], selectedUser: null };
+            return initialState;
         },
-        prepareTodoAndBugForPreview: (state, action) => {
+        prepareTodoAndBugForPreview: (state: TAukthState, action) => {
         const { username, projects } = action.payload;
 
         let allCompletedActivity = [];
@@ -245,33 +281,33 @@ export const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(loadUser.fulfilled, (state, action) => {
+            .addCase(loadUser.fulfilled, (state, action: PayloadAction<User>) => {
                 state.isAuthenticated = true;
                 state.loading = false;
                 state.user = action.payload;
             })
-            .addCase(register.fulfilled, (state, action) => {
+            .addCase(register.fulfilled, (state, action: PayloadAction<string>) => {
                 localStorage.setItem("token", action.payload);
                 state.token = action.payload;
                 state.isAuthenticated = true;
                 state.loading = false;
             })
-            .addCase(login.fulfilled, (state, action) => {
+            .addCase(login.fulfilled, (state, action: PayloadAction<string>) => {
                 localStorage.setItem("token", action.payload);
                 state.token = action.payload;
                 state.isAuthenticated = true;
                 state.loading = false;
             })
-            .addCase(updateUser.fulfilled, (state, action) => {
+            .addCase(updateUser.fulfilled, (state, action: PayloadAction<User>) => {
                 state.user = action.payload;
             })
             .addCase(uploadProfileImage.fulfilled, (state) => {
                 state.loading = false;
             })
-            .addCase(getAllUser.fulfilled, (state, action) => {
+            .addCase(getAllUser.fulfilled, (state, action: PayloadAction<User[]>) => {
                 state.users = action.payload;
             })
-            .addCase(getUserByUserName.fulfilled, (state, action) => {
+            .addCase(getUserByUserName.fulfilled, (state, action: PayloadAction<User>) => {
                 state.loadedUser = action.payload;
             })
             .addMatcher((action) => action.type.endsWith('/rejected'), (state) => {

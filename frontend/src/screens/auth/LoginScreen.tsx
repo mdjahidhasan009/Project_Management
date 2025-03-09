@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {FormEvent, useEffect} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import loginAnimation from "../../assets/gif/login2.json";
 import LottieAnimation from "../../components/LottieAnimation";
@@ -7,13 +7,13 @@ import {useForm} from "../../hooks/form-hook";
 import {useHttpClient} from "../../hooks/http-hook";
 import Input from "../../components/shared/FormElements/Input";
 import { login, loadUser } from "../../redux/thunks/auth-thunks";
-import {useDispatch, useSelector} from "react-redux";
+import {useAppDispatch, useAppSelector} from "../../redux/hooks";
 
 function LoginScreen() {
     const { sendRequest } = useHttpClient();
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const authSlice = useSelector(state => state.auth);
+    const dispatch = useAppDispatch();
+    const authSlice = useAppSelector(state => state.auth);
 
     ////TODO: will not use null as default value
     const user = authSlice.user || null;
@@ -37,13 +37,10 @@ function LoginScreen() {
         { elementTitle: 'password', placeholder: 'Password', type: 'password', validators: [VALIDATOR_MINLENGTH(6)], errorText: 'Please enter at least 6 characters.' },
     ];
 
-    const authSubmitHandler = async (event) => {
+    const authSubmitHandler = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         try {
-            // dispatch(login({ email: formState.inputs.email.value, password: formState.inputs.password.value, method: sendRequest }));
-            // dispatch(loadUser({ method: sendRequest }));
-
             const loginResult = await dispatch(login({
                 email: formState.inputs.email.value,
                 password: formState.inputs.password.value,
@@ -60,7 +57,6 @@ function LoginScreen() {
 
     useEffect(() => {
         if(user) {
-            console.log(user)
             navigate('/dashboard');
         }
     }, [user]);
@@ -112,13 +108,4 @@ function LoginScreen() {
     );
 }
 
-// LoginScreen.propTypes = {
-//     login: PropTypes.func.isRequired,
-// };
-//
-// const mapStateToProps = state => ({
-//     user: state.auth.user,
-// });
-
 export default LoginScreen;
-// export default connect(mapStateToProps, { login, register, loadUser })(LoginScreen);

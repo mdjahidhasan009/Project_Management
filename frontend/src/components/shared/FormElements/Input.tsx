@@ -53,14 +53,14 @@ const Input = props => {
     if(props.element === 'input')
         element =
             <input
-            className={props?.styleClass || ''}
-            id={props.elementTitle}
-            type={props.type}
-            placeholder={props.placeholder}
-            onChange={changeHandler}
-            onBlur={clickHandler}  //When loose focus means after click on the field click other place except input field
-            value={inputState.value}
-        />
+                className={props?.styleClass || ''}
+                id={props.elementTitle}
+                type={props.type}
+                placeholder={props.placeholder}
+                onChange={changeHandler}
+                onBlur={clickHandler}  //When loose focus means after click on the field click other place except input field
+                value={inputState.value}
+            />
     else if(props.element === 'select')
         element =
             <select
