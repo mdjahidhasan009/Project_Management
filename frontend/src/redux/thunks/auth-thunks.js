@@ -9,7 +9,7 @@
 // export const loadUser = (method) => async dispatch => {
 //     try {
 //         const responseData = await method(
-//             process.env.VITE_ASSET_URL + '/api/auth',
+//             VITE_ASSET_URL + '/api/auth',
 //             'GET',
 //             null,
 //             {
@@ -36,7 +36,7 @@
 // export const register = ( name, username, email, password, method ) => async dispatch => {
 //     try {
 //         const responseData = await method(
-//             process.env.VITE_ASSET_URL +'/api/user',
+//             VITE_ASSET_URL +'/api/user',
 //             'POST',
 //             JSON.stringify({
 //                 name,
@@ -61,7 +61,7 @@
 // export const login = (email, password, method) => async dispatch => {
 //     try {
 //         const responseData = await method(
-//             process.env.VITE_ASSET_URL + '/api/auth',
+//             VITE_ASSET_URL + '/api/auth',
 //             'POST',
 //             JSON.stringify({
 //                 email,
@@ -86,7 +86,7 @@
 // export const updateUser = (formState, method) => async dispatch => {
 //     try {
 //         const responseData = await method(
-//             process.env.VITE_ASSET_URL + '/api/user',
+//             VITE_ASSET_URL + '/api/user',
 //             'PUT',
 //             JSON.stringify({
 //                 formState
@@ -123,7 +123,7 @@
 // export const getAllUser = (method) => async dispatch => {
 //     try {
 //         const responseData = await method(
-//             process.env.VITE_ASSET_URL + '/api/user',
+//             VITE_ASSET_URL + '/api/user',
 //             'GET',
 //             null,
 //             {
@@ -141,7 +141,7 @@
 // export const getUserByUserName = (username, method) => async dispatch => {
 //     try {
 //         const responseData =  await method(
-//             process.env.VITE_ASSET_URL + '/api/user/' + username,
+//             VITE_ASSET_URL + '/api/user/' + username,
 //             'GET',
 //             null,
 //             {
@@ -160,12 +160,13 @@
 
 import Swal from "sweetalert2";
 import {createAsyncThunk} from "@reduxjs/toolkit";
+const VITE_ASSET_URL = import.meta.env.VITE_ASSET_URL;
 
 // Async Thunks
 export const loadUser = createAsyncThunk("auth/loadUser", async ({ method }, { rejectWithValue }) => {
     try {
         const responseData = await method(
-            process.env.VITE_ASSET_URL + '/api/auth',
+            VITE_ASSET_URL + '/api/auth',
             'GET',
             null,
             { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
@@ -179,7 +180,7 @@ export const loadUser = createAsyncThunk("auth/loadUser", async ({ method }, { r
 export const register = createAsyncThunk("auth/register", async ({ name, username, email, password, method }, { rejectWithValue }) => {
     try {
         const responseData = await method(
-            process.env.VITE_ASSET_URL + '/api/user',
+            VITE_ASSET_URL + '/api/user',
             'POST',
             JSON.stringify({ name, username, email, password }),
             { 'Content-Type': 'application/json' }
@@ -193,7 +194,7 @@ export const register = createAsyncThunk("auth/register", async ({ name, usernam
 export const login = createAsyncThunk("auth/login", async ({ email, password, method }, { rejectWithValue }) => {
     try {
         const responseData = await method(
-            process.env.VITE_ASSET_URL + '/api/auth',
+            VITE_ASSET_URL + '/api/auth',
             'POST',
             JSON.stringify({ email, password }),
             { 'Content-Type': 'application/json' }
@@ -207,7 +208,7 @@ export const login = createAsyncThunk("auth/login", async ({ email, password, me
 export const updateUser = createAsyncThunk("auth/updateUser", async ({ formState, method }, { rejectWithValue }) => {
     try {
         const responseData = await method(
-            process.env.VITE_ASSET_URL + '/api/user',
+            VITE_ASSET_URL + '/api/user',
             'PUT',
             JSON.stringify({ formState }),
             { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') }
@@ -223,7 +224,7 @@ export const updateUser = createAsyncThunk("auth/updateUser", async ({ formState
 export const getAllUser = createAsyncThunk("auth/getAllUsers", async ({ method }, { rejectWithValue }) => {
     try {
         const responseData = await method(
-            process.env.VITE_ASSET_URL + '/api/user',
+            VITE_ASSET_URL + '/api/user',
             'GET',
             null,
             { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
@@ -237,7 +238,7 @@ export const getAllUser = createAsyncThunk("auth/getAllUsers", async ({ method }
 export const getUserByUserName = createAsyncThunk("auth/getUserByUsername", async ({ username, method }, { rejectWithValue }) => {
     try {
         const responseData = await method(
-            `${process.env.VITE_ASSET_URL}/api/user/${username}`,
+            `${VITE_ASSET_URL}/api/user/${username}`,
             'GET',
             null,
             { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
@@ -251,7 +252,7 @@ export const getUserByUserName = createAsyncThunk("auth/getUserByUsername", asyn
 export const uploadProfileImage = createAsyncThunk("auth/uploadProfileImage", async ({ base64EncodedImage, method }, { rejectWithValue }) => {
     try {
         await method(
-            process.env.VITE_ASSET_URL + '/api/upload',
+            VITE_ASSET_URL + '/api/upload',
             'POST',
             JSON.stringify({ data: base64EncodedImage }),
             {

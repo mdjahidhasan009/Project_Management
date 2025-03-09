@@ -22,7 +22,6 @@
   "scripts": {
     "start": "vite",
     "build": "vite-build",
-    "build": "vite-build",
     "test": "vite test"
   },
   "eslintConfig": {

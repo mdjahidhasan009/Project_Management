@@ -59,9 +59,9 @@ export const useHttpClient = () => {
             //if http request is not finished but the component which called it will be unmounted then we can cancel the
             //running request as we do not need this now.
 
-            // if(process.env.NODE_ENV === "production") { // as in dev strict mode it renders twice so api will be called twice
+            if(import.meta.env.NODE_ENV === "production") { // as in dev strict mode it renders twice so api will be called twice
                 activeHttpRequests.current.forEach(aboutCtr => aboutCtr.abort());
-            // }
+            }
         }
     }, []);
 

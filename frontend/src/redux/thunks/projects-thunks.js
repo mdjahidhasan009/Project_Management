@@ -6,7 +6,7 @@
 // export const addProject = (projectName, projectCategory, projectDescription, projectDeadline, method) => async dispatch =>{
 //   try {
 //     const responseData = await method(
-//         process.env.VITE_ASSET_URL +'/api/project',
+//         VITE_ASSET_URL +'/api/project',
 //         'POST',
 //         JSON.stringify({
 //           name: projectName,
@@ -39,7 +39,7 @@
 // export const getAllProjects = (method) => async dispatch => {
 //   try {
 //     const responseData = await method(
-//         process.env.VITE_ASSET_URL +'/api/project',
+//         VITE_ASSET_URL +'/api/project',
 //         'GET',
 //         null,
 //         {
@@ -58,13 +58,14 @@
 // Async thunk to add a project
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import Swal from "sweetalert2";
+const VITE_ASSET_URL = import.meta.env.VITE_ASSET_URL;
 
 export const addProject = createAsyncThunk(
     "projects/addProject",
     async ({ projectName, projectCategory, projectDescription, projectDeadline, method }, { rejectWithValue }) => {
         try {
             const responseData = await method(
-                process.env.VITE_ASSET_URL + "/api/project",
+                VITE_ASSET_URL + "/api/project",
                 "POST",
                 JSON.stringify({
                     name: projectName,
@@ -92,7 +93,7 @@ export const getAllProjects = createAsyncThunk(
     async ({ method }, { rejectWithValue }) => {
         try {
             const responseData = await method(
-                process.env.VITE_ASSET_URL + "/api/project",
+                VITE_ASSET_URL + "/api/project",
                 "GET",
                 null,
                 {
