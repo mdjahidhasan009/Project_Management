@@ -1,24 +1,43 @@
-import React, {useEffect} from 'react';
+import React, {FC, FormEvent, useEffect} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import signupAnimation from "../../assets/gif/signup.json";
 import LottieAnimation from "../../components/LottieAnimation";
-import {VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE} from "../../utils/validators";
-import {useForm} from "../../hooks/form-hook";
-import {useHttpClient} from "../../hooks/http-hook";
+import {TValidatorType, VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE} from "../../utils/validators";
+import {TFormState, TInputHandler, TSetFormData, useForm} from "../../hooks/form-hook";
+import {THttpClientHook, useHttpClient} from "../../hooks/http-hook";
 import Input from "../../components/shared/FormElements/Input";
 import { register, loadUser } from "../../redux/thunks/auth-thunks";
-import {useDispatch, useSelector} from "react-redux";
 import Swal from "sweetalert2";
-import {useAppSelector} from "../../redux/hooks";
+import {useAppDispatch, useAppSelector} from "../../redux/hooks";
 
-function GetStartedScreen() {
+type TInputElementConfig = {
+    elementTitle: string;
+    type: string;
+    placeholder: string;
+    validators: TValidatorType[];
+    errorText: string;
+}
+
+type TRegisterRequestParams = {
+    name: string;
+    username: string;
+    email: string;
+    password: string;
+    method: THttpClientHook['sendRequest'];
+}
+
+type TLoadUserParams = {
+    method: THttpClientHook['sendRequest'];
+}
+
+const GetStartedScreen : FC = () => {
     const { sendRequest } = useHttpClient();
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const authSlice = useAppSelector(state => state.auth);
     const user = authSlice || {};
 
-    const [ formState, inputHandler ] = useForm(
+    const [ formState, inputHandler , _setFormData ]: [TFormState, TInputHandler, TSetFormData] = useForm(
         {
             email: {
                 value: '',
@@ -32,7 +51,7 @@ function GetStartedScreen() {
         false
     );
 
-    const inputElements = [
+    const inputElements: TInputElementConfig[]  = [
         { elementTitle: 'name', type: 'text', placeholder: 'Name', validators: [VALIDATOR_REQUIRE()], errorText: 'Please enter your full name.' },
         { elementTitle: 'username', type: 'text', placeholder: 'User Name', validators: [VALIDATOR_REQUIRE()], errorText: 'Please enter your full name.' },
         { elementTitle: 'email', type: 'email', placeholder: 'Email', validators: [VALIDATOR_EMAIL()], errorText: 'Please enter a valid email address.' },
@@ -40,7 +59,7 @@ function GetStartedScreen() {
         { elementTitle: 'confirmPassword', placeholder: 'Confirm Password', type: 'password', validators: [VALIDATOR_MINLENGTH(6)], errorText: 'Please enter at least 6 characters.' }
     ];
 
-    const authSubmitHandler = async (event) => {
+    const authSubmitHandler = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
         event.preventDefault();
 
         try {
@@ -55,11 +74,14 @@ function GetStartedScreen() {
             } else {
                 try {
                     // name, username, email, password, method
-                    dispatch(register({ name: formState?.inputs?.name?.value, username: formState?.inputs?.username?.value,
-                        email: formState?.inputs?.email?.value, password: formState?.inputs?.password?.value, method: sendRequest }));
-                    dispatch(loadUser({ method: sendRequest }));
+                    dispatch(register({
+                        name: formState?.inputs?.name?.value,
+                        username: formState?.inputs?.username?.value,
+                        email: formState?.inputs?.email?.value,
+                        password: formState?.inputs?.password?.value,
+                        method: sendRequest } as TRegisterRequestParams));
 
-                    console.log(formState?.inputs?.password?.value)
+                    dispatch(loadUser({ method: sendRequest } as TLoadUserParams));
                 } catch (error) {
                     console.error(error);
                 }
@@ -123,9 +145,4 @@ function GetStartedScreen() {
 }
 
 
-// const mapStateToProps = state => ({
-//     user: state?.auth?.user
-// });
-
 export default GetStartedScreen;
-// export default connect(mapStateToProps, { login, register, loadUser })(GetStartedScreen);

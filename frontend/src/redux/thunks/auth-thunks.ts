@@ -3,6 +3,20 @@ import {createAsyncThunk} from "@reduxjs/toolkit";
 import {TApiError} from "../../types/api.types";
 const VITE_ASSET_URL = import.meta.env.VITE_ASSET_URL;
 
+
+type TRegisterParams = {
+    name: string;
+    username: string;
+    email: string;
+    password: string;
+    method: (
+        url: string,
+        method?: 'POST',
+        body?: BodyInit | null,
+        headers?: HeadersInit
+    ) => Promise<any>;
+}
+
 // Async Thunks
 export const loadUser =
     createAsyncThunk<
@@ -24,7 +38,9 @@ export const loadUser =
     }
 });
 
-export const register = createAsyncThunk("auth/register", async ({ name, username, email, password, method }, { rejectWithValue }) => {
+export const register = createAsyncThunk<string, TRegisterParams>(
+    "auth/register",
+    async ({ name, username, email, password, method }, { rejectWithValue }) => {
     try {
         const responseData = await method(
             VITE_ASSET_URL + '/api/user',
