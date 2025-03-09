@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
 // @access  Private
 const getAllUserData = async (req , res) => {
   try {
-      //as in authScreen.js middleware req.user has the value of user id
+      //as in authScreen.ts middleware req.user has the value of user id
       const user = await User.findById(req.user.id).select('-password')
       await res.json(user);
   } catch(error) {

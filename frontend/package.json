@@ -21,7 +21,7 @@
   "type": "module",
   "scripts": {
     "start": "vite",
-    "build": "vite-build",
+    "build": "vite build",
     "test": "vite test"
   },
   "eslintConfig": {
@@ -40,10 +40,14 @@
     ]
   },
   "devDependencies": {
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@types/react-router-dom": "^5.3.3",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.5.3",
     "tailwindcss": "^3.3.5",
+    "typescript": "^5.8.2",
     "vite": "^6.2.1"
   }
 }

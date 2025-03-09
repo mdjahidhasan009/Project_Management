@@ -87,7 +87,7 @@ const Bugs = () => {
         )
     }
 
-    //bugId, bugText will be passed from NotFixedBug.jsx as it was called from there.
+    //bugId, bugText will be passed from NotFixedBug.tsx as it was called from there.
     const handleClickOnEdit = async (bugId, bugText) => {
         await setEditBugData(bugText);
         await setBugId(bugId);
