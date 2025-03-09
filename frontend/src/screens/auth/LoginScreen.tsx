@@ -1,15 +1,41 @@
-import React, {FormEvent, useEffect} from 'react';
+import React, {FC, FormEvent, useEffect} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import loginAnimation from "../../assets/gif/login2.json";
 import LottieAnimation from "../../components/LottieAnimation";
-import {VALIDATOR_EMAIL, VALIDATOR_MINLENGTH} from "../../utils/validators";
-import {useForm} from "../../hooks/form-hook";
-import {useHttpClient} from "../../hooks/http-hook";
+import {TValidatorType, VALIDATOR_EMAIL, VALIDATOR_MINLENGTH} from "../../utils/validators";
+import {TFormState, TInputHandler, TSetFormData, useForm} from "../../hooks/form-hook";
+import {THttpClientHook, useHttpClient} from "../../hooks/http-hook";
 import Input from "../../components/shared/FormElements/Input";
 import { login, loadUser } from "../../redux/thunks/auth-thunks";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks";
 
-function LoginScreen() {
+
+type InputElementConfig = {
+    elementTitle: string;
+    type: string;
+    placeholder: string;
+    validators: TValidatorType[];
+    errorText: string;
+}
+
+
+type LoginRequestParams = {
+    email: string;
+    password: string;
+    method: THttpClientHook['sendRequest'];
+}
+
+type LoadUserParams = {
+    method: THttpClientHook['sendRequest'];
+}
+
+type LoginResult = {
+    token: string;
+    userId: string;
+    success: boolean;
+}
+
+const LoginScreen: FC = () => {
     const { sendRequest } = useHttpClient();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -18,7 +44,7 @@ function LoginScreen() {
     ////TODO: will not use null as default value
     const user = authSlice.user || null;
 
-    const [ formState, inputHandler ] = useForm(
+    const [ formState, inputHandler, _setFormData ]: [TFormState, TInputHandler, TSetFormData] = useForm(
         {
             email: {
                 value: '',
@@ -32,12 +58,12 @@ function LoginScreen() {
         false
     );
 
-    const inputElements = [
+    const inputElements: InputElementConfig[] = [
         { elementTitle: 'email', type: 'email', placeholder: 'Email', validators: [VALIDATOR_EMAIL()], errorText: 'Please enter a valid email address.' },
         { elementTitle: 'password', placeholder: 'Password', type: 'password', validators: [VALIDATOR_MINLENGTH(6)], errorText: 'Please enter at least 6 characters.' },
     ];
 
-    const authSubmitHandler = async (event: FormEvent<HTMLFormElement>) => {
+    const authSubmitHandler = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
         event.preventDefault();
 
         try {
@@ -45,12 +71,13 @@ function LoginScreen() {
                 email: formState.inputs.email.value,
                 password: formState.inputs.password.value,
                 method: sendRequest
-            })).unwrap(); // Waits for login to succeed and unwraps the result
+            } as LoginRequestParams)).unwrap() as LoginResult | unknown; // Waits for login to succeed and unwraps the result
+            ////TODO: will replace LoginResult | unknown with more precise type
 
             if (loginResult) {
-                dispatch(loadUser({ method: sendRequest })); // Dispatch loadUser after successful login
+                dispatch(loadUser({ method: sendRequest } as LoadUserParams)); // Dispatch loadUser after successful login
             }
-        } catch (error) {
+        } catch (error: unknown) {
             console.error(error);
         }
     };

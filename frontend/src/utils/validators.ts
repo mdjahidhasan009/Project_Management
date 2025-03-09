@@ -38,3 +38,11 @@ export const validate = (value: string, validators: { type: string, val: number 
     if(isRequired && value === "") isValid = true;
     return isValid;
 };
+
+
+export type TValidatorType =
+    | { type: typeof VALIDATOR_TYPE_REQUIRE }
+    | { type: typeof VALIDATOR_TYPE_NOT_REQUIRE }
+    | { type: typeof VALIDATOR_TYPE_MINLENGTH; val: number }
+    | { type: typeof VALIDATOR_TYPE_EMAIL }
+    | { type: typeof VALIDATOR_TYPE_LINK };

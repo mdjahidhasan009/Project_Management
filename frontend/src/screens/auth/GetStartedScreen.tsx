@@ -9,12 +9,13 @@ import Input from "../../components/shared/FormElements/Input";
 import { register, loadUser } from "../../redux/thunks/auth-thunks";
 import {useDispatch, useSelector} from "react-redux";
 import Swal from "sweetalert2";
+import {useAppSelector} from "../../redux/hooks";
 
 function GetStartedScreen() {
     const { sendRequest } = useHttpClient();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const authSlice = useSelector(state => state.auth);
+    const authSlice = useAppSelector(state => state.auth);
     const user = authSlice || {};
 
     const [ formState, inputHandler ] = useForm(

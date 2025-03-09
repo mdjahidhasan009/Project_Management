@@ -1,6 +1,36 @@
-import { useCallback, useReducer } from 'react'
+import { useCallback, useReducer, Reducer } from 'react'
 
-const formReducer = (state, action) => {
+export type TInputState = {
+    value: any;
+    isValid: boolean;
+}
+
+export type TFormState = {
+    inputs: {
+        [key: string]: TInputState;
+    };
+    isValid: boolean;
+}
+
+
+export type TInputHandler = (
+    elementTitle: string,
+    value: any,
+    isValid: boolean
+) => Promise<void>;
+
+
+export type TSetFormData = (
+    inputData: { [key: string]: TInputState },
+    formValidity: boolean
+) => Promise<void>;
+
+type TFormAction =
+    | { type: 'INPUT_CHANGE'; elementTitle: string; value: any; isValid: boolean }
+    | { type: 'SET_DATA'; inputs: { [key: string]: TInputState }; formIsValid: boolean };
+
+
+const formReducer: Reducer<TFormState, TFormAction> = (state, action) => {
     switch (action.type) {
         case 'INPUT_CHANGE':
             let formIsValid = true; //For overall form validity. First assume that true means valid.
@@ -33,14 +63,17 @@ const formReducer = (state, action) => {
     }
 };
 
-export const useForm = (initialInputs, initialValidity) => {
+export const useForm = (
+    initialInputs: { [key: string]: TInputState },
+    initialValidity: boolean
+): [TFormState, TInputHandler, TSetFormData] => {
     const [formState, dispatch] = useReducer(formReducer, {
         inputs: initialInputs,
         isValid: initialValidity
     });
 
-    const inputHandler = useCallback(async (elementTitle, value, isValid) => {
-        await dispatch({
+    const inputHandler: TInputHandler = useCallback(async (elementTitle, value, isValid) => {
+        dispatch({
             type: 'INPUT_CHANGE',
             value: value,
             isValid: isValid,
@@ -48,8 +81,8 @@ export const useForm = (initialInputs, initialValidity) => {
         })
     }, []);
 
-    const setFormData = useCallback(async (inputData, formValidity) => {
-        await dispatch({
+    const setFormData: TSetFormData = useCallback(async (inputData, formValidity) => {
+        dispatch({
             type: 'SET_DATA',
             inputs: inputData,
             formIsValid: formValidity

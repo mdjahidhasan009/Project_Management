@@ -2,6 +2,16 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import Swal from "sweetalert2";
 // import M from "materialize-css";
 
+export type THttpClientHook = {
+    isLoading: boolean;
+    sendRequest: <T = any>(
+        url: string,
+        method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE',
+        body?: BodyInit | null,
+        headers?: HeadersInit
+    ) => Promise<T | undefined>;
+}
+
 export const useHttpClient = () => {
     const [ isLoading, setIsLoading ] = useState(true);
 
