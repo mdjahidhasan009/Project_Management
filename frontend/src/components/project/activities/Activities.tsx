@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import ActivitiesInADay from "./ActivitiesInADay";
-import {ActivityGroups, prepareActivity, ProjectData, ProjectState} from "../../../redux/slices/project-slice";
+import {TActivityGroups, prepareActivity, TProjectData, TProjectState} from "../../../redux/slices/project-slice";
 import {useAppDispatch, useAppSelector} from "../../../redux/hooks";
 
 const Activities = () => {
@@ -10,8 +10,8 @@ const Activities = () => {
     const projectSlice = useAppSelector(state => state.project);
 
 
-    const project: ProjectData | null = projectSlice.project || null;
-    const activities: ActivityGroups = projectSlice.activities || [];
+    const project: TProjectData | null = projectSlice.project || null;
+    const activities: TActivityGroups = projectSlice.activities || [];
 
     useEffect(() => {
         if(project) {

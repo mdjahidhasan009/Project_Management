@@ -78,4 +78,4 @@ const Discussion = ({ discussion, handleClickOnEdit, projectId }) => {
 // })
 
 export default Discussion;
-// export default connect(mapStateToProps, { deleteDiscussion })(Discussion);
+// export default connect(mapStateToProps, { deleteDiscussion })(TDiscussion);

@@ -13,14 +13,14 @@
 // }
 
 import {
-    ActivityGroup,
-    ActivityGroups,
-    BaseActivity,
-    ProjectData, TPrepareActivityHelper
+    TActivityGroup,
+    TActivityGroups,
+    TBaseActivity,
+    TProjectData, TPrepareActivityHelper
 } from "../redux/slices/project-slice";
 
-export const prepareActivityHelper: TPrepareActivityHelper  = (responseData: ProjectData) => {
-    let allActivities: BaseActivity[] = [];
+export const prepareActivityHelper: TPrepareActivityHelper  = (responseData: TProjectData) => {
+    let allActivities: TBaseActivity[] = [];
     if(responseData) {
         responseData.bugs.map(bug => {
             allActivities.push({
@@ -59,9 +59,9 @@ export const prepareActivityHelper: TPrepareActivityHelper  = (responseData: Pro
     allActivities.sort(function(a,b){
         return new Date(b.time).getTime() - new Date(a.time).getTime();
     });
-    const modifiedActivities: ActivityGroup[] = []; //Grouping discussion, bug, todo by date
+    const modifiedActivities: TActivityGroup[] = []; //Grouping discussion, bug, todo by date
     let currentDate: string | null = null, previousDate: string | null = null;
-    let sameDateActivities: ActivityGroup = [];
+    let sameDateActivities: TActivityGroup = [];
 
     allActivities.map(activity => {
         currentDate = new Date(activity.time).getDate() + '/' + new Date(activity.time).getMonth() + '/' + new Date(activity.time).getFullYear();
@@ -76,7 +76,7 @@ export const prepareActivityHelper: TPrepareActivityHelper  = (responseData: Pro
     if(sameDateActivities.length > 0)
         modifiedActivities.unshift(sameDateActivities);
 
-    let lastArray: ActivityGroups = []; //As we using unshift most recent date will be at last reversing this and add to lastArray
+    let lastArray: TActivityGroups = []; //As we using unshift most recent date will be at last reversing this and add to lastArray
     for(let i = 0; i < modifiedActivities.length - 1; i++) {
         lastArray.unshift(modifiedActivities[i]);
     }

@@ -1,35 +1,54 @@
-import React, {useEffect, useState} from 'react';
-import {connect, useDispatch, useSelector} from "react-redux";
+import React, {FC, useEffect, useState} from 'react';
 import { useParams } from "react-router-dom";
 
 import { useHttpClient } from "../../../hooks/http-hook";
-import { useForm } from "../../../hooks/form-hook";
+import {TFormState, TInputHandler, TSetFormData, useForm} from "../../../hooks/form-hook";
 import { addBug, editBug } from "../../../redux/thunks/project-thunks";
 import { VALIDATOR_REQUIRE } from "../../../utils/validators";
-// import { initAllModal } from "../../../utils/helper";
 import Input from "../../shared/FormElements/Input";
 import NotFixedBugRow from "./NotFixedBug";
 import FixedBugRow from "./FixedBug";
+import {useAppDispatch, useAppSelector} from "../../../redux/hooks";
+import {initialProjectData, TProjectData} from "../../../redux/slices/project-slice";
 
-const Bugs = () => {
+
+type TRouteParams = {
+    projectId: string;
+}
+
+type FormState = {
+    inputs: {
+        bugText?: {
+            value: string;
+            isValid: boolean;
+        };
+        bugEditText?: {
+            value: string;
+            isValid: boolean;
+        };
+    };
+    isValid: boolean;
+}
+
+const Bugs: FC = () => {
     const { sendRequest } = useHttpClient();
-    const dispatch = useDispatch();
-    const projectSlice = useSelector(state => state.project);
+    const dispatch = useAppDispatch();
+    const projectSlice = useAppSelector(state => state.project);
 
-    const project = projectSlice.project || {};
-    const bugs = project.bugs || [];
+    const project: TProjectData = projectSlice.project || initialProjectData;
+    const bugs = project?.bugs || [];
     const isMemberOfThisProject = projectSlice.isMemberOfThisProject || false;
     const isCreatedByUser = projectSlice.isCreatedByUser || false;
 
-    const projectId = useParams().projectId;
-    const [ editBugText, setEditBugText ] = useState('');
-    const [ bugId, setBugId ] = useState();
-    const [ hasNotFixedBug, setHasNotFixedBug ] = useState(false);
-    const [ hasFixedBug, setHasFixedBug ] = useState(false);
-    const [ showAddNewBugModal, setShowAddNewBugModal ] = useState(false);
-    const [ showEditBugModal, setShowEditBugModal ] = useState(false);
+    const projectId = useParams<TRouteParams>().projectId;
+    const [ editBugText, setEditBugText ] = useState<string>('');
+    const [ bugId, setBugId ] = useState<string>();
+    const [ hasNotFixedBug, setHasNotFixedBug ] = useState<boolean>(false);
+    const [ hasFixedBug, setHasFixedBug ] = useState<boolean>(false);
+    const [ showAddNewBugModal, setShowAddNewBugModal ] = useState<boolean>(false);
+    const [ showEditBugModal, setShowEditBugModal ] = useState<boolean>(false);
 
-    const [ formState, inputHandler, setFormData ] = useForm(
+    const [ formState, inputHandler, setFormData ]: [TFormState, TInputHandler, TSetFormData] = useForm(
         {
             bugText: {
                 value: '',
@@ -40,7 +59,7 @@ const Bugs = () => {
     );
 
     //initialization(bugText is ''
-    const setAddBugData = async () => {
+    const setAddBugData = async (): Promise<void> => {
         await setFormData(
             {
                 bugText: {
@@ -50,32 +69,48 @@ const Bugs = () => {
             },
             false
         );
-        document.getElementById("bugText").value = '';
+
+        const element = document.getElementById("bugText") as HTMLInputElement;
+        if(element) {
+            element.value = '';
+        }
     }
 
-    const addBugHandler = async (event) => {
+    const addBugHandler = async (event: React.FormEvent): Promise<void> => {
         event.preventDefault();
 
-        // await addBug(formState.inputs.bugText.value, projectId, sendRequest);
-        dispatch(addBug({ bugText: formState.inputs.bugText.value, projectId: projectId, method: sendRequest }));
-        await setAddBugData();
+        if(projectId && formState.inputs.bugText?.value) {
+            dispatch(addBug({
+                bugText: formState.inputs.bugText.value,
+                projectId: projectId,
+                method: sendRequest
+            }));
+        }
 
+        await setAddBugData();
         setShowAddNewBugModal(false);
     }
 
-    const editBugHandler = async (event) => {
+    const editBugHandler = async (event: React.FormEvent): Promise<void> => {
         event.preventDefault();
 
         // await editBug(project._id, bugId, formState.inputs.bugEditText.value, sendRequest);
-        // projectId, bugId, bugEditText, method
-        dispatch(editBug({ projectId: project._id, bugId: bugId, bugEditText: formState.inputs.bugEditText.value, method: sendRequest }));
+        if (projectId && bugId && formState.inputs.bugEditText?.value) {
+            dispatch(editBug({
+                projectId: project._id,
+                bugId: bugId,
+                bugEditText: formState.inputs.bugEditText.value,
+                method: sendRequest
+            }));
+        }
+
         await setAddBugData();
 
         setShowEditBugModal(false);
     }
 
-    const setEditBugData = async (bugText) => {
-        await setEditBugText(bugText);
+    const setEditBugData = async (bugText: string): Promise<void> => {
+        setEditBugText(bugText);
         await setFormData(
             {
                 bugEditText: {
@@ -88,16 +123,16 @@ const Bugs = () => {
     }
 
     //bugId, bugText will be passed from NotFixedBug.tsx as it was called from there.
-    const handleClickOnEdit = async (bugId, bugText) => {
+    const handleClickOnEdit = async (bugId: string, bugText: string) => {
         await setEditBugData(bugText);
-        await setBugId(bugId);
+        setBugId(bugId);
 
         setShowEditBugModal(true)
     }
 
     const doesHaveCompletedOrNotFixedBugs = () => {
         let flagHasFixedBug = false, flagHasNotFixedBug = false;
-        bugs && bugs.map(item => {
+        bugs && bugs.map((item) => {
             if(!flagHasFixedBug && item.fixed) flagHasFixedBug = true;
             if(!flagHasNotFixedBug && !item.fixed) flagHasNotFixedBug = true;
         })
@@ -239,7 +274,7 @@ const Bugs = () => {
                             <NotFixedBugRow
                                 key={bug._id}
                                 bug={bug}
-                                projectId={projectId}
+                                projectId={projectId ?? ""}
                                 handleClickOnEdit={handleClickOnEdit}
                             />
                         ))
@@ -251,7 +286,7 @@ const Bugs = () => {
                             <FixedBugRow
                                 key={bug._id}
                                 bug={bug}
-                                projectId={projectId}
+                                projectId={projectId ?? ""}
                             />
                         ))
                         }
@@ -261,12 +296,4 @@ const Bugs = () => {
     )
 }
 
-// const mapStateToProps = state => ({
-//     project: state.project.project,
-//     bugs: state.project?.project?.bugs,
-//     isMemberOfThisProject: state.project.isMemberOfThisProject,
-//     isCreatedByUser: state.project.isCreatedByUser
-// });
-
 export default Bugs;
-// export default connect(mapStateToProps, { addBug, editBug })(Bugs);

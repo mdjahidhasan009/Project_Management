@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import {connect, useDispatch, useSelector} from "react-redux";
 
 import { useHttpClient } from "../../../hooks/http-hook";
 import { toggleIsFixed, deleteBug} from "../../../redux/thunks/project-thunks";
+import {TBug} from "../../../redux/slices/project-slice";
+import {useAppDispatch, useAppSelector} from "../../../redux/hooks";
+import {initialAuthData} from "../../../redux/slices/auth-slice";
 
-const NotFixedBug = ({ bug, projectId, handleClickOnEdit }) => {
+const NotFixedBug = ({ bug, projectId, handleClickOnEdit } : { bug: TBug, projectId: string, handleClickOnEdit: Function }) => {
     const { sendRequest } = useHttpClient();
-    const dispatch = useDispatch();
-    const authSlice = useSelector(state => state.auth);
+    const dispatch = useAppDispatch();
+    const authSlice = useAppSelector(state => state.auth) || initialAuthData;
+
     const username = authSlice.user.username || "";
     const noImage = authSlice.noImage || "";
 
@@ -87,10 +90,4 @@ const NotFixedBug = ({ bug, projectId, handleClickOnEdit }) => {
     )
 }
 
-// const mapStateToProps = state => ({
-//     username: state?.auth?.user?.username,
-//     noImage: state.auth.noImage
-// })
-
 export default NotFixedBug;
-// export default connect(mapStateToProps, { toggleIsFixed, deleteBug })(NotFixedBug);

@@ -1,9 +1,9 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import {ActivityGroup, BaseActivity} from "../../../redux/slices/project-slice";
+import {TBaseActivity} from "../../../redux/slices/project-slice";
 
 type TActivitiesInADayProps = {
-    activityDetail: BaseActivity;
+    activityDetail: TBaseActivity;
 }
 
 const ActivityDetails = ({ activityDetail }: TActivitiesInADayProps) => {

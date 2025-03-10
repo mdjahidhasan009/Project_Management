@@ -136,32 +136,32 @@ import {
 import {prepareActivityHelper} from "../../utils/helper";
 
 // Base activity type
-export interface BaseActivity {
+export type TBaseActivity = {
     time: string;
     user: string;
     text: string;
-    type: ActivityType;
+    type: TActivityType;
 }
 
 // Activity types
-export type ActivityType = 'bug' | 'bug-fixed' | 'todo' | 'todo-done' | 'discuss';
+export type TActivityType = 'bug' | 'bug-fixed' | 'todo' | 'todo-done' | 'discuss';
 
 // Group of activities by date
-export type ActivityGroup = BaseActivity[];
+export type TActivityGroup = TBaseActivity[];
 
 // All activity groups
-export type ActivityGroups = ActivityGroup[];
+export type TActivityGroups = TActivityGroup[];
 
 // Project data structure containing bugs and todos
-export interface ProjectData {
-    bugs: Bug[];
-    todos: Todo[];
-    discussion?: Discussion[];
-    members?: ProjectMember[];
+export type TProjectData = {
+    _id: string;
+    bugs: TBug[];
+    todos: TTodo[];
+    discussion?: TDiscussion[];
+    members?: TProjectMember[];
 }
 
-// Bug interface
-export interface Bug {
+export type TBug = {
     time: string;
     user: {
         username: string;
@@ -172,8 +172,8 @@ export interface Bug {
     [key: string]: any;
 }
 
-// Todo interface
-export interface Todo {
+// TTodo interface
+export type TTodo = {
     time: string;
     user: {
         username: string;
@@ -185,7 +185,7 @@ export interface Todo {
 }
 
 // Optional interfaces for other project data
-export interface Discussion {
+export type TDiscussion = {
     id: string;
     text: string;
     time: string;
@@ -196,16 +196,15 @@ export interface Discussion {
     [key: string]: any;
 }
 
-export interface ProjectMember {
+export type TProjectMember = {
     id: string;
     username: string;
     [key: string]: any;
 }
 
-// Redux state interfaces
-export interface ProjectState {
-    project: ProjectData | null;
-    activities: ActivityGroups;
+export type TProjectState = {
+    project: TProjectData | null;
+    activities: TActivityGroups;
     chartData: any[];
     isMemberOfThisProject: boolean;
     isCreatedByUser: boolean;
@@ -214,13 +213,18 @@ export interface ProjectState {
     error: any;
 }
 
-// Type for the prepareActivityHelper function
-export type TPrepareActivityHelper = (responseData: ProjectData) => ActivityGroups;
+export type TPrepareActivityHelper = (responseData: TProjectData) => TActivityGroups;
 
-// Props for the ActivitiesInADay component
-export interface ActivitiesInADayProps {
-    activity: ActivityGroup;
+export type TActivitiesInADayProps = {
+    activity: TActivityGroup;
     key: number;
+}
+
+export const initialProjectData: TProjectData = {
+    bugs: [],
+    todos: [],
+    discussion: [],
+    members: []
 }
 
 const initialState = {

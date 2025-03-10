@@ -869,6 +869,7 @@ import Swal from 'sweetalert2';
 const VITE_ASSET_URL = import.meta.env.VITE_ASSET_URL;
 
 import {prepareActivityHelper} from "../../utils/helper";
+import {TApiError} from "../../types/api.types";
 
 
 // Helper function to display success messages
@@ -1224,7 +1225,11 @@ export const deleteSubTodo = createAsyncThunk(
     }
 );
 
-export const toggleIsFixed = createAsyncThunk(
+export const toggleIsFixed = createAsyncThunk<
+    string,
+    { projectId: string, bugId: string, isFixed: string, method: Function },
+    { rejectValue: TApiError | unknown }
+>(
     'project/toggleIsFixed',
     async ({ projectId, bugId, isFixed, method }, { rejectWithValue }) => {
         try {
@@ -1250,7 +1255,11 @@ export const toggleIsFixed = createAsyncThunk(
     }
 );
 
-export const editBug = createAsyncThunk(
+export const editBug = createAsyncThunk<
+    any,
+    { projectId: string, bugId: string, bugEditText: string, method: Function },
+    { rejectValue: TApiError | unknown }
+>(
     'project/editBug',
     async ({ projectId, bugId, bugEditText, method }, { rejectWithValue }) => {
         try {
@@ -1273,7 +1282,11 @@ export const editBug = createAsyncThunk(
     }
 );
 
-export const addBug = createAsyncThunk(
+export const addBug = createAsyncThunk<
+    any,
+    { bugText: string, projectId: string, method: Function },
+    { rejectValue: TApiError | unknown }
+>(
     'project/addBug',
     async ({ bugText, projectId, method }, { rejectWithValue }) => {
         try {
@@ -1296,7 +1309,11 @@ export const addBug = createAsyncThunk(
     }
 );
 
-export const deleteBug = createAsyncThunk(
+export const deleteBug = createAsyncThunk<
+    any,
+    { projectId: string, bugId: string, method: Function },
+    { rejectValue: TApiError | unknown }
+>(
     'project/deleteBug',
     async ({ projectId, bugId, method }, { rejectWithValue }) => {
         try {

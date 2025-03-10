@@ -109,7 +109,7 @@ import {
     uploadProfileImage
 } from "../thunks/auth-thunks";
 
-type User = {
+type TUser = {
     id: string;
     username: string;
     email: string;
@@ -122,12 +122,12 @@ type Project = {
 };
 
 type Todo = {
-    user: User;
+    user: TUser;
     doneAt?: string;
 };
 
 type Bug = {
-    user: User;
+    user: TUser;
     fixedAt?: string;
 };
 
@@ -135,9 +135,9 @@ type TAuthState = {
     token: string | null;
     isAuthenticated: boolean;
     loading: boolean;
-    user: User | null;
-    users: User[];
-    selectedUser: User | null;
+    user: TUser;
+    users: TUser[];
+    selectedUser: TUser | null;
     chartData: any;
     activitySummary: any;
     todoBugSummary: any;
@@ -145,11 +145,15 @@ type TAuthState = {
     noMember: string;
 };
 
-const initialState: TAuthState = {
+export const initialAuthData: TAuthState = {
     token: localStorage.getItem("token"),
     isAuthenticated: false,
     loading: true,
-    user: null, ////TODO: will not use null as default value
+    user: {
+        id: '',
+        username: '',
+        email: ''
+    }, ////TODO: will not use null as default value
     users: [],
     selectedUser: null, ////TODO: will not use null as default value
     chartData: null,
@@ -161,13 +165,13 @@ const initialState: TAuthState = {
 
 export const authSlice = createSlice({
     name: "auth",
-    initialState: initialState,
+    initialState: initialAuthData,
     reducers: {
         logout: () => {
             localStorage.removeItem("token");
-            return initialState;
+            return initialAuthData;
         },
-        prepareTodoAndBugForPreview: (state: TAukthState, action) => {
+        prepareTodoAndBugForPreview: (state: TAuthState, action) => {
         const { username, projects } = action.payload;
 
         let allCompletedActivity = [];
@@ -260,7 +264,7 @@ export const authSlice = createSlice({
                 }
             }
             const chartData = [
-                ['x', 'Todo done', 'Bug fixed'],
+                ['x', 'TTodo done', 'TBug fixed'],
                 [0, 0, 0]
             ].concat(activityForChart);
             //Count of how many todos are completed or incomplete and bug fixed or not fixed yet.

@@ -2,11 +2,11 @@ import React from 'react';
 
 import ActivityDetails from "./ActivityDetails";
 import './ActivitiesInADay.css'
-import { ActivityGroup } from '../../../redux/slices/project-slice';
+import { TActivityGroup } from '../../../redux/slices/project-slice';
 
 
 type TActivitiesInADayProps = {
-    activity: ActivityGroup;
+    activity: TActivityGroup;
 }
 
 const ActivitiesInADay = ({ activity }: TActivitiesInADayProps) => {

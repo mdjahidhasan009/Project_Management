@@ -20,7 +20,7 @@ type TRegisterParams = {
 // Async Thunks
 export const loadUser =
     createAsyncThunk<
-        any,
+        string,
         { method: Function },
         { rejectValue: TApiError | unknown }
     >
