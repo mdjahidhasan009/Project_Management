@@ -106,14 +106,15 @@ import {
     login,
     getAllUser,
     getUserByUserName,
-    uploadProfileImage
+    uploadProfileImage, TUser
 } from "../thunks/auth-thunks";
+import {userInitData} from "./project-slice";
 
-type TUser = {
-    id: string;
-    username: string;
-    email: string;
-};
+// export type TUser = {
+//     id: string;
+//     username: string;
+//     email: string;
+// };
 
 type Project = {
     name: string;
@@ -137,7 +138,7 @@ type TAuthState = {
     loading: boolean;
     user: TUser;
     users: TUser[];
-    selectedUser: TUser | null;
+    selectedUser: TUser;
     chartData: any;
     activitySummary: any;
     todoBugSummary: any;
@@ -149,11 +150,7 @@ export const initialAuthData: TAuthState = {
     token: localStorage.getItem("token"),
     isAuthenticated: false,
     loading: true,
-    user: {
-        id: '',
-        username: '',
-        email: ''
-    }, ////TODO: will not use null as default value
+    user: userInitData, ////TODO: will not use null as default value
     users: [],
     selectedUser: null, ////TODO: will not use null as default value
     chartData: null,

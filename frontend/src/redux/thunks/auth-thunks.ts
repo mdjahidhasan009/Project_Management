@@ -8,7 +8,7 @@ export type TUser = {
     name: string;
     username: string;
     email: string;
-    role: string;
+    role: number;
     bio: string;
     skills: string[];
     profileImage: {

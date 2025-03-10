@@ -1,46 +1,44 @@
-import React, {useEffect, useState} from 'react';
-import {connect, useDispatch, useSelector} from "react-redux";
+import React, {FormEvent, MouseEventHandler, useEffect, useState} from 'react';
 import { useParams } from "react-router-dom";
 
 import {addTodo, editTodo, addSubTodo, editSubTodo, addTodoToJunior} from "../../../redux/thunks/project-thunks";
 import { useHttpClient } from "../../../hooks/http-hook";
-import { useForm } from "../../../hooks/form-hook";
+import {TFormState, TInputHandler, TSetFormData, useForm} from "../../../hooks/form-hook";
 import { VALIDATOR_REQUIRE } from "../../../utils/validators";
 import Input from "../../shared/FormElements/Input";
 import IncompleteTodoRow from "./IncompleteTodo";
 import CompletedTodoRow from "./CompletedTodo";
-// import M from "materialize-css";
-// import { initAllModal, initModalAndOpen } from "../../../utils/helper";
+import {useAppDispatch, useAppSelector} from "../../../redux/hooks";
+import {initialProjectData, userInitData} from "../../../redux/slices/project-slice";
 
 const Todos = () => {
     const { sendRequest } = useHttpClient();
-    const projectId = useParams().projectId;
-    const dispatch = useDispatch();
-    const projectSlice = useSelector(state => state.project);
-    const authSlice = useSelector(state => state.auth);
+    const projectId = useParams().projectId || "";
+    const dispatch = useAppDispatch();
+    const projectSlice = useAppSelector(state => state.project);
+    const authSlice = useAppSelector(state => state.auth);
 
     const [ editTodoText, setEditTodoText ] = useState('');
     const [ subTodoEditText, setSubTodoEditText ] = useState('');
-    const [ todoId, setTodoId ] = useState();
-    const [ subTodoId, setSubTodoId ] = useState();
+    const [ todoId, setTodoId ] = useState('');
+    const [ subTodoId, setSubTodoId ] = useState('');
     const [ assignMember, setAssignMember ] = useState('');
-    const [ juniorMembers, setJuniorMembers ] = useState([]);
     const [ hasCompletedTodos, setHasCompletedTodos ] = useState(false);
     const [ hasUncompletedTodos, setHasUncompletedTodos] = useState(false);
     const [showAddToDoModal, setShowAddToDoModal] = useState(false);
     const [showAddSubToDoModal, setShowAddSubToDoModal] = useState(false);
     const [showEditToDoModal, setShowEditToDoModal] = useState(false);
     const [showEditSubToDoModal, setShowEditSubToDoModal] = useState(false);
-    const [selectOptions, setSelectOptions] = useState([]);
+    const [selectOptions, setSelectOptions] = useState<{ value: string, text: string }[]>([]);
 
-    const project = projectSlice?.project || {};
-    const todos = project?.todos || [];
+    const project = projectSlice?.project || initialProjectData;
+    const todos = project?.todos;
     const isMemberOfThisProject = projectSlice.isMemberOfThisProject;
     const isCreatedByUser = projectSlice.isCreatedByUser;
     const isAuthenticated = authSlice.isAuthenticated;
-    const currentUser = authSlice?.user;
+    const currentUser = authSlice?.user || userInitData;
 
-    const [ formState, inputHandler, setFormData ] = useForm(
+    const [ formState, inputHandler, setFormData ]: [TFormState, TInputHandler, TSetFormData] = useForm(
         {
             todoText: {
                 value: '',
@@ -63,8 +61,7 @@ const Todos = () => {
         );
     }
 
-    const setEditTodoData = (todoText) => {
-        // await initAddTodoData();
+    const setEditTodoData = (todoText: string) => {
         setEditTodoText(todoText);
         setFormData(
             {
@@ -77,26 +74,44 @@ const Todos = () => {
         )
     }
 
-    const addTodoHandler = async (event) => {
+    const addTodoHandler = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        if(!assignMember) dispatch(addTodo({ todoText: formState.inputs.todoText.value, projectId: projectId, method: sendRequest }));
-        else dispatch(addTodoToJunior({ todoText: formState.inputs.todoText.value, projectId: projectId, username: assignMember, method: sendRequest }));
+
+        if(!assignMember) {
+            dispatch(addTodo({
+                todoText: formState.inputs.todoText.value,
+                projectId: projectId,
+                method: sendRequest
+            }));
+        } else {
+            dispatch(addTodoToJunior({
+                todoText: formState.inputs.todoText.value,
+                projectId: projectId,
+                username: assignMember,
+                method: sendRequest
+            }));
+        }
         await initAddTodoData();
-        await setAssignMember("");
-        await prepareJuniorMemberList();
+        setAssignMember("");
+        prepareJuniorMemberList();
 
         setShowAddToDoModal(false);
     }
 
-    const handleOnClickEditTodo = async (todoId, todoText) => {
-        await setEditTodoData(todoText);
-        await setTodoId(todoId);
+    const handleOnClickEditTodo = async (todoId: string, todoText: string) => {
+        setEditTodoData(todoText);
+        setTodoId(todoId);
 
         setShowEditToDoModal(true);
     }
 
-    const editTodoHandler = async (event) => {
-        dispatch(editTodo({ projectId: project._id, todoId: todoId, todoEditText: formState.inputs.todoEditText.value, method: sendRequest }));
+    const editTodoHandler = async ( ) => {
+        dispatch(editTodo({
+            projectId: project._id,
+            todoId: todoId,
+            todoEditText: formState.inputs.todoEditText.value,
+            method: sendRequest
+        }));
         await initAddTodoData();
 
         setShowEditToDoModal(false);
@@ -117,7 +132,7 @@ const Todos = () => {
         setShowAddSubToDoModal(true);
     };
 
-    const setEditSubTodoData = (subTodoText) => {
+    const setEditSubTodoData = (subTodoText: string) => {
         setSubTodoEditText(subTodoText);
         setFormData(
             {
@@ -130,41 +145,52 @@ const Todos = () => {
         )
     }
 
-    const addSubTodoHandler = async (event) => {
+    const addSubTodoHandler = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        dispatch(addSubTodo({ todoText: formState.inputs.subTodoText.value, projectId: projectId, todoId: todoId, method: sendRequest }));
+        dispatch(addSubTodo({
+            todoText: formState.inputs.subTodoText.value,
+            projectId: projectId,
+            todoId: todoId,
+            method: sendRequest
+        }));
         await initAddTodoData();
 
         setShowAddSubToDoModal(false);
     }
 
-    const editSubTodoHandler = async (event) => {
-        dispatch(editSubTodo({ projectId: project._id, todoId: todoId, subTodoId: subTodoId, subTodoEditText: formState.inputs.subTodoEditText.value, method: sendRequest }));
+    const editSubTodoHandler = async () => {
+        dispatch(editSubTodo({
+            projectId: project._id,
+            todoId: todoId,
+            subTodoId: subTodoId,
+            subTodoEditText: formState.inputs.subTodoEditText.value,
+            method: sendRequest
+        }));
         await initAddTodoData();
         await initSubTodoData();
 
         setShowEditSubToDoModal(true);
     }
 
-    const handleOnClickEditSubTodo = async (todoId, subTodoId, subTodoText) => {
-        await setEditSubTodoData(subTodoText);
-        await setTodoId(todoId);
-        await setSubTodoId(subTodoId);
+    const handleOnClickEditSubTodo = async (todoId: string, subTodoId: string, subTodoText: string) => {
+        setEditSubTodoData(subTodoText);
+        setTodoId(todoId);
+        setSubTodoId(subTodoId);
 
         setShowEditSubToDoModal(true);
     }
 
-    const handleOnClickAddSubTodo = async (todoId) => {
+    const handleOnClickAddSubTodo = async (todoId: string) => {
         await initSubTodoData();
-        await setTodoId(todoId);
+        setTodoId(todoId);
     }
 
     const prepareJuniorMemberList = () => {
-        const newSelectOptions = [];
+        const newSelectOptions: { value: string, text: string }[] = [];
 
         if (project?.members) {
             project?.members?.forEach((member) => {
-                if (parseInt(currentUser?.role) <= member?.user?.role && currentUser?.username !== member?.user?.username) {
+                if (currentUser?.role <= member?.user?.role && currentUser?.username !== member?.user?.username) {
                     newSelectOptions.push({
                         value: member?.user?.username,
                         text: member?.user?.username,
@@ -468,14 +494,4 @@ const Todos = () => {
     )
 }
 
-// const mapStateToProps = state => ({
-//     project: state.project.project,
-//     todos: state.project?.project?.todos,
-//     isMemberOfThisProject: state.project.isMemberOfThisProject,
-//     isCreatedByUser: state.project.isCreatedByUser,
-//     isAuthenticated: state.auth.isAuthenticated,
-//     currentUser: state.auth?.user
-// });
-
 export default Todos;
-// export default connect(mapStateToProps, { addTodo, editTodo, editSubTodo, addSubTodo, addTodoToJunior })(Todos);

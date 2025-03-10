@@ -1042,7 +1042,11 @@ export const deleteDiscussion = createAsyncThunk<
     }
 );
 
-export const addTodoToJunior = createAsyncThunk(
+export const addTodoToJunior = createAsyncThunk<
+    string,
+    { todoText: string; projectId: string; username: string; method: Function },
+    { rejectValue: TApiError | unknown }
+>(
     'project/addTodoToJunior',
     async ({ todoText, projectId, username, method }, { rejectWithValue }) => {
         try {
@@ -1065,7 +1069,11 @@ export const addTodoToJunior = createAsyncThunk(
     }
 );
 
-export const addTodo = createAsyncThunk(
+export const addTodo = createAsyncThunk<
+    string,
+    { todoText: string; projectId: string; method: Function },
+    { rejectValue: TApiError | unknown }
+>(
     'project/addTodo',
     async ({ todoText, projectId, method }, { rejectWithValue }) => {
         try {
@@ -1088,7 +1096,11 @@ export const addTodo = createAsyncThunk(
     }
 );
 
-export const toggleIsDone = createAsyncThunk(
+export const toggleIsDone = createAsyncThunk<
+    string,
+    { projectId: string; todoId: string; isDone: string; method: Function },
+    { rejectValue: TApiError | unknown }
+>(
     'project/toggleIsDone',
     async ({ projectId, todoId, isDone, method }, { rejectWithValue }) => {
         try {
@@ -1114,7 +1126,11 @@ export const toggleIsDone = createAsyncThunk(
     }
 );
 
-export const editTodo = createAsyncThunk(
+export const editTodo = createAsyncThunk<
+    string,
+    { projectId: string; todoId: string; todoEditText: string; method: Function },
+    { rejectValue: TApiError | unknown }
+>(
     'project/editTodo',
     async ({ projectId, todoId, todoEditText, method }, { rejectWithValue }) => {
         try {
@@ -1137,7 +1153,11 @@ export const editTodo = createAsyncThunk(
     }
 );
 
-export const deleteTodo = createAsyncThunk(
+export const deleteTodo = createAsyncThunk<
+    string,
+    { projectId: string; todoId: string; method: Function },
+    { rejectValue: TApiError | unknown }
+>(
     'project/deleteTodo',
     async ({ projectId, todoId, method }, { rejectWithValue }) => {
         try {
@@ -1157,7 +1177,11 @@ export const deleteTodo = createAsyncThunk(
     }
 );
 
-export const addSubTodo = createAsyncThunk(
+export const addSubTodo = createAsyncThunk<
+    string,
+    { todoText: string; projectId: string; todoId: string; method: Function },
+    { rejectValue: TApiError | unknown }
+>(
     'project/addSubTodo',
     async ({ todoText, projectId, todoId, method }, { rejectWithValue }) => {
         try {
@@ -1181,7 +1205,11 @@ export const addSubTodo = createAsyncThunk(
     }
 );
 
-export const toggleSubTodoIsDone = createAsyncThunk(
+export const toggleSubTodoIsDone = createAsyncThunk<
+    void,
+    { projectId: string; todoId: string; subTodoId: string; isDone: string; method: Function },
+    { rejectValue: TApiError | unknown }
+>(
     'project/toggleSubTodoIsDone',
     async ({ projectId, todoId, subTodoId, isDone, method }, { rejectWithValue }) => {
         try {
@@ -1207,7 +1235,11 @@ export const toggleSubTodoIsDone = createAsyncThunk(
     }
 );
 
-export const editSubTodo = createAsyncThunk(
+export const editSubTodo = createAsyncThunk<
+    string,
+    { projectId: string; todoId: string; subTodoId: string; subTodoEditText: string; method: Function },
+    { rejectValue: TApiError | unknown }
+>(
     'project/editSubTodo',
     async ({ projectId, todoId, subTodoId, subTodoEditText, method }, { rejectWithValue }) => {
         try {
@@ -1230,7 +1262,11 @@ export const editSubTodo = createAsyncThunk(
     }
 );
 
-export const deleteSubTodo = createAsyncThunk(
+export const deleteSubTodo = createAsyncThunk<
+    void,
+    { projectId: string; todoId: string; subTodoId: string; method: Function },
+    { rejectValue: TApiError | unknown }
+>(
     'project/deleteSubTodo',
     async ({ projectId, todoId, subTodoId, method }, { rejectWithValue }) => {
         try {

@@ -55,6 +55,7 @@ export type TBug = {
 
 // TTodo interface
 export type TTodo = {
+    _id: string;
     time: string;
     user: {
         username: string;
@@ -62,7 +63,8 @@ export type TTodo = {
     };
     text: string;
     doneAt?: string;
-    [key: string]: any;
+    done: boolean;
+    subTodos?: TTodo[];
 }
 
 // Optional interfaces for other project data
@@ -91,6 +93,7 @@ export type TProjectState = {
     notAssignMembers: string[];
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: any;
+    todos: TTodo[];
 }
 
 export type TPrepareActivityHelper = (responseData: TProjectData) => TActivityGroups;
@@ -100,17 +103,70 @@ export type TActivitiesInADayProps = {
     key: number;
 }
 
+export const userInitData = {
+    name: '',
+    username: '',
+    email: '',
+    role: -1,
+    bio: '',
+    skills: [],
+    profileImage: {
+        imageUrl: '',
+        publicId: '',
+    },
+    social: {
+        github: '',
+        youtube: '',
+        twitter: '',
+        facebook: '',
+        linkedIn: '',
+        instagram: '',
+        stackoverflow: '',
+    }
+};
+
 export const initialProjectData: TProjectData = {
     _id: "",
     bugs: [],
-    todos: [],
     discussion: [],
     members: [],
     name: "",
     description: "",
     category: "",
     deadline: "",
-    isDone: false
+    isDone: false,
+    createdBy: userInitData,
+    todos: [
+        {
+            _id: '',
+            time: '',
+            user: {
+                username: '',
+                profileImage: {
+                    imageUrl: '',
+                    publicId: '',
+                }
+            },
+            text: '',
+            doneAt: '',
+            done: false,
+            subTodos: [
+                {
+                    _id: '',
+                    time: '',
+                    user: {
+                        username: '',
+                        profileImage: {
+                            imageUrl: '',
+                            publicId: '',
+                        }
+                    },
+                    text: '',
+                    doneAt: '',
+                    done: false,
+                }
+        ]},
+    ]
 }
 
 const initialState: TProjectState = {
@@ -121,7 +177,37 @@ const initialState: TProjectState = {
     isCreatedByUser: false,
     notAssignMembers: [],
     status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
-    error: null
+    error: null,
+    todos: [
+        {
+            _id: '',
+            time: '',
+            user: {
+                username: '',
+                profileImage: {
+                    imageUrl: '',
+                    publicId: '',
+                }
+            },
+            text: '',
+            doneAt: '',
+            done: false,
+            subTodos: [{
+                _id: '',
+                time: '',
+                user: {
+                    username: '',
+                    profileImage: {
+                        imageUrl: '',
+                        publicId: '',
+                    }
+                },
+                text: '',
+                doneAt: '',
+                done: false,
+            }]
+        },
+    ]
 };
 
 

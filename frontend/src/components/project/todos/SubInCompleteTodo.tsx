@@ -3,22 +3,36 @@ import {connect, useDispatch, useSelector} from 'react-redux';
 
 import { deleteSubTodo, toggleSubTodoIsDone } from "../../../redux/thunks/project-thunks";
 import { useHttpClient } from "../../../hooks/http-hook";
+import {useAppDispatch, useAppSelector} from "../../../redux/hooks";
+
+type TSubInCompleteTodoProps = {
+    subTodo: any,
+    projectId: string,
+    todoId: string,
+    handleClickOnEditSubTodo: (todoId: string, subTodoId: string, text: string) => void,
+}
 
 const SubInCompleteTodo = ({ subTodo, projectId, todoId,
-                                handleClickOnEditSubTodo }) => {
+                                handleClickOnEditSubTodo }: TSubInCompleteTodoProps) => {
     const { sendRequest } = useHttpClient();
-    const authSlice = useSelector(state => state.auth);
+    const authSlice = useAppSelector(state => state.auth);
 
     const username = authSlice?.user?.username;
-    const dispatch = useDispatch();
-    const [ isMobile, setIsMobile ] = useState(false);
+    const dispatch = useAppDispatch();
+    // const [ isMobile, setIsMobile ] = useState(false);
     let clicked = false; //is clicked on edit or delete
 
     const handleSubTodoDone = () => {
         let isDone = 'true';
         if(subTodo.done) isDone = 'false';
         if(!clicked) {
-            dispatch(toggleSubTodoIsDone({ projectId: projectId, todoId: todoId, subTodoId: subTodo._id, isDone: isDone, method: sendRequest }));
+            dispatch(toggleSubTodoIsDone({
+                projectId: projectId,
+                todoId: todoId,
+                subTodoId: subTodo._id,
+                isDone: isDone,
+                method: sendRequest
+            }));
         }
         clicked = false;
     }
@@ -31,14 +45,19 @@ const SubInCompleteTodo = ({ subTodo, projectId, todoId,
     const handleDelete = () => {
         clicked = true;
         if(window.confirm('Do you want to delete this sub todo?')) {
-            dispatch(deleteSubTodo({ projectId: projectId, todoId: todoId, subTodoId: subTodo._id, method: sendRequest }));
+            dispatch(deleteSubTodo({
+                projectId: projectId,
+                todoId: todoId,
+                subTodoId: subTodo._id,
+                method: sendRequest
+            }));
       }
     }
 
-    useEffect(() => {
-        if (/Mobi/.test(navigator.userAgent))
-            setIsMobile(true);
-    }, [])
+    // useEffect(() => {
+    //     if (/Mobi/.test(navigator.userAgent))
+    //         setIsMobile(true);
+    // }, [])
 
   return (
       <>
@@ -85,9 +104,5 @@ const SubInCompleteTodo = ({ subTodo, projectId, todoId,
   )
 }
 
-// const mapStateToProps = state => ({
-//   username: state.auth?.user?.username
-// })
 
 export default SubInCompleteTodo;
-// export default connect(mapStateToProps, { toggleSubTodoIsDone, deleteSubTodo })(SubInCompleteTodo);

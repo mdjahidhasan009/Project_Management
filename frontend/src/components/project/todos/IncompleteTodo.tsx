@@ -4,12 +4,22 @@ import {useDispatch, useSelector} from 'react-redux';
 import { toggleIsDone, deleteTodo } from "../../../redux/thunks/project-thunks";
 import { useHttpClient } from "../../../hooks/http-hook";
 import SubInCompleteTodoRow from "./SubInCompleteTodo";
+import {TTodo} from "../../../redux/slices/project-slice";
+import {useAppDispatch, useAppSelector} from "../../../redux/hooks";
+
+type TIncompleteTodoProps = {
+    todo: TTodo,
+    projectId: string,
+    handleClickOnEdit: (todoId: string, text: string) => void,
+    handleClickOnAddSubTodo: (todoId: string) => void,
+    handleClickOnEditSubTodo: (todoId: string, subTodoId: string, text: string) => void,
+}
 
 const IncompleteTodo = ({ todo, projectId,
-                               handleClickOnEdit, handleClickOnAddSubTodo, handleClickOnEditSubTodo }) => {
+                               handleClickOnEdit, handleClickOnAddSubTodo, handleClickOnEditSubTodo }: TIncompleteTodoProps) => {
     const { sendRequest } = useHttpClient();
-    const dispatch = useDispatch();
-    const authSlice = useSelector(state => state.auth);
+    const dispatch = useAppDispatch();
+    const authSlice = useAppSelector(state => state.auth);
 
     const username = authSlice?.user?.username;
 
@@ -18,7 +28,12 @@ const IncompleteTodo = ({ todo, projectId,
 
     const handleTodoDone = () => {
         if(!clicked) {
-            dispatch(toggleIsDone({ projectId: projectId, todoId: todo._id, isDone: 'true', method: sendRequest }));
+            dispatch(toggleIsDone({
+                projectId: projectId,
+                todoId: todo._id,
+                isDone: 'true',
+                method: sendRequest
+            }));
         }
         clicked = false;
     }
@@ -36,7 +51,11 @@ const IncompleteTodo = ({ todo, projectId,
     const handleDelete = () => {
         clicked = true;
         if(window.confirm('Do you want to delete this todo?')) {
-            dispatch(deleteTodo({ projectId: projectId, todoId: todo._id, method: sendRequest }));
+            dispatch(deleteTodo({
+                projectId: projectId,
+                todoId: todo._id,
+                method: sendRequest
+            }));
         }
     }
 
@@ -98,7 +117,7 @@ const IncompleteTodo = ({ todo, projectId,
                  </div>
 
                  {/*Sub Todo*/}
-                 {todo?.subTodos?.length > 0 && todo?.subTodos?.map(subTodo => (
+                 {todo?.subTodos && todo?.subTodos?.length > 0 && todo?.subTodos?.map(subTodo => (
                      <SubInCompleteTodoRow projectId={projectId} todoId={todo?._id} subTodo={subTodo} key={subTodo?._id}
                                            handleClickOnEditSubTodo={handleClickOnEditSubTodo}
                      />
@@ -109,9 +128,4 @@ const IncompleteTodo = ({ todo, projectId,
     )
 }
 
-// const mapStateToProps = state => ({
-//     username: state.auth?.user?.username
-// })
-
 export default IncompleteTodo;
-// export default connect(mapStateToProps, { toggleIsDone, deleteTodo })(IncompleteTodo);
