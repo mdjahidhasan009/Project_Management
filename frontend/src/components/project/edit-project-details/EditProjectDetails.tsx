@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import {connect, useDispatch, useSelector} from 'react-redux';
 
-import { useForm } from "../../../hooks/form-hook";
+import {TFormState, TInputHandler, TSetFormData, useForm} from "../../../hooks/form-hook";
 import { editProjectDetails, getProjectById } from "../../../redux/thunks/project-thunks";
 import { useHttpClient } from "../../../hooks/http-hook";
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from "../../../utils/validators";
 import Input from "../../shared/FormElements/Input";
+import {useAppDispatch, useAppSelector} from '../../../redux/hooks';
+import {initialProjectData} from "../../../redux/slices/project-slice";
 
 const EditProjectDetails = () => {
     const { sendRequest } = useHttpClient();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    const projectSlice = useSelector(state => state.project);
-    const authSlice = useSelector(state => state.auth);
+    const projectSlice = useAppSelector(state => state.project);
+    const authSlice = useAppSelector(state => state.auth);
 
-    const project = projectSlice.project || {};
+    const project = projectSlice.project || initialProjectData;
     const isAuthenticated = authSlice.isAuthenticated || false;
 
-    const [ loading, setIsLoading ] = useState(false);
-    const [ formState, inputHandler, setFormData ] = useForm(
+    const [ loading, setIsLoading ] = useState<boolean>(false);
+    const [ formState, inputHandler, setFormData ]: [TFormState, TInputHandler, TSetFormData] = useForm(
         {
             projectName: {
                 value: '',
@@ -68,9 +69,19 @@ const EditProjectDetails = () => {
 
     const saveProjectDetails = async() => {
         setIsLoading(true);
-        dispatch(editProjectDetails({ projectName: formState.inputs.projectName.value, projectDetails: formState.inputs.projectDetails.value,
-            projectCategory: formState.inputs.projectCategory.value, projectDeadline: formState.inputs.projectDeadline.value, projectId: project._id, method: sendRequest }));
-        dispatch(getProjectById({ projectId: project._id, method: sendRequest }));
+        dispatch(editProjectDetails({
+            projectName: formState.inputs.projectName.value,
+            projectDetails: formState.inputs.projectDetails.value,
+            projectCategory: formState.inputs.projectCategory.value,
+            projectDeadline: formState.inputs.projectDeadline.value,
+            projectId: project._id,
+            method: sendRequest
+        }));
+        dispatch(getProjectById({
+            projectId: project._id,
+            method: sendRequest
+        }));
+
         setIsLoading(false);
     }
 
@@ -158,10 +169,4 @@ const EditProjectDetails = () => {
     )
 }
 
-// const mapStateToProps = state => ({
-//     project: state.project.project,
-//     isAuthenticated: state.auth.isAuthenticated
-// })
-
 export default EditProjectDetails;
-// export default connect(mapStateToProps, { editProjectDetails, getProjectById })(EditProjectDetails);

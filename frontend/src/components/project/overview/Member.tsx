@@ -5,14 +5,16 @@ import { deleteMemberFromProject } from "../../../redux/thunks/project-thunks";
 import { useHttpClient } from "../../../hooks/http-hook";
 import './Member.css';
 import {getUserRoleString} from "../../../utils/helper";
+import {initialProjectData, TProjectMember} from "../../../redux/slices/project-slice";
+import {useAppDispatch, useAppSelector} from "../../../redux/hooks";
 
-const Member = ({ member }) => {
+const Member = ({ member }: {member: TProjectMember}) => {
     const { sendRequest } = useHttpClient();
-    const dispatch = useDispatch();
-    const projectSlice = useSelector((state) => state.project);
-    const authSlice = useSelector((state) => state.auth);
+    const dispatch = useAppDispatch();
+    const projectSlice = useAppSelector((state) => state.project);
+    const authSlice = useAppSelector((state) => state.auth);
 
-    const project = projectSlice.project || {};
+    const project = projectSlice.project || initialProjectData;
     const isCreatedByUser = projectSlice.isCreatedByUser || false;
     const noImage = authSlice.noImage || '';
 

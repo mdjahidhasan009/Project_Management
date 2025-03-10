@@ -6,7 +6,13 @@ import {Link} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../../redux/hooks";
 import {TDiscussion} from "../../../redux/slices/project-slice";
 
-const Discussion = ({ discussion, handleClickOnEdit, projectId } : { discussion: TDiscussion, handleClickOnEdit: Function, projectId: string }) => {
+type TDiscussionProps = {
+    discussion: TDiscussion;
+    handleClickOnEdit: (discussionId: string, text: string) => Promise<void>;
+    projectId: string;
+}
+
+const Discussion = ({ discussion, handleClickOnEdit, projectId } : TDiscussionProps) => {
     const { sendRequest } = useHttpClient();
     const dispatch = useAppDispatch();
     const authSlice = useAppSelector(state => state.auth);

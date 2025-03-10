@@ -6,7 +6,13 @@ import {TBug} from "../../../redux/slices/project-slice";
 import {useAppDispatch, useAppSelector} from "../../../redux/hooks";
 import {initialAuthData} from "../../../redux/slices/auth-slice";
 
-const NotFixedBug = ({ bug, projectId, handleClickOnEdit } : { bug: TBug, projectId: string, handleClickOnEdit: Function }) => {
+type TNotFixedBugProps = {
+    bug: TBug;
+    projectId: string;
+    handleClickOnEdit: (bugId: string, bugText: string) => Promise<void>;
+}
+
+const NotFixedBug = ({ bug, projectId, handleClickOnEdit } : TNotFixedBugProps) => {
     const { sendRequest } = useHttpClient();
     const dispatch = useAppDispatch();
     const authSlice = useAppSelector(state => state.auth) || initialAuthData;

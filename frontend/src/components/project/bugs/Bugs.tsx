@@ -123,7 +123,7 @@ const Bugs: FC = () => {
     }
 
     //bugId, bugText will be passed from NotFixedBug.tsx as it was called from there.
-    const handleClickOnEdit = async (bugId: string, bugText: string) => {
+    const handleClickOnEdit = async (bugId: string, bugText: string): Promise<void> => {
         await setEditBugData(bugText);
         setBugId(bugId);
 

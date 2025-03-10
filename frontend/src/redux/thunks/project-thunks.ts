@@ -882,7 +882,11 @@ const showSuccessAlert = (text) => {
 };
 
 // Async thunks (actions)
-export const editProjectDetails = createAsyncThunk(
+export const editProjectDetails = createAsyncThunk<
+    string,
+    { projectName: string; projectDetails: string; projectCategory: string; projectDeadline: string; projectId: string; method: Function },
+    { rejectValue: TApiError | unknown }
+>(
     'project/editProjectDetails',
     async ({ projectName, projectDetails, projectCategory, projectDeadline, projectId, method }, { rejectWithValue }) => {
         try {
@@ -908,9 +912,14 @@ export const editProjectDetails = createAsyncThunk(
     }
 );
 
-export const toggleIsProjectIsFinished = createAsyncThunk(
+export const toggleIsProjectIsFinished = createAsyncThunk<
+    void,
+    { isDone: boolean; projectId: string; method: Function },
+    { rejectValue: TApiError | unknown }
+>(
     'project/toggleIsProjectIsFinished',
-    async ({ isDone, projectId, method }, { rejectWithValue }) => {
+    async ({ isDone, projectId, method },
+           { rejectWithValue }) => {
         try {
             await method(
                 VITE_ASSET_URL + '/api/project/isDone/' + projectId,
@@ -931,7 +940,11 @@ export const toggleIsProjectIsFinished = createAsyncThunk(
     }
 );
 
-export const deleteProject = createAsyncThunk(
+export const deleteProject = createAsyncThunk<
+    void,
+    { projectId: string; method: Function },
+    { rejectValue: TApiError | unknown }
+>(
     'project/deleteProject',
     async ({ projectId, method }, { rejectWithValue }) => {
         try {
@@ -1345,7 +1358,11 @@ export const deleteBug = createAsyncThunk<
     }
 );
 
-export const getProjectById = createAsyncThunk(
+export const getProjectById = createAsyncThunk<
+    any,
+    { projectId: string, method: Function },
+    { rejectValue: TApiError | unknown }
+>(
     'project/getProjectById',
     async ({ projectId, method }, { rejectWithValue }) => {
         try {
@@ -1364,7 +1381,11 @@ export const getProjectById = createAsyncThunk(
     }
 );
 
-export const getNotAssignedMember = createAsyncThunk(
+export const getNotAssignedMember = createAsyncThunk<
+    string,
+    { projectId: string, method: Function },
+    { rejectValue: TApiError | unknown }
+>(
     'project/getNotAssignedMember',
     async ({ projectId, method }, { rejectWithValue }) => {
         try {
@@ -1383,7 +1404,11 @@ export const getNotAssignedMember = createAsyncThunk(
     }
 );
 
-export const assignAMemberToAProject = createAsyncThunk(
+export const assignAMemberToAProject = createAsyncThunk<
+    string,
+    { projectId: string, username: string, method: Function },
+    { rejectValue: TApiError | unknown }
+>(
     'project/assignAMemberToAProject',
     async ({ projectId, username, method }, { rejectWithValue }) => {
         try {
@@ -1406,7 +1431,11 @@ export const assignAMemberToAProject = createAsyncThunk(
     }
 );
 
-export const deleteMemberFromProject = createAsyncThunk(
+export const deleteMemberFromProject = createAsyncThunk<
+    string,
+    { projectId: string, username: string, method: Function },
+    { rejectValue: TApiError | unknown }
+>(
     'project/deleteMemberFromProject',
     async ({ projectId, username, method }, { rejectWithValue }) => {
         try {

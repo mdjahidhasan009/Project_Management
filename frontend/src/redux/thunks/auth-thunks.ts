@@ -4,6 +4,29 @@ import {TApiError} from "../../types/api.types";
 const VITE_ASSET_URL = import.meta.env.VITE_ASSET_URL;
 
 
+export type TUser = {
+    name: string;
+    username: string;
+    email: string;
+    role: string;
+    bio: string;
+    skills: string[];
+    profileImage: {
+        imageUrl: string;
+        publicId: string;
+    };
+    social?: {
+        github?: string;
+        youtube?: string;
+        twitter?: string;
+        facebook?: string;
+        linkedIn?: string;
+        instagram?: string;
+        stackoverflow?: string;
+    };
+};
+
+
 type TRegisterParams = {
     name: string;
     username: string;

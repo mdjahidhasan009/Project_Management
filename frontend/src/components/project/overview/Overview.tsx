@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import {useDispatch, useSelector} from "react-redux";
+import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import {useHttpClient} from "../../../hooks/http-hook";
 import {
@@ -11,18 +10,21 @@ import {
 } from '../../../redux/thunks/project-thunks';
 import MemberRow from './Member';
 import ChartItem from "../../ChartItem";
+import {useAppDispatch, useAppSelector} from "../../../redux/hooks";
+import {initialProjectData} from "../../../redux/slices/project-slice";
 
 const Overview = () => {
     const { sendRequest } = useHttpClient();
-    const dispatch = useDispatch();
-    const projectSlice = useSelector(state => state.project);
-    const authSlice = useSelector(state => state.auth);
+    const dispatch = useAppDispatch();
+    const projectSlice = useAppSelector(state => state.project);
+    const authSlice = useAppSelector(state => state.auth);
     const navigate = useNavigate();
 
-    const [selectOptions, setSelectOptions] = useState([]);
+    const [selectOptions, setSelectOptions] = useState<{ text: string; value: string; }[]>([{ text: '', value: '' }]);
     const [ addMember, setAddMember ] = useState('');
     const [showModal, setShowModal] = useState(false);
-    const project = projectSlice?.project || {};
+
+    const project = projectSlice?.project || initialProjectData;
     const chartData = projectSlice?.chartData || {};
     const isCreatedByUser = projectSlice?.isCreatedByUser || false;
     const isMemberOfThisProject = projectSlice?.isMemberOfThisProject || false;
@@ -32,23 +34,31 @@ const Overview = () => {
 
     useEffect(() => {
         if (notAssignMembers) {
-            const options = notAssignMembers?.map((member) => ({
+            const options = notAssignMembers?.map((member): { text: string; value: string; } => ({
                 text: member,
                 value: member,
             }));
+
             setSelectOptions(options);
         }
     }, [notAssignMembers]);
 
     const handleIsDoneClick = async () => {
         if(window.confirm("Do you want to mark this project as " + (project?.isDone ? "Not Done?" : "Done?"))) {
-            dispatch(toggleIsProjectIsFinished({ isDone: !project?.isDone , projectId: project?._id, method: sendRequest }));
-            dispatch(getProjectById({ projectId: project?._id, method: sendRequest }));
+            dispatch(toggleIsProjectIsFinished({
+                isDone: !project?.isDone ,
+                projectId: project?._id,
+                method: sendRequest
+            }));
+            dispatch(getProjectById({
+                projectId: project?._id,
+                method: sendRequest
+            }));
         }
     };
 
     //get selected member username
-    const handleSetAddMember =  (event) => {
+    const handleSetAddMember =  (event: ChangeEvent<HTMLSelectElement>) => {
         setAddMember(event?.target?.value);
     };
 
@@ -194,15 +204,5 @@ const Overview = () => {
     );
 };
 
-// const mapStateToProps = state => ({
-//     project: state?.project?.project,
-//     chartData: state?.project?.chartData,
-//     isCreatedByUser: state?.project?.isCreatedByUser,
-//     isMemberOfThisProject: state?.project?.isMemberOfThisProject,
-//     isAuthenticated: state?.auth?.isAuthenticated,
-//     notAssignMembers: state?.project?.notAssignMembers
-// });
 
 export default Overview;
-// export default connect(mapStateToProps, { assignAnMemberToAProject: assignAMemberToAProject, toggleIsProjectIsFinished, getProjectById,
-//     deleteProject, getNotAssignedMember })(Overview);
