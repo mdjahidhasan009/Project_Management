@@ -1,31 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, FormEvent} from 'react';
 import { useParams } from 'react-router-dom';
 import {connect, useDispatch, useSelector} from 'react-redux';
 
-import { useForm } from "../../../hooks/form-hook";
+import {TFormState, TInputHandler, TSetFormData, useForm} from "../../../hooks/form-hook";
 import { useHttpClient } from "../../../hooks/http-hook";
 import { addDiscussion, editDiscussion } from "../../../redux/thunks/project-thunks";
 import DiscussionRow from "./Discussion";
 import Input from "../../shared/FormElements/Input";
 import {VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE} from "../../../utils/validators";
+import {useAppDispatch, useAppSelector} from "../../../redux/hooks";
+import {initialProjectData} from "../../../redux/slices/project-slice";
 // import {initAllModal, initModalAndOpen} from "../../../utils/helper";
 
 const Discussions = () => {
     const { sendRequest } = useHttpClient();
-    const dispatch = useDispatch();
-    const projectSlice = useSelector(state => state.project);
+    const dispatch = useAppDispatch();
+    const projectSlice = useAppSelector(state => state.project);
 
     const projectId = useParams().projectId;
     const [ editDiscussionText, setEditDiscussionText ] = useState('');
-    const [ discussionId, setDiscussionId ] = useState();
+    const [ discussionId, setDiscussionId ] = useState('');
     const [showAddDiscussionModal, setShowAddDiscussionModal] = useState(false);
     const [showEditDiscussionModal, setShowEditDiscussionModal] = useState(false);
 
-    const project = projectSlice.project || {};
+    const project = projectSlice.project || initialProjectData;
     const isMemberOfThisProject = projectSlice.isMemberOfThisProject || false;
     const isCreatedByUser = projectSlice.isCreatedByUser || false;
 
-    const [ formState, inputHandler, setFormData ] = useForm(
+    const [ formState, inputHandler, setFormData ]: [TFormState, TInputHandler, TSetFormData] = useForm(
         {
             discussionText: {
                 value: '',
@@ -51,13 +53,18 @@ const Discussions = () => {
             },
             false
         );
-        document.getElementById("discussionText").value = '';
+        const element = document.getElementById("discussionText") as HTMLInputElement;
+        if(element) {
+            element.value = '';
+        }
     }
 
-    const addDiscussionHandler = async (event) => {
+    const addDiscussionHandler = async (event: FormEvent) => {
         event.preventDefault();
         try {
-            dispatch(addDiscussion({ discussionText: formState.inputs.discussionText.value, projectId: projectId, method: sendRequest }));
+            if(projectId && formState.inputs.discussionText.value) {
+                dispatch(addDiscussion({ discussionText: formState.inputs.discussionText.value, projectId: projectId, method: sendRequest }));
+            }
             await setAddDiscussionData();
             setShowAddDiscussionModal(false);
         } catch (error) {
@@ -65,12 +72,12 @@ const Discussions = () => {
         }
     }
 
-    const editDiscussionHandler = async (event) => {
+    const editDiscussionHandler = async () => {
         dispatch(editDiscussion({ projectId: project._id, discussionId: discussionId, discussionEditText: formState.inputs.discussionEditText.value, method: sendRequest }));
         await setAddDiscussionData();
     }
 
-    const initEditDiscussionData = async (discussionText) => {
+    const initEditDiscussionData = async (discussionText: string) => {
         await setEditDiscussionText(discussionText);
         await setFormData(
             {
@@ -83,9 +90,9 @@ const Discussions = () => {
         )
     }
 
-    const handleClickOnEdit = async (discussionId, discussionText) => {
+    const handleClickOnEdit = async (discussionId: string, discussionText: string) => {
         await initEditDiscussionData(discussionText);
-        await setDiscussionId(discussionId);
+        setDiscussionId(discussionId);
 
         setShowEditDiscussionModal(true);
     }
@@ -218,7 +225,7 @@ const Discussions = () => {
                                         key={discussion._id}
                                         discussion={discussion}
                                         handleClickOnEdit={handleClickOnEdit}
-                                        projectId={projectId}
+                                        projectId={projectId ?? ""}
                                     />
                                 ))}
                             </div>
@@ -230,11 +237,4 @@ const Discussions = () => {
     );
 };
 
-// const mapStateToProps = state => ({
-//     project: state.project.project,
-//     isMemberOfThisProject: state.project.isMemberOfThisProject,
-//     isCreatedByUser: state.project.isCreatedByUser,
-// });
-
 export default Discussions;
-// export default connect(mapStateToProps, { addDiscussion, editDiscussion })(Discussions);

@@ -951,7 +951,11 @@ export const deleteProject = createAsyncThunk(
     }
 );
 
-export const addDiscussion = createAsyncThunk(
+export const addDiscussion = createAsyncThunk<
+    string,
+    { discussionText: string; projectId: string; method: Function },
+    { rejectValue: TApiError | unknown }
+>(
     'project/addDiscussion',
     async ({ discussionText, projectId, method }, { rejectWithValue }) => {
         try {
@@ -974,7 +978,11 @@ export const addDiscussion = createAsyncThunk(
     }
 );
 
-export const editDiscussion = createAsyncThunk(
+export const editDiscussion = createAsyncThunk<
+    string,
+    { projectId: string; discussionId: string; discussionEditText: string; method: Function },
+    { rejectValue: TApiError | unknown }
+>(
     'project/editDiscussion',
     async ({ projectId, discussionId, discussionEditText, method }, { rejectWithValue }) => {
         try {
@@ -997,7 +1005,11 @@ export const editDiscussion = createAsyncThunk(
     }
 );
 
-export const deleteDiscussion = createAsyncThunk(
+export const deleteDiscussion = createAsyncThunk<
+    string,
+    { projectId: string; discussionId: string; method: Function },
+    { rejectValue: TApiError | unknown }
+>(
     'project/deleteDiscussion',
     async ({ projectId, discussionId, method }, { rejectWithValue }) => {
         try {

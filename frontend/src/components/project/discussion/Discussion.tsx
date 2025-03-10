@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {connect, useDispatch, useSelector} from 'react-redux';
 
 import { useHttpClient } from "../../../hooks/http-hook";
 import { deleteDiscussion } from "../../../redux/thunks/project-thunks";
 import {Link} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../../../redux/hooks";
+import {TDiscussion} from "../../../redux/slices/project-slice";
 
-const Discussion = ({ discussion, handleClickOnEdit, projectId }) => {
+const Discussion = ({ discussion, handleClickOnEdit, projectId } : { discussion: TDiscussion, handleClickOnEdit: Function, projectId: string }) => {
     const { sendRequest } = useHttpClient();
-    const dispatch = useDispatch();
-    const authSlice = useSelector(state => state.auth);
+    const dispatch = useAppDispatch();
+    const authSlice = useAppSelector(state => state.auth);
 
     const [ isMobile, setIsMobile ] = useState(false);
     const username = authSlice.user.username || "";
@@ -73,9 +74,4 @@ const Discussion = ({ discussion, handleClickOnEdit, projectId }) => {
     )
 }
 
-// const mapStateToProps = state => ({
-//     username: state.auth?.user?.username
-// })
-
 export default Discussion;
-// export default connect(mapStateToProps, { deleteDiscussion })(TDiscussion);

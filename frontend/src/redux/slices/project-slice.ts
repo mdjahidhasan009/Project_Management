@@ -186,7 +186,7 @@ export type TTodo = {
 
 // Optional interfaces for other project data
 export type TDiscussion = {
-    id: string;
+    _id: string;
     text: string;
     time: string;
     user: {
@@ -221,6 +221,7 @@ export type TActivitiesInADayProps = {
 }
 
 export const initialProjectData: TProjectData = {
+    _id: "",
     bugs: [],
     todos: [],
     discussion: [],
