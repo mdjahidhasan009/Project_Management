@@ -1458,7 +1458,11 @@ export const deleteMemberFromProject = createAsyncThunk<
     }
 );
 
-export const getIsMemberAndCreatorOfProject = createAsyncThunk(
+export const getIsMemberAndCreatorOfProject = createAsyncThunk<
+    string,
+    { projectId: string, method: Function },
+    { rejectValue: TApiError | unknown }
+>(
     'project/getIsMemberAndCreatorOfProject',
     async ({ projectId, method }, { rejectWithValue }) => {
         try {
@@ -1489,7 +1493,11 @@ export const getIsMemberAndCreatorOfProject = createAsyncThunk(
 //     }
 // );
 
-export const prepareWorkDonePreview = createAsyncThunk(
+export const prepareWorkDonePreview = createAsyncThunk<
+    (string[] | number[])[],
+    { projectId: string; method: Function },
+    { rejectValue: TApiError | unknown }
+>(
     'project/prepareWorkDonePreview',
     async ({ projectId, method }, { rejectWithValue }) => {
         try {

@@ -39,6 +39,7 @@ export type TProjectData = {
     category: string;
     deadline: string;
     isDone: boolean;
+    createdBy: TUser;
 }
 
 export type TBug = {

@@ -1,12 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useAppSelector} from "../../../redux/hooks";
+import {initialProjectData} from "../../../redux/slices/project-slice";
 
-const ProjectSummary = ({ projectId, selectedItem }) => {
-    const projectSlice = useSelector(state => state.project);
-    const authSlice = useSelector(state => state.auth);
+const ProjectSummary = ({ projectId, selectedItem }: { projectId: string, selectedItem: string }) => {
+    const projectSlice = useAppSelector(state => state.project);
+    const authSlice = useAppSelector(state => state.auth);
 
-    const project = projectSlice.project || {};
+    const project = projectSlice.project || initialProjectData;
     const name = project.name || '';
     const description = project.description || '';
     const category = project.category || '';

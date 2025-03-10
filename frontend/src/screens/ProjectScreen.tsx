@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import {connect, useDispatch, useSelector} from "react-redux";
 import { useParams } from 'react-router-dom';
 import ProjectSummaryRow from "../components/project/projectSummary/ProjectSummary";
 import Overview from "../components/project/overview/Overview";
@@ -12,26 +11,39 @@ import { useHttpClient } from "../hooks/http-hook";
 import {
     getProjectById, getNotAssignedMember, prepareWorkDonePreview, getIsMemberAndCreatorOfProject
 } from "../redux/thunks/project-thunks";
+import {useAppDispatch, useAppSelector} from "../redux/hooks";
 
-const ProjectScreen = ({selectedItem}) => {
+const ProjectScreen = ({ selectedItem }: { selectedItem: string }) => {
     const { sendRequest } = useHttpClient();
-    const projectId = useParams().projectId;
-    const dispatch = useDispatch();
+    const projectId = useParams().projectId || "";
+    const dispatch = useAppDispatch();
 
-    const projectSlice = useSelector(state => state.project);
+    const projectSlice = useAppSelector(state => state.project);
 
     const project = projectSlice.project || null;
 
     useEffect(() => {
-        dispatch(getProjectById({ projectId: projectId, method: sendRequest }));
+        dispatch(getProjectById({
+            projectId: projectId,
+            method: sendRequest
+        }));
         // eslint-disable-next-line
     }, []);
 
     useEffect(() => {
         if(!project) {
-            dispatch(getIsMemberAndCreatorOfProject({ projectId: projectId, method: sendRequest }));
-            dispatch(getNotAssignedMember({ projectId: projectId, method: sendRequest }));
-            dispatch(prepareWorkDonePreview({ projectId: projectId, method: sendRequest }));
+            dispatch(getIsMemberAndCreatorOfProject({
+                projectId: projectId,
+                method: sendRequest
+            }));
+            dispatch(getNotAssignedMember({
+                projectId: projectId,
+                method: sendRequest
+            }));
+            dispatch(prepareWorkDonePreview({
+                projectId: projectId,
+                method: sendRequest
+            }));
         }
         // eslint-disable-next-line
     }, [project])
@@ -51,14 +63,7 @@ const ProjectScreen = ({selectedItem}) => {
     );
 };
 
-// const mapStateToProps = state => ({
-//     project: state.project.project
-// });
-
 export default ProjectScreen;
-// export default connect(mapStateToProps,
-//     { getProjectById, getNotAssignedMember, prepareWorkDonePreview, getIsMemberAndCreatorOfProject})
-//     (ProjectScreen);
 
 //Checking isAuthenticated here casing delay html preparing and for this index.html does not get any modal for initialization
 //So I put authentication check in projectSummary and and also other file(Overview, bug etc)
