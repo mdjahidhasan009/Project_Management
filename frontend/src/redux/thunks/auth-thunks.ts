@@ -140,7 +140,11 @@ export const getUserByUserName = createAsyncThunk("auth/getUserByUsername", asyn
     }
 });
 
-export const uploadProfileImage = createAsyncThunk("auth/uploadProfileImage", async ({ base64EncodedImage, method }, { rejectWithValue }) => {
+export const uploadProfileImage = createAsyncThunk<
+    void,
+    { base64EncodedImage: string, method: Function },
+    { rejectValue: TApiError | unknown }
+>("auth/uploadProfileImage", async ({ base64EncodedImage, method }, { rejectWithValue }) => {
     try {
         await method(
             VITE_ASSET_URL + '/api/upload',

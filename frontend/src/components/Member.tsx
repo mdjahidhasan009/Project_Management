@@ -2,8 +2,9 @@ import React, {useEffect, useState} from 'react'
 import {useNavigate} from 'react-router-dom';
 import {getUserRoleString} from "../utils/helper";
 import defaultUserImage from "../assets/images/default_user.jpg";
+import {TUser} from "../redux/thunks/auth-thunks";
 
-const Member = ({ user }) => {
+const Member = ({ user }: { user: TUser}) => {
     let navigate = useNavigate();
     // let clickedOnEmail = false;
     let [ userRole, setUserRole ] = useState('');
@@ -15,7 +16,7 @@ const Member = ({ user }) => {
     }
 
     useEffect( () => {
-        setUserRole(getUserRoleString(user.role));
+        setUserRole(getUserRoleString(user.role.toString()));
         // eslint-disable-next-line
     }, [user.role]);
 

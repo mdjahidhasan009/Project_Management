@@ -1,14 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, {ReactNode, useEffect, useState} from "react";
 import {Link, useLocation} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import PropTypes from "prop-types";
 
 import { logout } from "../../../redux/slices/auth-slice";
+import {TUser} from "../../../redux/thunks/auth-thunks";
+import {useAppDispatch, useAppSelector} from "../../../redux/hooks";
 
-const Navbar = ({ children }) => {
+type TProfileImage = {
+    imageUrl: string;
+    publicId?: string;
+}
+
+type TAuthState = {
+    isAuthenticated: boolean;
+    user: TUser | null;
+    // Add other auth state properties as needed
+}
+
+type TNavbarProps = {
+    children: ReactNode;
+}
+
+const Navbar: React.FC<TNavbarProps> = ({ children }) => {
     const location = useLocation();
-    const dispatch = useDispatch();
-    const authSlice = useSelector(state => state.auth);
+    const dispatch = useAppDispatch();
+    const authSlice = useAppSelector(state => state.auth);
 
     const isAuthenticated = authSlice.isAuthenticated || false;
     const user = authSlice.user || null;

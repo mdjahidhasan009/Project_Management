@@ -1,4 +1,4 @@
-import React, {FormEvent, MouseEventHandler, useEffect, useState} from 'react';
+import React, {MouseEvent, useEffect, useState} from 'react';
 import { useParams } from "react-router-dom";
 
 import {addTodo, editTodo, addSubTodo, editSubTodo, addTodoToJunior} from "../../../redux/thunks/project-thunks";
@@ -74,7 +74,7 @@ const Todos = () => {
         )
     }
 
-    const addTodoHandler = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    const addTodoHandler = async (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
 
         if(!assignMember) {
@@ -145,7 +145,7 @@ const Todos = () => {
         )
     }
 
-    const addSubTodoHandler = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    const addSubTodoHandler = async (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         dispatch(addSubTodo({
             todoText: formState.inputs.subTodoText.value,

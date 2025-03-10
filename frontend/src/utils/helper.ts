@@ -93,4 +93,6 @@ export const getUserRoleString = (role: string) => {
     if(role === '5') return 'Software Developer';
     if(role === '6') return 'Junior Software Developer';
     if(role === '7') return 'Intern';
+
+    return '';
 }

@@ -1,11 +1,11 @@
 import React from 'react'
-import {useSelector} from 'react-redux';
 import {Link, useNavigate} from 'react-router-dom';
-import { PropTypes } from "prop-types";
+import {useAppSelector} from "../redux/hooks";
+import {TProjectData, TProjectState} from "../redux/slices/project-slice";
 
-const ProjectCard = ({ project }) => {
+const ProjectCard = ({ project }: { project: TProjectData }) => {
     let navigate = useNavigate();
-    const authSlice = useSelector(state => state.auth);
+    const authSlice = useAppSelector(state => state.auth);
 
     const noImage = authSlice.noImage || '';
     const noMember = authSlice.noMember || '';
@@ -102,16 +102,4 @@ const ProjectCard = ({ project }) => {
     )
 }
 
-ProjectCard.propTypes = {
-    project: PropTypes.object.isRequired,
-    // noImage: PropTypes.string.isRequired,
-    // noMember: PropTypes.string.isRequired
-};
-
-// const mapStateToProps = state => ({
-//     noImage: state.auth.noImage,
-//     noMember: state.auth.noMember
-// })
-
 export default ProjectCard;
-// export default connect(mapStateToProps)(ProjectCard);

@@ -1,8 +1,34 @@
-import React, { useReducer, useEffect } from 'react';
+import React, {useReducer, useEffect, ChangeEvent, JSX} from 'react';
 
 import { validate } from '../../../utils/validators';
 
-const inputReducer = (state, action) => {
+type TInputState = {
+    value: string;
+    isClicked: boolean;
+    isValid: boolean;
+};
+
+type TInputAction =
+    | { type: 'CHANGE'; val: string; validators: any[] }
+    | { type: 'CLICKED' };
+
+type TInputProps = {
+    element: 'input' | 'textarea' | 'select';
+    elementTitle: string;
+    onInput: (id: string, value: string, isValid: boolean) => void;
+    validators: any[];
+    errorText: string;
+    initialValue?: string;
+    initialValidity?: boolean;
+    styleClass?: string;
+    label?: string;
+    type?: string;
+    placeholder?: string;
+    rows?: number;
+    cols?: number;
+}
+
+const inputReducer = (state: TInputState, action: TInputAction): TInputState => {
     switch (action.type) {
         case 'CHANGE':
             return {
@@ -20,7 +46,7 @@ const inputReducer = (state, action) => {
     }
 }
 
-const Input = props => {
+const Input: React.FC<TInputProps> = props => {
     const [ inputState, dispatch ] = useReducer(inputReducer, {
         value: props.initialValue || '',
         isClicked: false,
@@ -35,7 +61,7 @@ const Input = props => {
         // eslint-disable-next-line
     }, [elementTitle, value, isValid]);
 
-    const changeHandler = event => {
+    const changeHandler = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         dispatch({
             type: 'CHANGE',
             val: event.target.value,
@@ -49,7 +75,8 @@ const Input = props => {
         })
     };
 
-    let element = null;
+    let element: JSX.Element | null = null;
+
     if(props.element === 'input')
         element =
             <input

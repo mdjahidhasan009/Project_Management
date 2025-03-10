@@ -1,7 +1,15 @@
 import React from 'react';
-import { Chart } from "react-google-charts";
+import { Chart,  GoogleChartOptions, ReactGoogleChartProps } from "react-google-charts";
 
-const ChartItem = ({ chartData }) => {
+type TChartDataType = Array<Array<string | number | Date | null>>;
+
+// Define the props interface for the component
+type TChartItemProps = {
+    chartData: TChartDataType;
+    options?: GoogleChartOptions;
+}
+
+const ChartItem: React.FC<TChartItemProps> = ({ chartData }) => {
   return (
       <Chart
           width={'100%'}
