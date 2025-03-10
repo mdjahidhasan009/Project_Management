@@ -2,14 +2,16 @@ import React, { useEffect } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import ActivitiesInADay from "./ActivitiesInADay";
-import {prepareActivity} from "../../../redux/slices/project-slice";
+import {ActivityGroups, prepareActivity, ProjectData, ProjectState} from "../../../redux/slices/project-slice";
+import {useAppDispatch, useAppSelector} from "../../../redux/hooks";
 
 const Activities = () => {
-    const dispatch = useDispatch();
-    const projectSlice = useSelector(state => state.project);
+    const dispatch = useAppDispatch();
+    const projectSlice = useAppSelector(state => state.project);
 
-    const project = projectSlice.project || null;
-    const activities = projectSlice.activities || null;
+
+    const project: ProjectData | null = projectSlice.project || null;
+    const activities: ActivityGroups = projectSlice.activities || [];
 
     useEffect(() => {
         if(project) {
@@ -30,15 +32,6 @@ const Activities = () => {
         </div>
     )
 }
-
-// const mapStateToProps = state => ({
-//     project: state.project.project,
-//     activities: state.project.activities
-// })
-
-
-
-// export default connect(mapStateToProps, { prepareActivity })(Activities);
 export default Activities;
 
 //As while not logged in activities of project state will be null nothing will show for that

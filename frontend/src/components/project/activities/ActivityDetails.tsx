@@ -1,8 +1,14 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import {ActivityGroup, BaseActivity} from "../../../redux/slices/project-slice";
 
-const ActivityDetails = ({ activityDetail }) => {
+type TActivitiesInADayProps = {
+    activityDetail: BaseActivity;
+}
+
+const ActivityDetails = ({ activityDetail }: TActivitiesInADayProps) => {
      let type;
+
      if(activityDetail.type === 'todo') type = 'Todo added ';
      if(activityDetail.type === 'todo-done') type = 'Todo done ';
      else if(activityDetail.type === 'bug') type = 'Bug appear ';

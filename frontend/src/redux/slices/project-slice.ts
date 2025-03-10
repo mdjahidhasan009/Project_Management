@@ -135,9 +135,97 @@ import {
 } from "../thunks/project-thunks";
 import {prepareActivityHelper} from "../../utils/helper";
 
+// Base activity type
+export interface BaseActivity {
+    time: string;
+    user: string;
+    text: string;
+    type: ActivityType;
+}
+
+// Activity types
+export type ActivityType = 'bug' | 'bug-fixed' | 'todo' | 'todo-done' | 'discuss';
+
+// Group of activities by date
+export type ActivityGroup = BaseActivity[];
+
+// All activity groups
+export type ActivityGroups = ActivityGroup[];
+
+// Project data structure containing bugs and todos
+export interface ProjectData {
+    bugs: Bug[];
+    todos: Todo[];
+    discussion?: Discussion[];
+    members?: ProjectMember[];
+}
+
+// Bug interface
+export interface Bug {
+    time: string;
+    user: {
+        username: string;
+        [key: string]: any;
+    };
+    text: string;
+    fixedAt?: string;
+    [key: string]: any;
+}
+
+// Todo interface
+export interface Todo {
+    time: string;
+    user: {
+        username: string;
+        [key: string]: any;
+    };
+    text: string;
+    doneAt?: string;
+    [key: string]: any;
+}
+
+// Optional interfaces for other project data
+export interface Discussion {
+    id: string;
+    text: string;
+    time: string;
+    user: {
+        username: string;
+        [key: string]: any;
+    };
+    [key: string]: any;
+}
+
+export interface ProjectMember {
+    id: string;
+    username: string;
+    [key: string]: any;
+}
+
+// Redux state interfaces
+export interface ProjectState {
+    project: ProjectData | null;
+    activities: ActivityGroups;
+    chartData: any[];
+    isMemberOfThisProject: boolean;
+    isCreatedByUser: boolean;
+    notAssignMembers: any[];
+    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    error: any;
+}
+
+// Type for the prepareActivityHelper function
+export type TPrepareActivityHelper = (responseData: ProjectData) => ActivityGroups;
+
+// Props for the ActivitiesInADay component
+export interface ActivitiesInADayProps {
+    activity: ActivityGroup;
+    key: number;
+}
+
 const initialState = {
     project: null,
-    activities: null,
+    activities: [],
     chartData: [],
     isMemberOfThisProject: false,
     isCreatedByUser: false,
