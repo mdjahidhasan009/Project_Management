@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import ActivitiesInADay from "./ActivitiesInADay";
-import {TActivityGroups, prepareActivity, TProjectData, TProjectState} from "../../../redux/slices/project-slice";
+import {TActivityGroups, prepareActivity, TProjectData, TProjectSliceState} from "../../../redux/slices/project-slice";
 import {useAppDispatch, useAppSelector} from "../../../redux/hooks";
 
 const Activities = () => {

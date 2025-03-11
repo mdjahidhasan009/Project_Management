@@ -9,7 +9,7 @@ import Input from "../../shared/FormElements/Input";
 import IncompleteTodoRow from "./IncompleteTodo";
 import CompletedTodoRow from "./CompletedTodo";
 import {useAppDispatch, useAppSelector} from "../../../redux/hooks";
-import {initialProjectData, userInitData} from "../../../redux/slices/project-slice";
+import {initialProjectData, initialUserData} from "../../../redux/slices/project-slice";
 
 const Todos = () => {
     const { sendRequest } = useHttpClient();
@@ -36,7 +36,7 @@ const Todos = () => {
     const isMemberOfThisProject = projectSlice.isMemberOfThisProject;
     const isCreatedByUser = projectSlice.isCreatedByUser;
     const isAuthenticated = authSlice.isAuthenticated;
-    const currentUser = authSlice?.user || userInitData;
+    const currentUser = authSlice?.user || initialUserData;
 
     const [ formState, inputHandler, setFormData ]: [TFormState, TInputHandler, TSetFormData] = useForm(
         {

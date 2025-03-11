@@ -1,4 +1,4 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {
     addBug,
     addDiscussion, addTodo, assignAMemberToAProject, deleteBug,
@@ -8,7 +8,6 @@ import {
     getProjectById, prepareWorkDonePreview
 } from "../thunks/project-thunks";
 import {prepareActivityHelper} from "../../utils/helper";
-import {TUser} from "../thunks/auth-thunks";
 
 // Base activity type
 export type TBaseActivity = {
@@ -27,6 +26,49 @@ export type TActivityGroup = TBaseActivity[];
 // All activity groups
 export type TActivityGroups = TActivityGroup[];
 
+export type TBug = {
+    time: string;
+    user: TUserShortData;
+    text: string;
+    fixedAt?: string;
+    fixed: boolean;
+    _id: string;
+}
+
+// TTodo interface
+export type TTodo = {
+    _id: string;
+    addedBy: string;
+    time: string;
+    user: TUserShortData;
+    text: string;
+    doneAt?: string;
+    done: boolean;
+    subTodos?: TTodo[];
+}
+
+// Optional interfaces for other project data
+export type TDiscussion = {
+    _id: string;
+    text: string;
+    time: string;
+    user: TUserShortData;
+}
+
+export type TProjectMember = {
+    _id: string;
+    user: TUserShortData;
+}
+
+export type TUserShortData = {
+    profileImage: {
+        imageUrl: string;
+        publicId: string;
+    },
+    username: string;
+    _id: string;
+}
+
 // Project data structure containing bugs and todos
 export type TProjectData = {
     _id: string;
@@ -39,52 +81,12 @@ export type TProjectData = {
     category: string;
     deadline: string;
     isDone: boolean;
-    createdBy: TUser;
-}
-
-export type TBug = {
-    time: string;
-    user: {
+    createdBy: {
         username: string;
-        [key: string]: any;
-    };
-    text: string;
-    fixedAt?: string;
-    [key: string]: any;
+    }
 }
 
-// TTodo interface
-export type TTodo = {
-    _id: string;
-    time: string;
-    user: {
-        username: string;
-        [key: string]: any;
-    };
-    text: string;
-    doneAt?: string;
-    done: boolean;
-    subTodos?: TTodo[];
-}
-
-// Optional interfaces for other project data
-export type TDiscussion = {
-    _id: string;
-    text: string;
-    time: string;
-    user: {
-        username: string;
-        [key: string]: any;
-    };
-    [key: string]: any;
-}
-
-export type TProjectMember = {
-    _id: string;
-    user: TUser;
-}
-
-export type TProjectState = {
+export type TProjectSliceState = {
     project: TProjectData | null;
     activities: TActivityGroups;
     chartData: any[];
@@ -93,17 +95,11 @@ export type TProjectState = {
     notAssignMembers: string[];
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: any;
-    todos: TTodo[];
 }
 
 export type TPrepareActivityHelper = (responseData: TProjectData) => TActivityGroups;
 
-export type TActivitiesInADayProps = {
-    activity: TActivityGroup;
-    key: number;
-}
-
-export const userInitData = {
+export const initialUserData = {
     name: '',
     username: '',
     email: '',
@@ -129,13 +125,25 @@ export const initialProjectData: TProjectData = {
     _id: "",
     bugs: [],
     discussion: [],
-    members: [],
+    members: [
+        {
+            user: {
+                username: '',
+                profileImage: {
+                    imageUrl: '',
+                    publicId: '',
+                },
+                _id: '',
+            },
+            _id: '',
+        }
+    ],
     name: "",
     description: "",
     category: "",
     deadline: "",
     isDone: false,
-    createdBy: userInitData,
+    createdBy: initialUserData,
     todos: [
         {
             _id: '',
@@ -145,11 +153,13 @@ export const initialProjectData: TProjectData = {
                 profileImage: {
                     imageUrl: '',
                     publicId: '',
-                }
+                },
+                _id: '',
             },
             text: '',
             doneAt: '',
             done: false,
+            addedBy: '',
             subTodos: [
                 {
                     _id: '',
@@ -159,17 +169,19 @@ export const initialProjectData: TProjectData = {
                         profileImage: {
                             imageUrl: '',
                             publicId: '',
-                        }
+                        },
+                        _id: '',
                     },
                     text: '',
                     doneAt: '',
                     done: false,
+                    addedBy: '',
                 }
         ]},
     ]
 }
 
-const initialState: TProjectState = {
+const initialState: TProjectSliceState = {
     project: null,
     activities: [],
     chartData: [],
@@ -178,36 +190,6 @@ const initialState: TProjectState = {
     notAssignMembers: [],
     status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
     error: null,
-    todos: [
-        {
-            _id: '',
-            time: '',
-            user: {
-                username: '',
-                profileImage: {
-                    imageUrl: '',
-                    publicId: '',
-                }
-            },
-            text: '',
-            doneAt: '',
-            done: false,
-            subTodos: [{
-                _id: '',
-                time: '',
-                user: {
-                    username: '',
-                    profileImage: {
-                        imageUrl: '',
-                        publicId: '',
-                    }
-                },
-                text: '',
-                doneAt: '',
-                done: false,
-            }]
-        },
-    ]
 };
 
 
@@ -228,59 +210,87 @@ const projectSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(getProjectById.fulfilled, (state, action) => {
+            .addCase(getProjectById.fulfilled, (state, action: PayloadAction<TProjectData>) => {
                 state.status = 'succeeded';
                 state.project = action.payload;
             })
-            .addCase(getNotAssignedMember.fulfilled, (state, action) => {
+            .addCase(getNotAssignedMember.fulfilled, (state, action: PayloadAction<string[]>) => {
                 state.status = 'succeeded';
                 state.notAssignMembers = action.payload;
             })
-            .addCase(addDiscussion.fulfilled, (state, action) => {
+            .addCase(addDiscussion.fulfilled, (state, action: PayloadAction<TDiscussion>) => {
                 state.status = 'succeeded';
-                state.project.discussion = [action.payload, ...state.project.discussion];
+                if(state.project) {
+                    state.project.discussion = [action.payload, ...state.project.discussion];
+                }
             })
-            .addCase(editDiscussion.fulfilled, (state, action) => {
+            .addCase(editDiscussion.fulfilled, (state, action: PayloadAction<TDiscussion[]>) => {
                 state.status = 'succeeded';
-                state.project.discussion = action.payload;
+                if(state.project) {
+                    state.project.discussion = action.payload;
+                }
             })
-            .addCase(deleteDiscussion.fulfilled, (state, action) => {
+            .addCase(deleteDiscussion.fulfilled, (state, action: PayloadAction<TDiscussion[]>) => {
                 state.status = 'succeeded';
-                state.project.discussion = action.payload;
+                if(state.project) {
+                    state.project.discussion = action.payload;
+                }
             })
-            .addCase(addTodo.fulfilled, (state, action) => {
+
+
+            .addCase(addTodo.fulfilled, (state, action: PayloadAction<TTodo>) => {
                 state.status = 'succeeded';
-                state.project.todos = [action.payload, ...state.project.todos];
+                if(state.project && state.project.todos) {
+                    state.project.todos = [action.payload, ...state.project.todos];
+                }
             })
-            .addCase(addBug.fulfilled, (state, action) => {
+            .addCase(editTodo.fulfilled, (state, action: PayloadAction<TTodo[]>) => {
                 state.status = 'succeeded';
-                state.project.bugs = [action.payload, ...state.project.bugs];
+                if(state.project && state.project.todos) {
+                    state.project.todos = action.payload;
+                }
             })
-            .addCase(editTodo.fulfilled, (state, action) => {
+            .addCase(deleteTodo.fulfilled, (state, action: PayloadAction<TTodo[]>) => {
                 state.status = 'succeeded';
-                state.project.todos = action.payload;
+                if(state.project && state.project.todos) {
+                    state.project.todos = action.payload;
+                }
             })
-            .addCase(deleteTodo.fulfilled, (state, action) => {
+
+
+            .addCase(addBug.fulfilled, (state, action: PayloadAction<TBug>) => {
                 state.status = 'succeeded';
-                state.project.todos = action.payload;
+                if(state.project && state.project.bugs) {
+                    state.project.bugs = [action.payload, ...state.project.bugs];
+                }
             })
-            .addCase(editBug.fulfilled, (state, action) => {
+            .addCase(editBug.fulfilled, (state, action: PayloadAction<TBug[]>) => {
                 state.status = 'succeeded';
-                state.project.bugs = action.payload;
+                if(state.project && state.project.bugs) {
+                    state.project.bugs = action.payload;
+                }
             })
-            .addCase(deleteBug.fulfilled, (state, action) => {
+            .addCase(deleteBug.fulfilled, (state, action: PayloadAction<TBug[]>) => {
                 state.status = 'succeeded';
-                state.project.bugs = action.payload;
+                if(state.project && state.project.bugs) {
+                    state.project.bugs = action.payload;
+                }
             })
-            .addCase(assignAMemberToAProject.fulfilled, (state, action) => {
+
+
+            .addCase(assignAMemberToAProject.fulfilled, (state, action: PayloadAction<TProjectMember>) => {
                 state.status = 'succeeded';
-                state.project.members = [action.payload, ...state.project.members];
+                if(state.project && state.project.members) {
+                    state.project.members = [action.payload, ...state.project.members];
+                }
             })
-            .addCase(deleteMemberFromProject.fulfilled, (state, action) => {
+            .addCase(deleteMemberFromProject.fulfilled, (state, action: PayloadAction<TProjectMember[]>) => {
                 state.status = 'succeeded';
-                state.project.members = action.payload;
+                if(state.project && state.project.members) {
+                    state.project.members = action.payload;
+                }
             })
-            .addCase(getIsMemberAndCreatorOfProject.fulfilled, (state, action) => {
+            .addCase(getIsMemberAndCreatorOfProject.fulfilled, (state, action: PayloadAction<{isMemberOfThisProject: boolean, isCreatedByUser: boolean }>) => {
                 state.status = 'succeeded';
                 state.isMemberOfThisProject = action.payload.isMemberOfThisProject;
                 state.isCreatedByUser = action.payload.isCreatedByUser;
@@ -289,15 +299,11 @@ const projectSlice = createSlice({
             //     state.status = 'succeeded';
             //     state.activities = action.payload;
             // })
-            .addCase(prepareWorkDonePreview.fulfilled, (state, action) => {
+            ////TODO: Will fix its type later
+            .addCase(prepareWorkDonePreview.fulfilled, (state, action) => {////TODO: Will fix its type later
                 state.status = 'succeeded';
                 state.chartData = action.payload;
             })
-            // .addCase(prepareTodoAndBugForPreview.fulfilled, (state, action) => {
-            //     state.status = 'succeeded';
-            //     state.chartData = action.payload.chartData;
-            //     // You can add other parts of the payload to your state here
-            // })
             .addMatcher(
                 (action) => action.type.endsWith('/pending'),
                 (state) => {
@@ -306,7 +312,7 @@ const projectSlice = createSlice({
             )
             .addMatcher(
                 (action) => action.type.endsWith('/rejected'),
-                (state, action) => {
+                (state, action: PayloadAction<any>) => {
                     state.status = 'failed';
                     state.error = action.payload;
                 }

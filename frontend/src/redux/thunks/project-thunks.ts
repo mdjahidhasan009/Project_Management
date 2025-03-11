@@ -870,6 +870,7 @@ const VITE_ASSET_URL = import.meta.env.VITE_ASSET_URL;
 
 import {prepareActivityHelper} from "../../utils/helper";
 import {TApiError} from "../../types/api.types";
+import {TBug, TDiscussion, TProjectData, TProjectMember, TTodo, TUserShortData} from "../slices/project-slice";
 
 
 // Helper function to display success messages
@@ -965,7 +966,7 @@ export const deleteProject = createAsyncThunk<
 );
 
 export const addDiscussion = createAsyncThunk<
-    string,
+    TDiscussion,
     { discussionText: string; projectId: string; method: Function },
     { rejectValue: TApiError | unknown }
 >(
@@ -986,13 +987,13 @@ export const addDiscussion = createAsyncThunk<
             showSuccessAlert('New Discussion Added');
             return responseData;
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error instanceof Error ? error.message : error);
         }
     }
 );
 
 export const editDiscussion = createAsyncThunk<
-    string,
+    TDiscussion[],
     { projectId: string; discussionId: string; discussionEditText: string; method: Function },
     { rejectValue: TApiError | unknown }
 >(
@@ -1013,13 +1014,13 @@ export const editDiscussion = createAsyncThunk<
             showSuccessAlert('Discussion Updated');
             return responseData;
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error instanceof Error ? error.message : error);
         }
     }
 );
 
 export const deleteDiscussion = createAsyncThunk<
-    string,
+    TDiscussion[],
     { projectId: string; discussionId: string; method: Function },
     { rejectValue: TApiError | unknown }
 >(
@@ -1037,7 +1038,7 @@ export const deleteDiscussion = createAsyncThunk<
             showSuccessAlert('Discussion Deleted Successfully');
             return responseData;
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error instanceof Error ? error.message : error);
         }
     }
 );
@@ -1070,7 +1071,7 @@ export const addTodoToJunior = createAsyncThunk<
 );
 
 export const addTodo = createAsyncThunk<
-    string,
+    TTodo,
     { todoText: string; projectId: string; method: Function },
     { rejectValue: TApiError | unknown }
 >(
@@ -1091,7 +1092,7 @@ export const addTodo = createAsyncThunk<
             showSuccessAlert('New Todo Added');
             return responseData;
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error instanceof Error ? error.message : error);
         }
     }
 );
@@ -1127,7 +1128,7 @@ export const toggleIsDone = createAsyncThunk<
 );
 
 export const editTodo = createAsyncThunk<
-    string,
+    TTodo[],
     { projectId: string; todoId: string; todoEditText: string; method: Function },
     { rejectValue: TApiError | unknown }
 >(
@@ -1148,13 +1149,13 @@ export const editTodo = createAsyncThunk<
             showSuccessAlert('Todo Updated');
             return responseData;
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error instanceof Error ? error.message : error);
         }
     }
 );
 
 export const deleteTodo = createAsyncThunk<
-    string,
+    TTodo[],
     { projectId: string; todoId: string; method: Function },
     { rejectValue: TApiError | unknown }
 >(
@@ -1172,7 +1173,7 @@ export const deleteTodo = createAsyncThunk<
             showSuccessAlert('Todo Deleted');
             return responseData;
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error instanceof Error ? error.message : error);
         }
     }
 );
@@ -1317,7 +1318,7 @@ export const toggleIsFixed = createAsyncThunk<
 );
 
 export const editBug = createAsyncThunk<
-    any,
+    TBug[],
     { projectId: string, bugId: string, bugEditText: string, method: Function },
     { rejectValue: TApiError | unknown }
 >(
@@ -1344,7 +1345,7 @@ export const editBug = createAsyncThunk<
 );
 
 export const addBug = createAsyncThunk<
-    any,
+    TBug,
     { bugText: string, projectId: string, method: Function },
     { rejectValue: TApiError | unknown }
 >(
@@ -1365,13 +1366,13 @@ export const addBug = createAsyncThunk<
             showSuccessAlert('New Bug Added');
             return responseData;
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error instanceof Error ? error.message : error);
         }
     }
 );
 
 export const deleteBug = createAsyncThunk<
-    any,
+    TBug[],
     { projectId: string, bugId: string, method: Function },
     { rejectValue: TApiError | unknown }
 >(
@@ -1389,13 +1390,13 @@ export const deleteBug = createAsyncThunk<
             showSuccessAlert('Bug Deleted');
             return responseData;
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error instanceof Error ? error.message : error);
         }
     }
 );
 
 export const getProjectById = createAsyncThunk<
-    any,
+    TProjectData,
     { projectId: string, method: Function },
     { rejectValue: TApiError | unknown }
 >(
@@ -1412,13 +1413,13 @@ export const getProjectById = createAsyncThunk<
             );
             return responseData;
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error instanceof Error ? error.message : 'An error occurred');
         }
     }
 );
 
 export const getNotAssignedMember = createAsyncThunk<
-    string,
+    string[],
     { projectId: string, method: Function },
     { rejectValue: TApiError | unknown }
 >(
@@ -1435,13 +1436,13 @@ export const getNotAssignedMember = createAsyncThunk<
             );
             return responseData;
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error instanceof Error ? error.message : 'An error occurred');
         }
     }
 );
 
 export const assignAMemberToAProject = createAsyncThunk<
-    string,
+    TProjectMember,
     { projectId: string, username: string, method: Function },
     { rejectValue: TApiError | unknown }
 >(
@@ -1462,13 +1463,13 @@ export const assignAMemberToAProject = createAsyncThunk<
             showSuccessAlert('New Member Added');
             return responseData;
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error instanceof Error ? error.message : 'An error occurred');
         }
     }
 );
 
 export const deleteMemberFromProject = createAsyncThunk<
-    string,
+    TProjectMember[],
     { projectId: string, username: string, method: Function },
     { rejectValue: TApiError | unknown }
 >(
@@ -1489,13 +1490,13 @@ export const deleteMemberFromProject = createAsyncThunk<
             showSuccessAlert('Member Deleted');
             return responseData;
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error instanceof Error ? error.message : 'An error occurred');
         }
     }
 );
 
 export const getIsMemberAndCreatorOfProject = createAsyncThunk<
-    string,
+    {isMemberOfThisProject: boolean, isCreatedByUser: boolean },
     { projectId: string, method: Function },
     { rejectValue: TApiError | unknown }
 >(
@@ -1530,7 +1531,7 @@ export const getIsMemberAndCreatorOfProject = createAsyncThunk<
 // );
 
 export const prepareWorkDonePreview = createAsyncThunk<
-    (string[] | number[])[],
+    (string[] | number[])[], ////TODO: Will fix its type later
     { projectId: string; method: Function },
     { rejectValue: TApiError | unknown }
 >(
