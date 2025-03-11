@@ -8,7 +8,7 @@ export type TUser = {
     name: string;
     username: string;
     email: string;
-    role: number;
+    role: string;
     bio: string;
     skills: string[];
     profileImage: {
@@ -24,7 +24,31 @@ export type TUser = {
         instagram?: string;
         stackoverflow?: string;
     };
+    _id: string;
 };
+
+export type TSelectedUser = {
+    bio: string;
+    email: string;
+    name: string;
+    profileImage: {
+        imageUrl: string;
+        publicId: string;
+    };
+    role: string;
+    skills: string[];
+    social: {
+        facebook?: string;
+        github?: string;
+        instagram?: string;
+        linkedIn?: string;
+        stackoverflow?: string;
+        twitter?: string;
+        youtube?: string;
+    },
+    username: string;
+    _id: string;
+}
 
 
 type TRegisterParams = {
@@ -43,7 +67,7 @@ type TRegisterParams = {
 // Async Thunks
 export const loadUser =
     createAsyncThunk<
-        string,
+        TUser,
         { method: Function },
         { rejectValue: TApiError | unknown }
     >

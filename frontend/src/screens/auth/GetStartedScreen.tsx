@@ -92,7 +92,7 @@ const GetStartedScreen : FC = () => {
     };
 
     useEffect(() => {
-        if(user) {
+        if(user.isAuthenticated) {
             navigate('/dashboard');
         }
     }, [user]);

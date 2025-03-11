@@ -190,7 +190,10 @@ const Todos = () => {
 
         if (project?.members) {
             project?.members?.forEach((member) => {
-                if (currentUser?.role <= member?.user?.role && currentUser?.username !== member?.user?.username) {
+                console.log('member', member);
+                console.log('currentUser', currentUser);
+                // if (currentUser?.role <= member?.user?.role && currentUser?.username !== member?.user?.username) {
+                if (currentUser?.username !== member?.user?.username) {
                     newSelectOptions.push({
                         value: member?.user?.username,
                         text: member?.user?.username,

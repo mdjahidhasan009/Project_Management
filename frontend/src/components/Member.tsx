@@ -16,7 +16,7 @@ const Member = ({ user }: { user: TUser}) => {
     }
 
     useEffect( () => {
-        setUserRole(getUserRoleString(user.role.toString()));
+        setUserRole(getUserRoleString(user.role));
         // eslint-disable-next-line
     }, [user.role]);
 

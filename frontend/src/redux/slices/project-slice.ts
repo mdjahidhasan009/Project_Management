@@ -8,6 +8,7 @@ import {
     getProjectById, prepareWorkDonePreview
 } from "../thunks/project-thunks";
 import {prepareActivityHelper} from "../../utils/helper";
+import {TUser} from "../thunks/auth-thunks";
 
 // Base activity type
 export type TBaseActivity = {
@@ -99,11 +100,11 @@ export type TProjectSliceState = {
 
 export type TPrepareActivityHelper = (responseData: TProjectData) => TActivityGroups;
 
-export const initialUserData = {
+export const initialUserData: TUser = {
     name: '',
     username: '',
     email: '',
-    role: -1,
+    role: "-1",
     bio: '',
     skills: [],
     profileImage: {
@@ -118,7 +119,8 @@ export const initialUserData = {
         linkedIn: '',
         instagram: '',
         stackoverflow: '',
-    }
+    },
+    _id: ""
 };
 
 export const initialProjectData: TProjectData = {
@@ -197,11 +199,6 @@ const initialState: TProjectSliceState = {
 const projectSlice = createSlice({
     name: 'project',
     initialState,
-
-    // .addCase(prepareActivity.fulfilled, (state, action) => {
-    //     state.status = 'succeeded';
-    //     state.activities = action.payload;
-    // })
     reducers: {
         prepareActivity: (state, action) => {
             state.status = 'succeeded';

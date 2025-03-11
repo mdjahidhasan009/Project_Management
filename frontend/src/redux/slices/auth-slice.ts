@@ -6,7 +6,7 @@ import {
     login,
     getAllUser,
     getUserByUserName,
-    uploadProfileImage, TUser
+    uploadProfileImage, TUser, TSelectedUser
 } from "../thunks/auth-thunks";
 import {initialUserData} from "./project-slice";
 
@@ -16,7 +16,7 @@ type TAuthState = {
     loading: boolean;
     user: TUser;
     users: TUser[];
-    selectedUser: TUser;
+    selectedUser: TSelectedUser;
     chartData: any;
     activitySummary: any;
     todoBugSummary: any;
@@ -24,13 +24,36 @@ type TAuthState = {
     noMember: string;
 };
 
+const initialSelectedUser: TSelectedUser = {
+    bio: '',
+    email: '',
+    name: '',
+    profileImage: {
+        imageUrl: '',
+        publicId: '',
+    },
+    role: '',
+    skills: [],
+    social: {
+        facebook: '',
+        github: '',
+        instagram: '',
+        linkedIn: '',
+        stackoverflow: '',
+        twitter: '',
+        youtube: '',
+    },
+    username: '',
+    _id: ''
+}
+
 export const initialAuthData: TAuthState = {
     token: localStorage.getItem("token"),
     isAuthenticated: false,
     loading: true,
-    user: initialUserData, ////TODO: will not use null as default value
+    user: initialUserData,
     users: [],
-    selectedUser: null, ////TODO: will not use null as default value
+    selectedUser: initialSelectedUser,
     chartData: null,
     activitySummary: null,
     todoBugSummary: null,
@@ -160,7 +183,7 @@ export const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(loadUser.fulfilled, (state, action: PayloadAction<User>) => {
+            .addCase(loadUser.fulfilled, (state, action: PayloadAction<TUser>) => {
                 state.isAuthenticated = true;
                 state.loading = false;
                 state.user = action.payload;
