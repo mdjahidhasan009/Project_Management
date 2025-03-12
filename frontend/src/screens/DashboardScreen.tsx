@@ -5,12 +5,13 @@ import { getAllProjects } from "../redux/thunks/projects-thunks";
 import { useHttpClient } from "../hooks/http-hook";
 import ChartItem from "../components/ChartItem";
 import {prepareTodoAndBugForPreview} from "../redux/slices/auth-slice";
+import {useAppDispatch, useAppSelector} from "../redux/hooks";
 
 const DashboardScreen = () => {
     const { sendRequest } = useHttpClient();
-    const dispatch = useDispatch();
-    const projectsSlice = useSelector(state => state.projects);
-    const authSlice = useSelector(state => state.auth);
+    const dispatch = useAppDispatch();
+    const projectsSlice = useAppSelector(state => state.projects);
+    const authSlice = useAppSelector(state => state.auth);
 
 
     const projects = projectsSlice || [];
@@ -79,7 +80,7 @@ const DashboardScreen = () => {
                                             {project.notCompletedTodo.map((todo, index) => (
                                                 <ol key={index}>
                                                     <li className="overflow-hidden text-ellipsis mb-2">
-                                                        {todo?.text?.length > 55 ? todo?.text?.substring(0, 55) + '...' : todo?.text}
+                                                        {todo?.text && todo?.text?.length > 55 ? todo?.text?.substring(0, 55) + '...' : todo?.text}
                                                     </li>
                                                 </ol>
                                             ))}
@@ -95,7 +96,7 @@ const DashboardScreen = () => {
                                             {project.notFixedBug.map((bug, index) => (
                                                 <ol key={index}>
                                                     <li className="overflow-hidden text-ellipsis mb-2">
-                                                        {bug?.text?.length > 55 ? bug?.text?.substring(0, 55) + '...' : bug?.text}
+                                                        {bug?.text && bug?.text?.length > 55 ? bug?.text?.substring(0, 55) + '...' : bug?.text}
                                                     </li>
                                                 </ol>
                                             ))}
@@ -127,7 +128,7 @@ const DashboardScreen = () => {
                                             {project.completedTodo.map((todo, index) => (
                                                 <ol key={index}>
                                                     <li className="overflow-hidden text-ellipsis mb-2">
-                                                        {todo?.text?.length > 55 ? todo?.text?.substring(0, 55) + '...' : todo?.text}
+                                                        {todo?.text && todo?.text?.length > 55 ? todo?.text?.substring(0, 55) + '...' : todo?.text}
                                                     </li>
                                                 </ol>
                                             ))}
@@ -143,7 +144,7 @@ const DashboardScreen = () => {
                                             {project.fixedBug.map((bug, index) => (
                                                 <ol key={index}>
                                                     <li className="overflow-hidden text-ellipsis mb-2">
-                                                        {bug?.text?.length > 55 ? bug?.text?.substring(0, 55) + '...' : bug?.text}
+                                                        {bug?.text && bug?.text?.length > 55 ? bug?.text?.substring(0, 55) + '...' : bug?.text}
                                                     </li>
                                                 </ol>
                                             ))}
@@ -159,10 +160,4 @@ const DashboardScreen = () => {
     );
 };
 
-// const mapStateToProps = state => ({
-//     projects: state.projects,
-//     auth: state.auth
-// })
-
 export default DashboardScreen;
-// export default connect(mapStateToProps, { getAllProjects, prepareTodoAndBugForPreview, loadUser })(DashboardScreen);

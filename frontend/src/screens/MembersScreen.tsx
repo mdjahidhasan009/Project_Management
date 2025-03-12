@@ -3,11 +3,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import { getAllUser } from "../redux/thunks/auth-thunks";
 import { useHttpClient } from "../hooks/http-hook";
 import Member from "../components/Member";
+import {useAppDispatch, useAppSelector} from "../redux/hooks";
 
 const MembersScreen = () => {
     const { sendRequest } = useHttpClient();
-    const dispatch = useDispatch();
-    const authSlice = useSelector(state => state.auth);
+    const dispatch = useAppDispatch();
+    const authSlice = useAppSelector(state => state.auth);
 
     const users = authSlice.users || [];
 
@@ -26,10 +27,4 @@ const MembersScreen = () => {
     );
 };
 
-// const mapStateToProps = state => ({
-//     auth: state.auth
-// })
-
-
 export default MembersScreen;
-// export default connect(mapStateToProps, { getAllUser })(MembersScreen);

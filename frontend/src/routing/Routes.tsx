@@ -66,8 +66,6 @@ const AppRoutes = () => {
                 <PrivateRoute>
                     <Profile />
                 </PrivateRoute>} />
-            <Route path="/uploadImage" element={<PrivateRoute><UploadImage /></PrivateRoute>} />
-
             <Route
                 path="/activities/:projectId"
                 element={

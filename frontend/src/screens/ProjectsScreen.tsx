@@ -6,11 +6,12 @@ import { addProject, getAllProjects } from "../redux/thunks/projects-thunks";
 import {VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE} from "../utils/validators";
 import Input from "../components/shared/FormElements/Input";
 import ProjectItem from "../components/ProjectCard";
+import {useAppDispatch, useAppSelector} from "../redux/hooks";
 
 const ProjectsScreen = () => {
     const { sendRequest } = useHttpClient();
-    const dispatch = useDispatch();
-    const projectsSlice = useSelector(state => state.projects);
+    const dispatch = useAppDispatch();
+    const projectsSlice = useAppSelector(state => state.projects);
     const projects = projectsSlice;
 
     const [ selectedProjectType, setSelectedProjectType ] = useState('all');
@@ -63,7 +64,7 @@ const ProjectsScreen = () => {
         false
     );
 
-    const addProjectHandler = (event) => {
+    const addProjectHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
 
         try {
@@ -176,17 +177,17 @@ const ProjectsScreen = () => {
             {/*ProjectScreen List*/}
             <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
                 {selectedProjectType === 'all' && projects?.length > 0 && projects?.map(project => (
-                    <ProjectItem key={project?._id} project={project} type={selectedProjectType}/>
+                    <ProjectItem key={project?._id} project={project}/>
                 ))
                 }
                 {selectedProjectType === 'completed' && projects?.length > 0 && projects?.map(project => (
                     project?.isDone && (
-                        <ProjectItem key={project?._id} project={project} type={selectedProjectType}/>
+                        <ProjectItem key={project?._id} project={project}/>
                     )
                 ))}
                 {selectedProjectType === 'incomplete' && projects?.length > 0 && projects?.map(project => (
                     !project?.isDone && (
-                        <ProjectItem key={project?._id} project={project} type={selectedProjectType}/>
+                        <ProjectItem key={project?._id} project={project}/>
                     )
                 ))}
             </div>
@@ -194,15 +195,4 @@ const ProjectsScreen = () => {
     );
 };
 
-// ProjectsScreen.propTypes = {
-//     addProject: PropTypes?.func?.isRequired,
-//     getAllProjects: PropTypes?.func?.isRequired,
-//     projects: PropTypes?.array?.isRequired
-// };
-
-// const mapStateToProps = state => ({
-//     projects: state?.projects
-// });
-
 export default ProjectsScreen;
-// export default connect(mapStateToProps, { addProject, getAllProjects })(ProjectsScreen);

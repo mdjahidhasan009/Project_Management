@@ -124,10 +124,4 @@ const ProfileScreen = ( ) => {
     );
 };
 
-// const mapStateToProps = state => ({
-//     auth: state.auth,
-//     loadedUser: state.auth.loadedUser
-// })
-
 export default ProfileScreen;
-// export default connect(mapStateToProps, { getUserByUserName })(ProfileScreen);

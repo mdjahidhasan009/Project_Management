@@ -39,7 +39,8 @@ const Member = ({ member }: {member: TProjectMember}) => {
             <div className="col s9 team-member__details">
                 <p className="text-lg text-orange-500">{member.user.username}</p>
                 <p className="role">
-                    {getUserRoleString(member.user?.role)}
+                    {/*////TODO: will fix it later*/}
+                    {/*{getUserRoleString(member.user?.role)}*/}
                     {/*{member.user?.role}*/}
                     {isCreatedByUser && (
                         <i className="material-icons delete_icon" onClick={removeMember}>delete</i>

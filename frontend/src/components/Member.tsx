@@ -4,7 +4,7 @@ import {getUserRoleString} from "../utils/helper";
 import defaultUserImage from "../assets/images/default_user.jpg";
 import {TUser} from "../redux/thunks/auth-thunks";
 
-const Member = ({ user }: { user: TUser}) => {
+const Member = ({ user }: { user: Partial<TUser>}) => {
     let navigate = useNavigate();
     // let clickedOnEmail = false;
     let [ userRole, setUserRole ] = useState('');
@@ -16,7 +16,7 @@ const Member = ({ user }: { user: TUser}) => {
     }
 
     useEffect( () => {
-        setUserRole(getUserRoleString(user.role));
+        if(user.role) setUserRole(getUserRoleString(user.role));
         // eslint-disable-next-line
     }, [user.role]);
 

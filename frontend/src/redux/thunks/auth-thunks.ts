@@ -8,6 +8,7 @@ const VITE_ASSET_URL = import.meta.env.VITE_ASSET_URL;
 export type TUser = {
     name: string;
     username: string;
+    fullName?: string;
     email: string;
     role: string;
     bio: string;
@@ -146,7 +147,7 @@ export const login = createAsyncThunk<
 
 export const updateUser = createAsyncThunk<
     TUser,
-    { formState: TUser, method: Function },
+    { formState: Record<string, any>, method: Function },
     { rejectValue: TApiError | unknown }
 >("auth/updateUser", async ({ formState, method }, { rejectWithValue }) => {
     try {
