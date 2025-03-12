@@ -1,0 +1,53 @@
+import React from 'react';
+
+import { toggleIsDone } from "../../../redux/thunks/project-thunks";
+import {useHttpClient} from "../../../hooks/http-hook";
+import {TTodo} from "../../../redux/slices/project-slice";
+import {useAppDispatch} from "../../../redux/hooks";
+
+const CompletedTodo = ({ todo, projectId }: { todo: TTodo, projectId: string }) => {
+    const { sendRequest } = useHttpClient();
+    const dispatch = useAppDispatch();
+
+    const handleToggleIsDone = () => {
+        dispatch(toggleIsDone({
+            projectId: projectId,
+            todoId: todo?._id,
+            isDone: 'false',
+            method: sendRequest
+        }));
+    }
+    return (
+        <>
+             {todo?.done && (
+             <>
+                 <div className="bg-default flex items-center justify-between gap-8 p-8 rounded-2xl cursor-pointer" onClick={handleToggleIsDone}>
+                     <p className="w-9/12">{todo?.text}</p>
+                     <div className="lg:w-2/12 md:w-3/12 w-full flex lg:justify-start md:justify-start justify-center">
+                         <img
+                             src={todo?.user?.profileImage?.imageUrl}
+                             alt=""
+                             className="w-40 h-32 rounded-full object-cover"
+                         />
+                     </div>
+                 </div>
+
+                 {todo?.subTodos && todo?.subTodos?.length > 0 && todo?.subTodos.map(subTodo => (
+                     <div className="bg-default flex items-center justify-between gap-8 p-8 rounded-2xl" onClick={handleToggleIsDone}>
+                         <p className="w-9/12">{subTodo?.text}</p>
+                         <div className="lg:w-2/12 md:w-3/12 w-full flex lg:justify-start md:justify-start justify-center">
+                             <img
+                                 src={subTodo?.user?.profileImage?.imageUrl}
+                                 alt=""
+                                 className="w-40 h-32 rounded-full object-cover"
+                             />
+                         </div>
+                     </div>
+                 ))}
+             </>
+             )}
+        </>
+    )
+}
+
+export default CompletedTodo;

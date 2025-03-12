@@ -59,6 +59,7 @@ const editUserDetails = async (req, res) => {
     const errors = validationResult(req); //Checking validation errors
     if(!errors.isEmpty()) return res.status(500).json({ 'error': 'Server Error '});
 
+    console.log(req.body)
     let { fullName, username ,email, role, newPassword, currentPassword, bio, skills, github, youtube, twitter, facebook, linkedIn, instagram, stackoverflow } = req.body.formState.inputs;
     fullName = fullName.value, username = username.value, email = email.value, role = role.value, newPassword = newPassword.value,
         currentPassword = currentPassword.value, bio = bio.value, skills = skills.value, github = github.value, youtube = youtube.value,
