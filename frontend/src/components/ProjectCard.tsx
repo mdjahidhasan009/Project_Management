@@ -1,9 +1,9 @@
 import React from 'react'
 import {Link, useNavigate} from 'react-router-dom';
 import {useAppSelector} from "../redux/hooks";
-import {TProjectData, TProjectSliceState} from "../redux/slices/project-slice";
+import {TProject, TProjectSliceState} from "../redux/slices/project-slice";
 
-const ProjectCard = ({ project }: { project: TProjectData }) => {
+const ProjectCard = ({ project }: { project: TProject }) => {
     let navigate = useNavigate();
     const authSlice = useAppSelector(state => state.auth);
 

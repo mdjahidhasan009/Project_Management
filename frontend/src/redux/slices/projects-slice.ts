@@ -19,18 +19,23 @@
 //
 
 import {addProject, getAllProjects} from "../thunks/projects-thunks";
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {TProject} from "./project-slice";
+
+type TProjects = TProject[];
+
+const initialStateData: TProjects = [];
 
 const projectsSlice = createSlice({
   name: "projects",
-  initialState: [], ////TODO: will push projects into another project property
+  initialState: initialStateData, ////TODO: will push projects into another project property
   reducers: {},
   extraReducers: (builder) => {
     builder
-        .addCase(addProject.fulfilled, (state, action) => {
+        .addCase(addProject.fulfilled, (state, action: PayloadAction<TProject>) => {
           state.push(action.payload);
         })
-        .addCase(getAllProjects.fulfilled, (state, action) => {
+        .addCase(getAllProjects.fulfilled, (state, action: PayloadAction<TProject[]>) => {
           return action.payload;
         });
   },

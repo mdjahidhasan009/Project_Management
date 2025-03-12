@@ -16,10 +16,10 @@ import {
     TActivityGroup,
     TActivityGroups,
     TBaseActivity,
-    TProjectData, TPrepareActivityHelper
+    TProject, TPrepareActivityHelper
 } from "../redux/slices/project-slice";
 
-export const prepareActivityHelper: TPrepareActivityHelper  = (responseData: TProjectData) => {
+export const prepareActivityHelper: TPrepareActivityHelper  = (responseData: TProject) => {
     let allActivities: TBaseActivity[] = [];
     if(responseData) {
         responseData.bugs.map(bug => {

@@ -58,9 +58,14 @@
 // Async thunk to add a project
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import Swal from "sweetalert2";
+import {TProject} from "../slices/project-slice";
 const VITE_ASSET_URL = import.meta.env.VITE_ASSET_URL;
 
-export const addProject = createAsyncThunk(
+export const addProject = createAsyncThunk<
+    TProject,
+    { projectName: string, projectCategory: string, projectDescription: string, projectDeadline: string, method: Function },
+    { rejectValue: string }
+>(
     "projects/addProject",
     async ({ projectName, projectCategory, projectDescription, projectDeadline, method }, { rejectWithValue }) => {
         try {
@@ -82,13 +87,17 @@ export const addProject = createAsyncThunk(
             return responseData;
         } catch (error) {
             console.error(error);
-            return rejectWithValue(error.response?.data || "Failed to add project");
+            return rejectWithValue(error instanceof Error ? error.message : "An error occurred");
         }
     }
 );
 
 // Async thunk to get all projects
-export const getAllProjects = createAsyncThunk(
+export const getAllProjects = createAsyncThunk<
+    TProject[],
+    { method: Function },
+    { rejectValue: string }
+>(
     "projects/getAllProjects",
     async ({ method }, { rejectWithValue }) => {
         try {
@@ -103,7 +112,7 @@ export const getAllProjects = createAsyncThunk(
             return responseData;
         } catch (error) {
             console.error(error);
-            return rejectWithValue(error.response?.data || "Failed to fetch projects");
+            return rejectWithValue(error instanceof Error ? error.message : "An error occurred");
         }
     }
 );

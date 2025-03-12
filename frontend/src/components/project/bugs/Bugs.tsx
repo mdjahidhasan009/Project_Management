@@ -9,7 +9,7 @@ import Input from "../../shared/FormElements/Input";
 import NotFixedBugRow from "./NotFixedBug";
 import FixedBugRow from "./FixedBug";
 import {useAppDispatch, useAppSelector} from "../../../redux/hooks";
-import {initialProjectData, TProjectData} from "../../../redux/slices/project-slice";
+import {initialProjectData, TProject} from "../../../redux/slices/project-slice";
 
 
 type TRouteParams = {
@@ -35,7 +35,7 @@ const Bugs: FC = () => {
     const dispatch = useAppDispatch();
     const projectSlice = useAppSelector(state => state.project);
 
-    const project: TProjectData = projectSlice.project || initialProjectData;
+    const project: TProject = projectSlice.project || initialProjectData;
     const bugs = project?.bugs || [];
     const isMemberOfThisProject = projectSlice.isMemberOfThisProject || false;
     const isCreatedByUser = projectSlice.isCreatedByUser || false;

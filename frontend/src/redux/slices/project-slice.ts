@@ -72,7 +72,7 @@ export type TUserShortData = {
 }
 
 // Project data structure containing bugs and todos
-export type TProjectData = {
+export type TProject = {
     _id: string;
     bugs: TBug[];
     todos: TTodo[];
@@ -89,7 +89,7 @@ export type TProjectData = {
 }
 
 export type TProjectSliceState = {
-    project: TProjectData | null;
+    project: TProject | null;
     activities: TActivityGroups;
     chartData: TChartData;
     isMemberOfThisProject: boolean;
@@ -99,7 +99,7 @@ export type TProjectSliceState = {
     error: any;
 }
 
-export type TPrepareActivityHelper = (responseData: TProjectData) => TActivityGroups;
+export type TPrepareActivityHelper = (responseData: TProject) => TActivityGroups;
 
 export const initialUserData: TUser = {
     name: '',
@@ -124,7 +124,7 @@ export const initialUserData: TUser = {
     _id: ""
 };
 
-export const initialProjectData: TProjectData = {
+export const initialProjectData: TProject = {
     _id: "",
     bugs: [],
     discussion: [],
@@ -208,7 +208,7 @@ const projectSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(getProjectById.fulfilled, (state, action: PayloadAction<TProjectData>) => {
+            .addCase(getProjectById.fulfilled, (state, action: PayloadAction<TProject>) => {
                 state.status = 'succeeded';
                 state.project = action.payload;
             })

@@ -870,7 +870,7 @@ const VITE_ASSET_URL = import.meta.env.VITE_ASSET_URL;
 
 import {prepareActivityHelper} from "../../utils/helper";
 import {TApiError} from "../../types/api.types";
-import {TBug, TDiscussion, TProjectData, TProjectMember, TTodo, TUserShortData} from "../slices/project-slice";
+import {TBug, TDiscussion, TProject, TProjectMember, TTodo, TUserShortData} from "../slices/project-slice";
 import {TChartData} from "../slices/auth-slice";
 
 
@@ -1397,7 +1397,7 @@ export const deleteBug = createAsyncThunk<
 );
 
 export const getProjectById = createAsyncThunk<
-    TProjectData,
+    TProject,
     { projectId: string, method: Function },
     { rejectValue: TApiError | unknown }
 >(

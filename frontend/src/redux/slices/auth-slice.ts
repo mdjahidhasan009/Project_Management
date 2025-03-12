@@ -8,7 +8,7 @@ import {
     getUserByUserName,
     uploadProfileImage, TUser, TSelectedUser
 } from "../thunks/auth-thunks";
-import {initialUserData, TActivityType, TBaseActivity, TBug, TProjectData, TTodo} from "./project-slice";
+import {initialUserData, TActivityType, TBaseActivity, TBug, TProject, TTodo} from "./project-slice";
 
 export type TOtherAllUsers = {
     name: string,
@@ -119,7 +119,7 @@ export const authSlice = createSlice({
             localStorage.removeItem("token");
             return initialAuthData;
         },
-        prepareTodoAndBugForPreview: (state: TAuthState, action: PayloadAction<{username: string, projects: TProjectData[]}>) => {
+        prepareTodoAndBugForPreview: (state: TAuthState, action: PayloadAction<{username: string, projects: TProject[]}>) => {
         const { username, projects } = action.payload;
 
         let allCompletedActivity: TCompletedActivity = [];
