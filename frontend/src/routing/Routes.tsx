@@ -62,7 +62,10 @@ const AppRoutes = () => {
             <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
             <Route path="/edit-profile" element={<PrivateRoute><EditProfile /></PrivateRoute>} />
             <Route path="/members" element={<PrivateRoute><MemberList /></PrivateRoute>} />
-            <Route path="/member/:username" element={<PrivateRoute><Profile /></PrivateRoute>} />
+            <Route path="/member/:username" element={
+                <PrivateRoute>
+                    <Profile />
+                </PrivateRoute>} />
             <Route path="/uploadImage" element={<PrivateRoute><UploadImage /></PrivateRoute>} />
 
             <Route

@@ -1,6 +1,7 @@
 import Swal from "sweetalert2";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {TApiError} from "../../types/api.types";
+import {TOtherAllUsers} from "../slices/auth-slice";
 const VITE_ASSET_URL = import.meta.env.VITE_ASSET_URL;
 
 
@@ -48,6 +49,29 @@ export type TSelectedUser = {
     },
     username: string;
     _id: string;
+}
+
+export const initialSelectedUser: TSelectedUser = {
+    bio: '',
+    email: '',
+    name: '',
+    profileImage: {
+        imageUrl: '',
+        publicId: '',
+    },
+    role: '',
+    skills: [],
+    social: {
+        facebook: '',
+        github: '',
+        instagram: '',
+        linkedIn: '',
+        stackoverflow: '',
+        twitter: '',
+        youtube: '',
+    },
+    username: '',
+    _id: ''
 }
 
 
@@ -120,7 +144,11 @@ export const login = createAsyncThunk<
     }
 });
 
-export const updateUser = createAsyncThunk("auth/updateUser", async ({ formState, method }, { rejectWithValue }) => {
+export const updateUser = createAsyncThunk<
+    TUser,
+    { formState: TUser, method: Function },
+    { rejectValue: TApiError | unknown }
+>("auth/updateUser", async ({ formState, method }, { rejectWithValue }) => {
     try {
         const responseData = await method(
             VITE_ASSET_URL + '/api/user',
@@ -136,7 +164,12 @@ export const updateUser = createAsyncThunk("auth/updateUser", async ({ formState
 });
 
 // TODO: will make getAllUsers
-export const getAllUser = createAsyncThunk("auth/getAllUsers", async ({ method }, { rejectWithValue }) => {
+export const getAllUser = createAsyncThunk<
+    TOtherAllUsers[],
+    { method: Function },
+    { rejectValue: TApiError | unknown }
+>
+("auth/getAllUsers", async ({ method }, { rejectWithValue }) => {
     try {
         const responseData = await method(
             VITE_ASSET_URL + '/api/user',
@@ -150,7 +183,11 @@ export const getAllUser = createAsyncThunk("auth/getAllUsers", async ({ method }
     }
 });
 
-export const getUserByUserName = createAsyncThunk("auth/getUserByUsername", async ({ username, method }, { rejectWithValue }) => {
+export const getUserByUserName = createAsyncThunk<
+    TSelectedUser,
+    { username: string, method: Function },
+    { rejectValue: TApiError | unknown }
+>("auth/getUserByUsername", async ({ username, method }, { rejectWithValue }) => {
     try {
         const responseData = await method(
             `${VITE_ASSET_URL}/api/user/${username}`,

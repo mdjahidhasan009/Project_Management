@@ -4,25 +4,29 @@ import { getUserByUserName } from "../redux/thunks/auth-thunks";
 import { useHttpClient } from "../hooks/http-hook";
 import { getUserRoleString } from "../utils/helper";
 import defaultUserImage from "../assets/images/default_user.jpg";
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../redux/hooks";
 
-const ProfileScreen = ({ match }) => {
+const ProfileScreen = ( ) => {
     const { sendRequest } = useHttpClient();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
+    let { username: usernameFromPrams } = useParams();
 
-    const authSlice = useSelector(state => state.auth);
+    const authSlice = useAppSelector(state => state.auth);
 
 
     const [ userRole, setUserRole ] = useState('');
     const user = authSlice.user || null;
     const loadedUser = authSlice.loadedUser || null;
+    const userName = user.username || "";
 
     useEffect(() => {
-        if(match?.params && match?.params.username) {
-            dispatch(getUserByUserName({ username: match?.params?.username, method: sendRequest }));
+        if(usernameFromPrams || userName) {
+            let name = usernameFromPrams || userName;
+            dispatch(getUserByUserName({ username: name, method: sendRequest }));
         }
         // eslint-disable-next-line
-    }, []);
+    }, [usernameFromPrams]);
 
     useEffect(() => {
         if(loadedUser && loadedUser?.role) setUserRole(getUserRoleString(loadedUser?.role));

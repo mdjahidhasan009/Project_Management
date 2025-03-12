@@ -83,7 +83,7 @@ const LoginScreen: FC = () => {
     };
 
     useEffect(() => {
-        if(user) {
+        if(authSlice.isAuthenticated){
             navigate('/dashboard');
         }
     }, [user]);
