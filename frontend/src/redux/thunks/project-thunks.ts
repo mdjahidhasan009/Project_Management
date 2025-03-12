@@ -871,10 +871,11 @@ const VITE_ASSET_URL = import.meta.env.VITE_ASSET_URL;
 import {prepareActivityHelper} from "../../utils/helper";
 import {TApiError} from "../../types/api.types";
 import {TBug, TDiscussion, TProjectData, TProjectMember, TTodo, TUserShortData} from "../slices/project-slice";
+import {TChartData} from "../slices/auth-slice";
 
 
 // Helper function to display success messages
-const showSuccessAlert = (text) => {
+const showSuccessAlert = (text: string) => {
     Swal.fire({
         title: 'Success',
         text: text,
@@ -884,7 +885,7 @@ const showSuccessAlert = (text) => {
 
 // Async thunks (actions)
 export const editProjectDetails = createAsyncThunk<
-    string,
+    void,
     { projectName: string; projectDetails: string; projectCategory: string; projectDeadline: string; projectId: string; method: Function },
     { rejectValue: TApiError | unknown }
 >(
@@ -908,7 +909,7 @@ export const editProjectDetails = createAsyncThunk<
             showSuccessAlert('Project Details Updated');
             return; // No need to return data for this action
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error instanceof Error ? error.message : "An error occurred");
         }
     }
 );
@@ -936,7 +937,7 @@ export const toggleIsProjectIsFinished = createAsyncThunk<
             showSuccessAlert('Project Updated');
             return; // No need to return data for this action
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error instanceof Error ? error.message : "An error occurred");
         }
     }
 );
@@ -960,7 +961,7 @@ export const deleteProject = createAsyncThunk<
             showSuccessAlert('Project Deleted');
             return; // No need to return data for this action
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error instanceof Error ? error.message : "An error occurred");
         }
     }
 );
@@ -1065,7 +1066,7 @@ export const addTodoToJunior = createAsyncThunk<
             showSuccessAlert('New Todo Added');
             return responseData;
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error instanceof Error ? error.message : "An error occurred");
         }
     }
 );
@@ -1122,7 +1123,7 @@ export const toggleIsDone = createAsyncThunk<
             }
             return null; // or handle the case where responseData is falsy
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error instanceof Error ? error.message : "An error occurred");
         }
     }
 );
@@ -1201,7 +1202,7 @@ export const addSubTodo = createAsyncThunk<
             showSuccessAlert('New Sub Todo Added');
             return responseData;
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error instanceof Error ? error.message : "An error occurred");
         }
     }
 );
@@ -1231,7 +1232,7 @@ export const toggleSubTodoIsDone = createAsyncThunk<
             }
             return null; // Or handle the case where responseData is falsy.
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error instanceof Error ? error.message : "An error occurred");
         }
     }
 );
@@ -1258,7 +1259,7 @@ export const editSubTodo = createAsyncThunk<
             showSuccessAlert('Sub Todo Updated');
             return responseData;
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error instanceof Error ? error.message : "An error occurred");
         }
     }
 );
@@ -1282,7 +1283,7 @@ export const deleteSubTodo = createAsyncThunk<
             showSuccessAlert('Sub Todo Deleted');
             return responseData;
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error instanceof Error ? error.message : "An error occurred");
         }
     }
 );
@@ -1312,7 +1313,7 @@ export const toggleIsFixed = createAsyncThunk<
             }
             return null;  // Or handle the case where responseData is falsy.
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error instanceof Error ? error.message : "An error occurred");
         }
     }
 );
@@ -1339,7 +1340,7 @@ export const editBug = createAsyncThunk<
             showSuccessAlert('Bug Updated');
             return responseData;
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error instanceof Error ? error.message : "An error occurred");
         }
     }
 );
@@ -1513,7 +1514,7 @@ export const getIsMemberAndCreatorOfProject = createAsyncThunk<
             );
             return responseData;
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error instanceof Error ? error.message : "An error occurred");
         }
     }
 );
@@ -1531,7 +1532,7 @@ export const getIsMemberAndCreatorOfProject = createAsyncThunk<
 // );
 
 export const prepareWorkDonePreview = createAsyncThunk<
-    (string[] | number[])[], ////TODO: Will fix its type later
+    TChartData, ////TODO: Will fix its type later
     { projectId: string; method: Function },
     { rejectValue: TApiError | unknown }
 >(
@@ -1550,30 +1551,36 @@ export const prepareWorkDonePreview = createAsyncThunk<
             preparedActivities = prepareActivityHelper(responseData);
             let finalArrayForChart = [];
 
-            let todo = 0, bug = 0, i = 0;
-            let newDataPreview = [];
+            let todoCount = 0, bugCount = 0, i = 0;
+            let newDataPreview: TChartData = [];
             let preparedActivitiesReverse = preparedActivities.reverse(); //as in activities recent come first we need old to recent
             if(preparedActivitiesReverse) {
                 preparedActivitiesReverse.map(activity => {
-                    todo = 0;
-                    bug = 0;
+                    todoCount = 0;
+                    bugCount = 0;
                     activity.map(singleActivity => {
-                        if(singleActivity.type === 'todo-done') todo++;
-                        else if(singleActivity.type === 'bug-fixed') bug++;
+                        if(singleActivity.type === 'todo-done') todoCount++;
+                        else if(singleActivity.type === 'bug-fixed') bugCount++;
                     });
-                    if(todo > 0 || bug > 0) {
+                    if(todoCount > 0 || bugCount > 0) {
                         i++;
-                        newDataPreview.push([i, todo, bug]);
+                        newDataPreview.push([i, todoCount, bugCount]);
                     }
                 })
             }
             finalArrayForChart = [
                 ['x', 'Todo done', 'Bug fixed'],
-                [0, 0, 0]
-            ].concat(newDataPreview);
+                [0, 0, 0],
+                ...newDataPreview
+            ]
+
+            // finalArrayForChart = [
+            //     ['x', 'Todo done', 'Bug fixed'],
+            //     [0, 0, 0],
+            // ].concat(newDataPreview);
             return finalArrayForChart;
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error instanceof Error ? error.message : "An error occurred");
         }
     }
 );

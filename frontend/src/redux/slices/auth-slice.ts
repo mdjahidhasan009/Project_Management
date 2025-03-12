@@ -17,7 +17,7 @@ export type TOtherAllUsers = {
 }
 
 // Chart data type
-type TChartData = Array<Array<string | number>>;
+export type TChartData = Array<Array<string | number>>;
 
 // Types for activity summary
 type TCompletedActivity = Array<{

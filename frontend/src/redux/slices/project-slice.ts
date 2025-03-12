@@ -9,6 +9,7 @@ import {
 } from "../thunks/project-thunks";
 import {prepareActivityHelper} from "../../utils/helper";
 import {TUser} from "../thunks/auth-thunks";
+import {TChartData} from "./auth-slice";
 
 // Base activity type
 export type TBaseActivity = {
@@ -90,7 +91,7 @@ export type TProjectData = {
 export type TProjectSliceState = {
     project: TProjectData | null;
     activities: TActivityGroups;
-    chartData: any[];
+    chartData: TChartData;
     isMemberOfThisProject: boolean;
     isCreatedByUser: boolean;
     notAssignMembers: string[];
