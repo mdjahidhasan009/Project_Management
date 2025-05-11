@@ -4,8 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon ./dist/server.js",
+    "postinstall": "tsc",
+    "dev": "ts-node-dev --respawn --traspile-only src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "node server.js"
+    "server": "node src/server.js"
   },
   "author": "",
   "license": "ISC",
