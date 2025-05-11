@@ -1,15 +1,18 @@
-const express = require('express');
-const cors = require('cors');
+import express, { Application } from 'express';
+import cors from 'cors';
 
-const connectDB = require('./config/db');
+import dotenv from 'dotenv';
+dotenv.config();
 
-const userRoute = require('./routes/userRoutes');
-const authRoute = require('./routes/authRoutes');
-const projectRoute = require('./routes/projectRoutes');
-const uploadRoute = require('./routes/uploadRoutes');
+import connectDB from './config/db';
 
-const app = express();
-const PORT = process.env.PORT || 5000;
+import userRoute from './routes/userRoutes';
+import authRoute from './routes/authRoutes';
+import projectRoute from './routes/projectRoutes';
+import uploadRoute from './routes/uploadRoutes';
+
+const app: Application = express();
+const PORT: number = parseInt(process.env.PORT || '5000');
 
 connectDB();                                //Connect to the database
 app.use(express.json({ extended: true, limit: '50mb' }));  //Init body-parser middleware

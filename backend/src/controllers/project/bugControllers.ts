@@ -1,10 +1,24 @@
-const { validationResult } = require("express-validator");
-const Project = require("../../models/Project");
+import { validationResult } from "express-validator";
+
+import Project from '../../models/Project';
+import {IRequestWithUser} from "../../types";
+
+interface BugRequest {
+    bug: string;
+}
+
+interface BugFixedRequest {
+    isFixed: string;
+}
+
+interface BugEditRequest {
+    bugEditText: string;
+}
 
 // @route   POST api/project/bugs/:id
 // @desc    Add new bug
 // @access  Private
-const addNewBug = async(req, res) => {
+const addNewBug = async(req: IRequestWithUser & { body: BugRequest }, res: Response) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
       return res.status(400).json({ 'error': 'Server Error' });
@@ -29,7 +43,7 @@ const addNewBug = async(req, res) => {
 // @route   POST api/project/bugs/:projectId/:bugId
 // @desc    Set bug fixed or not fixed
 // @access  Private
-const toggleIsBugFixed = async(req, res) => {
+const toggleIsBugFixed = async(req: IRequestWithUser & { body: BugFixedRequest }, res: Response) => {
     try {
       let project = await Project.findOne( { 'bugs._id': req.params.bugId } )
       const bugs = project.bugs;
@@ -65,7 +79,7 @@ const toggleIsBugFixed = async(req, res) => {
 // @route   PUT api/project/bugs/:projectId/:bugId
 // @desc    Edit an existing bug
 // @access  Private
-const editBug = async(req, res) => {
+const editBug = async(req: IRequestWithUser & { body: BugEditRequest }, res: Response) => {
     try {
       let project = await Project.findOne( { 'bugs._id': req.params.bugId } )
       const bugs = project.bugs;
@@ -96,7 +110,7 @@ const editBug = async(req, res) => {
 // @route   DELETE api/project/bugs/:projectId/:bugId
 // @desc    Delete a bug
 // @access  Private
-const deleteBug = async(req, res) => {
+const deleteBug = async(req: IRequestWithUser, res: Response) => {
     try {
       let project = await Project.findOne( { 'bugs._id': req.params.bugId } )
       const bugs = project.bugs;
@@ -122,7 +136,7 @@ const deleteBug = async(req, res) => {
 }
 
 
-module.exports = {
+export {
     addNewBug,
     toggleIsBugFixed,
     editBug,

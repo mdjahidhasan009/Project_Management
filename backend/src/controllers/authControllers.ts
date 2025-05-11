@@ -1,12 +1,15 @@
-const User = require("../models/User");
-const { validationResult } = require("express-validator");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+import { Response } from "express";
+import validationResult from 'express-validator';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+
+import User from "../models/User";
+import {IRequestWithUser, IUser} from "../types";
 
 // @route   GET api/auth
 // @desc    Get user data expect password
 // @access  Private
-const getAllUserData = async (req , res) => {
+const getAllUserData = async (req: IRequestWithUser, res: Response): Promise<Partial<IUser>> => {
   try {
       //as in authScreen.ts middleware req.user has the value of user id
       const user = await User.findById(req.user.id).select('-password')
@@ -17,12 +20,18 @@ const getAllUserData = async (req , res) => {
   }
 }
 
+interface LoginRequest {
+    email: string;
+    password: string;
+}
+
 // @route  POST api/auth
 // @desc   Authenticate / login user & get token
 // @access Public
-const login = async (req, res) => {
+const login = async (req: IRequestWithUser & { body: LoginRequest }, res: Response): Promise<Partial<IUser>> => {
     const errors = validationResult(req);   //Checking for validation errors
     if(!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+
     const { email, password } = req.body;
     try {
       let user = await User.findOne({ email });
@@ -51,7 +60,7 @@ const login = async (req, res) => {
 }
 
 
-module.exports = {
+export {
     getAllUserData,
-    authenticateOrLogin: login
+    login as authenticateOrLogin
 }

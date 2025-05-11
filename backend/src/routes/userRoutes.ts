@@ -1,13 +1,12 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const { check, validationResult } = require('express-validator');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+import { check } from 'express-validator';
 
-const User = require('../models/User');
-const Project = require('../models/Project');
-const auth = require('../middleware/auth');
-const {getAllUsers, addNewUser, editUserDetails, getUserDetailsByUsername, getAllUnassignedMemberOnAProject} = require("../controllers/userControllers");
+import auth from '../middleware/auth';
+import {
+    getAllUsers, addNewUser, editUserDetails, getUserDetailsByUsername,
+    getAllUnassignedMemberOnAProject
+} from "../controllers/userControllers";
 
 
 // @route api/user
@@ -69,4 +68,4 @@ router.route('/project/:projectId')
         auth,
         getAllUnassignedMemberOnAProject
     )
-module.exports = router;
+export default router;

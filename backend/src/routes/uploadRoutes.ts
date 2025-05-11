@@ -1,8 +1,8 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
 
-const auth = require('../middleware/auth');
-const { uploadImage } = require("../controllers/uploadControllers");
+import auth from '../middleware/auth';
+import { uploadImage } from "../controllers/uploadControllers";
 
 // @route api/upload
 router.route('/')
@@ -12,4 +12,4 @@ router.route('/')
         uploadImage
     )
 
-module.exports = router;
+export default router;

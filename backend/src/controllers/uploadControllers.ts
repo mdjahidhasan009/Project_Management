@@ -1,10 +1,15 @@
-const { cloudinary } = require("../utils/cloudinary");
+import { cloudinary } from "../utils/cloudinary";
+import {IRequestWithUser} from "../types";
 const User = require("../models/User");
+
+interface UploadImageRequest {
+  data: string;
+}
 
 // @route   POST api/upload
 // @desc    Upload an image
 // @access  Private
-const uploadImage = async (req, res) => {
+const uploadImage = async (req: IRequestWithUser & { body: UploadImageRequest }, res: Response) => {
     try {
       const fileStr = req.body.data;
       //Uploading image
@@ -38,6 +43,6 @@ const uploadImage = async (req, res) => {
     }
 }
 
-module.exports = {
+export {
     uploadImage
 }

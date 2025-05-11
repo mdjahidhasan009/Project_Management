@@ -1,6 +1,7 @@
-const mongoose = require('mongoose');
+import mongoose, { Schema } from 'mongoose';
+import {IProject} from "../types";
 
-const projectSchema = new mongoose.Schema({
+const projectSchema = new Schema<IProject>({
     name: {
         type: String,
         require: true
@@ -138,4 +139,4 @@ const projectSchema = new mongoose.Schema({
     ]
 });
 
-module.exports = mongoose.model('Project', projectSchema);
+export default mongoose.model<IProject>('Project', projectSchema);

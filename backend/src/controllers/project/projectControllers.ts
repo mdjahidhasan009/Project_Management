@@ -1,11 +1,15 @@
-const Project = require("../../models/Project");
-const { validationResult } = require("express-validator");
-const User = require("../../models/User");
+import { validationResult } from 'express-validator';
+
+import Project from "../../models/Project";
+import User from "../../models/User";
+import {IProject} from "../../types";
+import {IRequestWithUser} from "../../types";
+import {IUser} from "../../types";
 
 // @route   GET api/project
 // @desc    Get all projects
 // @access  Private
-const getAllProjectsDetails = async (req, res) => {
+const getAllProjectsDetails = async (req: IRequestWithUser, res: Response): Promise<Partial<IProject[]>> => {
   try {
     const projects = await Project.find()
         .populate('createdBy', 'username -_id')
@@ -21,12 +25,20 @@ const getAllProjectsDetails = async (req, res) => {
   }
 }
 
+interface IProjectMetaData {
+    name: string;
+    category: string;
+    description: string;
+    deadline: string;
+}
+
 // @route   POST api/project
 // @desc    Add new project
 // @access  Private
-const addNewProject = async(req, res) => {
+const addNewProject = async(req: IRequestWithUser & { body: IProjectMetaData }, res: Response): Promise<Partial<IProject>> => {
     const errors = validationResult(req); //Validation error check
     if(!errors.isEmpty()) return res.status(400).json({ "error": "Server error" });
+
     const { name, category, description, deadline } = req.body;
     try {
       let project = await Project.findOne({ name });
@@ -49,7 +61,7 @@ const addNewProject = async(req, res) => {
 // @route   GET api/project/:projectId
 // @desc    Get all data of project
 // @access  Private
-const getProjectDetails = async (req, res) => {
+const getProjectDetails = async (req: IRequestWithUser, res: Response): Promise<Partial<IProject>> => {
     try {
         const project = await Project.findById(req.params.projectId)
             .populate('createdBy', 'username -_id')
@@ -68,7 +80,7 @@ const getProjectDetails = async (req, res) => {
 // @route   PUT api/project/:projectId
 // @desc    Edit project details(name, details, category, deadline)
 // @access  Private
-const editProject = async(req, res) => {
+const editProject = async(req: IRequestWithUser & { body: IProjectMetaData }, res: Response): Promise<Partial<IProject>> => {
     const errors = validationResult(req);
     if(!errors.isEmpty()) return res.status(400).json({ "error": "Server error" });
 
@@ -99,12 +111,13 @@ const editProject = async(req, res) => {
 }
 
 // @route   DELETE api/project/:projectId
-// @desc    Delete an project
+// @desc    Delete a project
 // @access  Private
-const deleteProject = async (req, res) => {
+const deleteProject = async (req: IRequestWithUser, res: Response): Promise<Response> => {
     try {
       const project = await Project.findById(req.params.projectId);
       if(!project) await res.status(400).json({ 'error': 'Server Error' }); //project not found
+
       if(project.createdBy.toString() !== req.user.id)
         return await res.status(400).json({ 'error': 'Server Error' }); //user who requested was not created this project
       await Project.deleteOne({ _id: req.params.projectId });
@@ -115,14 +128,19 @@ const deleteProject = async (req, res) => {
     }
 }
 
+interface AddMemberRequest {
+    username: string;
+}
+
 // @route   POST api/project/:projectId
 // @desc    Add a member in project
 // @access  Private
-const addNewMemberInProject = async (req, res) => {
+const addNewMemberInProject = async (req: IRequestWithUser & { body: AddMemberRequest }, res: Response): Promise<Partial<IUser>> => {
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
-      return res.status(400).json({ 'error': 'Server Error' });
+      return res.status(400).json({ 'error': 'Please enter all fields' });
     }
+
     try {
         const { username } = req.body;
         const project = await Project.findById(req.params.projectId);
@@ -144,7 +162,7 @@ const addNewMemberInProject = async (req, res) => {
 // @route   DELETE api/project/member/:projectId/
 // @desc    Delete a member from a project
 // @access  Private
-const removeMemberFromProject = async (req, res) => {
+const removeMemberFromProject = async (req: IRequestWithUser & { body: AddMemberRequest }, res: Response): Promise<Partial<IUser[]>> => {
       const errors = validationResult(req);
       if(!errors.isEmpty()) {
           return res.status(400).json({ 'error': 'Server Error' });
@@ -176,7 +194,7 @@ const removeMemberFromProject = async (req, res) => {
 // @route   GET api/project/memberorcreator/:projectId
 // @desc    Get is current user is member or creator current project or both
 // @access  Private
-const isCurrentUserMemberOrCreatorOfThisProject = async (req, res) => {
+const isCurrentUserMemberOrCreatorOfThisProject = async (req: IRequestWithUser, res: Response) => {
     try {
         const project = await Project.findById(req.params.projectId);
         const isCreatedByUser = project.createdBy.toString() === req.user.id.toString();
@@ -191,10 +209,14 @@ const isCurrentUserMemberOrCreatorOfThisProject = async (req, res) => {
     }
 }
 
+interface ToggleProjectDoneRequest {
+    isDone: string;
+}
+
 // @route    PUT api/project/isDone/:projectId
 // @desc     Toggle is a project done
 // @access   Private
-const toggleIsProjectDone = async (req, res) => {
+const toggleIsProjectDone = async (req: IRequestWithUser & { body: ToggleProjectDoneRequest }, res: Response) => {
     try {
         const errors = validationResult(req);
         if(!errors.isEmpty()) return res.status(500).json({ 'error': 'Server error '});
@@ -206,7 +228,7 @@ const toggleIsProjectDone = async (req, res) => {
     }
 }
 
-module.exports = {
+export {
     getAllProjectsDetails,
     addNewProject,
     editProject,

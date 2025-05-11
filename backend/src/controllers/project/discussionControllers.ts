@@ -1,10 +1,20 @@
-const { validationResult } = require("express-validator");
-const Project = require("../../models/Project");
+import { validationResult } from "express-validator";
+
+import {IRequestWithUser} from "../../types";
+import Project from "../../models/Project";
+
+interface DiscussionRequest {
+  discussion: string;
+}
+
+interface DiscussionEditRequest {
+  discussionEditText: string;
+}
 
 // @route   POST api/project/discussion/:projectId
 // @desc    Add new discussion
 // @access  Private
-const addNewDiscussion = async(req, res) => {
+const addNewDiscussion = async(req: IRequestWithUser & { body: DiscussionRequest }, res: Response) => {
   const errors = validationResult(req);
   if(!errors.isEmpty()) {
     return res.status(400).json({ 'error': 'Server Error' });
@@ -29,7 +39,7 @@ const addNewDiscussion = async(req, res) => {
 // @route   PUT api/project/discussion/:projectId/:discussionId
 // @desc    Edit an existing discussion
 // @access  Private
-const editDiscussion = async(req, res) => {
+const editDiscussion = async(req: IRequestWithUser & { body: DiscussionEditRequest }, res: Response) => {
   try {
     let project = await Project.findOne( { 'discussion._id': req.params.discussionId } )
     const discussion = project.discussion;
@@ -47,7 +57,9 @@ const editDiscussion = async(req, res) => {
           }
         }
     );
-    project = await Project.findById(req.params.projectId).populate('discussion.user', 'username profileImage -_id');
+    project = await Project
+        .findById(req.params.projectId)
+        .populate('discussion.user', 'username profileImage -_id');
     await res.json(project.discussion);
   } catch(error) {
     console.error(error);
@@ -58,7 +70,7 @@ const editDiscussion = async(req, res) => {
 // @route   DELETE api/project/discussion/:projectId/:discussionId
 // @desc    Delete an discussion
 // @access  Private
-const deleteDiscussion = async(req, res) => {
+const deleteDiscussion = async(req: IReqeustWithUser, res: Response) => {
     try {
       let project = await Project.findOne( { 'discussion._id': req.params.discussionId } )
       const discussion = project.discussion;
@@ -83,9 +95,8 @@ const deleteDiscussion = async(req, res) => {
     }
 }
 
-
-module.exports = {
+export {
     addNewDiscussion,
     editDiscussion,
     deleteDiscussion
-};
+}

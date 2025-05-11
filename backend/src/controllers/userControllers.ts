@@ -1,13 +1,18 @@
-const User = require("../models/User");
-const { validationResult } = require("express-validator");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const Project = require("../models/Project");
+import { validationResult } from 'express-validator';
+import bcrypt from "bcryptjs";
+import jwt from 'jsonwebtoken';
+import {Request, Response} from "express";
+
+import User from '../models/User';
+import Project from '../models/Project';
+import {IRequestWithUser} from "../types";
+import {IUser} from "../types";
+import {Request} from "express";
 
 // @route  GET api/user
 // @desc   Get all user
 // @access private
-const getAllUsers = async (req, res) => {
+const getAllUsers = async (req: IRequestWithUser, res: Response): Promise<Partial<IUser[]>> => {
     try{
       const responseData = await User.find().select('-_id -password -skills');
       return res.status(200).json(responseData);
@@ -16,12 +21,21 @@ const getAllUsers = async (req, res) => {
     }
 }
 
+
+interface RegisterUserRequest {
+    name: string;
+    email: string;
+    username: string;
+    password: string;
+}
+
 // @route  POST api/user
 // @desc   Register new user
 // @access Public
-const addNewUser = async (req, res) => {
+const addNewUser = async (req: Request & { body: RegisterUserRequest }, res: Response): Promise<Partial<IUser>> => {
     const errors = validationResult(req); //Checking validation errors
     if(!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+
     const { name, email, username, password } = req.body;
     try {
       let user = await User.findOne({ email });
@@ -31,7 +45,10 @@ const addNewUser = async (req, res) => {
       if(user) return res.status(400).json({ 'error': 'Username already exits. Choose another one' });
 
       user = new User({
-        name, username, email, password
+        name,
+        username,
+        email,
+        password
       });
       const payload = {
         user: {
@@ -52,27 +69,66 @@ const addNewUser = async (req, res) => {
     }
 }
 
+interface EditUserFormState {
+    inputs: {
+        fullName: { value: string };
+        username: { value: string };
+        email: { value: string };
+        role: { value: string };
+        newPassword: { value: string | null };
+        currentPassword: { value: string };
+        bio: { value: string };
+        skills: { value: string | string[] };
+        github: { value: string };
+        youtube: { value: string };
+        twitter: { value: string };
+        facebook: { value: string };
+        linkedIn: { value: string };
+        instagram: { value: string };
+        stackoverflow: { value: string };
+    };
+}
+
 // @route  PUT api/user
 // @desc   Edit user details
 // @access Private
-const editUserDetails = async (req, res) => {
+const editUserDetails = async (req: IRequestWithUser & { body: EditUserFormState }, res: Response): Promise<Partial<IUser>> => {
     const errors = validationResult(req); //Checking validation errors
     if(!errors.isEmpty()) return res.status(500).json({ 'error': 'Server Error '});
 
-    console.log(req.body)
-    let { fullName, username ,email, role, newPassword, currentPassword, bio, skills, github, youtube, twitter, facebook, linkedIn, instagram, stackoverflow } = req.body.formState.inputs;
-    fullName = fullName.value, username = username.value, email = email.value, role = role.value, newPassword = newPassword.value,
-        currentPassword = currentPassword.value, bio = bio.value, skills = skills.value, github = github.value, youtube = youtube.value,
-        twitter = twitter.value, facebook = facebook.value, linkedIn = linkedIn.value, instagram = instagram.value, stackoverflow = stackoverflow.value;
+    let {
+        fullName, username ,email, role, newPassword, currentPassword, bio, skills, github, youtube, twitter, facebook,
+        linkedIn, instagram, stackoverflow
+    } = req.body.formState.inputs;
+
+    fullName = fullName.value
+    username = username.value
+    email = email.value
+    role = role.value
+    newPassword = newPassword.value
+    currentPassword = currentPassword.value
+    bio = bio.value
+    skills = skills.value
+    github = github.value
+    youtube = youtube.value
+    twitter = twitter.value
+    facebook = facebook.value
+    linkedIn = linkedIn.value
+    instagram = instagram.value
+    stackoverflow = stackoverflow.value
+
     let updateObject = null;
     if(skills.length > 0 && (typeof skills !== "object")) {
       skills = skills.split(',').map(skill => skill.trim());
     }
+
     try {
       let user = await User.findOne({ _id: req.user.id });
       if(!user) return res.status(500).json({ 'error': 'Server Error '}); //user not found
+
       const isMatch = await bcrypt.compare(currentPassword, user.password);
-      if(!isMatch) return res.status(400).json({ error: 'Invalid Password' }); //password does not matched
+      if(!isMatch) return res.status(400).json({ error: 'Invalid Password' }); //password does not match
+
       if(newPassword !== null) {
         const salt = await bcrypt.genSalt(10);
         newPassword = await bcrypt.hash(newPassword, salt);
@@ -111,7 +167,7 @@ const editUserDetails = async (req, res) => {
 // @route  GET api/user/:username
 // @desc   Get user by username
 // @access private
-const getUserDetailsByUsername = async (req, res) => {
+const getUserDetailsByUsername = async (req: IRequestWithUser, res: Response): Promise<Partial<IUser>> | null => {
     try{
       const responseData = await User.findOne({ username: req.params.username }).select('-_id -password');
       return res.status(200).json(responseData);
@@ -123,7 +179,7 @@ const getUserDetailsByUsername = async (req, res) => {
 // @route  GET api/user/project/:projectId
 // @desc   Get all unassigned member on this project
 // @access Private
-const getAllUnassignedMemberOnAProject = async (req, res) => {
+const getAllUnassignedMemberOnAProject = async (req: IRequestWithUser, res: Response): Promise<Partial<IUser[]>> => {
     try {
       let allUser = await User.find()
           .select('username -_id');
@@ -146,7 +202,7 @@ const getAllUnassignedMemberOnAProject = async (req, res) => {
 }
 
 
-module.exports = {
+export {
     getAllUsers,
     addNewUser,
     editUserDetails,

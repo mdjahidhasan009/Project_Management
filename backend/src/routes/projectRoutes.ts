@@ -1,25 +1,27 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const { check, validationResult } = require('express-validator');
+import { check } from "express-validator";
 
-const Project = require('../models/Project');
-const User = require('../models/User');
-const auth = require('../middleware/auth');
-const {
-  addNewDiscussion, editDiscussion, deleteDiscussion
-} = require("../controllers/project/discussionControllers");
-const {
-  addTodo, toggleIsTodoDone, editTodoText, deleteTodo, assignTodoToAJunior
-} = require("../controllers/project/todoControllers");
-const {
-  addNewSubTodo, editSubTodo, toggleIsSubTodoDone, deleteSubTodo
-} = require("../controllers/project/subTodoControllers");
-const {
-  addNewBug, toggleIsBugFixed, editBug, deleteBug
-} = require("../controllers/project/bugControllers");
-const {getAllProjectsDetails, addNewProject, editProject, deleteProject, getProjectDetails, addNewMemberInProject,
-  removeMemberFromProject, isCurrentUserMemberOrCreatorOfThisProject, toggleIsProjectDone
-} = require("../controllers/project/projectControllers");
+import auth from '../middleware/auth';
+
+import {
+    addNewDiscussion, editDiscussion, deleteDiscussion
+} from "../controllers/project/discussionControllers";
+
+import {
+    addTodo, toggleIsTodoDone, editTodoText, deleteTodo, assignTodoToAJunior
+} from "../controllers/project/todoControllers";
+import {
+    addNewSubTodo, editSubTodo, toggleIsSubTodoDone, deleteSubTodo
+} from "../controllers/project/subTodoControllers";
+import {
+    addNewBug, toggleIsBugFixed, editBug, deleteBug
+} from "../controllers/project/bugControllers";
+import {
+    getAllProjectsDetails, addNewProject, editProject, deleteProject, getProjectDetails,
+    addNewMemberInProject, removeMemberFromProject, isCurrentUserMemberOrCreatorOfThisProject,
+    toggleIsProjectDone
+} from "../controllers/project/projectControllers";
 
 // base route for all route in this file => api/project/
 
@@ -303,4 +305,4 @@ router.route("/bugs/:projectId/:bugId")
         deleteBug
     )
 
-module.exports = router;
+export default router;

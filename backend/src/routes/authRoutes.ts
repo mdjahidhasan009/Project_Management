@@ -1,10 +1,9 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const { check } = require('express-validator');
+import { check } from 'express-validator';
 
-const auth = require('../middleware/auth');
-const User = require('../models/User');
-const { getAllUserData, authenticateOrLogin} = require("../controllers/authControllers");
+import auth from '../middleware/auth';
+import { getAllUserData, authenticateOrLogin } from "../controllers/authControllers";
 
 // @route  api/auth
 router.route("/")
@@ -24,4 +23,4 @@ router.route("/")
         authenticateOrLogin
     )
 
-module.exports = router;
+export default router;
