@@ -1,6 +1,7 @@
 import { cloudinary } from "../utils/cloudinary";
 import {IRequestWithUser} from "../types";
 const User = require("../models/User");
+import {Response} from "express";
 
 interface UploadImageRequest {
   data: string;

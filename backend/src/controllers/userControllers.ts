@@ -7,7 +7,6 @@ import User from '../models/User';
 import Project from '../models/Project';
 import {IRequestWithUser} from "../types";
 import {IUser} from "../types";
-import {Request} from "express";
 
 // @route  GET api/user
 // @desc   Get all user
