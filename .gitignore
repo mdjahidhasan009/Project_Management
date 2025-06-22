@@ -9,7 +9,9 @@
 
 /backend/node_modules
 /backend/.env
+/backend/.env.local
 /backend/.git
 
 .idea
+git-diff.txt
 

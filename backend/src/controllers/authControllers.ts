@@ -1,5 +1,5 @@
 import { Response } from "express";
-import validationResult from 'express-validator';
+import { validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
@@ -9,7 +9,7 @@ import {IRequestWithUser, IUser} from "../types";
 // @route   GET api/auth
 // @desc    Get user data expect password
 // @access  Private
-const getAllUserData = async (req: IRequestWithUser, res: Response): Promise<Partial<IUser>> => {
+const getAllUserData = async (req: IRequestWithUser, res: Response): Promise<Partial<IUser> | undefined> => {
   try {
       //as in authScreen.ts middleware req.user has the value of user id
       const user = await User.findById(req.user.id).select('-password')

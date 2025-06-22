@@ -26,7 +26,10 @@
     "mongoose-unique-validator": "^2.0.3"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^3.0.0",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.1",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/mongoose": "^5.11.97",
     "concurrency": "^0.1.4",
     "nodemon": "^2.0.4",
