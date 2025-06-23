@@ -57,7 +57,7 @@ const addNewUser = async (req: Request & { body: RegisterUserRequest }, res: Res
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(password, salt);
       await user.save();
-      jwt.sign(payload, process.env.JWTSCERET, { expiresIn: 360000 }, (error, token) => {
+      jwt.sign(payload, process.env.JWTSECRET, { expiresIn: 360000 }, (error, token) => {
             if(error) throw error;
             res.json({ token });
           }

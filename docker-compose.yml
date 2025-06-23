@@ -23,7 +23,7 @@ services:
       - CLOUDINARY_NAME=your_cloudinary_name
       - CLOUDINARY_UPLOAD_PRESET=your_cloudinary_upload_preset
       - MONGOURL=mongodb://mongoadmin:mongopassword@mongodb:27017/yourdbname?authSource=admin
-      - JWTSCERET=your_jwt_secret
+      - JWTSECRET=your_jwt_secret
     depends_on:
       - mongodb
 

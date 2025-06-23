@@ -10,7 +10,7 @@ interface JwtPayload {
     }
 }
 
-const JWT_SECRET: string = process.env.JWTSCERET || "";
+const JWT_SECRET: string = process.env.JWTSECRET || "";
 
 if (!JWT_SECRET) {
     console.error('❌ JWT_SECRET environment variable is not defined');
