@@ -2,7 +2,7 @@ import { validationResult } from "express-validator";
 
 import Project from '../../models/Project';
 import User from '../../models/User';
-import {IRequestWithUser} from "../../types";
+import {IExpressRequestWithUser} from "../../types";
 
 interface TodoRequest {
     todo: string;
@@ -19,7 +19,7 @@ interface TodoDoneRequest {
 // @route   POST api/project/todos/:projectId
 // @desc    Add new todo
 // @access  Private
-const addTodo = async(req: IRequestWithUser & { body: TodoRequest }, res: Response) => {
+const addTodo = async(req: IExpressRequestWithUser & { body: TodoRequest }, res: Response) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
       return res.status(400).json({ 'error': 'Server Error' });
@@ -47,7 +47,7 @@ const addTodo = async(req: IRequestWithUser & { body: TodoRequest }, res: Respon
 // @route   PUT api/project/toggle/todos/:projectId/:todoId
 // @desc    Set todo done or incomplete
 // @access  Private
-const toggleIsTodoDone = async(req: IRequestWithUser & { body: TodoDoneRequest }, res: Response) => {
+const toggleIsTodoDone = async(req: IExpressRequestWithUser & { body: TodoDoneRequest }, res: Response) => {
     try {
       let project = await Project.findOne( { 'todos._id': req.params.todoId } );
       const todos = project.todos;
@@ -84,7 +84,7 @@ const toggleIsTodoDone = async(req: IRequestWithUser & { body: TodoDoneRequest }
 // @route   PUT api/project/todos/:projectId/:todoId
 // @desc    Edit an existing todo
 // @access  Private
-const editTodoText = async(req: IRequestWithUser & { body: TodoEditRequest }, res: Response) => {
+const editTodoText = async(req: IExpressRequestWithUser & { body: TodoEditRequest }, res: Response) => {
     try {
       let project = await Project.findOne( { 'todos._id': req.params.todoId } )
       const todos = project.todos;
@@ -116,7 +116,7 @@ const editTodoText = async(req: IRequestWithUser & { body: TodoEditRequest }, re
 // @route   DELETE api/project/todos/:projectId/:todoId
 // @desc    Delete a todo
 // @access  Private
-const deleteTodo = async(req: IRequestWithUser, res: Response) => {
+const deleteTodo = async(req: IExpressRequestWithUser, res: Response) => {
     try {
       let project = await Project.findOne( { 'todos._id': req.params.todoId } )
       const todos = project.todos;
@@ -150,7 +150,7 @@ interface TodoAssignRequest {
 // @route   POST api/project/assignTodo/todos/:projectId/:username
 // @desc    Assign a todo to junior
 // @access  Private
-const assignTodoToAJunior = async (req: IRequestWithUser & { body: TodoAssignRequest }, res: Response) => {
+const assignTodoToAJunior = async (req: IExpressRequestWithUser & { body: TodoAssignRequest }, res: Response) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()) return res.status(400).json({ 'error': 'Server Error' });
     try {

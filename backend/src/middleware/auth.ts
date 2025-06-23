@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { Response } from "express";
 import {NextFunction} from "express";
 
-import { IRequestWithUser } from "../types";
+import { IExpressRequestWithUser } from "../types";
 
 interface JwtPayload {
     user: {
@@ -24,7 +24,7 @@ if (!JWT_SECRET) {
  * @param next - Express next function
  * @returns Response when authentication fails (sends 401 error), void when authentication succeeds (calls next())
  */
-const auth = (req: IRequestWithUser, res: Response, next: NextFunction): void => {
+const auth = (req: IExpressRequestWithUser, res: Response, next: NextFunction): void => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {

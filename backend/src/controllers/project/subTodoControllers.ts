@@ -1,7 +1,7 @@
 import { validationResult } from "express-validator";
 
 import Project from "../../models/Project";
-import {IRequestWithUser} from "../../types";
+import {IExpressRequestWithUser} from "../../types";
 
 interface SubTodoRequest {
   todo: string;
@@ -18,7 +18,7 @@ interface SubTodoDoneRequest {
 // @route   POST api/project/todos/:projectId/todoId/:todoId
 // @desc    Add new sub todo
 // @access  Private
-const addNewSubTodo = async(req: IRequestWithUser & { body: SubTodoRequest }, res: Response) => {
+const addNewSubTodo = async(req: IExpressRequestWithUser & { body: SubTodoRequest }, res: Response) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
       return res.status(400).json({ 'error': 'Server Error' });
@@ -44,7 +44,7 @@ const addNewSubTodo = async(req: IRequestWithUser & { body: SubTodoRequest }, re
 // @route   PUT api/project/todos/:projectId/:todoId/:subTodoId
 // @desc    Edit an existing sub todo
 // @access  Private
-const editSubTodo = async(req: IRequestWithUser & { body: SubTodoEditRequest }, res: Response) => {
+const editSubTodo = async(req: IExpressRequestWithUser & { body: SubTodoEditRequest }, res: Response) => {
     try {
       //Checking is the subTodo assigned to current user
       let todos = await Project.findById(req.params.projectId)
@@ -84,7 +84,7 @@ const editSubTodo = async(req: IRequestWithUser & { body: SubTodoEditRequest }, 
 // @route   PUT api/project/toggle/todos/:projectId/:todoId/:subTodoId
 // @desc    Set sub todo done or incomplete
 // @access  Private
-const toggleIsSubTodoDone = async(req: IRequestWithUser & { body: SubTodoDoneRequest }, res: Response) => {
+const toggleIsSubTodoDone = async(req: IExpressRequestWithUser & { body: SubTodoDoneRequest }, res: Response) => {
     try {
       //Checking is the subTodo assigned to current user
       let todos = await Project.findById(req.params.projectId)
@@ -128,7 +128,7 @@ const toggleIsSubTodoDone = async(req: IRequestWithUser & { body: SubTodoDoneReq
 // @route   DELETE api/project/todos/:projectId/:todoId/:subTodoId
 // @desc    Delete a sub todo
 // @access  Private
-const deleteSubTodo = async(req: IRequestWithUser, res: Response) => {
+const deleteSubTodo = async(req: IExpressRequestWithUser, res: Response) => {
     try {
       //Checking is the subTodo assigned to current user
       let todos = await Project.findById(req.params.projectId)

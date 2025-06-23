@@ -1,6 +1,6 @@
 import { validationResult } from "express-validator";
 
-import {IRequestWithUser} from "../../types";
+import {IExpressRequestWithUser} from "../../types";
 import Project from "../../models/Project";
 
 interface DiscussionRequest {
@@ -14,7 +14,7 @@ interface DiscussionEditRequest {
 // @route   POST api/project/discussion/:projectId
 // @desc    Add new discussion
 // @access  Private
-const addNewDiscussion = async(req: IRequestWithUser & { body: DiscussionRequest }, res: Response) => {
+const addNewDiscussion = async(req: IExpressRequestWithUser & { body: DiscussionRequest }, res: Response) => {
   const errors = validationResult(req);
   if(!errors.isEmpty()) {
     return res.status(400).json({ 'error': 'Server Error' });
@@ -39,7 +39,7 @@ const addNewDiscussion = async(req: IRequestWithUser & { body: DiscussionRequest
 // @route   PUT api/project/discussion/:projectId/:discussionId
 // @desc    Edit an existing discussion
 // @access  Private
-const editDiscussion = async(req: IRequestWithUser & { body: DiscussionEditRequest }, res: Response) => {
+const editDiscussion = async(req: IExpressRequestWithUser & { body: DiscussionEditRequest }, res: Response) => {
   try {
     let project = await Project.findOne( { 'discussion._id': req.params.discussionId } )
     const discussion = project.discussion;

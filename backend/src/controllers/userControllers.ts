@@ -5,13 +5,13 @@ import {Request, Response} from "express";
 
 import User from '../models/User';
 import Project from '../models/Project';
-import {IRequestWithUser} from "../types";
+import {IExpressRequestWithUser} from "../types";
 import {IUser} from "../types";
 
 // @route  GET api/user
 // @desc   Get all user
 // @access private
-const getAllUsers = async (req: IRequestWithUser, res: Response): Promise<Partial<IUser[]>> => {
+const getAllUsers = async (req: IExpressRequestWithUser, res: Response): Promise<Partial<IUser[]>> => {
     try{
       const responseData = await User.find().select('-_id -password -skills');
       return res.status(200).json(responseData);
@@ -91,7 +91,7 @@ interface EditUserFormState {
 // @route  PUT api/user
 // @desc   Edit user details
 // @access Private
-const editUserDetails = async (req: IRequestWithUser & { body: EditUserFormState }, res: Response): Promise<Partial<IUser>> => {
+const editUserDetails = async (req: IExpressRequestWithUser & { body: EditUserFormState }, res: Response): Promise<Partial<IUser>> => {
     const errors = validationResult(req); //Checking validation errors
     if(!errors.isEmpty()) return res.status(500).json({ 'error': 'Server Error '});
 
@@ -166,7 +166,7 @@ const editUserDetails = async (req: IRequestWithUser & { body: EditUserFormState
 // @route  GET api/user/:username
 // @desc   Get user by username
 // @access private
-const getUserDetailsByUsername = async (req: IRequestWithUser, res: Response): Promise<Partial<IUser>> | null => {
+const getUserDetailsByUsername = async (req: IExpressRequestWithUser, res: Response): Promise<Partial<IUser>> | null => {
     try{
       const responseData = await User.findOne({ username: req.params.username }).select('-_id -password');
       return res.status(200).json(responseData);
@@ -178,7 +178,7 @@ const getUserDetailsByUsername = async (req: IRequestWithUser, res: Response): P
 // @route  GET api/user/project/:projectId
 // @desc   Get all unassigned member on this project
 // @access Private
-const getAllUnassignedMemberOnAProject = async (req: IRequestWithUser, res: Response): Promise<Partial<IUser[]>> => {
+const getAllUnassignedMemberOnAProject = async (req: IExpressRequestWithUser, res: Response): Promise<Partial<IUser[]>> => {
     try {
       let allUser = await User.find()
           .select('username -_id');

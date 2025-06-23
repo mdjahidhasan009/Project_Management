@@ -4,15 +4,15 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 import User from "../models/User";
-import {IRequestWithUser, IUser} from "../types";
+import {IExpressRequestWithUser} from "../types";
 
 // @route   GET api/auth
 // @desc    Get user data expect password
 // @access  Private
-const getAllUserData = async (req: IRequestWithUser, res: Response): Promise<void> => {
+const getAllUserData = async (req: IExpressRequestWithUser, res: Response): Promise<void> => {
   try {
       //as in authScreen.ts middleware req.user has the value of user id
-      const user = await User.findById(req?.user?.id).select('-password')
+      const user = await User.findById(req.user.id).select('-password')
       res.json(user);
   } catch(error) {
       console.error(error);
@@ -28,7 +28,7 @@ interface LoginRequest {
 // @route  POST api/auth
 // @desc   Authenticate / login user & get token
 // @access Public
-const login = async (req: IRequestWithUser & { body: LoginRequest }, res: Response): Promise<void> => {
+const login = async (req: IExpressRequestWithUser & { body: LoginRequest }, res: Response): Promise<void> => {
     const errors = validationResult(req);   //Checking for validation errors
     if(!errors.isEmpty()) {
         res.status(400).json({ errors: errors.array() });

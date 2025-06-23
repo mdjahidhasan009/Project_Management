@@ -1,6 +1,6 @@
 import { cloudinary } from "../utils/cloudinary";
-import {IRequestWithUser} from "../types";
-const User = require("../models/User");
+import {IExpressRequestWithUser} from "../types";
+import User from "../models/User";
 import {Response} from "express";
 
 interface UploadImageRequest {
@@ -10,7 +10,7 @@ interface UploadImageRequest {
 // @route   POST api/upload
 // @desc    Upload an image
 // @access  Private
-const uploadImage = async (req: IRequestWithUser & { body: UploadImageRequest }, res: Response) => {
+const uploadImage = async (req: IExpressRequestWithUser & { body: UploadImageRequest }, res: Response) => {
     try {
       const fileStr = req.body.data;
       //Uploading image
