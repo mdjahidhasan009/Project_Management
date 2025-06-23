@@ -14,11 +14,17 @@ const uploadImage = async (req: IExpressRequestWithUser & { body: UploadImageReq
     try {
       const fileStr = req.body.data;
       //Uploading image
-      const uploadResponse = await cloudinary.uploader.upload(fileStr, {
+      const uploadResponseFromCloudinary = await cloudinary.uploader.upload(fileStr, {
         upload_preset: process.env.CLOUDINARY_UPLOAD_PRESET,
       });
 
       const user = await User.findById(req.user.id);
+      if(!user) {
+        console.error('User not found');
+        res.status(404).json({ 'error': 'User not found' });
+        return;
+      }
+
       //Deleting previous image
       if(user.profileImage.publicId) {
         await cloudinary.uploader.destroy( user.profileImage.publicId, function(error,result) {
@@ -27,16 +33,27 @@ const uploadImage = async (req: IExpressRequestWithUser & { body: UploadImageReq
       }
       const updateObject = {
         profileImage: {
-          imageUrl: uploadResponse.secure_url,
-          publicId: uploadResponse.public_id
+          imageUrl: uploadResponseFromCloudinary.secure_url,
+          publicId: uploadResponseFromCloudinary.public_id
         }
       }
-      await User.findOneAndUpdate( { _id: req.user.id }, updateObject, function(err, doc) {
-        if (err) return res.status(500).json({ 'error': 'Server Error '});
-      });
+      // await User.findOneAndUpdate( { _id: req.user.id }, updateObject, function(err, doc) {
+      //   if (err) return res.status(500).json({ 'error': 'Server Error '});
+      // });
+
+      const updatedUser = await User.findOneAndUpdate(
+          { _id: req.user.id },
+          updateObject,
+          { new: true } // This returns the updated document
+      );
+
+      if (!updatedUser) {
+        res.status(500).json({ error: 'Failed to update user' });
+        return;
+      }
 
       res.status(200).json({
-        imageUrl: uploadResponse.secure_url
+        imageUrl: uploadResponseFromCloudinary.secure_url
       });
     } catch (err) {
       console.error(err);
