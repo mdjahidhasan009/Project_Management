@@ -26,7 +26,7 @@ export interface IUser extends Document {
 }
 
 export interface IExpressRequestWithUser extends Request {
-    user: {
+    user?: {
         id: string;
     };
 }

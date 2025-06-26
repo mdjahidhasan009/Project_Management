@@ -12,7 +12,7 @@ import {IExpressRequestWithUser} from "../types";
 const getAllUserData = async (req: IExpressRequestWithUser, res: Response): Promise<void> => {
   try {
       //as in authScreen.ts middleware req.user has the value of user id
-      const user = await User.findById(req.user.id).select('-password')
+      const user = await User.findById(req?.user?.id).select('-password')
       res.json(user);
   } catch(error) {
       console.error(error);

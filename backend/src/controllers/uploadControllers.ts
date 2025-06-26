@@ -18,7 +18,7 @@ const uploadImage = async (req: IExpressRequestWithUser & { body: UploadImageReq
         upload_preset: process.env.CLOUDINARY_UPLOAD_PRESET,
       });
 
-      const user = await User.findById(req.user.id);
+      const user = await User.findById(req?.user?.id);
       if(!user) {
         console.error('User not found');
         res.status(404).json({ 'error': 'User not found' });
@@ -42,7 +42,7 @@ const uploadImage = async (req: IExpressRequestWithUser & { body: UploadImageReq
       // });
 
       const updatedUser = await User.findOneAndUpdate(
-          { _id: req.user.id },
+          { _id: req?.user?.id },
           updateObject,
           { new: true } // This returns the updated document
       );
