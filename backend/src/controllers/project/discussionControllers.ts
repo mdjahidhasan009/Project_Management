@@ -1,6 +1,7 @@
 import { validationResult } from "express-validator";
+import { Response } from "express";
 
-import {IExpressRequestWithUser} from "../../types";
+import {IExpressRequestWithUser, IProject} from "../../types";
 import Project from "../../models/Project";
 
 interface DiscussionRequest {
@@ -14,24 +15,37 @@ interface DiscussionEditRequest {
 // @route   POST api/project/discussion/:projectId
 // @desc    Add new discussion
 // @access  Private
-const addNewDiscussion = async(req: IExpressRequestWithUser & { body: DiscussionRequest }, res: Response) => {
+const addNewDiscussion = async(req: IExpressRequestWithUser & { body: DiscussionRequest }, res: Response): Promise<void> => {
   const errors = validationResult(req);
   if(!errors.isEmpty()) {
-    return res.status(400).json({ 'error': 'Server Error' });
+    res.status(400).json({ 'error': 'Server Error' });
+    return;
   }
   try {
-    let project = await Project.findById(req.params.projectId);
+    let project: IProject | null = await Project.findById(req.params.projectId);
+    if(!project) {
+      res.status(404).json({ 'error': 'Project not found' });
+      return;
+    }
+    if(!req?.user?.id) {
+        res.status(401).json({ 'error': 'Unauthorized' });
+        return;
+    }
     const newDiscussion = {
-      user: req.user.id,
+      user: req?.user?.id,
       text: req.body.discussion,
     };
     project.discussion.unshift(newDiscussion);
     await project.save();
-    project = await Project.findById(req.params.projectId).populate('discussion.user', 'username profileImage -_id')
-    await res.json(project.discussion[0]);
+    project = await Project.findById(req.params.projectId).populate('discussion.user', 'username profileImage -_id');
+    if(!project || !project.discussion || project.discussion.length === 0) {
+      res.status(404).json({ 'error': 'No discussions found' });
+      return;
+    }
+    res.json(project.discussion[0]);
   } catch(error) {
     console.error(error);
-    return res.status(400).json({ 'error': 'Server Error' });
+    res.status(400).json({ 'error': 'Server Error' });
   }
 }
 
@@ -39,17 +53,24 @@ const addNewDiscussion = async(req: IExpressRequestWithUser & { body: Discussion
 // @route   PUT api/project/discussion/:projectId/:discussionId
 // @desc    Edit an existing discussion
 // @access  Private
-const editDiscussion = async(req: IExpressRequestWithUser & { body: DiscussionEditRequest }, res: Response) => {
+const editDiscussion = async(req: IExpressRequestWithUser & { body: DiscussionEditRequest }, res: Response): Promise<void> => {
   try {
-    let project = await Project.findOne( { 'discussion._id': req.params.discussionId } )
+    let project: IProject | null = await Project.findOne( { 'discussion._id': req.params.discussionId } )
+    if(!project) {
+      res.status(404).json({ 'error': 'Project not found' });
+      return;
+    }
     const discussion = project.discussion;
     let isThisDiscussionAddedByCurrentUser = false;
     discussion.map(discussion => {
-      if(discussion._id.toString() === req.params.discussionId.toString()) {
-        if (discussion.user.toString() === req.user.id.toString()) isThisDiscussionAddedByCurrentUser = true;
+      if(discussion?._id?.toString() === req.params.discussionId.toString()) {
+        if (discussion.user.toString() === req?.user?.id?.toString()) isThisDiscussionAddedByCurrentUser = true;
       }
     })
-    if(!isThisDiscussionAddedByCurrentUser) return res.status(400).json({ 'error': 'Server Error' });
+    if(!isThisDiscussionAddedByCurrentUser){
+      res.status(400).json({ 'error': 'Server Error' });
+      return;
+    }
     await Project.updateOne(
         { _id: req.params.projectId, 'discussion._id': req.params.discussionId},
         {'$set': {
@@ -60,27 +81,38 @@ const editDiscussion = async(req: IExpressRequestWithUser & { body: DiscussionEd
     project = await Project
         .findById(req.params.projectId)
         .populate('discussion.user', 'username profileImage -_id');
-    await res.json(project.discussion);
+    if(!project || !project.discussion || project.discussion.length === 0) {
+        res.status(404).json({ 'error': 'No discussions found' });
+        return;
+    }
+    res.status(200).json(project.discussion);
   } catch(error) {
     console.error(error);
-    return res.status(400).json({ 'error': 'Server Error' });
+    res.status(400).json({ 'error': 'Server Error' });
   }
 }
 
 // @route   DELETE api/project/discussion/:projectId/:discussionId
 // @desc    Delete an discussion
 // @access  Private
-const deleteDiscussion = async(req: IReqeustWithUser, res: Response) => {
+const deleteDiscussion = async(req: IExpressRequestWithUser, res: Response): Promise<void> => {
     try {
-      let project = await Project.findOne( { 'discussion._id': req.params.discussionId } )
+      let project: IProject | null = await Project.findOne( { 'discussion._id': req.params.discussionId } );
+      if(!project) {
+        res.status(404).json({ 'error': 'Project not found' });
+        return;
+      }
       const discussion = project.discussion;
       let isThisDiscussionAddedByCurrentUser = false;
       discussion.map(discuss => {
-        if(discuss._id.toString() === req.params.discussionId.toString()) {
-          if (discuss.user.toString() === req.user.id.toString()) isThisDiscussionAddedByCurrentUser = true;
+        if(discuss?._id?.toString() === req.params.discussionId.toString()) {
+          if (discuss.user.toString() === req?.user?.id?.toString()) isThisDiscussionAddedByCurrentUser = true;
         }
       })
-      if(!isThisDiscussionAddedByCurrentUser) return res.status(400).json({ 'error': 'Server Error' });
+      if(!isThisDiscussionAddedByCurrentUser){
+        res.status(400).json({ 'error': 'Server Error' });
+        return;
+      }
       await Project.updateOne(
           { _id: req.params.projectId },
           {'$pull': {
@@ -88,10 +120,14 @@ const deleteDiscussion = async(req: IReqeustWithUser, res: Response) => {
             }}
       );
       project = await Project.findById(req.params.projectId).populate('discussion.user', 'username profileImage -_id');
-      await res.json(project.discussion);
+      if(!project || !project.discussion || project.discussion.length === 0) {
+        res.status(404).json({ 'error': 'No discussions found' });
+        return;
+      }
+      res.json(project.discussion);
     } catch(error) {
       console.error(error);
-      return res.status(400).json({ 'error': 'Server Error' });
+      res.status(400).json({ 'error': 'Server Error' });
     }
 }
 
