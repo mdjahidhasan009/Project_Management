@@ -1,7 +1,8 @@
 import { validationResult } from "express-validator";
+import { Response } from "express";
 
 import Project from '../../models/Project';
-import {IExpressRequestWithUser} from "../../types";
+import {IExpressRequestWithUser, IProject} from "../../types";
 
 interface BugRequest {
     bug: string;
@@ -18,43 +19,62 @@ interface BugEditRequest {
 // @route   POST api/project/bugs/:id
 // @desc    Add new bug
 // @access  Private
-const addNewBug = async(req: IExpressRequestWithUser & { body: BugRequest }, res: Response) => {
+const addNewBug = async(req: IExpressRequestWithUser & { body: BugRequest }, res: Response): Promise<void> => {
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
-      return res.status(400).json({ 'error': 'Server Error' });
+      res.status(400).json({ 'error': 'Server Error' });
+      return;
     }
 
     try {
-      let project = await Project.findById(req.params.projectId);
+      let project: IProject | null = await Project.findById(req.params.projectId);
+      if(!project) {
+          res.status(404).json({ 'error': 'Project not found' });
+          return;
+      }
+      if(!req?.user?.id) {
+        res.status(401).json({ 'error': 'User not authorized' });
+        return;
+      }
       const newBug = {
-        user: req.user.id,
+        user: req?.user?.id,
         text: req.body.bug,
       };
       project.bugs.unshift(newBug);
       await project.save();
       project = await Project.findById(req.params.projectId).populate('bugs.user', 'username profileImage -_id');
-      await res.json(project.bugs[0]);
+      if(!project || !project.bugs.length) {
+        res.status(404).json({ 'error': 'No bugs found' });
+        return;
+      }
+      res.json(project.bugs[0]);
     } catch(error) {
       console.error(error);
-      return res.status(400).json({ 'error': 'Server Error' });
+      res.status(400).json({ 'error': 'Server Error' });
     }
 }
 
 // @route   POST api/project/bugs/:projectId/:bugId
 // @desc    Set bug fixed or not fixed
 // @access  Private
-const toggleIsBugFixed = async(req: IExpressRequestWithUser & { body: BugFixedRequest }, res: Response) => {
+const toggleIsBugFixed = async(req: IExpressRequestWithUser & { body: BugFixedRequest }, res: Response): Promise<void> => {
     try {
-      let project = await Project.findOne( { 'bugs._id': req.params.bugId } )
+      let project: IProject | null = await Project.findOne( { 'bugs._id': req.params.bugId } );
+      if(!project || !project?.bugs || project.bugs.length == 0) {
+          res.status(400).json({ "message": "No project or no bugs found in this project" });
+          return;
+      }
       const bugs = project.bugs;
       let isThisBugAddedByCurrentUser = false;
       bugs.map(bug => {
-        if(bug._id.toString() === req.params.bugId.toString()) {
-          if (bug.user.toString() === req.user.id.toString()) isThisBugAddedByCurrentUser = true;
+        if(bug?._id?.toString() === req.params.bugId.toString()) {
+          if (bug.user.toString() === req?.user?.id?.toString()) isThisBugAddedByCurrentUser = true;
         }
       })
-      if(!isThisBugAddedByCurrentUser)
-        return res.status(400).json({ 'error': 'This bug does not added by you.' });
+      if(!isThisBugAddedByCurrentUser) {
+          res.status(400).json({'error': 'This bug does not added by you.'});
+          return;
+      }
 
       let isFixed = req.body.isFixed === 'true';
       let fixedAt = null;
@@ -69,27 +89,38 @@ const toggleIsBugFixed = async(req: IExpressRequestWithUser & { body: BugFixedRe
           }
       );
       project = await Project.findById(req.params.projectId).populate('bugs.user', 'username profileImage -_id');
-      await res.json(project.bugs);
+      if(!project || !project.bugs.length) {
+        res.status(404).json({ 'error': 'No bugs found' });
+        return;
+      }
+      res.json(project.bugs);
     } catch(error) {
       console.error(error);
-      return res.status(400).json({ 'error': 'Server Error' });
+      res.status(400).json({ 'error': 'Server Error' });
     }
 }
 
 // @route   PUT api/project/bugs/:projectId/:bugId
 // @desc    Edit an existing bug
 // @access  Private
-const editBug = async(req: IExpressRequestWithUser & { body: BugEditRequest }, res: Response) => {
+const editBug = async(req: IExpressRequestWithUser & { body: BugEditRequest }, res: Response): Promise<void> => {
     try {
-      let project = await Project.findOne( { 'bugs._id': req.params.bugId } )
+      let project = await Project.findOne( { 'bugs._id': req.params.bugId } );
+      if(!project || !project?.bugs || project.bugs.length == 0) {
+        res.status(400).json({ 'error': 'No project or no bugs found in this project' });
+        return;
+      }
       const bugs = project.bugs;
       let isThisBugAddedByCurrentUser = false;
       bugs.map(bug => {
-        if(bug._id.toString() === req.params.bugId.toString()) {
-          if (bug.user.toString() === req.user.id.toString()) isThisBugAddedByCurrentUser = true;
+        if(bug?._id?.toString() === req.params.bugId.toString()) {
+          if (bug.user.toString() === req?.user?.id?.toString()) isThisBugAddedByCurrentUser = true;
         }
       })
-      if(!isThisBugAddedByCurrentUser) return res.status(400).json({ 'error': 'Server Error' });
+      if(!isThisBugAddedByCurrentUser) {
+          res.status(400).json({ 'error': 'Server Error' });
+          return;
+      }
 
       await Project.updateOne(
           { _id: req.params.projectId, 'bugs._id': req.params.bugId},
@@ -100,10 +131,14 @@ const editBug = async(req: IExpressRequestWithUser & { body: BugEditRequest }, r
           }
       );
       project = await Project.findById(req.params.projectId).populate('bugs.user', 'username profileImage -_id');
-      await res.json(project.bugs);
+      if(!project || !project.bugs.length) {
+        res.status(404).json({ 'error': 'No bugs found' });
+        return;
+      }
+      res.json(project.bugs);
     } catch(error) {
       console.error(error);
-      return res.status(400).json({ 'error': 'Server Error' });
+      res.status(400).json({ 'error': 'Server Error' });
     }
 }
 
@@ -112,12 +147,16 @@ const editBug = async(req: IExpressRequestWithUser & { body: BugEditRequest }, r
 // @access  Private
 const deleteBug = async(req: IExpressRequestWithUser, res: Response) => {
     try {
-      let project = await Project.findOne( { 'bugs._id': req.params.bugId } )
+      let project: IProject | null = await Project.findOne( { 'bugs._id': req.params.bugId } );
+      if(!project || !project?.bugs || project.bugs.length == 0) {
+          res.status(400).json({ 'error': 'No project or no bugs found in this project' });
+          return;
+      }
       const bugs = project.bugs;
       let isThisBugAddedByCurrentUser = false;
       bugs.map(bug => {
-        if(bug._id.toString() === req.params.bugId.toString()) {
-          if (bug.user.toString() === req.user.id.toString()) isThisBugAddedByCurrentUser = true;
+        if(bug?._id?.toString() === req.params.bugId.toString()) {
+          if (bug.user.toString() === req?.user?.id?.toString()) isThisBugAddedByCurrentUser = true;
         }
       })
       if(!isThisBugAddedByCurrentUser) return res.status(400).json({ 'error': 'Server Error' });
@@ -128,10 +167,14 @@ const deleteBug = async(req: IExpressRequestWithUser, res: Response) => {
             }}
       );
       project = await Project.findById(req.params.projectId).populate('bugs.user', 'username profileImage -_id');
-      await res.json(project.bugs);
+      if(!project || !project.bugs.length) {
+        res.status(404).json({ 'error': 'No bugs found' });
+        return;
+      }
+      res.json(project.bugs);
     } catch(error) {
       console.error(error);
-      return res.status(400).json({ 'error': 'Server Error' });
+      res.status(400).json({ 'error': 'Server Error' });
     }
 }
 
