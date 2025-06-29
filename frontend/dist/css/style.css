@@ -1,0 +1,24 @@
+.main {
+    padding-left: 255px;
+}
+
+.sidenav {
+    top: 64px;
+    width: 250px;
+    overflow-y: auto;
+    position:fixed;
+}
+
+@media only screen and (max-width: 992px) {
+    .main{
+        padding-left: 0;
+    }
+}
+
+/*At 660px width navbar become 56px from 64px so little gap between navbar and sidenav occur which looks ugly.
+So then solution is reduce the top of sidenav.*/
+@media only screen and (max-width: 660px) {
+    .sidenav {
+        top: 56px;
+    }
+}

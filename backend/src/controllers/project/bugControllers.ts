@@ -145,7 +145,7 @@ const editBug = async(req: IExpressRequestWithUser & { body: BugEditRequest }, r
 // @route   DELETE api/project/bugs/:projectId/:bugId
 // @desc    Delete a bug
 // @access  Private
-const deleteBug = async(req: IExpressRequestWithUser, res: Response) => {
+const deleteBug = async(req: IExpressRequestWithUser, res: Response): Promise<void> => {
     try {
       let project: IProject | null = await Project.findOne( { 'bugs._id': req.params.bugId } );
       if(!project || !project?.bugs || project.bugs.length == 0) {
@@ -159,7 +159,10 @@ const deleteBug = async(req: IExpressRequestWithUser, res: Response) => {
           if (bug.user.toString() === req?.user?.id?.toString()) isThisBugAddedByCurrentUser = true;
         }
       })
-      if(!isThisBugAddedByCurrentUser) return res.status(400).json({ 'error': 'Server Error' });
+      if(!isThisBugAddedByCurrentUser) {
+          res.status(400).json({ 'error': 'Server Error' });
+          return;
+      }
       await Project.updateOne(
           { _id: req.params.projectId },
           {'$pull': {
